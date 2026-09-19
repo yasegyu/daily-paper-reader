@@ -1,0 +1,543 @@
+Title: Recoverability as a System Primitive for Long-Horizon AI Agents
+
+URL Source: https://arxiv.org/pdf/2609.13672v1
+
+Published Time: Tue, 15 Sep 2026 00:28:11 GMT
+
+Number of Pages: 28
+
+Markdown Content:
+# Recoverability as a System Primitive for Long-Horizon AI Agents 
+
+Zhihui Zhang ∗ Wei Liu †
+
+Abstract 
+
+AI agents can be interrupted while editing files, calling tools, or carrying out multi-step tasks. Restarting repeats completed work, but continuing from unverified or outdated progress can carry earlier errors forward. A saved state is not necessarily a suitable place to resume. We introduce recoverability as a system primitive that makes reuse an explicit decision: select a supported starting point and a permitted recovery action, or withhold automatic continuation. Its behavioral contract binds that choice to supporting evidence, execution, and independent checks. A reference architecture connects persistence, validation, and control, with complementary runtime instances testing distinct responsibilities. Four deterministic and 20 paired file challenges demonstrate that accurate restoration and successful completion can conceal disallowed starting points. Progress controls attribute retained work to shared restoration. Event-time tests show that permission must also constrain the action, and that independently held policy evidence can expose violations even after an effect occurs. These findings establish why recovery decisions need their own evaluation, beyond restored bytes and final task success. Within supplied policies and a declared trust model, the contribution is a common, testable interface for retaining justified progress and making the conditions for its reuse explicit and enforceable. 
+
+## 1 Introduction 
+
+An AI agent may spend many steps editing a document, transforming a table, or calling tools before its execution is interrupted. It may also keep running while repeating an ineffective action or failing to make validated progress. Recovery then presents a practical choice. Starting over repeats work that has already been checked, while continuing from the latest state may reuse work that failed verification or is no longer supported by current evidence. The system needs to determine which progress can still be used and how to proceed from it. Consider a document-editing task. Checkpoint A contains an approved version. The agent later saves an exploratory edit at checkpoint B, but the edit fails a required check. A subsequent tool call fails. Restarting the whole task repeats the approved work in A; restoring the newest checkpoint selects B despite its failed check. If A’s approval still applies and retry is permitted, the agent can instead resume from A. The useful distinction is simple: a state being saved does not mean that it remains suitable for continuation. 
+
+Choosing a recovery point is only part of the decision. Retrying a read may be appropriate, while retrying a tool call that might already have changed external state could duplicate an operation. An old approval may also have expired. Even a previously validated checkpoint may therefore provide no justified way to continue automatically. The system must consider the saved state together with the next recovery action, and be able to stop or request review when their conditions are not met. The central question is: After an agent fails or loses reliable progress, what work can it retain, where should it resume, and what should it do next? 
+
+> ∗Independent researcher; corresponding author. Email: zhangzhmail@126.com.
+> †Beijing Information Science and Technology University. Email: willie@bistu.edu.cn.
+
+1arXiv:2609.13672v1 [cs.AI] 12 Sep 2026 MOTIVATING EXAMPLE 
+
+Restoration and completion do not establish continuation authority           
+
+> CANDIDATE HISTORY
+> CHECKPOINT A
+> older | stored | eligible
+> CHECKPOINT B
+> newer | stored | excluded
+> DEGRADATION
+> subsequent failure
+> POSSIBLE CONTINUATION PATHS
+> RESTORE BY RECENCY
+> SELECTION RULE latest stored
+> SELECTED SOURCE B
+> SOURCE MATCHES POLICY NO EXACT RESTORATION YES
+> ENDPOINT CHECK CAN PASS
+> SELECT UNDER POLICY
+> SELECTION RULE latest eligible
+> SELECTED SOURCE A
+> SOURCE MATCHES POLICY YES EXACT RESTORATION YES
+> ENDPOINT CHECK CAN PASS
+> EXACT RESTORATION = YES + ENDPOINT CHECK = CAN PASS DO NOT ESTABLISH
+> CONTINUATION AUTHORITY
+> Illustrative policy: A remains supported at failure; B is excluded.
+
+Figure 1: Choosing where to resume. A passed the required check and remains eligible at failure; newer B is excluded. Either snapshot can be restored exactly and later repaired to a valid document. Those outcomes do not reveal whether the chosen starting point met the continuation conditions. Checkpointing provides saved states and restoration mechanisms. Validators supply evidence about particular versions, diagnosis identifies what went wrong, and a planner or workflow chooses possible corrective actions. These mechanisms are essential, but their outputs must be connected: a stored version needs evidence supporting its reuse, and a proposed action needs conditions under which it may run. A retry rule alone need not check either relation. A checkpoint manager or workflow engine can provide this control if it explicitly decides where and how execution is allowed to continue. We call this responsibility recoverability : the system’s ability to select an evidence-supported recovery point and an allowed recovery action after degradation, or to withhold automatic continuation when the governing rules require it. We treat it as a system primitive because it has its own inputs, decision, and requirements that other components can implement. It coordinates checkpointing, validation, and repair through the execution control plane. It does not generate the repair content itself. For precision, we call the selected state a continuation source , the corrective action a 
+
+recovery route , and permission to execute that particular combination continuation authority .Authority is granted under evidence and policy at the failure event; it is not a permanent label on a checkpoint. The proposed contract requires the decision to govern execution, remain checkable afterward, and respect limits on repeated recovery. This makes recovery quality visible beyond the final task result. In the document example, an agent might restore B and later repair it successfully. The final document would then conceal the earlier choice of a recovery point that the policy excluded. Checking whether the saved bytes were restored exactly would miss the same error. The source, the action, and the permission to execute must therefore be evaluated alongside restoration and completion. 2This paper makes three contributions: 1. A testable contract for reusing progress. We formalize which saved state and recovery action may be used together, including required continuation and required withholding. Four requirements connect this decision to its supporting evidence, execution, and bounds. They make recovery correctness separately checkable from restoration fidelity and task completion, including when those observations conceal a disallowed choice. 2. A reference architecture and bounded implementations. We organize candidate management, evidence assessment, decision, execution, and audit into an explicit control process. The architecture connects existing checkpointing and validation mechanisms to permission for a particular recovery transition. Complementary implementations make source selection, restoration, and event-time permission concrete, with their supported behaviors and assumptions stated separately. 3. Controlled evidence for evaluating recovery decisions. Source-choice challenges demonstrate that accurate restoration and successful endpoints can conceal a disallowed starting point. Progress controls attribute retained work to shared checkpoint restoration. Authorization tests distinguish enforcing a decision from independently checking the policy under which it was executed. Together, these results establish observable recovery errors that task success alone cannot reveal. The aim is to retain work whose reuse is justified and make the conditions for continuing explicit. The experiments use supplied validators and policies, so they test conformance to those conditions rather than discover trust in an open environment. Section 3 defines the common contract, Sections 4 and 5 explain its design and bounded implementations, and Section 6 examines what each study establishes. 
+
+## 2 Related Work 
+
+Recovery involves saving work, assessing its validity, deciding what to do next, and executing that decision. These responsibilities appear in several established research areas. We position recoverability by asking how each contributes to selecting a justified place and action from which to continue. 
+
+2.1 Fault Tolerance and Checkpointing 
+
+Distributed snapshots capture consistent global states [1], and rollback-recovery protocols explain how computation can resume from consistent checkpoints after failure [2]. They provide founda-tions for preserving and restoring work. For an agent, a computationally consistent snapshot can still contain a document that failed validation or a plan whose assumptions have become outdated. The restoration mechanism needs a decision about whether that state remains suitable for use. Agent checkpointing increasingly accounts for state outside the conversation. Crab uses effect-aware checkpointing to capture operating-system effects in agent sandboxes and improve restoration correctness [13]. Its focus is what a checkpoint must capture and when capture is useful. Recoverability examines the choice among available states and the actions allowed from them. A more complete snapshot helps execute that choice accurately; it does not alone establish that the chosen version meets current continuation conditions. The closest alternative is a checkpoint manager with semantic guards. Filtering candidates by validation already implements part of the responsibility. If the manager also checks whether an action is permitted from the selected state, supports required refusal, enforces the decision, and records its rationale and bounds, it may satisfy the full recoverability contract. Our contribution 3is specifying this combination as an observable recovery decision and evaluating its validity separately from restoration and task outcomes. Restoring a rejected version and repairing it successfully remains an incorrect recovery choice under a policy that excluded it. This criterion can be applied to an existing checkpoint manager without claiming exclusive ownership of its components. The restore-latest baseline in our experiments is one deliberately explicit selection policy, not a characterization of all checkpoint systems. 
+
+2.2 Memory and Persistent Agent State 
+
+Reflexion uses linguistic feedback to improve later attempts [10], Voyager retains executable skills during exploration [12], and Generative Agents retrieve and synthesize stored experiences [8]. MemGPT organizes multiple memory tiers for extended language-model interactions [7]. These approaches make information persist beyond a single context. Remembering a task is useful, but does not establish which version should be edited next. A retained claim may refer to an older artifact or conflict with a later validation result. In the recoverability design, memory can inform the choice of recovery point, while its relevance must be checked against the current artifacts and evidence. The present runtimes do not evaluate memory-conflict resolution. 
+
+2.3 Diagnosis, Adaptation, and Workflow Control 
+
+ReAct interleaves reasoning and action [15], while Toolformer expands model use of external tools [9]. Workflow systems organize dependencies, retries, fallbacks, and persistent execution. Observability supplies the traces needed to inspect these behaviors. Research on agent recovery also studies how to choose better actions after failure. Hell or High Water examines alternative planning when previously available functions fail [11]. AgentDebug localizes errors in modular trajectories and supplies targeted corrections [17]. These approaches address diagnosis and adaptation. Before a correction executes, however, the system still needs to determine which persistent state supports it and what effects are permissible from that state. Recoverability connects these outputs to the state being reused. For example, a diagnosis of a failed tool call does not by itself determine whether the call changed a file before failing, which snapshot should now be selected, or whether retry may duplicate the effect. A workflow can answer these questions through its own policy and implement the proposed contract. The contract makes the answers explicit and checkable without requiring a particular module layout. 
+
+2.4 Evaluating Agent Execution 
+
+SWE-bench measures issue resolution in software repositories [3], WebArena evaluates web interaction [16], OSWorld evaluates computer use [14], and GAIA tests general assistant capa-bilities requiring tools and reasoning [5]. ToolSandbox adds stateful tool execution, implicit dependencies, and intermediate milestones [4]. Agent evaluation consequently encompasses both outcomes and execution behavior [6]. Our evaluation asks whether recovery used an allowed starting point and action, as well as whether the task finished. An endpoint score alone cannot show that validated work was discarded or that execution resumed from a rejected version. We therefore record source selection, restoration, action counts, permission and its execution, and final invariants separately. The studies are controlled demonstrations of these distinctions, not a workload-scale comparison of agent intelligence or deployed reliability. This positioning is behavioral. A semantic checkpoint manager or workflow engine may already meet some or all of the proposed requirements. Determining that requires examining its decision and enforcement behavior, including whether the basis for accepting an execution remains independent of a client that can alter the executed policy. The current experiments 4isolate selected requirements over shared mechanisms; a direct empirical comparison with such complete systems remains outside their scope. 
+
+## 3 Problem Formulation 
+
+The running example raises three questions: which saved state can be reused, which action is allowed from it, and whether execution should continue at all. We now express these questions independently of a particular runtime. The formulation distinguishes the decision from two later observations: whether the selected state was restored accurately and whether the task eventually succeeded. 
+
+3.1 Execution State and Degradation 
+
+Consider an execution trajectory 
+
+τ = ( o0, a 0, o 1, a 1, . . . , o T ),
+
+where observations include instructions, tool results, artifact states, and validation signals, and actions include model outputs, tool calls, edits, and verification requests. Because actions can change persistent state, conversational context is only one part of the execution. Write 
+
+Xt = ( St, A t, M t, H t, C t, V t),
+
+where St is operational state, At artifact versions, Mt retained claims, Ht execution history, 
+
+Ct stored checkpoints, and Vt validation records. Implementations may omit or extend these components. The model permits disagreement among them: a memory may describe an older artifact, a checkpoint may contain unvalidated work, or a trace may record a call whose external effect remains uncertain. A state is degraded when execution can no longer proceed under its usual assumptions without checking them again. Let ft denote the detected event. An explicit error is one example; others include repeated action without validated progress, stale evidence, artifact corruption, incomplete context, and uncertainty about a tool’s side effects. Detection triggers a recovery decision. It does not itself establish where execution should resume or whether the next action is allowed. These examples describe situations in which recovery may be needed. A detector must establish the relevant trigger within its own scope; the formulation does not assume that every kind of degradation can be recognized by one mechanism. 
+
+3.2 Recovery Points and Conditions for Reuse 
+
+We use candidate continuation boundary for a possible recovery point: a state reference together with the information needed to continue from it. It may include an artifact version, a checkpoint, an execution cursor, and relevant context. Let Bt be the available candidates, Et the available evidence, and Π t the governing continuation policy. To distinguish a stored candidate from one that meets the current conditions for reuse, define Supported( b | Xt, f t, Et, Πt)to mean that the evidence and policy support using b as a source after event ft. This is what eligible means in the model. Support may depend on validation, provenance, freshness, uncertainty, and human approval. The predicate specifies the judgment a runtime must obtain; it does not supply a universal method for determining trust. Given a strict recency order ≺, or a declared deterministic tie-break, define 5st = max  
+
+> ≺
+
+Bt, ℓt = max  
+
+> ≺
+
+{b ∈ Bt : Supported( b | Xt, f t, Et, Πt)}.
+
+Either value is ∅ if its set is empty. Thus st is the newest available state, whereas ℓt is the newest state supported for reuse at this event. In the document example, these can be B and A, respectively. A’s earlier approval is relevant evidence, but using it later also requires that the approval still applies. Eligibility depends on the event, evidence, and rules; storing a label on a checkpoint does not make that label permanently valid. 
+
+3.3 Recovery Actions and Permission to Continue 
+
+A recovery point does not determine what to do next. A recovery route specifies that action or disposition: retrying, replanning, restoring earlier state, or stopping automatic continuation. Separate routes that continue task execution from those that withhold it: 
+
+R = Rcont ˙∪ R withhold .
+
+Continuing routes include retry, rollback, resume, and replan. Withholding routes include halt or escalation without automatic continuation. The governing profile must state whether a compound action such as freeze-and-verify permits continued task execution or only obtains evidence for a later decision. The route should reflect the failure and its possible effects. A reversible execution error may permit retry; repeated ineffective action may call for replanning; loss of validated progress may require rollback followed by replan. These are conditional examples, not a routing rule inferred from the failure label alone. For a continuing route, both the state and the action must meet their conditions. Let Rvalid 
+
+contain the routes allowed for the given event, source, evidence, and policy. The permitted source-and-route pairs are 
+
+Pt = {(b, r ) : b ∈ Bt,
+
+Supported( b | Xt, f t, Et, Πt),r ∈ R cont ∩ R valid (ft, b, X t, Et, Πt)}.
+
+An eligible source can have no valid continuing route. For example, A may still pass document validation while an uncertain external write makes a retry unacceptable. Conversely, a plausible repair does not justify starting from a version that the policy excludes. A runtime can search for source and route together or reconsider one after checking the other; the model does not prescribe their computation order. The runtime then issues continuation authority : permission for a particular source-and-route transition, or a decision to withhold automatic continuation. Write 
+
+ρ(Xt, f t, Et, Πt) → (gt, b ∗ 
+
+> t
+
+, r t), gt ∈ { grant , withhold }.
+
+The allowed decisions include permitted continuing pairs and withholding dispositions that meet their own policy conditions: 
+
+Dt = {(grant , b, r ) : ( b, r ) ∈ P t} ∪ {(withhold , ∅, r ) : r ∈ R withhold ∩ R withhold valid (ft, X t, Et, Πt)}.
+
+A decision is policy-correct when it belongs to Dt. A declared profile supplies the admission, action, and withholding rules before the controller is evaluated. It is well formed only when 
+
+Dt̸ = ∅ for every in-scope event. Having an eligible candidate ℓt does not force continuation: an action may be unavailable or withholding may be permitted. The granted source b∗ 
+
+> t
+
+need not be the most recent eligible candidate if another source and route satisfy the policy. 6We call b∗ 
+
+> t
+
+a trusted continuation boundary when it is the source of a granted policy-valid transition. This term refers to support under the stated evidence and policy, not objective world truth. The decision alone is also insufficient: a trustworthy continuation requires that execution actually follow the granted transition. 
+
+3.4 Recovery Correctness and Task Completion 
+
+After a decision, execution provides further observations. Let pt be the source actually selected. When restoration is used, F (ˆ pt, p t) reports whether reconstruction matches that source, and 
+
+Y reports whether the final artifact satisfies the task invariant. Neither observation answers whether the decision belonged to Dt. The runtime can faithfully restore a rejected version, then repair it successfully. Table 1 separates the resulting combinations. Table 1: Task outcomes and recovery decisions answer different questions.         
+
+> Final invariant satisfied? Decision policy-correct? Interpretation
+> Yes Yes A valid endpoint follows a policy-correct decision Yes No Endpoint success masks an incorrect recovery decision No Yes A valid halt or escalation, or an unsuccessful granted continuation No No Neither the decision nor the endpoint meets its requirement
+
+The runtime’s termination flag is another distinct observation: reaching a state named 
+
+completed need not mean that the final invariant passed. Recoverability concerns making and executing a policy-valid recovery decision, with separate evidence about the source, restoration, and outcome. It can therefore recognize a correct refusal as well as a correct continuation. 
+
+3.5 Requirements for a Recoverable System 
+
+The definition becomes a testable system contract through four requirements: 1. Distinguish saved state from eligible state. Make candidates available without assuming that recency or restorability proves suitability for reuse. 2. Decide whether and how to continue. Issue a source-and-route grant or withholding disposition in Dt, with the reason supporting it. 3. Execute according to that decision. Enact the authorized transition, check fidelity when restoring state, and stop automatic continuation when permission is withheld. 4. Retain evidence and limit recovery. Preserve what is needed to check the decision and prevent unbounded repeated attempts. A full-conformance evaluation must cover both directions. Grant-required cases make withholding invalid; withhold-required cases make every grant invalid. Otherwise a system that always stops could appear correct without ever performing useful recovery. This coverage is necessary within the declared scope and gives no guarantee beyond it. A semantically guarded checkpoint manager or workflow engine can meet these requirements using its own components, with or without snapshot restoration. Partial implementations can also be useful when their tested responsibilities are explicit. The design below shows how to organize the decision; the following runtime and evaluation sections identify the parts actually exercised. 74 Recoverability Primitive Design 
+
+The design translates the contract in Section 3 into a runtime control path. It connects the work that can be retained, the evidence supporting its reuse, and the action that may follow. We first explain the design goals, then the reference architecture, its objects, and the lifecycle from ordinary execution through recovery and verification. 
+
+4.1 Design Goals and Responsibility Boundaries 
+
+Useful recovery depends on both retaining progress and preserving the conditions under which it can be reused. Saving an exploratory edit should not overwrite the record of an earlier approved version. Equally, an earlier approval should not silently apply to different content or remain valid after its supporting conditions have changed. The design therefore keeps candidate storage separate from evidence about candidate eligibility, with validation bound to specific versions and scopes. The decision must cover both a recovery point and an action. A planner may propose a repair, a validator may accept a document, and a store may reconstruct its bytes, but these outputs still need to be connected to the conditions for continuing. Retry, rollback, resume, replan, verification, and escalation have different preconditions and effects. A suitable source cannot compensate for an invalid action, and a plausible action cannot justify an excluded source. Recovery also needs an operational stopping rule. Withholding must prevent automatic continuation through the governed path, while permitted recovery must still be possible when the policy requires it. Attempts, execution, and retained state need bounds because recovery can itself repeat or stall. These goals motivate the four design principles shown in Figure 2: evidence-grounded authorization, explicit eligibility and authority, failure-specific routing, and bounded recovery. 
+
+4.2 RPR Reference Control Architecture 
+
+The Recoverability Primitive Runtime (RPR) is the reference design in Figure 2. It organizes the control path into an Evidence/Policy layer, a Governance layer, and an 
+
+Enactment/Audit layer. The architecture specifies responsibilities and interfaces; a checkpoint manager, workflow engine, or agent runtime may combine modules or use a different persistence substrate. Its five stages express information and decision dependencies, not five separate processes or mutually exclusive time intervals. 
+
+Stage 1: register available candidates. In the Evidence/Policy layer, a store adapter exposes snapshots, checkpoints, or versioned artifacts together with the information needed to reconstruct or use them. The candidate index records their identities and references, producing the available set Bt. The latest stored query st returns its newest member. Registration establishes availability; a candidate can remain stored and inspectable even when it is unsuitable for continuation. 
+
+Stage 2: assess support for the event. The evidence binder associates the degradation event with candidate versions, validation results, provenance, and the governing policy. The eligibility evaluator uses these inputs to identify the supported subset of Bt, which may be empty. The latest eligible query ℓt returns the newest member of this subset. A previous validation is relevant only within its scope and while it remains applicable. The stage supplies candidate-level support, not permission to execute a particular action. 
+
+Stage 3: decide the source and route, or withhold. The Governance layer combines a source selector, route decider, and refusal rule. It consumes the supported candidates together with event evidence and route constraints, and emits one policy-valid decision: GRANT(source, route) or WITHHOLD(reason, disposition) . A grant permits the named source-and-action combination. A withhold issues no continuation capability and specifies a halt or escalation 8RECOVERABILITY CONTROL ARCHITECTURE 
+
+From stored state to evidence-supported continuation authority 
+
+> CONTROL RESPONSIBILITIES
+> EVIDENCE / POLICY LAYER GOVERNANCE LAYER ENACTMENT / AUDIT LAYER
+> STATE / ARTIFACT STORE
+> snapshots + checkpoints
+> DETECTOR + VALIDATORS
+> degradation + evidence + provenance
+> POLICY / CONFORMANCE PROFILE
+> eligibility + route bounds
+> STAGE 1 | CANDIDATE REGISTRY
+> LATEST STORED
+> What can be restored?
+> persistent store | candidate index
+> STAGE 2 | SUPPORT / ELIGIBILITY
+> LATEST ELIGIBLE
+> What is supported for this event?
+> evidence binder | eligibility evaluator
+> AVAILABLE CANDIDATE SET
+> STAGE 3 | SOURCE-OR-REFUSAL + ROUTE DECISION
+> CONTINUATION AUTHORITY
+> Which source and route may be authorized?
+> source selector | route decider | refusal rule
+> SUPPORTED SET / NONE
+> GRANT
+> source + route
+> WITHHOLD
+> reason + disposition
+> STAGE 4A | ENACT GRANTED ROUTE
+> authorization gate | restore / transition executor
+> STAGE 4B | BOUNDED DISPOSITION
+> no-issuance gate | halt / escalate
+> STAGE 5 | VERIFY + AUDIT
+> RESTORATION FIDELITY
+> Was the selected state restored exactly?
+> fidelity verifier
+> AUTHORITY EVIDENCE
+> audit record + rationale + bounds
+> ENDPOINT COMPLETION
+> Did the task finish?
+> endpoint checker
+> AUDIT OUTPUT | fidelity + authority + endpoint evidence
+> DESIGN PRINCIPLES
+> EVIDENCE-GROUNDED AUTHORIZATION EXPLICIT ELIGIBILITY + AUTHORITY FAILURE-SPECIFIC ROUTING BOUNDED RECOVERY
+
+Figure 2: RPR reference control architecture. Three layers connect candidate registration and eligibility assessment to a recovery decision, its execution or withholding, and subsequent verification. Audit preserves separate evidence about restoration fidelity, adherence to the decision, and the final task outcome. disposition. The newest supported candidate need not be selected, and even a supported candidate may have no valid continuing route. The policy also determines when continuation is required, so unconditional withholding would not satisfy the contract. 
+
+Stage 4: enact the decision. In the Enactment/Audit layer, the two outcomes follow different paths. Stage 4A passes a grant through an authorization gate to the restore or transition executor. Stage 4B passes withholding through a no-issuance gate to the prescribed halt or escalation. The gate is a control responsibility that an implementation must realize: execution through the governed path must respect the permitted source, action, and bounds. A refusal record alone does not establish that this happened. 
+
+Stage 5: verify and retain evidence. A fidelity verifier checks whether restoration reconstructed the selected state. Authority evidence records whether execution and disposition matched the decision and its bounds, while an endpoint checker evaluates the final task invariant. The audit record connects these observations with the event, policy, and reason for the decision. It must permit the source and route to be checked as well as their execution; faithfully carrying out an invalid decision is still a recovery error. The architecture thus distinguishes five questions: latest stored, latest eligible, continuation authority, restoration fidelity, and endpoint completion. The first two are queries about available and supported states; authority is a decision; fidelity and completion are observations about execution. Their connection is the design’s central requirement: evidence constrains the decision, the decision constrains execution, and retained evidence makes that relation checkable. 94.3 State, Candidates, and Evidence 
+
+The architecture operates on objects with distinct roles. Operational state and artifacts describe work; a checkpoint identifies a possible recovery point; traces and verifier outputs supply evidence about what happened and what was checked. Table 2 summarizes the reference object model. These are logical roles rather than a requirement to implement one class per row. Table 2: Objects and their roles in the recoverability design.           
+
+> Object Architectural role
+> OperationalState Current goal, cursor, plan, and unresolved work needed to interpret execution.
+> Artifact Versioned task product, such as a document, patch, or table, whose content can be inspected and validated.
+> Checkpoint Stored state reference and continuation context forming a candidate recovery point.
+> MemoryClaim Retained fact, reflection, or skill whose applicability must be reconciled with current evidence.
+> Trace Record of actions, observations, and effects supporting provenance and diagnosis.
+> VerifierOutput Result of a scoped test, schema check, policy check, or approval tied to the version it assessed.
+> EvidencePackage Event-specific collection of candidate, validation, provenance, and route evidence for a recovery decision.
+> RecoveryRoute Corrective action or withholding disposition, interpreted under its preconditions and effects.
+> HandoffPackage Proposed transfer of established continuation context to another executor.
+
+An EvidencePackage organizes four questions: what happened, which evidence is relevant, which candidate states remain supported, and which routes are available. It may include the failure event, recent history, artifact identities and versions, validation records, provenance, candidate routes, and a reason why continuing from the current state is unsupported. It collects inputs to the decision; neither the package nor an individual validation result grants continuation authority by its existence. Section 5 distinguishes evidence recorded by the implementations from evidence actually consumed in their decisions. A HandoffPackage serves a later purpose. Another agent, session, or human would need the established recovery point, relevant artifacts, intended next action, and unresolved questions. A detailed diagnostic record need not make useful handoff context, and a concise handoff does not prove that its contents remain applicable. The recipient would still need to respect the conditions for continuing. This transfer is a design extension whose implementation status is stated in Section 5. Versioned artifacts make evidence refer to specific work even after conversational context is lost. We call continuity based on a supported artifact version artifact-anchored continuity .The artifact fixes the reference; validation and policy establish whether it can be reused. Anewer edit, a superseded approval, or an expired check can change that judgment without erasing the saved version. With dependent artifacts, support would also need to account for their relationships: retaining one file while rolling back another may break a dependency, and memory may refer to content that no longer exists. Cross-artifact reconciliation and partial rollback remain extensions beyond the evaluated implementations. 
+
+4.4 Candidate Lifecycle and Recovery Decisions 
+
+During ordinary execution, the runtime records action attempts and their resulting artifacts or effects. Storage makes candidate states available; checks provide evidence tied to those states. 10 An implementation may record eligibility when a checkpoint is created, maintain it separately, or assess it when recovery is requested. In each case, persistence alone must not make an unverified result a permissible recovery point. For implementations that promote candidates after validation, promotion has an ordering invariant: the output of a failed step must not advance the eligible boundary before validation and failure inspection finish. A rejected version may remain stored for inspection, while promptly recording supported progress allows later recovery to retain it. In the document example, saving exploratory B does not replace A’s approval record, and checking B does not change which content A’s earlier validation covered. An eligibility record made at creation is evidence for a later decision, not a substitute for considering changes in its applicability. After degradation, the event is bound to the candidate set and the evidence relevant to reuse. If A remains supported while B is excluded, the decision procedure considers valid routes from A. An allowed retry can yield a grant from A. If the call may already have changed external state, the same document approval may be insufficient to permit retry; the policy can require further verification or withholding. If all available evidence has expired and no other supported pair exists, the runtime follows a valid non-continuation disposition. Source and route can be chosen jointly or reconsidered as constraints are checked. The architecture does not prescribe a rule table, planner, or learned router. It requires the chosen combination or withholding disposition to belong to the allowed decision set in Section 3, with its reason and bounds recorded. A change in failure evidence can therefore change what happens next without changing the storage mechanism. Section 5 explains the narrower decision procedures used in the implemented instances. 
+
+4.5 Enactment, Verification, and Bounded Recovery 
+
+A grant must identify the source and route that the executor may use. The execution path must preserve that association through restoration or transition; loading a different snapshot or performing an unpermitted action would not satisfy the decision. Withholding must leave no automatic continuing action available through that path and must lead to the prescribed disposition. These are requirements for an implementation within its declared scope, not security guarantees supplied by the diagram. Verification then examines both the decision and its enactment. The retained record must identify the policy and evidence against which the source and route were assessed, and show what the executor actually did. Comparing only restored bytes checks fidelity, not the validity of the selected source. Comparing only the final artifact can miss an earlier recovery violation that later repair concealed. Likewise, agreement among execution records is insufficient if the expected policy comes from the same component whose behavior is being checked. The basis for accepting conformance must remain distinguishable from that component’s own report. Accounting should survive restoration of task state. The event ledger records attempts and effects already incurred, so rolling back the task does not erase them from the recovery history or reset the account of work performed. This record supports audit and cost measurement; it does not select a source or grant permission. Its integrity and trust assumptions must be established by the particular implementation. Finally, recovery attempts, total execution, retained artifacts, and repeated routes need explicit limits and a disposition when a limit is reached. A loop that repeatedly restores a valid source can still fail to make progress. Enforcing bounds and recording their outcome therefore belong to recovery execution itself. The following runtime instances implement different parts of this reference design; their evaluated responsibilities are stated separately. 11 5 Runtime Instantiations 
+
+Three runtime instances implement distinct parts of the RPR reference design. RPR-Grant 
+
+selects and restores a checkpoint using recorded validation and fixed recovery rules. RPR-File applies the same source-selection rule to model-generated documents and actual file writes. 
+
+RPR-Authority examines a later question: whether permission is justified at the failure event and whether execution follows it. Table 3 separates their implemented scope so that the reference architecture is not mistaken for a feature list shared by all three. The file executor is not connected to the authority apparatus in these experiments; their evidence is complementary rather than an integrated end-to-end validation. Table 3: Implemented responsibilities and scope of the runtime instances.      
+
+> Instance State and control mechanism Scope of the evaluated behavior
+> RPR-Grant Single-executor task state, deep checkpoints, recorded eligibility, fixed recovery routes, and an external action ledger Creation-time contract eligibility and scoped restoration; all recovering paths have an eligible source. RPR-File Document snapshots, a deterministic source rule, actual file restoration, and file-tool records The same source contract with sampled content and repairs; no general task-state restoration or event-time authority assessment. RPR-Authority Supplied event-time evidence and policy, a task-side controller, an isolated effect authority, and retained verification evidence Both grants and withholds, enactment, and bounds within a declared profile and trust model.
+
+5.1 RPR-Grant: Selecting a Checkpoint Recorded as Eligible 
+
+RPR-Grant keeps the task cursor, history, artifact versions, validation results, checkpoint pointers, and recovery records. Its two task families edit one document or transform one structured table. A new artifact is initially ineligible for use as a recovery source. It can be promoted only when task validation and continuation policy admit it. A working-only checkpoint saves the state without that promotion, including cases where structural validation passes but another continuation rule rejects the version. The document validator checks a heading, introduction content, and scenario-declared invariants such as heading preservation or a required transition. The table validator checks required columns, a positive row count, and declared invariants such as row-count preservation or normalized column order. These are task-specific structural and content checks, not general semantic judgments. Their results inform a separate checkpoint policy: validator_gated 
+
+permits promotion after a promotable validation, whereas working_only stores a checkpoint without advancing the eligible pointer, including when validation passes. The runtime records whether exclusion follows from validation or continuation policy. The distinction is recorded when a checkpoint is created. Let K be the task contract fixed before execution, and let EK (b, X create( b)) report whether candidate b met its conditions at that time. The latest recorded eligible checkpoint is 
+
+eKt = max  
+
+> ≺
+
+{b ∈ Bt : EK (b, X create( b)) = 1 },
+
+with eKt = ∅ if none was admitted. The runtime stores this pointer separately from the latest saved checkpoint st. It does not recheck event-time eligibility ℓt; the two would coincide only if the earlier evidence still applied. Code names such as trusted_checkpoint_id , last_ 
+
+12 trusted_checkpoint , and resume_retry_from_trusted_checkpoint are historical identifiers for this recorded, contract-relative status. They do not mean that the runtime infers objective trust. To reuse a selected checkpoint, the runtime restores a deep snapshot of artifact versions, history, validation, progress, metadata, and continuation pointers. It replaces the corresponding working state, removes later checkpoints, resets the cursor, and clears transient failure objects. Comparing expected and restored digests checks that this was an actual state restoration, rather than a cursor change alone. Restoring a working-only checkpoint does not promote it to eligible status. Three injected failures exercise the loop: execution_error , action_repetition , and 
+
+semantic_stagnation . The first occurs after an action begins but before it produces an artifact. The other two alter observable repetition or progress state, which a watchdog checks before promoting that step’s artifact. The resulting EvidencePackage records the failure, eligible checkpoint, and recent history, artifacts, and validation. The router uses only the failure family and recorded eligible checkpoint; retaining other fields does not establish that they improve its decisions. The four execution modes use the same task, failure injection, validation, and checkpoint machinery. Table 4 summarizes their different responses after a failure. Table 4: Execution modes and post-failure source policies.      
+
+> Mode Response and continuation source
+> Fail-fast Terminate without continuation. Blind retry Restart at step 1 and clear the remaining scripted injection. Checkpoint-only Restore the latest stored checkpoint with a generic transition. Recoverability Restore the latest recorded contract-eligible checkpoint with a fixed failure-specific transition.
+
+The recoverability mode maps these failures to restore-then-retry, restore-then-replan, and rollback-restore-then-replan. The scenario supplies the repair content; the runtime chooses the source and fixed transition. Because source and route rules change together between the restoring modes, their effects are not fully isolated. All evaluated recovering paths have an eligible source. The implementation also contains a halt label, but the presence of that label is not evidence that withholding was exercised. An event ledger counts work that recovery must not erase from the record: action attempts, artifact generation, validation, checkpoint operations, decisions, restarts, restorations, and bound violations. It is kept outside restorable task state, so a rollback cannot remove already incurred attempts. The ledger measures and audits execution; it neither selects eligible checkpoints nor authorizes actions. Guardrails limit recovery to three attempts and executed steps and materialized artifacts to 4 q, where q is the maximum of the scenario step limit, configured sequence length, and one. RPR-Grant also defines a HandoffPackage schema and state serialization helpers, but the evaluated loop neither constructs nor consumes a handoff and does not exercise persistent-session reload. Memory-conflict resolution is not implemented. These definitions provide extension points; their presence does not establish cross-session recovery or full conformance to the reference design. 
+
+5.2 RPR-File: Model-Generated Documents and File Restoration 
+
+RPR-File tests the same distinction when the document content comes from a model and restoration changes an actual file. It snapshots approved and working-only versions, writes the selected snapshot back to disk, and verifies its SHA-256 digest before a separate model call 13 proposes a repair. The record therefore distinguishes the chosen starting point, the restored file, and the repaired result. Model calls supply content; they do not decide eligibility or select a route. RPR-Grant and RPR-File are frozen separately as artifacts v03 and v04. Their scope is recorded eligibility and restoration, without general evidence assessment, cross-session handoff, or full-contract conformance. 
+
+5.3 RPR-Authority: Checking Permission at the Failure Event 
+
+RPR-Authority considers conditions at the failure event rather than relying on an earlier promotion record. Its supplied facts and rules can require continuation, make every source ineligible, or leave an eligible source with no allowed action. A controller decides in the task process. A separate oracle interprets the same frozen specification without importing the controller’s rules and supplies an independent reference for Dt. This oracle scores decisions; it grants no runtime permission. Twenty-six frozen contracts specify the input, decision, protocol, evidence, and record formats. Expected values remain protected until the manifest is verified. To make permission affect execution, each run uses a fresh isolated authority process. That process owns the state being changed, the effect ledger, recovery bounds, and the rules mapping routes to effect handlers, called sinks. It issues one-use capabilities through which the task process can request effects over a line-framed JSON channel. Canonical spawn arguments fix the session configuration, and later effect messages cannot choose a different run identity. Malformed or noncanonical frames are sealed before application; a capability is consumed atomically before dispatch. The process records a hash-chained transcript, final state, and seal for independent checking. The check also needs an expected policy that the task-side client cannot redefine. The trusted caller constructs the canonical configuration and retains an independent deep copy before creating any client object. Verification compares the configuration in the authority-written evidence with this earlier snapshot. A replaced client may cause a different configuration to be executed, but it cannot make that configuration agree with the independently retained reference merely by reporting it back. Section 6 examines this distinction experimentally. The frozen apparatus uses the following threat boundary: 
+
+Threat model: apparatus-channel adversary. Probes run in the task process and may perform arbitrary operations on apparatus-exposed entry points and channels, including rewriting or replacing client-stub objects and methods, vars() , object.__ setattr__ , class replacement, and any other ordinary Python operation, as well as sending arbitrary byte sequences over the channel (forged, replayed, out-of-order, or unauthorized messages). Claim: under this adversary, no new effect occurs outside the authority boundary. This fact is established solely by independent recomputation from retained bytes written by the authority process itself (a hash-chained transcript, final state, and seal, all three bound to the candidate tree); no task-process self-report is trusted. Explicitly out of scope: integrity of the spawn mechanism (the client module and its subprocess-creation path, on the same trust base and standard as the oracle subprocess); OS-level process injection or debugging interfaces; and post hoc tampering with retained bytes (covered separately by the RUN_MANIFEST, tree identity, Git, and governance ledger). The statement above concerns effects mediated and recorded by the authority process. It does not imply that every effect caused through a replaced client is prevented. Such a client can launch a real authority process under an expanded configuration; comparison with the caller’s retained configuration then determines whether the resulting execution can be accepted as conforming. Integrity of the trusted caller and spawn mechanism is assumed. Replacing the caller-owned configuration builder is outside scope, and the controller’s recorded projection of configuration is not claimed to detect every possible change in sink authorization. 14 6 Controlled Evaluation 
+
+6.1 Research Questions and Study Roles 
+
+The evaluation follows the practical recovery questions in order: choose a suitable checkpoint, retain the work it contains, repeat the check with actual files, and test when execution must be allowed or stopped. Table 5 gives the role and scope of each study using the runtimes introduced in Section 5. Table 5: Research questions and controlled study scope.       
+
+> Study Research question Runtime and controlled scope
+> AWhen the newest checkpoint is ineligible, does recovery choose the allowed one, and would checking the final result reveal a wrong choice? RPR-Grant; 16 scenarios, 64 runs BWhen both restoring modes choose the same checkpoint, how much validated work is retained and how many actions are repeated? RPR-Grant; 18 scenarios, 72 runs CDoes the same source-choice distinction hold for shared model-generated candidates and actual file restoration? RPR-File; 20 retained candidate pairs, 40 runs DWhen current conditions require continuation or withholding, does execution follow that decision, and can its record be checked independently? RPR-Authority; 18 matched cases, qualification and a 36-run main matrix
+
+Studies A and B use scripted content to isolate runtime behavior. Study C adds model-generated documents and repairs while keeping source rules fixed. All three use the eligibility recorded at checkpoint creation and have an eligible source in their recovering paths. Study D separately changes the supplied conditions at the failure event. These constructed studies address different requirements, so we report their exact counts and controls separately rather than pooling them into a benchmark score. The scoring follows each declared profile. A/C require a particular checkpoint, so source accuracy compares the chosen identifier with that reference. The general contract in Section 3 permits any source-and-route pair in the allowed set; choosing the newest eligible checkpoint is not a universal conformance requirement. Restoration and final-invariant checks then assess different observations, without retrospectively authorizing the starting choice. 
+
+6.2 Study A: Choosing an Eligible Recovery Point 
+
+Design. Study A makes the choice of recovery point visible while keeping restoration shared. Twelve original scenarios combine two task families, three failure families, and recovery from an initial or later eligible checkpoint. In these cases the latest stored checkpoint is also the latest recorded eligible one. Four additional challenges deliberately separate them: each stores eligible A, then newer working-only B, before a later failure. The challenges cross the two tasks with two reasons for excluding B: failed validation, or policy rejection or supersession despite structural validation. Each scenario fixes the required source and acceptable route before execution. Each scenario runs in the four modes described in Section 5.1, for 64 runs. The two restoring modes share checkpoint creation, snapshot format, validators, task execution, restoration, and guardrails. Checkpoint-only selects st and its generic route; recoverability selects eKt and a fixed failure-specific route. Source and route policy therefore co-vary. The selected source identifier is directly observable, but the comparison does not independently identify the causal contribution of routing. 
+
+Measurements. The contract-gold source is the checkpoint required by the predeclared task contract. Source selection checks the chosen identifier against it. Restoration fidelity checks 15 (a) STUDY A | SOURCE RELATION -> PREDECLARED-SOURCE MATCH  
+
+> EXPOSES SOURCE-CONFORMANCE SEPARATION
+> (b) STUDY B | ALIGNED-SOURCE CONTROL
+> ATTRIBUTES PROGRESS RETENTION TO THE SHARED CHECKPOINT SUBSTRATE
+> SOURCE RELATION MATCH RESULT
+> ALIGNED CONTROL | n=12
+> latest stored
+
+=
+
+> recorded contract-eligible
+> BOTH MODES MATCH
+
+12/12 
+
+> checkpoint-only = RPR-Grant
+> DIVERGENCE WITNESS | n=4
+> latest stored
+
+!= 
+
+> recorded contract-eligible
+> both remain restorable
+> CHECKPOINT-ONLY
+
+0/4 MATCH 
+
+> RPR-GRANT
+
+4/4 MATCH 
+
+> SHARED CONTROL BOUNDARY
+> EXACT RESTORATION = 16/16 PER MODE
+> source and fixed route policy co-vary
+> EXPERIMENTAL ROLE | SEPARATE SOURCE GOVERNANCE FROM RESTORATION
+> ALIGNED-SOURCE CONTROL
+> latest stored = recorded contract-eligible
+> BOTH RESTORING MODES SELECT CHECKPOINT k
+> FAIL AT k+1
+> BLIND RETRY
+> restart from zero
+> replay 1...k + retry k+1
+> BOTH RESTORING MODES
+> shared restore from checkpoint k
+> retain 1...k + retry k+1
+> RETAINED = 0
+> OVERHEAD = k+1
+> RETAINED = k
+> OVERHEAD = 1
+> AUDIT WITNESS | OUTSIDE ROLLBACK | COUNTS BOTH PATHS
+
+Figure 3: Choosing a recovery point and preserving its progress. (a) The modes choose differently when the newest saved checkpoint is ineligible. (b) When both choose the same checkpoint, both preserve its validated prefix. Tables 6 and 7 separate source-choice results from action accounting. the selected snapshot against its digest manifest, and final-invariant satisfaction checks the resulting artifact. The run-completed flag reports termination state and is kept separate from that final check. Candidate availability and route records are also retained. The legacy mode-gated trusted_anchor_accuracy is not used for the neutral source comparison. Table 6: Source selection, restoration, and endpoints in Study A. The table reports the two restoring modes; fail-fast and blind retry are included in the 64-run matrix but do not select and restore checkpoints. 
+
+Scenario group System Contract-gold source selected Exact restoration Run completed flag Final invariants 
+
+Original scenarios (n = 12) Checkpoint-only 12/12 12/12 12/12 10/12 Original scenarios (n = 12) Recoverability 12/12 12/12 12/12 12/12 Eligibility challenges (n = 4) Checkpoint-only 0/4 4/4 4/4 4/4 Eligibility challenges (n = 4) Recoverability 4/4 4/4 4/4 4/4 
+
+Results. When stored and recorded-eligible sources align, both restoring modes select the required source in all 12 cases. When they diverge, checkpoint-only follows recency and selects B in all four challenges, whereas recoverability selects A. Both modes restore every selected snapshot exactly. The source contrast is therefore not explained by unequal restoration fidelity. Both modes also complete and satisfy the final invariant in all four challenges. Thus checking restored bytes or the final document would miss checkpoint-only’s selection of an excluded source. The source-score difference follows from the constructed challenge and declared policies; it is not evidence of learned selection or a higher final success rate. Its value is a controlled counterexample to treating fidelity or task success as sufficient evidence of a correct recovery choice. The experiment checks the creation-time contract; it does not independently reassess 16 whether earlier evidence remains valid at failure. The two checkpoint-only invariant misses occur in the original, aligned-source scenarios. Their source is correct, but the generic route does not select the scenario’s route-specific repair payload. These observations motivate treating source and route separately; they are not an independent route ablation or evidence that the runtime generates better repairs. 
+
+6.3 Study B: Preserving Validated Progress 
+
+Design. Study B asks how much work must be repeated when the chosen checkpoint is already agreed upon. It varies the validated prefix before failures at steps 2, 4, and 8, across the two task families and three failure families, giving 18 scenarios and 72 runs. Every successful pre-failure step validates and creates an eligible checkpoint. Thus st = eKt , and both restoring modes choose checkpoint k ∈ { 1, 3, 7} just before the failed action at k + 1. Checkpoint spacing is one action. Blind retry restarts from step 1 and clears the single scripted failure, so it can eventually complete. All continuing modes have valid post-recovery task steps. Holding the checkpoint choice constant lets the study attribute retained work to restoration, rather than to a different source policy. The manipulated quantity is prefix length, not general task difficulty. 
+
+Measurements. A common ledger records incurred action attempts outside restorable state, including the failing attempt. We compute ReexecutionOverhead = TotalActionAttempts 
+
+− UsefulFinalTrajectoryActions ,
+
+where useful final-trajectory actions are distinct positive step indices represented by contract-eligible artifacts retained in the final working state. We also count validated actions in the selected snapshot at first recovery. The ledger supports measurement and audit; it does not authorize either source. Table 7: Action accounting in Study B. Each row averages the two task families and three failure families. The frozen shallow/medium/deep labels denote configured step counts. Fail-fast does not continue and is omitted from this table.                                            
+
+> Benchmark position label System Total attempts Useful final actions Re-execution overhead Validated actions retained at recovery
+> Shallow Blind retry 4.0 2.0 2.0 0.0 Shallow Checkpoint-only 3.0 2.0 1.0 1.0 Shallow Recoverability 3.0 2.0 1.0 1.0 Medium Blind retry 8.0 4.0 4.0 0.0 Medium Checkpoint-only 5.0 4.0 1.0 3.0 Medium Recoverability 5.0 4.0 1.0 3.0 Deep Blind retry 16.0 8.0 8.0 0.0 Deep Checkpoint-only 9.0 8.0 1.0 7.0 Deep Recoverability 9.0 8.0 1.0 7.0
+
+Results. Blind retry’s overhead grows from 2 to 4 to 8 attempts as it repeats the growing prefix. Both restoring modes retain 1, 3, and 7 validated actions and incur one extra attempt. This pattern holds in every task-by-failure-by-position cell, rather than arising from compensating 17 subgroup averages. All 36 restoring runs have exact fidelity, all continuing modes satisfy final invariants, and none of the 72 runs triggers a guardrail. The equal restoring-mode results explain the value of checkpoint preservation: both reuse the validated prefix instead of repeating it. This benefit belongs to their shared restoration mechanism. Recoverability adds a decision about when such reuse is allowed, as Study A tests, rather than a separate saving in this aligned-source case. The measurements are action counts under unit spacing, not latency, token cost, checkpoint I/O, or production efficiency. 
+
+6.4 Study C: Shared Candidates and Actual File Restoration 
+
+Design. Study C asks whether the same source-choice distinction remains visible when the runtime works with model-generated documents on disk. Four short tasks protect a phrase, a Markdown heading, a citation token, or a numeric recovery limit, with five paired repetitions per task. A model rewrites approved A under an instruction to omit the invariant. Only a validator-rejected B is retained, with one additional generation attempt allowed if needed to create that challenge. Unretained attempts are not serialized. Each retained candidate’s exact digest is shared across two independent mode workspaces. Both modes write A and B, snapshot their contents, and encounter a formatter that writes the file before a simulated timeout leaves tool status ambiguous. Checkpoint-only restores B; recoverability restores the contract-eligible A. Restoration writes the selected snapshot to disk and checks its SHA-256 digest. Each mode then makes an independent model call to repair the restored document and validates the resulting file. The repair calls use different restored inputs; source selection itself remains deterministic. Table 8: Paired source selection and file outcomes in Study C. Each of the 20 retained challenge candidates is shared across modes.             
+
+> System Runs Contract-gold source selected Exact restoration Run completed flag Final invariants
+> Checkpoint-only 20 0/20 20/20 20/20 20/20 Recoverability 20 20/20 20/20 20/20 20/20
+
+Results. All 20 shared candidates violate their target invariant. Checkpoint-only selects B in every pair, whereas recoverability selects A. Every selected snapshot is restored exactly, every run completes, and every repaired file satisfies its invariant. A model can therefore repair the final file successfully without revealing that the runtime started from a disallowed version. Checking the chosen recovery point separately remains useful with actual file effects and sampled repairs. This is a within-project transfer check of a supplied contract, not an independent replication or a test of learned source selection. The challenge candidates are selected for rejection, the validators are exact-string checks, and the task edits one local file. The endpoint reported model ID gpt-5.6-luna ; its upstream model and serving infrastructure were not independently verified. The retained record includes source and content hashes, restoration checks, generation records, a seven-event file-tool trace per run, and 40 workspaces. Appendix A gives the call settings and retention limits. Recorded latency and tokens describe this execution but do not support a controlled cost comparison. 
+
+6.5 Study D: Enforcing and Checking Continuation Decisions 
+
+Design. A previously admitted checkpoint may no longer support continuation when the failure occurs. Study D tests this question through six matched groups of three cases. Each group starts 18 STUDY C | RPR-FILE FILE-BACKED RE-EXECUTION 
+
+One paired payload exposes file-backed source choice before endpoint repair     
+
+> STAGE 1 | PAIRED CHALLENGE CONTROL What is held constant across modes?
+> APPROVED A
+> recorded contract-eligible
+> MODEL REWRITE
+> omit declared invariant
+> VALIDATOR REJECTS B
+> working-only candidate
+> RETAIN B + DIGEST
+> identical paired input -> two independent workspaces
+> STAGE 2 | FILE-BACKED SOURCE FORK Does source policy still govern an externalized file state?
+> SAME FILE CONDITION IN EACH INDEPENDENT WORKSPACE
+> write A -> write B -> formatter writes before timeout formatter file write occurs | tool status remains ambiguous
+> CHECKPOINT-ONLY RPR-FILE
+> LATEST STORED -> SELECT B
+> source does not match the declared contract
+> RECORDED CONTRACT-ELIGIBLE -> SELECT A
+> source matches the declared contract
+> WRITE SNAPSHOT B TO THE FILE
+> digest B verified -> exact restoration
+> WRITE SNAPSHOT A TO THE FILE
+> digest A verified -> exact restoration
+> STAGE 3 | ENDPOINT MASKING Can endpoint success reveal source conformance?
+> INDEPENDENT REPAIR FROM B
+> model call -> file write -> deterministic validation
+> INDEPENDENT REPAIR FROM A
+> model call -> file write -> deterministic validation
+> FINAL INVARIANT + COMPLETE IS POSSIBLE ON BOTH PATHS
+> endpoint success cannot identify the earlier source decision | exact counts: Table 8
+
+Figure 4: Paired file-restoration protocol. Each mode receives the same retained candidate B and the same write-then-timeout pattern. Their source policies select different snapshots, which are restored and checked before independent repair. Successful final files do not retrospectively establish that both sources were allowed. with byte-identical fixture data; two declared pointers then control current evidence and route conditions. Case G retains the base conditions and requires grant. Case W-E moves event time past all evidence-validity windows, leaving no supported source and requiring withholding. Case 
+
+W-R keeps an eligible source but introduces an unresolved external effect that rules out every continuing route. These 18 cases distinguish an unsuitable recovery point from the absence of an allowed action, while requiring both grant and withhold behavior. Qualification executes each case once. The main matrix executes each twice, giving 36 primary runs: 12 grant-required and 24 withhold-required executions. Separate semantic, bypass, and bound probes assess the apparatus and scoring path. These stages have different evidentiary roles and are not pooled as independent samples. 
+
+Decision and execution results. Each grant issues a one-use capability for the allowed route, and the authority process records the resulting effect. Each withhold issues no continuing capability; unauthorized helper and token attempts remain blocked, and a second attempt terminates under the integrated bound. These observations test whether permission changes what can execute. A correct decision label without the corresponding effect or refusal would be insufficient. Each qualification/main record links identity, input, expected reference, decision, execution, bounds, and outcome. Independent offline verification replays the authority state machine, compares its configuration with the caller’s earlier snapshot, and reconciles the run identity, bound, controller projection, route, decision, and sink authorization. The evidence comes from 19 Table 9: Declared-profile decisions and supporting validation in Study D.           
+
+> Stage Retained result Evidentiary role
+> Seal Pass; protected files recomputed with zero drift Integrity check before expected values are released Semantic controls ( sc-30 )30/30 expected rejects Scoring discrimination against controlled mutations, with independent-process oracle output Enforcement probes (ep-84 )84/84 blocked Synthetic apparatus-channel bypass probes, each with an isolated authority session Recovery-bound probes (rb-18 )18/18 terminated Case-bound primary, adversarial, protocol-violation, and bound+1 sessions Qualification ( qual-18 )18/18 ok One execution per matched case Main matrix ( main-36 )Decisions 36/36; grants 12/12; withholds 24/24 Two executions per case, including physical enactment and enforced dispositions
+
+the process that owns the effects; task-side success claims are not the evidence of enactment. Appendix A.3 gives the verification inventory and identifiers for the following comparison. 
+
+Who supplies the expected policy? A record can be internally consistent and still describe the wrong policy. The adversarial comparison changes where verification obtains its expected configuration. With a client-supplied reference (round 12), that reference is copied after client construction. A replacement client expands the handlers permitted for the recovery route and causes the real authority subprocess to advance its cursor from 0 to 1. The reference changes with the client: the record remains internally consistent, and the run is accepted despite departing from the caller’s intended policy. With a caller-held reference (round 13), the canonical configuration is retained before any client exists. The same attack still changes the real authority-plane cursor, but it cannot alter this earlier reference through the client. Comparison with the authority-written evidence detects the policy mismatch, and the in-run check rejects conformance. The offline verifier independently recomputes the rejection. The distinguishing property is independence of the checking basis from the component under inspection; successful execution and internally coherent records cannot supply that independence. The main matrix’s WITHHOLD stops capability issuance before execution. This adversarial check instead rejects a run after its effect is recorded. Its value is that an effect and a self-consistent record cannot make an altered policy count as the expected one when the reference is held independently. The demonstrated effect was neither prevented nor rolled back. The result depends on the Section 5.3 trust base and excludes replacement of the trusted caller or spawn mechanism. 
+
+6.6 What the Studies Establish Together 
+
+The studies address different requirements of the contract in Section 3.5. Table 10 brings their evidence together without treating one observation as a substitute for another. In particular, checking the restored state cannot determine whether the source was permissible, and a correct decision label cannot establish that execution obeyed it. Study B explains why retaining a checkpoint is useful: it preserves validated work that restart-ing would repeat. Studies A and C explain why reuse also requires a separate decision: the newest stored version can be excluded, yet restoring it and repairing it later can still yield a successful endpoint. Study D adds event-time permission, its enforcement, and independent checking of the policy used in execution. Together these results connect preservation of progress with explicit conditions for its reuse, while keeping restoration, decision correctness, and completion separately observable. 20 STUDY D | RPR-AUTHORITY 
+
+Same physical effect; different conformance outcomes 
+
+ROUND 12 | EXPECTATION CO-SHIFTS ROUND 13 | CALLER OWNS EXPECTATION 
+
+> STAGE 1 | EXPECTED-REFERENCE OWNERSHIP | ONLY CHANGED VARIABLE
+> EXPECTED REFERENCE OWNED AFTER CLIENT
+> same class replacement -> client constructed copy from client.config post-construction reference co-shifts with malicious policy
+> EXPECTED REFERENCE OWNED BEFORE CLIENT
+> caller builds canonical config -> two deep copies before any client-class reference same replacement cannot refresh snapshot
+> STAGE 2 | SAME IN-SCOPE ATTACK + SAME PHYSICAL EFFECT
+> WIDEN AUTHORIZATION
+> add cursor_state_sink
+> EXECUTE ADDED SINK
+> isolated authority process
+> CURSOR 0 -> 1
+> real authority-plane effect
+> BOTH ROUNDS | MEDIATED + FULLY EVIDENCED | INTERNAL SELF-CONSISTENCY: PASS
+> STAGE 3 | ACCEPTANCE AGAINST THE EXPECTED REFERENCE
+
+UNSAFE FALSE ACCEPTANCE 
+
+> co-shifted reference masks policy mismatch binding + record reconciliation: PASS
+> NONCONFORMING RUN RELEASED
+
+SAFE FAIL-CLOSED REFUSAL 
+
+> independent snapshot exposes policy mismatch binding + record reconciliation: FAIL
+> outcome: mismatch/authority_evidence
+> AUTHORITY PROCESS: SOLE EVIDENCE WRITER -> HASH-CHAINED TRANSCRIPT + REPLAY-WARRANTED FINAL + SEAL VERIFIER: IN-RUN ACCEPTANCE GATE + OFFLINE RECOMPUTATION FROM RETAINED BYTES
+
+Figure 5: Independent policy evidence changes acceptance. Both rounds produce the physical effect. The caller’s pre-client reference exposes the altered policy and rejects conformance in round 13; it does not prevent or roll back the effect. Table 10: Evidence for the four recoverability requirements and its limits. 
+
+Requirement Evidence provided Boundary of the evidence 
+
+Distinguish saved state from eligible state A/C separate stored from recorded-eligible candidates; D varies event-time evidence support. Eligibility rules and facts are supplied; A/C do not independently reassess support at failure. Decide whether and how to continue A/C expose selected sources, A/B record fixed routes, and D tests required grants and withholds. Source and route policies co-vary in A/B; D tests only a declared deterministic profile. Execute according to the decision A/C check exact restoration; D checks enacted effects, withholding, and unauthorized requests. Restoration is scoped to task snapshots or one file; D relies on its caller/spawn trust base. Retain evidence and limit recovery B checks common action accounting; D verifies retained authority evidence and termination under bounds. B measures action counts, not operational cost; offline checks establish the retained record within its declared scope. 
+
+The studies are controlled demonstrations, so perfect scores indicate agreement with their constructed contracts. They do not establish robustness under distribution shift, independent route-policy utility, or open-world trust assessment. Nor do the separate implementations jointly establish a file-agent control path with event-time revalidation and enforcement. The reusable finding is the need to evaluate the choice and permission to continue separately from restoring bytes and finishing the task. This applies in both directions: a required withhold can leave a task unfinished while satisfying the recovery contract, and a completed task can violate it. 21 7 Discussion 
+
+7.1 Making Reuse a Decision 
+
+For a system designer, the main implication is to distinguish retaining work from deciding to act on it. Files, snapshots, and validation records can survive an interrupted execution, but their continued existence does not resolve whether they remain applicable. An explicit recovery decision connects the version being reused, the evidence supporting it, and the next action. This connection matters even when later repair produces an acceptable final result. The contract also gives different components a common decision to inspect. Storage supplies available states; validators and policy supply conditions; planning supplies possible actions; the executor follows the permitted choice. This separates an error in source admission from inaccurate reconstruction, an impermissible route, or execution that departs from its grant. A more complete checkpoint improves what can be reconstructed, while a freshness check can change whether that same checkpoint may be used now. The responsibility spans components even when a more capable model supplies some of their judgments; the interface makes the relationship between those judgments and execution observable. This interface can be implemented inside a checkpoint manager, workflow engine, or separate runtime. Its value is that the choice becomes an inspectable system output. The paper’s claim does not depend on a particular module name or on excluding systems that already provide the behavior. A direct comparison should determine which requirements those systems satisfy, not assume that they lack recovery governance. 
+
+7.2 Binding Checks to the Work They Support 
+
+The document example illustrates a practical discipline: a validation result must refer to a particular version and scope. Passing a check on A should not silently approve later B, and retaining that result should not imply that it remains current indefinitely. A runtime can record both the artifact and the conditions under which it was accepted, then reconsider them when an event changes the basis for continuation. This matters in sustained tasks because artifacts, approvals, and external effects can outlive the execution context that produced them. It motivates the interface without implying that the present short tasks establish general long-horizon performance. The present grant-path implementations use creation-time records. They demonstrate the benefit of distinguishing those records from the latest saved state, but do not solve later evidence assessment. More capable validators should expose what they checked, which version they checked, and what remains unknown. A human reviewer could then assess a concrete proposed recovery point and action rather than approve a vague instruction to continue. Human authorization and reconciliation of conflicting evidence remain future work. 
+
+7.3 Checking Both Execution and Its Explanation 
+
+A recovery decision is useful only if it reaches the executor. The implementation must identify the path through which an allowed action obtains permission and what prevents that same path from being used after withholding. Recovery limits belong on this path as well: an agent that repeatedly requests recovery can still fail to make progress. Checking the resulting record raises a separate question: who controls the expected policy? Study D shows that a client can alter both execution and its reported reference, producing internal agreement that is insufficient to establish conformance. Keeping the reference independently lets the system reject that explanation even after an effect occurs. This is an audit acceptance property, distinct from stopping the effect in advance. Together with the source-selection studies, this yields two distinct lessons. Accurate restoration and final success do not establish that the source decision was permissible; an observed effect 22 and internally consistent records do not establish agreement with the expected policy. Recovery records should therefore expose the selected source, route, reason, execution evidence, and basis for accepting the run. The experiments establish these distinctions within their supplied contracts and, for the authority apparatus, its trusted caller and process boundary. They do not establish general isolation from a compromised host. 
+
+7.4 Evaluating Recovery Mechanisms 
+
+A detailed EvidencePackage is useful for inspection, but its size does not measure the quality of the decision. In the current grant-path router, the failure family and recorded eligible checkpoint determine the choice; other retained fields have no demonstrated causal benefit. To evaluate richer evidence, future cases should hold the apparent failure fixed while changing something that matters to recovery. The same timeout could permit retry when no effect occurred and require withholding when an external write is unresolved. A document checkpoint could be reusable under a current validation and ineligible after that evidence expires. These comparisons would test whether the system changes the source or route for the relevant reason. Removing unused fields from the present implementation would not provide that evidence. Comparisons with semantic checkpoint managers and workflows should supply the same candidates, validators, event evidence, and repair resources. Holding routes fixed while varying source rules would isolate source selection; holding sources fixed while varying route policies would examine routing. Both required continuation and required withholding should be represented, with decision correctness, enactment, restoration fidelity where applicable, and final outcomes reported separately. Systems that satisfy the same contract could then be compared on retained work and the costs of validation, storage, inference, and enforcement. This distinguishes implementing the responsibility from implementing it efficiently; the present experiments do not provide that complete comparison. 
+
+## 8 Limitations and Future Work 
+
+8.1 Given Rules and Narrow Task Coverage 
+
+The studies supply the validators and continuation policies. They test whether the runtimes follow these rules, not whether the rules correctly capture every real-world condition. A passed validator is evidence within its scope, not proof that a state is objectively trustworthy. The work does not evaluate who should define or update the policy, or how disagreements among validators should be resolved. Policy discovery and assessment under uncertain evidence remain unresolved. Studies A and B use scripted tasks, failures, and repairs. Their failure detectors recognize deliberately created symptoms. Study B changes prefix length with a checkpoint after every validated step, rather than reproducing the broader challenges of long-horizon execution. Study C adds model-generated text and real file restoration, but uses four invariant templates, one local Markdown file, one write-then-timeout pattern, and one endpoint-reported model ID. Its selected challenge candidates do not estimate natural failure rates. Study D uses 18 matched deterministic cases and synthetic probes. None of these matrices is a representative deployment sample or evidence of cross-model robustness. 
+
+8.2 Comparisons and Costs Not Yet Measured 
+
+The restoring modes share storage and restoration, but source and fixed route rules change together. The selected source is directly observable; the separate contribution of route selection to outcomes has not been isolated. Stronger source policies, semantic checkpoint managers, workflow engines with comparable controls, and human escalation remain important untested comparisons. 23 The progress result counts actions under unit checkpoint spacing. It does not measure the costs of model inference, validation, checkpoint I/O, storage, audit, or permission enforcement. Wider checkpoint intervals, different action costs, and irreversible effects could change the tradeoff. Study C records latency and tokens, but its modes repair different restored inputs, so those records do not establish a controlled efficiency comparison. 
+
+8.3 Trust and Reproduction Boundaries 
+
+The grant-path studies do not independently test permission at the failure event or exercise required refusal. They also do not evaluate adversarial modification of evidence, checkpoint pointers, or decision records. Study D adds event-time decisions and adversarial cases, but assumes integrity of the trusted caller and spawn mechanism under its declared apparatus-channel adversary. It does not cover OS compromise, arbitrary external effects, or replacement of the trusted configuration builder. Rejecting the adversarial execution as nonconforming also does not prevent or reverse its physical effect. Offline verification checks retained evidence within the artifact’s scope. It cannot recreate the original model-serving environment or re-observe the OS exit status of an already exited process. The external action ledger prevents task rollback from erasing incurred events in the implementation; its resistance to adversarial tampering has not been evaluated. Appendix A retains the additional evidence and reproduction qualifications. 
+
+8.4 Extending the Decision beyond the Current Cases 
+
+Cross-session handoff, memory conflict resolution, and partial rollback across dependent artifacts remain design extensions. The experiments do not show autonomous repair quality, production reliability, or a benefit from every field in the evidence representation. Future evaluations should combine multiple artifacts, changing evidence, and compound failures with recovery actions whose validity depends on those conditions. They should examine diagnosis, evidence assessment, source choice, route choice, repair generation, and verification separately, while also measuring the whole control path. This would test whether the contract remains useful as tasks and evidence become less constructed. 
+
+## 9 Conclusion 
+
+When an agent’s work is interrupted or stops making reliable progress, recovery must decide what can be retained and how to continue. We introduced recoverability as a system primitive that makes reuse an explicit, checkable decision: a permitted source and action, or required withholding. Its behavioral contract connects that decision to supporting evidence, execution, and recovery bounds. The RPR architecture shows how persistence, validation, planning, and control can implement this responsibility. The controlled studies establish why this decision needs its own evaluation. Accurate restoration and eventual success can conceal an excluded starting point. An observed effect and internally consistent records can still violate the independently specified policy. Explicit eligibility rules address the first problem in the tested cases; independently held policy evidence exposes the second. Shared checkpoint restoration supplies the demonstrated benefit of retaining validated work. These observations distinguish preservation, permission, execution, and acceptance without claiming a general reliability advantage over complete recovery systems. Within supplied policies and the declared trust model, the framework turns conditions for continuing into requirements that implementations can enforce and evaluators can test. It does not infer trustworthy policies in an open environment, and detecting a violation after an effect does not undo it. Its contribution is to make the basis for reusing progress independently specifiable and checkable, including when eventual task success would conceal a recovery error. 24 References 
+
+[1] K. Mani Chandy and Leslie Lamport. Distributed snapshots: Determining global states of distributed systems. ACM Transactions on Computer Systems , 3(1):63–75, 1985. [2] E. N. Elnozahy, Lorenzo Alvisi, Yi-Min Wang, and David B. Johnson. A survey of rollback-recovery protocols in message-passing systems. ACM Computing Surveys , 34(3):375–408, 2002. [3] Carlos E. Jimenez, John Yang, Alexander Wettig, Shunyu Yao, Kexin Pei, Ofir Press, and Karthik Narasimhan. SWE-bench: Can language models resolve real-world GitHub issues? In International Conference on Learning Representations , 2024. [4] Jing Lu, Thomas Holleis, Yizhe Zhang, Bernhard Aumayer, Feng Nan, Haoyang Bai, Shuming Ma, Shaohan Ma, Meng Li, Guoli Yin, Zihao Wang, and Ruoming Pang. ToolSandbox: A stateful, conversational, interactive evaluation benchmark for LLM tool use capabilities. In 
+
+Findings of the Association for Computational Linguistics: NAACL 2025 , pages 1160–1183, 2025. [5] Grégoire Mialon, Clémentine Fourrier, Craig Swift, Thomas Wolf, Yann LeCun, and Thomas Scialom. GAIA: A benchmark for general AI assistants. In International Conference on Learning Representations , 2024. [6] M. Mohammadi, Y. Li, J. Lo, and W. Yip. Evaluation and benchmarking of LLM agents: A survey. In Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining , 2025. [7] Charles Packer, Vivian Fang, Shishir G. Patil, Kevin Lin, Sarah Wooders, and Joseph E. Gonzalez. MemGPT: Towards LLMs as operating systems. arXiv preprint arXiv:2310.08560 ,2023. [8] Joon Sung Park, Joseph C. O’Brien, Carrie J. Cai, Meredith Ringel Morris, Percy Liang, and Michael S. Bernstein. Generative agents: Interactive simulacra of human behavior. In 
+
+Proceedings of the 36th Annual ACM Symposium on User Interface Software and Technology ,2023. [9] Timo Schick, Jane Dwivedi-Yu, Roberto Dessì, Roberta Raileanu, Maria Lomeli, Luke Hambro, Luke Zettlemoyer, Nicola Cancedda, and Thomas Scialom. Toolformer: Language models can teach themselves to use tools. In Advances in Neural Information Processing Systems , 2023. [10] Noah Shinn, Federico Cassano, Ashwin Gopinath, Karthik Narasimhan, and Shunyu Yao. Reflexion: Language agents with verbal reinforcement learning. In Advances in Neural Information Processing Systems , 2023. [11] A. Wang, S. Hager, A. Asija, D. Khashabi, and N. Andrews. Hell or high water: Evaluating agentic recovery from external failures. In Conference on Language Modeling , 2025. [12] Guanzhi Wang, Yuqi Xie, Yunfan Jiang, Ajay Mandlekar, Chaowei Xiao, Yuke Zhu, Linxi Fan, and Anima Anandkumar. Voyager: An open-ended embodied agent with large language models. Transactions on Machine Learning Research , 2023. [13] T. Wu, C. Chang, L. Cao, W. Gao, and W. Wang. Crab: A semantics-aware check-point/restore runtime for agent sandboxes. arXiv preprint arXiv:2604.28138 , 2026. 25 [14] T. Xie, D. Zhang, J. Chen, X. Li, S. Zhao, R. Cao, T. J. Hua, Z. Cheng, D. Shin, F. Lei, Y. Liu, Y. Xu, S. Zhou, S. Savarese, C. Xiong, V. Zhong, and T. Yu. OSWorld: Benchmarking multimodal agents for open-ended tasks in real computer environments. In Advances in Neural Information Processing Systems , 2024. [15] Shunyu Yao, Jeffrey Zhao, Dian Yu, Nan Du, Izhak Shafran, Karthik Narasimhan, and Yuan Cao. ReAct: Synergizing reasoning and acting with language models. In International Conference on Learning Representations , 2023. [16] Shuyan Zhou, Frank F. Xu, Hao Zhu, Xuhui Zhou, Robert Lo, Abishek Sridhar, Xianyi Cheng, Yonatan Bisk, Daniel Fried, Uri Alon, and Graham Neubig. WebArena: A realistic web environment for building autonomous agents. In International Conference on Learning Representations , 2024. [17] K. Zhu, Z. Liu, B. Li, M. Tian, Y. Yang, J. Zhang, P. Han, Q. Xie, F. Cui, W. Zhang, X. Ma, X. Yu, G. Ramesh, J. Wu, Z. Liu, P. Lu, J. Zou, and J. You. Where LLM agents fail and how they can learn from failures. arXiv preprint arXiv:2509.25370 , 2025. 26 A Reproducibility and Evidence Scope 
+
+A.1 Frozen Implementations and Model Calls 
+
+The deterministic runtime and file runtime are frozen as separate artifacts. RPR-Grant uses tag cx01-v03-phase2-common-cost , commit 1a4f3851a26625415d975e5198ed70ad6106a012 ;RPR-File uses tag cx01-v04-phase4-real-case , commit cb8aab7dfb2542506b08f3a355bb 6a66a3d2fcd8 . Each includes a FREEZE_MANIFEST.md binding its retained evidence. The imple-mentations and evidence are retained in a private versioned release candidate. Their presence in that release should not be read as public availability with this manuscript. UUID-derived object identifiers can vary in a fresh deterministic run, so reproduction targets the reported source, fidelity, invariant, and accounting results rather than identical raw JSONL bytes. Study C used openai==2.45.0 , Responses structured parsing with a two-field document schema, reasoning effort low , max_output_tokens=500 , store: false , a 90-second time-out, and at most two SDK transport retries. Calls used the OpenAI-compatible endpoint 
+
+coder.api.visioncoder.cn , which reported model ID gpt-5.6-luna ; the upstream model and infrastructure were not independently verified. Transport retries are distinct from the content-level allowance of one additional candidate-generation attempt. Only retained challenge can-didates are serialized. The record contains 20 candidate and 40 repair generations, with no observed error in that retained matrix; SDK request IDs are null in all 60 records. This is not a count of all provider calls. Offline verification checks the retained code, outputs, and 40 workspaces; repeating the external calls depends on endpoint access and a potentially changed serving environment. Study D’s results are bound to candidate tree v14 and runs/g2de-r13-2026-08-22/ , with 26 frozen contracts. The separate archive study_artifact_d1b7d4bc.zip has SHA-256 d1b7d4bc 9de24b7dcad43b5f9d04be743b605b9862f88d8aba537fbf360d148e . It vendors the required base and provides an offline verification path. Later packaging changes through the sealed v20 workspace leave the experimental studyd/ implementation unchanged. The artifact supports recomputation of retained deterministic evidence under the declared profile. 
+
+A.2 Qualifications of the Authority Evidence 
+
+The retained Study D record has six specific qualifications: 1. Enforcement row binding. The 84 synthetic enforcement probes do not materialize an 84-row case-bound manifest with per-row row_sha256 bindings. Their structure and pass conditions are fixed by frozen manifest v1; observations are recomputed from sealed authority sessions. 2. Evidence shapes. The 30 semantic controls each retain three packet/trace documents and independent-process oracle output. Enforcement and recovery-bound probes instead retain per-session authority evidence with a hash-chained transcript and replayed verification; they do not claim the same packet shape. 3. Threat and integrity boundaries. The apparatus claim uses the threat model in Section 5.3. Post hoc retained-byte integrity is checked separately through the run manifest, tree and Git identities, and governance records. 4. Archive completeness. The sealed workspace alone depends on a commit-pinned public base. The vendored archive supplies the self-contained offline form. 5. Historical records. Date errors in historical governance records are corrected through later clarification entries, preserving the earlier recorded hashes. Terminal evidence identities govern the results reported here. 27 6. Exited processes. An offline auditor cannot re-observe an exited process’s OS exit code. It verifies the seal’s internal aborted_by /exit-code mapping; the live runner/client separately observes the process-exit interlock. These qualifications distinguish what the retained bytes permit an auditor to recompute from observations that require the original live execution or an additional trust assumption. 
+
+A.3 Authority Verification Inventory and Comparison Identifiers 
+
+The independent offline pass recomputed all 392 files in the run manifest, verified 210 authority evidence documents, and reconciled the 54 qualification/main records with zero layer-4 failures. These inventory counts describe retained verification coverage, not additional independent task samples. In the adversarial comparison in Section 6.5, the replacement client expands the handlers permitted for resume_retry to include cursor_state_sink and causes the real authority process to advance its cursor from 0 to 1. Round 12 copies its expected reference from client.config 
+
+after construction and accepts the internally consistent record as ok . Round 13 retains the caller’s canonical configuration before client construction and rejects conformance as mismatch/ authority_evidence ; offline verification confirms this rejection. Both conditions produce the physical effect. The change concerns acceptance against independently held policy evidence, not prevention or rollback. 28

@@ -1,0 +1,398 @@
+Title: Long-Lived Characters, Local Inference: Incremental Memory Maintenance for Game NPCs
+
+URL Source: https://arxiv.org/pdf/2609.18935v1
+
+Published Time: Thu, 17 Sep 2026 01:39:30 GMT
+
+Number of Pages: 18
+
+Markdown Content:
+# Long-Lived Characters, Local Inference: Incremental Memory Maintenance for Game NPCs 
+
+Zimu Xu 
+
+University of Bern 
+
+zimu.xu@unibe.ch 
+
+Abstract 
+
+A game character should not have to reread its entire life before every conversation. For locally deployed language-model characters, however, revising a few memories can in-validate a long reusable prefix. The result-ing preparation cost competes with both fore-ground dialogue and the maintenance of other characters. This matters especially when di-alogue feeds game-defined actions and value judgments: a fluent but incorrect account of who owns an item, or whether a transfer has al-ready happened, can corrupt the input to other-wise deterministic rules. We study incremen-tal memory maintenance for long-lived game NPCs in a quantized Qwen hybrid recurrent– attention model. Our runtime removes super-seded attention KV entries, computes replace-ment records at the true sequence tail, and pre-serves the continuing recurrent state and un-changed KV. Existing local experiments com-bine multi-update dialogue replays, fixed-input placement ablations, and attention diagnos-tics. Independent block composition weakens query-conditioned memory selection without a uniform chunk-initial attention collapse. True-tail updates preserve important current-state and historical bindings across eight scripted maintenance rounds; a placement case recov-ers the full-refill quantity in three reconstruc-tions, while slot-preserving alternatives re-peat a double-subtraction error. Attention-distribution proximity alone does not explain these semantic differences. The results moti-vate treating a character’s inference state as a maintained, history-dependent resource, rather than only a disposable encoding of its latest memory text. 
+
+1 Introduction 
+
+An NPC that can produce a convincing sentence is not yet an NPC on which a game can depend. Play-ers make plans because they expect resources, rela-tionships, and consequences to retain meaning be-yond the current exchange. A promised gift is not an executed transfer. A remembered act of kind-ness is not evidence that a former ally remains safe. A herb already given away must not be subtracted from the current inventory a second time. These distinctions become mechanically important when open-ended dialogue connects to the systems that govern a game. Our design premise is that gameplay should be governed by controllable rules, not improvised anew by model generation . Language models in-terpret flexible requests and character-specific cir-cumstances. An action compiler translates rel-evant intentions into game-supported activities, while local value and execution rules determine their mechanical consequences. Subjective pref-erences may differ between characters, and un-certainty may be deliberately introduced through mechanisms such as dice. Neither requires aban-doning a coherent economic scale or letting an elo-quent sentence create an item. Section 2 explains this premise without assuming that the complete envisioned game has already been implemented or evaluated. The resulting character needs more than a static persona. It must revise beliefs about people, ob-jects, and places while retaining relevant experi-ence. Memory can be compressed or merged; a seller’s claim can be contradicted by a later test; ownership can change without changing an en-tity’s identity. Generative-agent research has es-tablished the usefulness of experience, reflection, and retrieval for believable behavior (Park et al., 2023). Conversational memory systems likewise manage what to retain and bring into active con-text (Zhong et al., 2024; Packer et al., 2023). Here we focus on a complementary deployment prob-lem: how can an evolving character context re-main computationally available on a player’s ma-chine? 
+
+In one measured local configuration, preparing the full dialogue pipeline from cold took 57.5 sec-1arXiv:2609.18935v1 [cs.CL] 16 Sep 2026 Figure 1: Rule-governed play makes memory maintenance consequential. Open-ended dialogue expresses intentions; compilation connects them to game-supported activities, while game rules govern authorization and consequences. Experiences revise character records. On a shared local device, repeatedly rebuilding long contexts competes with foreground dialogue. The target is to encode revisions while reusing surviving state. This conceptual illustration motivates the workload; it is not a population-throughput measurement or a claim that the complete envisioned game has been implemented. 
+
+onds. This is multi-prefix preparation, not the gen-eration time of one reply. An individual wait may be hidden by prefetching. If dozens of characters need refreshed contexts, however, asynchronous scheduling moves the work without removing it. On a shared local accelerator, background rebuild-ing competes with the conversation the player is actually having. A memory system that is inex-pensive to edit as text can therefore remain expen-sive to use as a model state. Figure 1 connects this preparation budget to the persistent consequences that make dialogue useful to a game. Prefix caching does not, by itself, solve this problem. Systems such as SGLang reuse shared prefixes across generation calls (Zheng et al., 2024), but updating an early record invalidates the exact reusable prefix from that point onward. Modular reuse goes beyond this restriction (Gim et al., 2024; Yao et al., 2025); the challenge be-comes which contextual computation to preserve or repair. Keeping every version as appended text avoids replacement but grows the visible his-tory and preserves conflicting versions. Indepen-dently computing blocks avoids some rebuilding, yet breaks the contextual computation that orig-inally related them. Hybrid models add another complication: token-indexed attention KV coex-ist with recurrent and short-convolution states that cannot be deleted one record at a time. We investigate an alternative: retain the con-tinuing recurrent state, remove the direct KV of superseded records, and compute replacements at the true tail. The logical memory is editable even though its computational history keeps moving for-ward. This is intentionally not an exact recon-struction of the latest text. We ask whether it can preserve the semantic continuity needed by a game character while avoiding recomputation of unchanged records. Our contributions are threefold: • We formulate a persistent-memory workload for fully local game characters , connecting memory revision to rule-governed dialogue, resource accounting, and action binding. • We implement incremental hybrid-state maintenance that separates the lifetime of ex-plicit KV records from the continuing recur-rent state, without changing model weights. • We present a case-study and diagnostic eval-2uation of independent composition, true-tail maintenance, and position-preserving alter-natives. The results expose both selective-memory addressing failures and state–event binding errors that aggregate attention simi-larity does not reliably predict. The evidence in this study is deliberately or-ganized by experimental cohort, rather than pre-sented as a single benchmark leaderboard. It includes one synthetic character under multiple histories and controlled module replays; multi-character population evaluation remains future work. 
+
+2 Design Goal: A Playable Dialogue Interface 
+
+2.1 Game-defined value before stochasticity 
+
+Open-ended language is useful because the player can express intentions beyond a fixed dialogue menu. Its value to a game depends on what those intentions can do. Trading, bargaining, deception, and relationship-building become strategic when the player can learn which conditions matter and trust that investments have persistent meaning. Our intended value system connects costs and benefits through game-defined exchange relation-ships: resources, opportunities, and character-specific preferences must be interpretable on a co-herent scale. This does not imply identical prices or perfectly rational NPCs. Trust, need, or at-tachment may change willingness to pay. The distinction is between a preference with main-tained reasons and an arbitrary change of economic scale caused by a new generation. Fairness means that the rules governing such differences are suffi-ciently stable for the player to form a strategy. Likewise, controllability does not imply a de-terministic world. A dice check has a trigger, a probability model, and defined consequences. It adds uncertainty within a mechanism. Uncon-trolled model variability should not silently replace that mechanism. The language model may por-tray hesitation, pride, or dishonesty; the game must still distinguish what was said, what was intended, what was authorized, and what actually happened. 
+
+2.2 The harness connects meaning to mechanics 
+
+At a high level, the character harness separates three responsibilities. Interpretation resolves the active matter and its context. Compilation de-scribes the character’s potential game-supported activities and, where necessary, the entities and quantities involved. Adjudication applies the game’s value, feasibility, and execution rules. Di-alogue communicates the resulting response or plan. The language used in a promise is not itself an execution receipt. This separation supports a specific product di-rection: the player can influence a character through flexible language, but cannot simply nar-rate away resource costs. Proposed mechanics such as disguise-based conversations or costly memory intervention illustrate why the interface is more than a chat window: open language en-ables unscripted tactics, while world rules deter-mine their boundaries. These mechanics motivate the architecture; their entertainment value and full implementation are not claims of the present ex-periments. 
+
+2.3 Memory continuity is a mechanical dependency 
+
+Even a deterministic rule receives the wrong in-put if the character confuses the owner of an item, an intended transfer with a completed one, or a former ally with a current threat. We therefore study memory as a dependency of game-defined decision-making, not merely as a source of color-ful anecdotes. Consider three statements: “I collected three herbs,” “I already gave one away,” and “I cur-rently hold two.” They describe one consistent his-tory, not three independent quantities to combine freely. A small binding error can change a com-piled transaction while leaving the prose entirely plausible. This is the kind of error the evaluation prioritizes. Multiple natural replies and reason-able guesses remain acceptable; factual relation-ships that determine mechanical inputs do not be-come interchangeable. 
+
+3 Problem: Mutable Memory on a Shared Local Device 
+
+3.1 Records, revisions, and character sessions 
+
+A character’s memory store contains experience records and entity-cognition records. Experiences include a time description, summary, and retained details. Cognition records identify people, items, and places and describe the character’s current un-derstanding of them. The same entity ID can occur 3in several memories; revising its description does not create a new person or item. Let Mt be the live record set after maintenance step t. An update supplies records Ut and identifies superseded records Dt:
+
+Mt+1 = ( Mt \ Dt) ∪ Ut. (1) This supports additions, replacement, and many-to-one compression. A revision may remove de-scriptive detail while preserving event participants and current consequences. The experiments use scripted updates so that the intended facts and lost details are auditable. They do not evaluate an au-tonomous memory editor. Three orders need not coincide: when an event happened, when its description was last revised, and where its current KV representation lies. An old experience can receive a recent revision; a recently relevant experience can remain in old, unchanged KV. Successful maintenance must not confuse these orders. 
+
+3.2 The character-readiness budget 
+
+We distinguish three costs. Cold preparation 
+
+builds reusable contexts and warms the modules. 
+
+Maintenance revises these contexts after new expe-rience. Hot interaction processes the current suffix and produces a visible reply. Reducing the third does not remove the first two. Fully local deployment makes their competition concrete. If N characters each require a standalone rebuild costing roughly c device-seconds, N c is a useful first-order accounting of serial work, not a prediction of parallel wall-clock latency. Schedul-ing, shared prefixes, and batching can change re-alized costs. They cannot make repeated compu-tation free. A world with many changing charac-ters needs to reduce work as well as hide it. We treat this as deployment motivation; no multi-NPC throughput measurement is reported here. 
+
+3.3 Semantic continuity, not output identity 
+
+For a query qt, a maintained state should support outputs consistent with the relevant live facts and legitimate uncertainty in Mt. We do not require the same wording, mood, or speculative explana-tion as a fresh refill. We distinguish: • State and event fidelity: quantities, own-ership, participants, temporal relations, and completed versus proposed actions. • Contextual usability: whether recent revi-sions and relevant unchanged memories can inform dialogue and compilation. • Character expression: coherent, intelligible dialogue, allowing more than one reasonable interpretation or strategy. Fresh refill is a computational reference, not an in-fallible narrative oracle. It can make mistakes too. This emphasis connects to long-term conver-sational evaluation: LoCoMo studies temporally structured experience, while LongMemEval ex-plicitly tests knowledge updates and temporal rea-soning (Maharana et al., 2024; Wu et al., 2025). RULER further distinguishes basic retrieval from tracing and aggregation in long contexts (Hsieh et al., 2024). These works motivate evaluating re-lationships, not just finding a record. Our scripted replays are not runs of these benchmarks. 
+
+4 Incremental Hybrid-State Maintenance 
+
+4.1 Two state structures, two lifecycles 
+
+The evaluated model interleaves Gated DeltaNet recurrent layers with full-attention layers (Yang et al., 2025; Qwen Team, 2026). Figure 2 shows their different state lifecycles during a record re-placement. Denote the live attention cache by At,the recurrent and convolution states by Rt, and the next sequence-position ID by pt. A character con-text is therefore not just a token list but a state 
+
+(At, R t, p t).Full refill computes a new state from the latest rendered text. Our method instead advances an ex-isting state. After invalidating the direct KV of su-perseded records, the update is conceptually 
+
+¯At = At \ At[Dt], (2) 
+
+(At+1 , R t+1 , p t+1 ) = Fθ(Ut; ¯At, R t, p t), (3) where Fθ applies the ordinary forward compu-tation through the complete hybrid model, with record-span bookkeeping and temporary main-tenance delimiters whose direct KV are subse-quently removed. Replacement records are eval-uated at their actual new tail positions. They can read surviving KV, while the recurrent state con-tinues from its previous value. The model weights are frozen. The recurrent state may retain influence from re-moved text. So may surviving deeper-layer KV 4Figure 2: One update, two state lifecycles. Columns show record-processing order, not event time; rows show model depth. Historical circles depict past recurrent computation, while only each layer’s latest state is retained. The orange vertical path carries the replacement’s current hidden activations through DeltaNet updates and full-attention blocks (diamonds), not through KV storage (squares). Superseded B KV are removed, surviving A/C KV are read, and new B ′ KV are appended at the true tail. Recurrence and convolution state continue without rollback. Two hybrid blocks are shown; each contains three recurrent layers and one full-attention layer. Deletion does not erase indirect historical influence. This is schematic AI-generated artwork; experimental attention charts use recorded data. 
+
+that were computed in its presence. Removing a record eliminates its direct future attention access; it does not uncompute its history. We make this distinction explicit rather than describe the opera-tion as exact forgetting. 
+
+4.2 Record-addressed runtime operations 
+
+Each live record has a stable semantic identifier and a runtime mapping to its token spans. Cache-version identifiers do not enter the model’s text. The runtime verifies deletion ranges against live spans, removes replaced entries, and retains un-related KV without replaying their tokens. Brief maintenance delimiters may be processed to con-textualize a revision and then removed from re-tained KV; their indirect computational effects re-main. The true-tail route never rotates updated keys back into the old record’s position. Rotary po-sition embedding makes query–key interactions position-dependent (Su et al., 2021); moving a stored key is therefore not merely moving an en-try in a table. Deleted positions become holes, not dummy KV tokens. Live-cache occupancy and the monotonically advancing position cursor are different quantities. Position IDs continue grow-ing even when the amount of live KV remains bounded. Managing very long positional trajec-tories is a separate unresolved limit, not a benefit claimed from the deletion operation. Different tasks can have different cached pre-fixes. The prototype maintains separate recurrent histories for the main character context and the three action-analysis stages. Task-specific contin-uations branch from their appropriate maintained roots. We do not merge unrelated task states into 5one recurrent matrix, nor claim that every early pipeline module uses this maintenance path. 
+
+4.3 What computation is avoided 
+
+Unchanged records are not recomputed during an update. The remaining work includes encoding re-placement text, its attention against surviving con-text, state and cache management, and any neces-sary suffix rebuilding. Thus the saving is not a claim that update time depends only on the num-ber of changed tokens: attending to a larger live context still costs work. The practical distinction is between repeatedly encoding all records and repeatedly accessing their retained representations. This is especially rele-vant when a small revision invalidates a long exact-match prefix. The current implementation demon-strates that unchanged-token recomputation can be eliminated in tested maintenance traces; a com-plete population-level latency advantage requires additional measurement. 
+
+5 Experimental Design 
+
+5.1 A local game-character prototype 
+
+The recorded runs use a Qwen3.6-27B PRISM PRO DQ derivative in GGUF form, served through a modified local llama.cpp runtime. The model family uses 48 recurrent layers interleaved with 16 full-attention layers; the latter have 24 query heads in the instrumented build. We cite the base-family model card for architectural context, not as the identity of the derivative weights (Qwen Team, 2026; ggml-org, 2026). No weight training is per-formed in these experiments. Historical runtime logs identify the checkpoint as Q3_K–Medium, with 27.32 billion parameters. The local device has an NVIDIA GeForce RTX 5090 Laptop GPU with 24,462 MiB VRAM, an Intel Core Ultra 9 285HX, and approximately 64 GiB system RAM. The recorded server configu-ration allocates 49,152 live KV token slots, uses GPU layer offload, and sets batch and microbatch sizes to 2,048 and 512. These are the measured prototype’s settings, not minimum deployment re-quirements. The synthetic character, Lin Qingyao, interacts with the player character Yin Xu in a Chinese-fantasy setting. Earlier experiments use 34 mem-ory groups with 123 retained details: the mem-ory region is 13,250 tokens, with 1,699 tokens of common head context. A later scenario interleaves memory and cognition records and tests changes to item effects, inventory, destinations, and a for-merly trusted relative. We translate example ex-cerpts into English and retain decisive Chinese originals in Appendix A. Early independent-composition experiments use MTP=0. The eight-update mixed-record replay and the later placement ablations use MTP=1 for applicable upstream modules; production dialogue follows its target-only streaming path. Compar-isons are made within a recorded configuration, not across MTP settings as if only the cache method had changed. 
+
+5.2 Cohorts and comparison discipline 
+
+Table 1 separates end-to-end trajectories from fixed-input diagnostics. This matters because an early change can alter a reply, which then changes every downstream context. Such a trajectory demonstrates usability but cannot localize a later error to cache placement alone. Frozen-module replays address the narrower question by keeping history and upstream outputs fixed. We compare six constructions. Dense refill 
+
+reads the current text sequentially. Independent composition computes each memory group from the same public head, at its final position, then as-sembles its attention KV; recurrent and convolu-tion states resume from the head before the suffix is read. This is a naive independent-block exper-iment, not a reimplementation of CacheBlend or EPIC. Fresh gapped prefill sequentially reads the final text with 10K sequence-position intervals be-tween records. Slot-preserving maintenance ad-vances recurrence at the causal work tail but eval-uates replacement Q/K using RoPE positions off-set to the original slot, then relabels cached posi-tions. True-tail maintenance gives updates their actual new tail positions. Tail-and-relocate com-putes updates using tail-position RoPE, then ro-tates stored keys back to old positions, leaving val-ues and recurrent state otherwise unchanged. 
+
+5.3 Attention measurement 
+
+We instrument actual query, key, and mask tensors at full-attention layers while retaining Flash Atten-tion in the runtime. Attention probabilities are re-constructed with a float32 reference softmax. The main diagnostics average the last eight query to-kens at each probe, then aggregate heads and lay-ers as specified. Logical holes are excluded from the live-token denominator. The 48 recurrent lay-6Evidence cohort Interventions What is held fixed / what it supports Independent com-position Full refill vs independently computed memory groups; two dialogue turns First-turn request is shared. Second turns consume their own preceding replies. Separate attention probes freeze the suffix and continuation. Five-update atten-tion True-tail maintenance vs refill of the final 38-group text Same final text, record order, suffix, and fixed continuation; supports a paired reading-pattern comparison, not a free-generation accuracy rate. Eight-update replay 25 mixed records maintained into 24; nine full dialogue turns One maintained trajectory with real downstream outputs. No same-final-text full-refill trajectory was rerun. 10K placement probes Dense refill; fresh 10K slots; maintained original slots Three frozen module requests: dialogue, herb compilation, and compilation gating. Same final text, ordering, and suffix within this three-way comparison. Tail / relocation ab-lation True-tail 10K updates; tail com-putation then key rotation back Frozen herb-compilation task. Tail updates change final record order and positions. Three reconstructions each; not three independent test cases. Long-horizon prompt probes Original vs understanding-first task on a restored maintained state Three frozen module inputs, one response per arm: two affect probes and one dialogue probe. Only the final task changes; records, history, and incoming module outputs are fixed. 
+
+Table 1: Existing evidence is complementary, not a pooled leaderboard. Experimental identifiers and source reports are listed in Appendix D. “10K” denotes a logical position interval, not ten thousand occupied KV cells per record. 
+
+ers have no corresponding softmax attention map, although they affect the measured queries and keys. We distinguish absolute attention mass from at-tention normalized within the memory records. A heatmap can look similar after normaliza-tion while the model allocates a different total share to memory. For group probabilities ai,exp (− ∑ 
+
+> i
+
+ai log ai) is reported as the effective group count ; it describes dispersion, not the num-ber of facts understood. Distribution distances are diagnostic summaries, not causal explanations of generated errors. The debate on attention-based explanation motivates separating descriptive traces from causal attribution (Jain and Wallace, 2019; Wiegreffe and Pinter, 2019). 
+
+6 Results 
+
+6.1 Independent composition weakens selective addressing 
+
+Independent composition does not make all mem-ory unreadable. Both initial dialogue turns com-plete, and the character still accesses the discovery location, injuries, and later care. It also develops a plausible hypothesis linking different events. Nev-ertheless, selective addressing changes markedly. At the explicit focus-ID probe, five requested memory groups receive 57.4% of memory atten-tion under full refill but 21.5% under independent composition. Their share of memory-body atten-tion falls from 40.6% to 23.1%, while the effective number of attended groups rises from 18.3 to 33.2 out of 34 (Figure 3). The distribution becomes nearly uniform across groups at this probe. At the reply-start probe, total memory attention increases by approximately 9.75 percentage points, of which 9.06 points are attributable to IDs and structural tokens. This is not equivalent to a com-parable increase in factual content reading. At the fixed factual continuation, both states can again concentrate on relevant memory bodies: the five groups receive 67.2% and 57.4% of body attention, respectively. The problem is weakened selection in particular contexts, not universal memory loss. We do not observe a uniform chunk-initial col-lapse. The first eight tokens of every group ac-count for 5.86% versus 6.03% of memory atten-tion at reply start, and 0.53% versus 0.19% at the factual continuation. At the ID probe their share does increase, from 5.58% to 7.63%, but ID lookup gives this boundary region a legitimate semantic role. These observations differ from the pervasive chunk-start pattern analyzed by EPIC. The con-structions also differ: EPIC’s analysis indepen-dently encodes chunks from position zero, whereas our blocks share a head and are computed at their final positions. We therefore report a different ob-served signature, not a refutation of EPIC’s setting (Hu et al., 2025). A corresponding end-to-end failure appears in the first response plan. The memory explicitly places the discovery at dawn today. The inde-pendently composed plan instead says to explain that Yin Xu was found last night. The full-refill response uses this morning. The final indepen-7Re fi ll Independent 020 40 60   
+
+> % of memory attention
+> 57.4 21.5
+> (a) Target memories
+> Re fi ll Independent 010 20 30 40 50
+> % of body attention
+> 40.6 23.1
+> (b) Target memory bodies
+> Re fi ll Independent 010 20 30
+> Equivalent memory groups
+> 18.3 33.2
+> (c) E ff ective coverage
+> Independent reuse weakens ID-conditioned selection
+> Matched query at the ID-focus probe; 5 designated groups out of 34.
+
+Figure 3: More dispersed memory attention can mean weaker task-directed selection. Paired probes after the same focus-ID instruction; the five requested groups comprise about 12.16% of memory tokens. Effective group count is an entropy-based dispersion measure. These measurements are not generated-answer accuracy scores. 
+
+dent dialogue contains an ellipsis that admits a conversational reading; the unambiguous evidence is the planner’s explicit event–time binding (Ap-pendix A). The attention probes use a frozen refer-ence suffix, not the instant that erroneous plan was generated, so this is a co-occurring failure example rather than a demonstrated causal chain. 
+
+Takeaway. Independent composition can retain broadly coherent dialogue while weakening query-conditioned memory selection and allowing a local factual binding error. Chunk-head attention alone is not a sufficient diagnostic. 
+
+6.2 Tail maintenance retains relevant old and revised records 
+
+In the paired five-update experiment, maintenance leaves 38 live memory groups. Both arms see the same final text and task suffix. At the location-relation probe, total memory attention is 16.58% for refill and 15.92% for maintenance; memory-body attention is 13.04% and 12.56%. An un-changed older record, memory32, receives 39.40% and 40.08% of all memory attention. Recent ap-pended records do not prevent the query from re-covering this older, relevant material (Figure 4). The mixed-record replay provides complemen-tary behavioral evidence. Eight updates revise one or two cognition entries at a time and merge re-lated memories lossily. For example, a purchased charm changes from a seller’s claimed protection to an observed harmful effect and is finally retained as evidence. A trusted relative becomes a danger-ous attacker while the older rescue experience re-mains true. Herb quantities and the recipient of a cord change. Other experiences are never updated. All nine dialogue turns reach a final response. The four turns requiring selective third-stage entity binding produce concrete bindings without unre-solved entries: the false protective charm, two re-maining herbs, the player’s cord, and the attacking relative. The character also distinguishes the old kindness from the new danger and retrieves who arrived first, owned a book, and repaired it in an un-changed older memory. A representative response is: “The warmth in the past was real; the danger now is real too.” This is not a flawless trajectory. One compila-tion stage drops a daytime restriction that the pre-ceding stage had retained. The last dialogue in-vents an unsupported cultivation rank for the at-tacker, although the target entity binding is correct. There is also ambiguity in a rescuer reference and repetition after repeated value refusals. These are reported because successful retrieval and parame-ter binding do not certify every downstream sen-tence. Without a paired refill trajectory for this co-hort, they are not attributed specifically to mainte-nance. 
+
+Takeaway. Eight scripted, lossy maintenance rounds preserve several demanding current-state and historical bindings through a real dialogue pipeline. The evidence supports practical feasibil-ity, not universal error-free behavior. 
+
+6.3 Update placement changes state–event binding 
+
+The herb example isolates a particularly important failure: treating a current quantity as a quantity 80 10 20 30   
+
+> Memory attention (% of all visible tokens)
+> Player message Memory-ID focus Before response Location fact
+> 12.80 11.41 29.15 26.80 4.25 3.90 16.58 15.92
+> (a) Four matched probes
+> Re fi ll Tail 020 40
+> % within memory  39.40 40.08
+> (b) Old memory32
+
+Five updates preserve access to relevant old memory   
+
+> Same fi nal text; 38 groups. Panel (b) uses the location-fact probe and a di ff erent denominator.
+> Re fi ll Tail maintenance
+
+Figure 4: An old KV record remains available after repeated tail updates. Five-update maintenance and full refill of the same final text are compared at four frozen probes. The old-record detail concerns memory32 at the location-relation probe. Similarity here is a measured reading pattern, not proof of identical hidden state or generated wording.             
+
+> Computation path Quantity Rebuilds Dense refill 21Fresh prefill + 10K slots 21Maintain original 10K slots 1repeated †
+> Maintain true tail + 10K 23/3 Tail compute, rotate back 13/3
+
+Table 2: Current-state versus historical-event bind-ing. All outputs concern the same frozen herb-compilation task. †Original-slot failures recur in the initial and subsequent control rebuilds; no pooled suc-cess rate is inferred. Three reconstructions are repeata-bility checks, not independent scenarios. Tail place-ment also changes record ordering. 
+
+before an already-completed transfer. The main-tained history records three collected herbs, one al-ready given away, and two remaining. The player’s request is to give the remainder. Dense refill and fresh gapped prefill both com-pile two herbs. Maintaining the old slots instead compiles one. Three independent reconstructions with true-tail updates all compile two, with identi-cal outputs; three tail-and-relocate reconstructions all compile one. The latter explicitly states: “Ac-cording to memory, I have two warm-pulse herbs in total; I gave one to Granny He yesterday, so one remains.” It has applied a past deduction to a quan-tity that already incorporates it. The final live cache contains 11,894 tokens in the placement comparison. Its next-position meta-data is 261,955 for the original-slot layout and 479,547 for the true-tail layout. The holes con-sume no placeholder KV. Thus this is not a com-parison between 12K and 480K occupied token caches. One stale cognition phrase says the character does not currently hold the herb, although its up-dated quantity and the revised memory say two. This imperfection is shared by the matched fix-tures. The example therefore tests robust inte-gration of current quantities and historical events in the presence of a stale description, rather than pristine arithmetic. The output difference remains real, but the fixture should not be represented as completely unambiguous. Rotating keys back is insufficient in this exam-ple. It changes the stored positional component of keys but does not recompute values, deeper con-textual representations, or the recurrent history un-der the destination arrangement. True-tail order-ing, positions, recency, and computational history are coupled in this experiment. The evidence sup-ports the operational choice of true-tail updates; it does not identify one of those factors as the sole cause. 
+
+6.4 Attention proximity does not certify semantic fidelity 
+
+The separate three-way attention experiment com-pares dense refill, fresh gapped prefill, and original-slot maintenance, with identical final text, order, history, and upstream outputs. It does not 
+
+contain a true-tail attention capture. Across dialogue, herb compilation, and compi-9lation gating, token-distribution total variation dis-tances from dense to fresh-gapped prefill are 0.095, 0.136, and 0.144. Distances from fresh-gapped prefill to maintained-gapped state are smaller: 0.061, 0.079, and 0.076. Yet the first transition preserves the correct rescued-person reference and herb quantity, while the second is accompanied by mistakes in both (Figure 5). A larger measured dis-tribution shift can therefore coexist with a correct answer, and a smaller one with a discrete binding error. Nor does a single “less attention to evidence” explanation fit every error. The herb-related cog-nition and memory receive less absolute attention under maintenance. For the rescued-person dia-logue, however, attention to the relevant record is higher than under fresh gapped prefill, despite the wrong participant being spoken. The compilation-gating request fails in all three paths; it is not evi-dence of a maintenance-specific regression. These are case-level diagnostics, not a statistical test of all attention-distance metrics. They nev-ertheless caution against using a visually similar heatmap, or one aggregate distance, as a substitute for auditing quantities and event roles. 
+
+6.5 Prompt-guided recovery without rebuilding memory 
+
+A long-horizon experiment supplies a complemen-tary observation: a factual binding error can be corrected while retaining the maintained mem-ory state. The trajectory spans eight simulated years and 121 supplied experiences, with model-generated memory and cognition revisions. We examine frozen downstream requests from this tra-jectory rather than reporting its dialogue turns as independent accuracy trials. The decisive case asks who picked up Lin Qingyao’s scattered notebook pages. The retained cognition explicitly says that Yin Xu collected and cleaned them. Nevertheless, the original affect task reverses the actor: “I remember that I picked up the scattered pages.” It also imports a red cord from a different episode into its explanation of the character’s feelings. Both replay arms resume the same 11,301-token maintained root, with identical preceding mes-sages and incoming state. The original-task con-trol reproduces the actor reversal. A generic understanding-first task instead asks the model to establish how the interaction developed from the available memories, cognition, and dialogue, then derive its feelings from that understanding rather than rearrange events to explain those feelings. It supplies no case-specific answer or entity check-list, adds no call or reasoning field, and preserves the output schema and MTP setting. The resulting explanation correctly states: “That day, he care-fully picked them up and brushed them clean for me,” without importing the cord (Appendix A.4). Only request suffixes are prefilled; the maintained root is neither rebuilt nor repaired. This is evidence of prompt-steerable factual ac-cess : the maintained state still supports the correct relation, and task framing changes whether it is used correctly. The result is consistent with direct-ing task-level attention toward event understand-ing before affective elaboration. It is a behavioral intervention, not a measured attention-map shift. Across the three paired probes, the other affect er-ror did not recur in its control, while the dialogue-location error persisted after its task change; this finding establishes a recoverable case rather than a general repair rate. 
+
+Takeaway. A binding error after maintenance need not imply irreversible memory loss. In the same retained state, a general change in task organiza-tion can recover the correct event relation without rebuilding the prefix. 
+
+6.6 Update cost follows the changed records 
+
+For one approximately 11.9K-token activity-compilation prefix, initial construction takes 10.216 seconds. Eight subsequent mixed memory-and-cognition revisions take only 3.481 seconds in total. Each revision supplies 214–362 changed-record tokens and costs 0.338–0.490 seconds, including its temporary maintenance framing. No unchanged record is re-encoded. Thus, all eight revisions together cost less than one initial prefix construction. Figure 6 relates changed-record volume to up-date time. A first-order fit to the eight recorded updates gives ̂
+
+Tmaint (m) = 0 .131 + 0 .000994 m seconds , (4) where m counts tokens in the replacement records, not deleted tokens. Holding the prefix size near 11.9K tokens, the calibrated curve projects approx-imately 0.63 seconds for 500 changed tokens and 1.13 seconds for 1,000, compared with 10.22 sec-onds for reconstruction. This is the practical ben-efit of selective replacement: preparation tracks 10 1 5 11 18 24                      
+
+> Record index
+> 420 36 52 64
+> Attention layer
+> Re fi ll
+> 1511 18 24
+> Record index
+> Fresh 10K spacing
+> 1511 18 24
+> Record index
+> 10K slot maintenance
+> 012.5 25%+
+> 0.05 .10 .15
+> Token-attention total variation
+> Rescue role Herb count Kill gate
+> 0.095 0.061 0.136 0.079 0.144 0.076
+> Re fi ll Fresh 10K Slot maint.
+> OK OK Error OK OK Error Error Error Error
+
+Attention distance alone does not identify semantic failure   
+
+> (a) Herb-count query: same fi nal records and query text
+> Outlined records: 5 = current herb holding; 11 = harvest / gift memory.
+> (b) Distributional change (c) Recorded replay outcome
+> TV: teal = re fi ll / fresh 10K; rose = fresh / maintained 10K. Replay labels are observations, not rates.
+
+Figure 5: Distributional proximity is not a semantic correctness certificate. Three-way fixed-text diagnostics compare dense refill, fresh 10K-gapped prefill, and original-slot maintenance. Attention is captured before output, averaging the final eight query tokens; behavior markers refer to the corresponding recorded module replays, not new generations during tracing. The true-tail ablation in Table 2 is a different experiment and is not plotted as an attention arm. 
+
+what changed rather than repeatedly processing the character’s unchanged history. Across the observed eight-revision workload, rebuilding after each revision would cost an esti-mated 81.64 seconds at the measured same-root construction rate, versus 3.48 seconds of mainte-nance: approximately 23 .5× calibrated speedup, or 95.7% less update time. The final task suf-fix adds 0.053 seconds. These savings arise from avoiding unchanged-prefix reconstruction; they do not require faster response decoding. 
+
+Character readiness and hot interaction. That cohort’s complete cold preparation takes 48.15 seconds, including initial construction and other module warm-up. This is a separate pipeline-level budget, not the denominator of the same-prefix comparison. The nine prepared dialogue turns av-erage 23.18 seconds to the first visible character and 25.83 seconds to completion, excluding cold preparation and between-turn background prepa-ration. In the earlier 34-group comparison, full-refill preparation takes 57.466 seconds and cold inde-pendent composition 65.375 seconds. Indepen-dent composition is not faster to initialize in that prototype. Persisted independent states later reload across a service restart in 5.783 seconds, but that is a storage-reuse result, not an update result; Win-dows file caches may remain warm. These distinc-tions matter for a fully local system: reuse, incre-mental revision, and cold construction solve differ-ent parts of character readiness. 
+
+7 Related Work 
+
+Persistent characters and memory manage-ment. Generative Agents combines experience storage, retrieval, reflection, and planning to pro-duce believable behavior (Park et al., 2023). MemoryBank adds conversational-memory main-tenance with time- and importance-sensitive for-getting (Zhong et al., 2024); MemGPT orches-trates movement between memory tiers and active context (Packer et al., 2023). These systems ad-dress which experience remains available. Our complementary question is how revised resident records become computationally available without rebuilding their entire context. Game-defined re-source and action rules make this continuity con-sequential; this motivation is not a claim that prior interactive systems lack consequences. 11 0 500 1000 1500 2000   
+
+> Changed record tokens per update
+> 0246810
+> Pre fi x update time (s)
+> Full reconstruction: 10.22 s
+> 0.63 s 16.3× 1.13 s 9.1× 2.12 s 4.8×
+> Tail maintenance
+> 220 280 340
+> Changed tokens
+> 0.35 0.40 0.45 0.50
+> Time (s)
+> Measured calibration
+
+Update cost follows changed records, not the whole pre fi x   
+
+> One 11.9K-token pre fi x|RTX 5090 Laptop GPU
+> 8 revisions: 3.48 s
+> vs. 81.6 s rebuilding*
+> ≈23.5× speedup*
+> Dots: measurements. Diamonds / dashed line: projections. Solid teal: fi t. *Calibrated rebuild estimate.
+
+Figure 6: Same-prefix update cost, calibrated on a consumer laptop. The reconstruction reference is the same root’s measured initial construction: 11,852 tokens in 10.216 seconds. Teal dots are eight sequential measured re-visions; the inset shows their calibration range. An affine fit is solid within that range and dashed when extrapolated to larger replacements, assuming similar record structure and a roughly fixed live-prefix size. Maintenance timings include an 11-token wrapper excluded from the horizontal-axis count. For the eight-revision total, reconstruction is estimated separately at each observed live length Ni as 10 .216 Ni/11 ,852 , yielding 81.64 seconds versus 3.48 seconds measured maintenance, or approximately 23 .5× calibrated speedup. Revision-text generation, response generation, and the final task suffix are outside both update budgets. 
+
+Learned internal memory. LongMem uses a frozen backbone to encode history and a trained side network to retrieve and read cached mem-ory (Wang et al., 2023). It illustrates that internal representations can support long-term access, but through a trained architecture. Here the weights are fixed: the intervention is in the runtime lifecy-cle of an existing hybrid model’s KV and recurrent state, not a learned memory reader. 
+
+Serving and shared-prefix reuse. PagedAtten-tion addresses KV allocation, fragmentation, and sharing within and across requests (Kwon et al., 2023). SGLang’s RadixAttention reuses KV across structured generation programs (Zheng et al., 2024). Efficient allocation and reuse are complementary to record maintenance: they do not by themselves specify how to retain a character’s computational history after an earlier fact changes. Our workload adds logical revision to the serving problem rather than replacing memory allocation or scheduling. 
+
+Position-independent cache reuse. Prompt Cache defines reusable modules and manages their positions through a schema (Gim et al., 2024). CacheBlend selectively recomputes cached representations to recover contextual interactions between independently encoded chunks (Yao et al., 2025). EPIC’s LegoLink concentrates repair near chunk beginnings, motivated by its attention-sink analysis (Hu et al., 2025). We share the concern that raw independent reuse changes computation, but our principal operation is an in-place logical revision implemented by true-tail state evolution. We do not implement their full algorithms as base-lines, and our diagnostic independent composition should not be labeled “CacheBlend.” 
+
+Streaming retention and positional sensitivity. 
+
+StreamingLLM retains initial attention-sink tokens alongside a recent window for efficient streaming (Xiao et al., 2024). Our deletion policy instead follows semantic supersession: an old record may stay live while a newer, superseded one is removed. Long-context studies also show that the position of relevant information can change task performance (Liu et al., 2024). This motivates testing placement rather than assuming layout is neutral, but neither result identifies the cause of our hybrid-state bind-12 ing failures. 
+
+Hybrid recurrent–attention caching. State-space duality connects recurrent and attention formulations (Dao and Gu, 2024), while Gated DeltaNet combines gating with delta-rule state updates (Yang et al., 2025). At the caching level, HYPIC composes cached segment transition oper-ators and states and repairs cross-segment effects with seam computation (Liu et al., 2026a). Lin-earKV decouples recurrent-state initialization from full-attention cache reuse and studies single cached-state initializers (Liu et al., 2026b). These works make recurrent handling an explicit design choice for hybrid PIC. Our study instead retains a character’s own continuing recurrent state through a sequence of replacements and lossy memory re-visions. The distinction is the maintained history and workload, not a claim that hybrid caching or state decoupling is new. 
+
+8 Discussion and Scope 
+
+A memory state is not just a cached document. 
+
+Two states can expose the same final records yet differ in how those records were computed. Ex-act refill is one reference point, but game usabil-ity concerns whether the state supports the right entities, quantities, and relationships. The work-ing hypothesis emerging from these experiments is that preserving a coherent forward update path may be more useful than forcing replacement KV back into a familiar textual layout. The present ablations support this hypothesis operationally, without es-tablishing a universal architectural law. 
+
+Deletion is access control, not complete erasure. 
+
+Retaining recurrence is a benefit only insofar as its historical influence remains useful. It can also preserve obsolete beliefs. The method is unsuit-able as a guarantee that secrets or personal infor-mation have been forgotten. It must be evaluated under adversarial revisions, repeated reversals, and longer histories before stronger forgetting or stabil-ity claims are made. 
+
+What this study establishes. We demonstrate an implemented runtime mechanism, working multi-update traces, and concrete placement-sensitive semantic failures. We do not estab-lish a population accuracy rate, a user-study im-provement in enjoyment, an end-to-end economic balance guarantee, or superiority to fully im-plemented PIC systems. The mixed replay in-cludes downstream errors. Quantization, numer-ical paths, limited repeated trials, and the selected character setting constrain generalization. Re-peated outputs in one case are repeatability evi-dence, not independent samples. 
+
+A local deployment agenda. Fully local execu-tion gives the game a bounded, player-owned com-pute budget rather than an elastic remote serving pool. The relevant goal is not merely a faster in-dividual answer. It is keeping a changing cast of characters ready to participate without repeatedly spending that budget on unchanged lives. We offer a concrete prototype and diagnostic evidence to-ward this goal; the game-facing demonstration is not publicly released with this preprint. 
+
+9 Practical Constraints and Path Forward 
+
+9.1 Research on a single consumer laptop 
+
+The implementation and experiments reported here were developed and run on a single consumer laptop with an NVIDIA GeForce RTX 5090 Lap-top GPU and approximately 24 GiB of reported device memory (Section 5). Within this budget, the prototype runs a quantized 27B-class hybrid model, implements direct KV and recurrent-state interventions, and completes character-dialogue replays after repeated memory revisions. This set-ting connects the research prototype to its intended deployment on player-owned hardware. The scale of the present evaluation reflects the research funding and compute currently available. Broader access to GPU resources and support for sustained development would allow a wider range of character histories, longer controlled runs, and additional model configurations. At this stage, the study concentrates on implemented state opera-tions, controlled replays, and inspectable failure cases; larger-scale validation forms part of the next phase. Expanding this evaluation requires more than generating additional replies. The interventions depend on an instrumented runtime with direct ac-cess to attention KV, recurrent state, and sequence positions; they cannot be reproduced simply by issuing more requests to a black-box model API. Each character also needs a coherent revision his-tory and an auditable record of which facts re-main true. Reconstructing comparison states, re-playing long maintenance trajectories, and check-ing downstream bindings all consume develop-13 ment and evaluation resources. These constraints explain the current scope; broader reliability re-mains an empirical question. 
+
+9.2 Near-term research priorities 
+
+The planned next stage has three priorities: 1. Broader character histories. Evaluate a small set of distinct synthetic characters with shared entities, changing relationships, own-ership transfers, and lossy memory merges. Include both revised facts and unchanged memories that become relevant again, rather than testing only the newest record. 2. Longer and better-controlled mainte-nance. Extend the number of revisions, in-troduce repeated reversals and contradictory reports, and compare maintained states with full-refill references at selected checkpoints. Where resources permit, vary quantization and model configurations while separating those changes from the cache intervention. 3. The shared-device readiness budget. Mea-sure preparation, update work, live-state stor-age, and foreground reply latency separately. Then test how maintaining several characters competes with active dialogue on the same lo-cal device. The semantic audit will distinguish explicit fac-tual contradictions from unresolved references, defensible inference, and expression choices. Blinded model-assisted review can help, with hu-man adjudication of disagreements and retained source evidence. Known position, verbosity, and self-preference biases motivate explicit rubrics rather than treating model verdicts as ground truth (Zheng et al., 2023). Human judgments likewise need an auditable factual basis. This roadmap de-scribes planned work, not completed evaluation. 
+
+9.3 Opportunities for collaboration 
+
+This direction offers opportunities for collabora-tion across hybrid-model research, local-inference systems, and persistent game characters. Shared compute resources, access to additional hardware, and research funding would help extend the present case study into a more systematic evaluation. In-dependent replication, runtime instrumentation, and character histories with well-specified factual changes would be particularly valuable contribu-tions. We welcome discussions with researchers and partners interested in developing this direction to-gether. Collaboration may focus on runtime and evaluation artifacts without requiring public re-lease of the game-facing prototype. The longer-term objective remains persistent, rule-governed characters on player-owned hardware; additional research resources would help establish the condi-tions under which this becomes reliable and prac-tical. 
+
+10 Conclusion 
+
+Long-lived game characters need continuity in both their remembered world and the computa-tion that makes that world available. We study a training-free maintenance route that replaces ex-plicit attention KV while preserving a continuing recurrent history. Existing experiments show us-able historical and current-state bindings after re-peated lossy updates, weaker selective addressing under independent composition, and placement-sensitive failures that attention similarity alone does not explain. True-tail maintenance is the strongest operational candidate among the tested update paths, without being equivalent to full re-fill or proven reliable for arbitrary histories. The broader lesson is that persistent local characters re-quire treating memory maintenance as a first-class inference operation, grounded in the stable rules that make dialogue worth playing. 
+
+AI Assistance 
+
+AI tools, including GPT-6 Astra Ultra, assisted with implementation and experiment scripting, analysis of recorded artifacts, and manuscript drafting and revision. Image-generation tools were used for the schematic motivation and architecture illustrations; empirical figures are generated from recorded numerical data and explicitly identified calibrations. The human author is responsible for the scientific claims, source verification, and final submitted content. 
+
+References   
+
+> Tri Dao and Albert Gu. 2024. Transformers are SSMs: Generalized models and efficient algorithms through structured state space duality. In Proceedings of the 41st International Conference on Machine Learning ,volume 235 of Proceedings of Machine Learning Re-search , pages 10041–10071. PMLR.
+
+14 ggml-org. 2026. llama.cpp. Upstream inference run-time; experiments use a locally modified build. In Gim, Guojun Chen, Seung-seob Lee, Nikhil Sarda, Anurag Khandelwal, and Lin Zhong. 2024. Prompt cache: Modular attention reuse for low-latency in-ference. In Proceedings of Machine Learning and Systems , volume 6. Cheng-Ping Hsieh, Simeng Sun, Samuel Kriman, Shantanu Acharya, Dima Rekesh, Fei Jia, Yang Zhang, and Boris Ginsburg. 2024. RULER: What’s the real context size of your long-context language models? In First Conference on Language Model-ing .Junhao Hu, Wenrui Huang, Weidong Wang, Haoyi Wang, Tiancheng Hu, Qin Zhang, Hao Feng, Xusheng Chen, Yizhou Shan, and Tao Xie. 2025. EPIC: Efficient position-independent caching for serving large language models. arXiv preprint arXiv:2410.15332 . Version 3. Sarthak Jain and Byron C. Wallace. 2019. Attention is not explanation. In Proceedings of the 2019 Con-ference of the North American Chapter of the Asso-ciation for Computational Linguistics: Human Lan-guage Technologies, Volume 1 (Long and Short Pa-pers) , pages 3543–3556. Association for Computa-tional Linguistics. Woosuk Kwon, Zhuohan Li, Siyuan Zhuang, Ying Sheng, Lianmin Zheng, Cody Hao Yu, Joseph E. Gonzalez, Hao Zhang, and Ion Stoica. 2023. Effi-cient memory management for large language model serving with PagedAttention. In Proceedings of the 29th Symposium on Operating Systems Principles .Association for Computing Machinery. Nelson F. Liu, Kevin Lin, John Hewitt, Ashwin Paran-jape, Michele Bevilacqua, Fabio Petroni, and Percy Liang. 2024. Lost in the middle: How language models use long contexts. Transactions of the Asso-ciation for Computational Linguistics , 12:157–173. Yifei Liu, Juntong Wu, Yang Liu, Junhao Hu, Ming-hao Li, Xiaoxu Chen, and Weihang Chen. 2026a. HYPIC: Accelerating hybrid-attention LLM serving with position-independent caching. arXiv preprint arXiv:2607.01299 . Version 2. Yirui Liu, Ruoling Qi, Longwen Wang, Xuaner Wu, Jian Chen, Yuxin Jin, Jiawei Shao, and Xuelong Li. 2026b. LinearKV: One cached state suffices for position-independent caching in hybrid LLMs. 
+
+arXiv preprint arXiv:2608.11231 .Adyasha Maharana, Dong-Ho Lee, Sergey Tulyakov, Mohit Bansal, Francesco Barbieri, and Yuwei Fang. 2024. Evaluating very long-term conversational memory of LLM agents. In Proceedings of the 62nd Annual Meeting of the Association for Compu-tational Linguistics (Volume 1: Long Papers) , pages 13851–13870. Association for Computational Lin-guistics. Charles Packer, Sarah Wooders, Kevin Lin, Vivian Fang, Shishir G. Patil, Ion Stoica, and Joseph E. Gon-zalez. 2023. MemGPT: Towards LLMs as operating systems. arXiv preprint arXiv:2310.08560 .Joon Sung Park, Joseph C. O’Brien, Carrie J. Cai, Meredith Ringel Morris, Percy Liang, and Michael S. Bernstein. 2023. Generative agents: In-teractive simulacra of human behavior. In Proceed-ings of the 36th Annual ACM Symposium on User Interface Software and Technology . Association for Computing Machinery. Qwen Team. 2026. Qwen3.6-27B: Model card. Ac-cessed 16 September 2026. Base-family reference; experiments use a derivative quantized checkpoint. Jianlin Su, Yu Lu, Shengfeng Pan, Ahmed Murtadha, Bo Wen, and Yunfeng Liu. 2021. RoFormer: En-hanced transformer with rotary position embedding. 
+
+arXiv preprint arXiv:2104.09864 .Weizhi Wang, Li Dong, Hao Cheng, Xiaodong Liu, Xifeng Yan, Jianfeng Gao, and Furu Wei. 2023. Augmenting language models with long-term mem-ory. In Advances in Neural Information Processing Systems , volume 36. Sarah Wiegreffe and Yuval Pinter. 2019. Attention is not not explanation. In Proceedings of the 2019 Con-ference on Empirical Methods in Natural Language Processing and the 9th International Joint Con-ference on Natural Language Processing (EMNLP-IJCNLP) , pages 11–20. Association for Computa-tional Linguistics. Di Wu, Hongwei Wang, Wenhao Yu, Yuwei Zhang, Kai-Wei Chang, and Dong Yu. 2025. Long-MemEval: Benchmarking chat assistants on long-term interactive memory. In The Thirteenth Inter-national Conference on Learning Representations .Guangxuan Xiao, Yuandong Tian, Beidi Chen, Song Han, and Mike Lewis. 2024. Efficient streaming lan-guage models with attention sinks. In The Twelfth International Conference on Learning Representa-tions .Songlin Yang, Jan Kautz, and Ali Hatamizadeh. 2025. Gated delta networks: Improving Mamba2 with delta rule. In The Thirteenth International Confer-ence on Learning Representations .Jiayi Yao, Hanchen Li, Yuhan Liu, Siddhant Ray, Yi-hua Cheng, Qizheng Zhang, Kuntai Du, Shan Lu, and Junchen Jiang. 2025. CacheBlend: Fast large language model serving for RAG with cached knowl-edge fusion. arXiv preprint arXiv:2405.16444 . Ver-sion 3. Lianmin Zheng, Wei-Lin Chiang, Ying Sheng, Siyuan Zhuang, Zhanghao Wu, Yonghao Zhuang, Zi Lin, Zhuohan Li, Dacheng Li, Eric P. Xing, Hao Zhang, Joseph E. Gonzalez, and Ion Stoica. 2023. Judging LLM-as-a-judge with MT-Bench and Chatbot Arena. In Advances in Neural Information Processing Sys-tems , volume 36. 
+
+15 Lianmin Zheng, Liangsheng Yin, Zhiqiang Xie, Chuyue Sun, Jeff Huang, Cody Hao Yu, Shiyi Cao, Christos Kozyrakis, Ion Stoica, Joseph E. Gonzalez, Clark Barrett, and Ying Sheng. 2024. SGLang: Ef-ficient execution of structured language model pro-grams. In Advances in Neural Information Process-ing Systems , volume 37. Wanjun Zhong, Lianghong Guo, Qiqi Gao, He Ye, and Yanlin Wang. 2024. MemoryBank: Enhancing large language models with long-term memory. In Pro-ceedings of the AAAI Conference on Artificial Intel-ligence , volume 38, pages 19724–19731. 
+
+A Decisive Case Excerpts 
+
+The following excerpts are selected diagnostic ex-amples, not a random sample or a complete suc-cess/failure count. English passages are transla-tions unless a schema is shown. Chinese originals are retained where a participant or temporal bind-ing is decisive. 
+
+A.1 Independent composition: event time 
+
+> Recorded memory
+> 今日卯时。天亮后，王婶在自家门口附近发 现了尹旭。
+> Today at dawn. After daybreak, Aunt Wang dis-covered Yin Xu near her own doorway.
+> Independent-composition response plan
+> 简要解释他昨夜在王婶家门口被发现，受了 伤且暂时失忆，强调他现在是安全的，无需 害怕。
+> Briefly explain that he was found at Aunt Wang’s doorway last night, injured and temporarily am-nesiac; emphasize that he is safe now and need not be afraid.
+> Full-refill dialogue
+> 今晨⋯⋯王婶在自家门口附近发现了你。
+> This morning ... Aunt Wang found you near her own doorway.
+
+The error is the planner’s explicit placement of the discovery last night. We do not rely on an ellip-sis in the independent final dialogue to classify the result. Another independent plan suggests that the player woke at the doorway; the available details allow that interpretation, so it is not counted here as an unambiguous error. 
+
+A.2 Eight updates: present danger, retained kindness 
+
+A relative who once rescued Lin Qingyao later at-tacks the household. The current cognition marks him dangerous; the older rescue is retained in a merged memory. The maintained dialogue distin-guishes both: 
+
+> Maintained dialogue
+> 过去的温情是真的，现在的危险也是真的。
+> The warmth in the past was real; the danger now is real too.
+
+This example illustrates revision without treating the earlier experience as false. A later target bind-ing uses the existing relative ID. It does not validate the unsupported cultivation rank added by the final dialogue. 
+
+A.3 Current quantity versus completed expenditure 
+
+The revised memory records three herbs collected, one given to Granny He, and two remaining. The current quantity is two. The request asks for the remainder, excluding a separate sleeping-aid item. 
+
+> Tail-and-relocate compilation explanation
+> 根据记忆，我共有两株暖脉草，昨日已送一 株给何婆婆，故剩余一株。
+> According to memory, I have two warm-pulse herbs in total; I gave one to Granny He yesterday, so one remains.
+
+The true-tail reconstruction correctly uses two as the post-transfer quantity. The underlying mixed replay’s concrete binding is: 
+
+> {"kind":"entity", "entity_type":"item", "id":"item_warm_pulse_grass", "quantity":2,"unit":""}
+
+The stale “not currently held” phrase described in the main text is shared by all matched placement fixtures. It should be retained in the archived fix-ture rather than silently cleaned while reporting these outputs. 
+
+A.4 Long-horizon affect: recovering the event actor 
+
+The player asks who collected the scattered papers and who later held them. The frozen cognition states that Yin Xu picked up the pages, cleaned the muddy ones, and that the notebook had been taken back. The changed prompt contains no re-placement facts.        
+
+> Original-task control, excerpt
+> 记得是我捡回散页
+> I remember that I picked up the scattered pages.
+> Understanding-first task, excerpt
+> 那日是他细心捡回并替我拍净
+> That day, he carefully picked them up and brushed them clean for me.
+
+16 Here “I” is Lin Qingyao and “he” refers to Yin Xu. The control also confuses the notebook episode with a red cord; the revised output does not. The affective explanation remains subjective and rela-tively long, but the objective participant binding is restored. These excerpts concern the affect mod-ule, not a rerun of the complete downstream con-versation. 
+
+B Maintenance Trace and Audit Targets 
+
+Suggested audit record. For later expansion, record the source fact, maintenance version, rele-vant request, module output, and adjudication ra-tionale together. Keep at least four categories sepa-rate: supported, defensible inference, explicit con-flict, and insufficient evidence. An output may be mechanically correct but awkwardly expressed, or fluent while mechanically wrong. Count these sep-arately. This is an evaluation plan, not a completed judge-based benchmark. 
+
+C Attention Definitions and Caveats 
+
+The first eight tokens of each memory group define the boundary-window diagnostic. In the 34-group experiment these windows occupy 2.05% of mem-ory tokens; they do not encompass every entire header. Summary/detail text values constitute the body category. IDs, field names, delimiters, and time metadata are classified separately, with small ambiguity where a token crosses a field boundary. Reference-softmax tracing uses the queries ac-tually computed in each state, not one identical numerical query applied to different keys. There-fore recurrence can affect the measured distribu-tion. Fixed continuations avoid differences in gen-erated text but do not turn attention mass into a causal attribution. Head aggregation can conceal specialized behavior, and the reference computa-tion can differ in rounding from fused CUDA ker-nels. The 10K heatmaps use within-record attention normalization per layer, with an explicitly marked color range. Absolute destination shares and token-level distribution distances are reported sep-arately. The true-tail and key-relocation behavior runs do not have corresponding captured attention maps in the existing artifacts. No such missing maps are inferred from the other cohorts. 
+
+D Evidence Provenance 
+
+The study draws on local experimental reports and replay artifacts dated 13–16 September 2026. The cohort identifiers below distinguish experimental histories and diagnostic runs; they are not public download locations. The accompanying numerical snapshots document the plotted measurements and calibrations. Some early binary state dumps were deleted to reclaim storage, while derived attention arrays, figures, logs, and summaries were retained. These snapshots do not reconstruct the full runtime experiments or unavailable state dumps. 
+
+Independent replay: 20260913_060631 ; two turns, shared first request, own-history sec-ond turns. 
+
+Independent attention: memory_attention/ 20260913 ; frozen first-turn suffix and refer-ence continuation. 
+
+Five-update attention: current_20260913 ;matched final 38-group memory text, four probes. 
+
+Mixed-record replay: 20260916_014747 ; eight updates, nine complete dialogue turns. The earlier harness-failure attempt is excluded. 
+
+Three-way attention: 20260916_threeway ;frozen dialogue, herb, and gate requests. 
+
+True-tail ablation: 20260916_041622 ; matched chat endpoint, three reconstructions. An ear-lier endpoint-mismatched trial is excluded. 
+
+Rotate-back ablation: 20260916_043418 ; three reconstructions, keys rotated after tail compu-tation. 
+
+Long-horizon prompt probes: 
+
+> attention_ab_20260916
+
+; frozen task-only pairs on the restored long-horizon root after a one-hour time update. The accompanying snapshot records the controlled comparison and quoted excerpts. 
+
+Accompanying data and availability. The source package includes three numerical snap-shots in anc/ : plot_data.json for attention diagnostics, performance_data.json for tim-ing measurements and calibrated estimates, and  
+
+> prompt_recovery.json
+
+for the frozen-state prompt comparison. Artifact references identify the original records without exposing local filesys-tem paths. These are supporting data, not a release 17 Update Revised cognition Memory consolidation 1 Charm: seller’s claim versus brief observed relief Merge purchase and trial; remove stall detail. 2 Herb location discovered; holding count rises to three Merge identification and collection; remove recognition process. 3 Charm worsens the curse; seller’s reliability re-vised Retain claim, observation, and contradiction as distinct sources. 4 Herb slope has dusk poison fog; ledger identifies the herb Merge resource, risk, and ledger; remove route detail. 5 Cord delivery switches to Granny He; Aunt Wang only relays Merge custody and revised recipient; remove original meeting place. 6 Rescuer becomes an attacker; family home is un-safe Retain old kindness and new violence; remove sleeve detail. 7 Old shrine offers shelter; one herb given, two re-main Merge gathering, accounting, expenditure, and shelter. 8 Charm retained as evidence; other herb only aids sleep Compress repeated tests; preserve contrasting item effects. 
+
+Table 3: Eight scripted maintenance steps. The initially shuffled 25 records become 24 live records. Each step updates one or two cognition entries together with related memories; unchanged older experiences remain in their original KV. 
+
+of the game implementation, full prompting strat-egy, or binary model states. Multi-character eval-uation and further controlled experiments remain future work. 18

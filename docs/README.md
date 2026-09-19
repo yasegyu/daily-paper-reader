@@ -48,17 +48,17 @@
 <section class="dpr-home-dashboard-card dpr-home-report-card">
   <div class="dpr-home-dashboard-header">
     <div>
-      <span class="dpr-home-dashboard-kicker">2026-09-10 ~ 2026-09-19</span>
+      <span class="dpr-home-dashboard-kicker">2026-09-19</span>
       <h3 class="dpr-home-dashboard-title">今日汇总</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">共 30 篇</strong>
+    <strong class="dpr-home-dashboard-count">共 16 篇</strong>
   </div>
   <dl class="dpr-home-dashboard-stats">
     <div class="dpr-home-dashboard-stat"><dt>累计更新</dt><dd>1 次</dd></div>
-    <div class="dpr-home-dashboard-stat"><dt>精读</dt><dd>19</dd></div>
-    <div class="dpr-home-dashboard-stat"><dt>速读</dt><dd>11</dd></div>
+    <div class="dpr-home-dashboard-stat"><dt>精读</dt><dd>6</dd></div>
+    <div class="dpr-home-dashboard-stat"><dt>速读</dt><dd>10</dd></div>
   </dl>
-  <p class="dpr-home-dashboard-body">最近更新：2026-09-19 07:24:52 UTC<br>状态：成功</p>
+  <p class="dpr-home-dashboard-body">最近更新：2026-09-19 19:14:13 UTC<br>状态：成功</p>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-brief-card">
   <div class="dpr-home-dashboard-header">
@@ -69,7 +69,9 @@
     <strong class="dpr-home-dashboard-count">AI</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<p>本期精选30篇论文，聚焦多智能体记忆协同与长时程操作新突破。最值得精读CoMem（10分）提出集体-个体记忆协同框架，2AM（9分）用动作模型引导长时程操作，二者均为高分核心。建议普通读者可从速读中的环境探询记忆（8分）与情感智能体（8分）切入，了解落地应用方向。</p>
+<p>今日推荐16篇论文，重点聚焦记忆系统与智能体长期交互，6篇精读、10篇速读。</p>
+<p>最值得关注的是两篇满分精读：用神经符号推理解耦长期记忆，以及提出记忆几何学实现个性化AI的长期记忆非均匀建模。</p>
+<p>建议普通读者优先精读这两篇框架性论文，速读可关注EconSkills、JustMem等记忆检索与效率场景的应用研究。</p>
   </div>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-deep-card">
@@ -78,12 +80,12 @@
       <span class="dpr-home-dashboard-kicker">今日累计</span>
       <h3 class="dpr-home-dashboard-title">精读推荐</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">19 篇</strong>
+    <strong class="dpr-home-dashboard-count">6 篇</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="CoMem: Collective-Individual Memory Synergy for Evolutionary Multi-Agent Systems">CoMem: Collective-Individual Memory Synergy for Evolutionary Multi-Agent Systems</span></li><li><span class="dpr-home-dashboard-paper-title" title="2AM: Grounding Agent-Side Memory as Guidance for Steerable Action Models in Long-Horizon Manipulation">2AM: Grounding Agent-Side Memory as Guidance for Steerable Action Models in Long-Horizon Manipulation</span></li><li><span class="dpr-home-dashboard-paper-title" title="Memory as Plans: World-Action Modeling with Memory-Grounded Planning">Memory as Plans: World-Action Modeling with Memory-Grounded Planning</span></li></ul>
+<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="Disentangling Long-Term Memory via Latent Neuro-Symbolic Reasoning">Disentangling Long-Term Memory via Latent Neuro-Symbolic Reasoning</span></li><li><span class="dpr-home-dashboard-paper-title" title="Memory Has Geometry: Non-Uniform Geometric Memory for Long-Horizon Personalized AI">Memory Has Geometry: Non-Uniform Geometric Memory for Long-Horizon Personalized AI</span></li><li><span class="dpr-home-dashboard-paper-title" title="Long-Lived Characters, Local Inference: Incremental Memory Maintenance for Game NPCs">Long-Lived Characters, Local Inference: Incremental Memory Maintenance for Game NPCs</span></li></ul>
   </div>
-  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">agent-memory <strong>19</strong></span></div>
+  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">agent-memory <strong>6</strong></span></div>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-skim-card">
   <div class="dpr-home-dashboard-header">
@@ -91,12 +93,12 @@
       <span class="dpr-home-dashboard-kicker">今日累计</span>
       <h3 class="dpr-home-dashboard-title">速读推荐</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">11 篇</strong>
+    <strong class="dpr-home-dashboard-count">10 篇</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="Grounding Agent Memory: Environment-Probing Curation for Enterprise Agents">Grounding Agent Memory: Environment-Probing Curation for Enterprise Agents</span></li><li><span class="dpr-home-dashboard-paper-title" title="MAPLE: Memory-Augmented Planning with Language and Evolution">MAPLE: Memory-Augmented Planning with Language and Evolution</span></li><li><span class="dpr-home-dashboard-paper-title" title="Affective Agent: On-Device Personalized Intervention Reasoning for Wearable Systems">Affective Agent: On-Device Personalized Intervention Reasoning for Wearable Systems</span></li></ul>
+<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="EconSkills: Studying Skill Transfer and Retrieval for Web Agents on Live Economic Data">EconSkills: Studying Skill Transfer and Retrieval for Web Agents on Live Economic Data</span></li><li><span class="dpr-home-dashboard-paper-title" title="JustMem: Just-Enough Memory Access for Long-Term Conversations">JustMem: Just-Enough Memory Access for Long-Term Conversations</span></li><li><span class="dpr-home-dashboard-paper-title" title="AdaRepair-Mem: Adaptive Experience Orchestration for Repository-Level Program Repair">AdaRepair-Mem: Adaptive Experience Orchestration for Repository-Level Program Repair</span></li></ul>
   </div>
-  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">agent-memory <strong>11</strong></span></div>
+  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">agent-memory <strong>10</strong></span></div>
 </section>
 </div>
 
