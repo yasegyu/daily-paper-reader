@@ -1,6 +1,6 @@
 ---
 title: Real-Time Detection and Quantitative Analysis of Spurious Forgetting in Continual Learning
-title_zh: 持续学习中伪遗忘的实时检测与量化分析
+title_zh: 持续学习中虚假遗忘的实时检测与定量分析
 authors: Weiwei Wang
 date: 2026
 publication_date: 2026
@@ -9,15 +9,15 @@ publication_date_source: conference year only; exact release date unverified
 publication_date_kind: unknown
 pdf: "https://openreview.net/pdf/7bd73f44601c1b012cf30ede77fd894cea2d7ea0.pdf"
 tags: ["query:agent-memory"]
-score: 7.0
-evidence: 持续学习中伪遗忘的量化分析与检测
-tldr: 大语言模型的持续学习长期受灾难性遗忘困扰，近期研究发现部分性能下降实为任务对齐被打断导致的伪遗忘而非真正知识丢失，但既有工作仅有定性描述且依赖事后分析。本文提出浅层与深层对齐框架，首次对对齐深度进行量化刻画，并给出伪遗忘的实时检测机制。该工作为持续学习中的遗忘诊断与管理提供了可量化的工具。
+score: 6.0
+evidence: 持续学习中虚假遗忘的定量分析
+tldr: 灾难性遗忘是大模型持续学习的核心难题，近期研究指出性能下降可能源于任务对齐被破坏的虚假遗忘，而非真实知识丢失，但此前工作仅定性描述且依赖事后分析。本文提出浅层与深层对齐框架，首次定量刻画对齐深度，并实现虚假遗忘的实时检测与自动区分。结果揭示了现有对齐方法存在浅层对齐问题，为持续学习中的遗忘诊断与记忆管理提供了新工具。
 source: ICML-2026-Rejected-Public
 selection_source: conference_retrieval
-motivation: 持续学习中灾难性遗忘可能源于任务对齐被打断造成的伪遗忘，但既有研究仅定性描述且依赖事后分析。
-method: 提出浅层与深层对齐框架，量化刻画对齐深度，并构建伪遗忘的实时自动检测机制。
-result: 分析表明当前任务对齐方法存在浅层对齐问题，对齐仅维持在前若干输出上，框架可实时区分真假遗忘。
-conclusion: 该工作为持续学习中的遗忘诊断提供量化基础，有助于更准确地管理记忆与知识保持。
+motivation: 大模型持续学习中的性能下降可能来自虚假遗忘，但缺乏定量刻画与自动区分手段。
+method: 提出浅层与深层对齐框架，定量刻画对齐深度并实时检测虚假遗忘。
+result: 实验发现现有对齐方法存在浅层对齐问题，导致输出层遗忘。
+conclusion: 为持续学习中的遗忘诊断与记忆保持提供了量化分析框架。
 ---
 
 ## Abstract
@@ -32,10 +32,10 @@ In this paper, we propose a comprehensive framework that addresses all gaps in t
 ## 论文详细总结（自动生成）
 
 ### 1. 检索相关性
-持续学习中伪遗忘的量化分析与检测。
+持续学习中虚假遗忘的定量分析。
 
 ### 2. 核心内容
-大语言模型的持续学习长期受灾难性遗忘困扰，近期研究发现部分性能下降实为任务对齐被打断导致的伪遗忘而非真正知识丢失，但既有工作仅有定性描述且依赖事后分析。本文提出浅层与深层对齐框架，首次对对齐深度进行量化刻画，并给出伪遗忘的实时检测机制。该工作为持续学习中的遗忘诊断与管理提供了可量化的工具。
+灾难性遗忘是大模型持续学习的核心难题，近期研究指出性能下降可能源于任务对齐被破坏的虚假遗忘，而非真实知识丢失，但此前工作仅定性描述且依赖事后分析。本文提出浅层与深层对齐框架，首次定量刻画对齐深度，并实现虚假遗忘的实时检测与自动区分。结果揭示了现有对齐方法存在浅层对齐问题，为持续学习中的遗忘诊断与记忆管理提供了新工具。
 
 ### 3. 对应检索需求
 Identify research on memory consolidation, forgetting, and memory management for continual learning agents.

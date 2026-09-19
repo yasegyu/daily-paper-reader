@@ -1,6 +1,6 @@
 ---
 title: Reinforcement Fine-Tuning Naturally Mitigates Forgetting in Continual Post-Training
-title_zh: 强化微调天然缓解持续后训练中的遗忘
+title_zh: 强化微调自然缓解持续后训练中的遗忘
 authors: "Song Lai, Haohan Zhao, Rong Feng, Changyi Ma, Wenzhuo Liu, Hongbo Zhao, Xi Lin, Dong Yi, Qingfu Zhang, Hongbin Liu, Gaofeng Meng, Fei Zhu"
 date: 2026
 publication_date: 2026
@@ -9,15 +9,15 @@ publication_date_source: conference year only; exact release date unverified
 publication_date_kind: unknown
 pdf: "https://openreview.net/pdf/6c4b92466c2b046fdf36d0e8cafa951c44496790.pdf"
 tags: ["query:agent-memory"]
-score: 5.0
-evidence: 比较SFT与RFT在持续后训练中的知识保持与遗忘
-tldr: 针对持续后训练中遗忘问题、现有方法多聚焦数据回放与参数正则而忽视学习范式作用的问题，本文对监督微调与强化微调两种范式进行对比分析，在多模态任务上以Qwen2.5-VL-7B-Instruct为基座开展实验。研究发现强化微调能天然缓解持续后训练中的遗忘，更好保持已有知识，为持续学习智能体的记忆保持与遗忘缓解提供了新的范式视角。
+score: 4.0
+evidence: 研究持续后训练中的遗忘与知识保持
+tldr: 持续后训练能让基础模型适应不断变化的下游任务，但以往研究多聚焦数据回放等方法，学习范式本身对知识保持的作用仍不清楚。本文系统对比监督微调与强化微调两种后训练范式，以Qwen2.5-VL-7B-Instruct为基础在多个多模态任务上开展实验，考察二者对持续后训练中知识保持的影响。结果显示强化微调范式能够自然缓解遗忘，为持续学习智能体的记忆保持提供了新的范式视角。
 source: ICML-2026-Accepted
 selection_source: conference_retrieval
-motivation: 持续后训练存在遗忘问题，现有研究多聚焦数据回放与参数正则，忽视学习范式的作用。
-method: 对比监督微调与强化微调两种范式，在多模态任务上以Qwen2.5-VL为基座分析知识保持。
-result: 发现强化微调能天然缓解持续后训练中的遗忘，更好地保持已有知识。
-conclusion: 为持续学习智能体的遗忘缓解与记忆保持提供了学习范式层面的新视角。
+motivation: 持续后训练中学习范式本身对知识保持的作用尚不明确，现有研究多关注数据回放等具体方法。
+method: 对比监督微调与强化微调两种后训练范式，在多模态任务上考察其对持续后训练知识保持的影响。
+result: 以Qwen2.5-VL-7B-Instruct为基础在多个多模态任务上实验，发现两种范式在遗忘程度上存在显著差异。
+conclusion: 强化微调范式可自然缓解灾难性遗忘，为持续学习中的知识保持提供新思路。
 ---
 
 ## Abstract
@@ -28,10 +28,10 @@ Continual post-training (CPT) is a popular and effective technique for adapting 
 ## 论文详细总结（自动生成）
 
 ### 1. 检索相关性
-比较SFT与RFT在持续后训练中的知识保持与遗忘。
+研究持续后训练中的遗忘与知识保持。
 
 ### 2. 核心内容
-针对持续后训练中遗忘问题、现有方法多聚焦数据回放与参数正则而忽视学习范式作用的问题，本文对监督微调与强化微调两种范式进行对比分析，在多模态任务上以Qwen2.5-VL-7B-Instruct为基座开展实验。研究发现强化微调能天然缓解持续后训练中的遗忘，更好保持已有知识，为持续学习智能体的记忆保持与遗忘缓解提供了新的范式视角。
+持续后训练能让基础模型适应不断变化的下游任务，但以往研究多聚焦数据回放等方法，学习范式本身对知识保持的作用仍不清楚。本文系统对比监督微调与强化微调两种后训练范式，以Qwen2.5-VL-7B-Instruct为基础在多个多模态任务上开展实验，考察二者对持续后训练中知识保持的影响。结果显示强化微调范式能够自然缓解遗忘，为持续学习智能体的记忆保持提供了新的范式视角。
 
 ### 3. 对应检索需求
 Identify research on memory consolidation, forgetting, and memory management for continual learning agents.

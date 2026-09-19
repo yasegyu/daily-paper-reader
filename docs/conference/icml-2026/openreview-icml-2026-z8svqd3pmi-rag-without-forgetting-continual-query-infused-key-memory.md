@@ -1,6 +1,6 @@
 ---
 title: "RAG without Forgetting: Continual Query-Infused Key Memory"
-title_zh: 不忘却的检索增强生成：持续查询注入的键记忆
+title_zh: 不遗忘的RAG：持续查询注入式键记忆
 authors: "Yuntong Hu, Sha Li, Naren Ramakrishnan, Liang Zhao"
 date: 2026
 publication_date: 2026
@@ -9,15 +9,15 @@ publication_date_source: conference year only; exact release date unverified
 publication_date_kind: unknown
 pdf: "https://openreview.net/pdf/014da7f78f2559372ce20ed814ed82657f6013d2.pdf"
 tags: ["query:agent-memory"]
-score: 6.0
-evidence: 跨查询持续演化且不遗忘的检索记忆
-tldr: 检索增强生成常通过查询扩展与迭代检索提升鲁棒性，但这类查询时适配是无状态的，每次重算且随即丢弃，无法累积学习。索引侧方法虽有持久性，却依赖离线预处理或启发式更新，易产生语义漂移与噪声累积。本文提出演化检索记忆ERM，免训练地将查询时的瞬时收益转化为持久的检索改进，实现持续且不遗忘的检索记忆更新。
+score: 7.0
+evidence: RAG中不遗忘的持续演化检索记忆
+tldr: 现有RAG的查询期适配（如查询扩展、迭代检索）是无状态的，每次查询重新计算并丢弃，无法累积学习且重复消耗推理成本。索引侧方法虽具持久性，却依赖离线预处理或弱对齐的启发式更新，导致语义漂移与噪声累积。本文提出Evolving Retrieval Memory（ERM），一个免训练框架，通过持续更新检索索引将瞬时收益转化为持久改进。该工作为RAG记忆的持续演化与遗忘抑制提供了新方法。
 source: ICML-2026-Accepted
 selection_source: conference_retrieval
-motivation: 现有查询时适配无状态、无法累积，索引侧更新又依赖离线或启发式处理，易致语义漂移。
-method: 提出免训练框架ERM，将查询时的瞬时收益通过相关性更新转化为检索索引的持久改进。
-result: ERM实现持续演化且不遗忘的检索记忆，在累积学习同时避免语义漂移与噪声堆积。
-conclusion: 持久化检索记忆为RAG系统提供了可累积、抗遗忘的记忆管理方案。
+motivation: RAG查询期适配无状态、无法累积学习，索引侧方法又易语义漂移与噪声累积。
+method: 提出免训练的Evolving Retrieval Memory框架，通过持续更新检索索引持久化查询收益。
+result: 将瞬时查询收益转化为持久检索改进，缓解语义漂移与重复推理开销。
+conclusion: 为RAG系统的持续记忆演化与遗忘抑制提供免训练方案。
 ---
 
 ## Abstract
@@ -28,13 +28,13 @@ Retrieval-augmented generation (RAG) systems commonly improve robustness via que
 ## 论文详细总结（自动生成）
 
 ### 1. 检索相关性
-跨查询持续演化且不遗忘的检索记忆。
+RAG中不遗忘的持续演化检索记忆。
 
 ### 2. 核心内容
-检索增强生成常通过查询扩展与迭代检索提升鲁棒性，但这类查询时适配是无状态的，每次重算且随即丢弃，无法累积学习。索引侧方法虽有持久性，却依赖离线预处理或启发式更新，易产生语义漂移与噪声累积。本文提出演化检索记忆ERM，免训练地将查询时的瞬时收益转化为持久的检索改进，实现持续且不遗忘的检索记忆更新。
+现有RAG的查询期适配（如查询扩展、迭代检索）是无状态的，每次查询重新计算并丢弃，无法累积学习且重复消耗推理成本。索引侧方法虽具持久性，却依赖离线预处理或弱对齐的启发式更新，导致语义漂移与噪声累积。本文提出Evolving Retrieval Memory（ERM），一个免训练框架，通过持续更新检索索引将瞬时收益转化为持久改进。该工作为RAG记忆的持续演化与遗忘抑制提供了新方法。
 
 ### 3. 对应检索需求
-Search for papers about long term memory, episodic memory, and memory retrieval in interactive agent systems.
+Identify research on memory consolidation, forgetting, and memory management for continual learning agents.
 
 ### 4. 来源与原文
 - Source：ICML-2026-Accepted

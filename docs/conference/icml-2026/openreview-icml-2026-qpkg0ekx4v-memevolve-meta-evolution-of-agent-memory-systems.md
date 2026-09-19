@@ -1,6 +1,6 @@
 ---
 title: "MemEvolve: Meta-Evolution of Agent Memory Systems"
-title_zh: MemEvolve：智能体记忆系统的元演化
+title_zh: MemEvolve：智能体记忆系统的元进化
 authors: "Guibin Zhang, Haotian Ren, Chong Zhan, Junhao Wang, He Zhu, Wangchunshu Zhou, Shuicheng YAN"
 date: 2026
 publication_date: 2026
@@ -9,15 +9,15 @@ publication_date_source: conference year only; exact release date unverified
 publication_date_kind: unknown
 pdf: "https://openreview.net/pdf/1e41a1afd50901e4fabd439045aa390f5d0448f8.pdf"
 tags: ["query:agent-memory"]
-score: 10.0
-evidence: 联合演化智能体记忆架构与经验的元演化
-tldr: 自演化记忆系统正重塑LLM智能体的演化范式，但以往多依赖人工设计的记忆架构存储轨迹、蒸馏经验与合成工具，其记忆系统本身是静态的，无法针对多样任务进行元适配。作者提出MemEvolve元演化框架，联合演化智能体的经验知识与记忆架构。该方法使智能体系统不仅能积累经验，还能自适应调整记忆结构，为智能体记忆架构的自动化演进开辟了新方向。
+score: 9.0
+evidence: 智能体记忆架构的元进化与经验存储
+tldr: 现有基于大模型的智能体多依赖人工设计的记忆架构来存储轨迹、提炼经验并合成可复用工具，但记忆系统本身是静态的，无法随任务上下文进行元适应。本文提出MemEvolve，一个联合进化智能体经验知识与记忆架构的元进化框架，使智能体系统能同时积累经验并自适应调整记忆结构。实验表明该框架能提升智能体在多样任务中的演化能力，为自适应智能体记忆架构开辟新方向。
 source: ICML-2026-Accepted
 selection_source: conference_retrieval
-motivation: 以往智能体记忆多依赖人工设计的静态架构，虽支持智能体演化，却无法针对多样任务对记忆架构本身进行元适配。
-method: 提出MemEvolve元演化框架，联合演化智能体的经验知识与记忆架构，使二者协同自适应调整。
-result: 该框架让智能体不仅积累经验，还能自适应地重构记忆结构，提升了跨多样任务情境的适应能力。
-conclusion: 表明记忆架构可与经验协同元演化，突破静态人工记忆系统的局限。
+motivation: 人工设计的智能体记忆架构静态固定，无法适应多样任务上下文。
+method: 提出MemEvolve元进化框架，联合进化智能体的经验知识与记忆架构本身。
+result: 实验显示该方法能让智能体同时积累经验并自适应调整记忆结构。
+conclusion: 为可自适应的智能体记忆系统设计提供了新的元进化范式。
 ---
 
 ## Abstract
@@ -28,10 +28,10 @@ Self-evolving memory systems are rapidly reshaping the evolutionary paradigm of 
 ## 论文详细总结（自动生成）
 
 ### 1. 检索相关性
-联合演化智能体记忆架构与经验的元演化。
+智能体记忆架构的元进化与经验存储。
 
 ### 2. 核心内容
-自演化记忆系统正重塑LLM智能体的演化范式，但以往多依赖人工设计的记忆架构存储轨迹、蒸馏经验与合成工具，其记忆系统本身是静态的，无法针对多样任务进行元适配。作者提出MemEvolve元演化框架，联合演化智能体的经验知识与记忆架构。该方法使智能体系统不仅能积累经验，还能自适应调整记忆结构，为智能体记忆架构的自动化演进开辟了新方向。
+现有基于大模型的智能体多依赖人工设计的记忆架构来存储轨迹、提炼经验并合成可复用工具，但记忆系统本身是静态的，无法随任务上下文进行元适应。本文提出MemEvolve，一个联合进化智能体经验知识与记忆架构的元进化框架，使智能体系统能同时积累经验并自适应调整记忆结构。实验表明该框架能提升智能体在多样任务中的演化能力，为自适应智能体记忆架构开辟新方向。
 
 ### 3. 对应检索需求
 memory mechanisms in autonomous agents and agent memory architectures。

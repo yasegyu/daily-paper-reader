@@ -11,13 +11,13 @@ pdf: "https://openreview.net/pdf/f617810031d03c65bd15ee7c09f86c69a681ae7a.pdf"
 tags: ["query:agent-memory"]
 score: 7.0
 evidence: 针对LLM智能体长期记忆的记忆投毒攻击
-tldr: 长期记忆赋予LLM智能体自适应推理能力，却也暴露了攻击面，攻击者可注入恶意记录以偏置智能体行为。现有攻击面临两难：有效注入往往明显恶意易被检测，而隐蔽注入效果有限。本文提出MemIncept，一种黑盒设置下仅用良性查询的记忆投毒攻击，通过双向进化策略优化协作查询集。该工作揭示了智能体记忆系统的安全脆弱性。
+tldr: 长期记忆让LLM智能体具备自适应推理能力，但也带来了关键攻击面，攻击者可注入恶意记录来偏置智能体行为。现有攻击面临两难：有效注入往往明显恶意而容易被检测，隐蔽良性的注入又难以改变行为。MemIncept提出一种记忆投毒攻击，通过双向进化策略优化一组协作查询，即使仅有看似良性的查询也能在黑盒设定下协同偏置智能体，凸显了智能体记忆系统的安全隐患。
 source: ICML-2026-Accepted
 selection_source: conference_retrieval
-motivation: 长期记忆虽提升LLM智能体的自适应推理能力，却让攻击者可通过注入恶意记录偏置其行为。
-method: 提出MemIncept记忆投毒攻击，用双向进化策略生成协同查询集，在黑盒下以良性查询实施注入。
-result: 相比注入孤立记录的先前方法，协同查询集能更隐蔽且有效地改变智能体行为。
-conclusion: 该研究揭示智能体长期记忆的安全风险，为记忆系统防御提供警示。
+motivation: 长期记忆赋予LLM智能体自适应推理能力，但也暴露攻击面，攻击者可注入恶意记录以偏置智能体行为。
+method: 提出记忆投毒攻击MemIncept，利用双向进化策略优化一组协作查询，仅用看似良性的查询即可在黑盒下注入并偏置智能体。
+result: 该攻击在隐蔽性与有效性间取得平衡，能影响智能体行为。
+conclusion: 揭示并利用LLM智能体长期记忆的安全脆弱性。
 ---
 
 ## Abstract
@@ -31,10 +31,10 @@ Long-term memory empowers LLM-based agents with adaptive reasoning but exposes a
 针对LLM智能体长期记忆的记忆投毒攻击。
 
 ### 2. 核心内容
-长期记忆赋予LLM智能体自适应推理能力，却也暴露了攻击面，攻击者可注入恶意记录以偏置智能体行为。现有攻击面临两难：有效注入往往明显恶意易被检测，而隐蔽注入效果有限。本文提出MemIncept，一种黑盒设置下仅用良性查询的记忆投毒攻击，通过双向进化策略优化协作查询集。该工作揭示了智能体记忆系统的安全脆弱性。
+长期记忆让LLM智能体具备自适应推理能力，但也带来了关键攻击面，攻击者可注入恶意记录来偏置智能体行为。现有攻击面临两难：有效注入往往明显恶意而容易被检测，隐蔽良性的注入又难以改变行为。MemIncept提出一种记忆投毒攻击，通过双向进化策略优化一组协作查询，即使仅有看似良性的查询也能在黑盒设定下协同偏置智能体，凸显了智能体记忆系统的安全隐患。
 
 ### 3. 对应检索需求
-Find top tier AI conference papers on memory architectures for autonomous agents and large language model agents.
+memory mechanisms in autonomous agents and agent memory architectures。
 
 ### 4. 来源与原文
 - Source：ICML-2026-Accepted

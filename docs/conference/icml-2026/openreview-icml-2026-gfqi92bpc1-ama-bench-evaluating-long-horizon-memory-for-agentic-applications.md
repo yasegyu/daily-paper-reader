@@ -10,14 +10,14 @@ publication_date_kind: unknown
 pdf: "https://openreview.net/pdf/7ed1b741cbaf7f73630f6eb88e2ab8f95b67d86d.pdf"
 tags: ["query:agent-memory"]
 score: 9.0
-evidence: 面向真实智能体应用的长时程记忆评测基准
-tldr: 现有记忆基准多聚焦对话，而真实智能体记忆由状态、动作、观测与工具输出构成的连续交互轨迹组成。本文提出AMA-Bench，一个面向任意长度智能体记忆的评测基准，融合真实应用轨迹与专家标注问答，并提供可扩展至任意时程的合成轨迹与规则化问答。研究揭示当前记忆方法在长时程智能体场景下的不足，为智能体长期记忆研究提供标准化评测工具。
+evidence: 面向智能体长时程记忆的评测基准
+tldr: 现有记忆评测多聚焦对话，无法刻画真实智能体由状态、动作、观测与工具输出构成的连续交互轨迹。本文提出AMA-Bench，结合真实应用中的智能体轨迹与专家标注问答，并用可扩展至任意长度的合成轨迹和规则问答补充。研究揭示当前模型在长时程智能体记忆上的不足，为智能体记忆架构提供了更贴近实际的评测标准。
 source: ICML-2026-Accepted
 selection_source: conference_retrieval
-motivation: 现有记忆基准多为对话中心，无法反映由状态、动作、观测构成真实智能体交互轨迹。
-method: 构建AMA-Bench基准，融合真实应用轨迹与专家问答，并用合成轨迹扩展时程。
-result: 揭示现有记忆方法在真实长时程智能体场景中的能力差距。
-conclusion: 为智能体长期记忆研究提供标准化、可扩展的评测基准。
+motivation: 现有记忆基准多为对话式，无法反映真实智能体连续交互轨迹中的记忆需求。
+method: 提出AMA-Bench，融合真实智能体轨迹与专家问答，并加入可扩展到任意长度的合成轨迹与规则问答。
+result: 实验显示现有方法在长时程智能体记忆任务上表现存在明显不足。
+conclusion: 该基准为评估智能体记忆能力提供了更贴近真实场景的标准化工具。
 ---
 
 ## Abstract
@@ -28,13 +28,13 @@ Large Language Models (LLMs) are increasingly used as autonomous agents in compl
 ## 论文详细总结（自动生成）
 
 ### 1. 检索相关性
-面向真实智能体应用的长时程记忆评测基准。
+面向智能体长时程记忆的评测基准。
 
 ### 2. 核心内容
-现有记忆基准多聚焦对话，而真实智能体记忆由状态、动作、观测与工具输出构成的连续交互轨迹组成。本文提出AMA-Bench，一个面向任意长度智能体记忆的评测基准，融合真实应用轨迹与专家标注问答，并提供可扩展至任意时程的合成轨迹与规则化问答。研究揭示当前记忆方法在长时程智能体场景下的不足，为智能体长期记忆研究提供标准化评测工具。
+现有记忆评测多聚焦对话，无法刻画真实智能体由状态、动作、观测与工具输出构成的连续交互轨迹。本文提出AMA-Bench，结合真实应用中的智能体轨迹与专家标注问答，并用可扩展至任意长度的合成轨迹和规则问答补充。研究揭示当前模型在长时程智能体记忆上的不足，为智能体记忆架构提供了更贴近实际的评测标准。
 
 ### 3. 对应检索需求
-Search for papers about long term memory, episodic memory, and memory retrieval in interactive agent systems.
+memory mechanisms in autonomous agents and agent memory architectures。
 
 ### 4. 来源与原文
 - Source：ICML-2026-Accepted

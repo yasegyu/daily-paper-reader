@@ -1,6 +1,6 @@
 ---
 title: "Little By Little: Continual Learning via Incremental Mixture of Rank-1 Associative Memory Experts"
-title_zh: 积少成多：基于增量式秩一联想记忆专家的持续学习
+title_zh: 循序渐进：通过增量秩1联想记忆专家混合实现持续学习
 authors: "Haodong Lu, Chongyang Zhao, Jason Xue, Lina Yao, Kristen Moore, Dong Gong"
 date: 2026
 publication_date: 2026
@@ -9,15 +9,15 @@ publication_date_source: conference year only; exact release date unverified
 publication_date_kind: unknown
 pdf: "https://openreview.net/pdf/853cfbba8ece68c9715250dfc7d7e3ae6a79d777.pdf"
 tags: ["query:agent-memory"]
-score: 6.0
-evidence: 用于持续学习抗遗忘的联想记忆专家
-tldr: 大型预训练模型的持续学习需增量获取知识而不遗忘旧任务，现有基于LoRA的专家混合方法存在冗余、干扰与路由歧义等问题。本文从专家粒度出发，提出MoRAM，即秩一联想记忆专家混合，将权重矩阵视为线性联想记忆以提升专家特化程度。该方法缓解专家重复与路由退化，从而抑制持续学习中的遗忘。
+score: 7.0
+evidence: 通过秩1联想记忆专家缓解灾难性遗忘的持续学习
+tldr: 大型预训练模型的持续学习需增量获取知识而不发生灾难性遗忘，但现有LoRA混合专家方法因专家粒度粗导致冗余、干扰与路由混乱。本文提出MoRAM（秩1联想记忆专家混合），基于权重矩阵即线性联想器的观点进行细粒度建模。该设计缓解专家重复与路由退化问题，从而减轻遗忘。该工作为持续学习中的记忆管理与遗忘抑制提供了新思路。
 source: ICML-2026-Accepted
 selection_source: conference_retrieval
-motivation: 现有LoRA专家混合方法因专家粒度粗导致冗余、干扰、路由歧义，进而引发持续学习中的遗忘。
-method: 提出MoRAM，将权重矩阵视为线性联想记忆，采用增量式秩一联想记忆专家实现细粒度专家特化。
-result: 通过提升专家特化与路由质量，MoRAM缓解专家重复与干扰，改善持续学习性能。
-conclusion: 该工作表明细粒度联想记忆专家是抑制持续学习遗忘的有效方向。
+motivation: 持续学习中LoRA混合专家方法因专家粒度粗导致冗余、干扰与路由混乱并引发遗忘。
+method: 提出MoRAM，将权重矩阵视为线性联想器，构建细粒度的秩1联想记忆专家混合。
+result: 缓解专家重复、干扰与路由退化，从而减轻持续学习中的灾难性遗忘。
+conclusion: 为持续学习智能体的记忆管理与遗忘抑制提供了细粒度专家方案。
 ---
 
 ## Abstract
@@ -28,10 +28,10 @@ Continual learning (CL) with large pre-trained models aims to incrementally acqu
 ## 论文详细总结（自动生成）
 
 ### 1. 检索相关性
-用于持续学习抗遗忘的联想记忆专家。
+通过秩1联想记忆专家缓解灾难性遗忘的持续学习。
 
 ### 2. 核心内容
-大型预训练模型的持续学习需增量获取知识而不遗忘旧任务，现有基于LoRA的专家混合方法存在冗余、干扰与路由歧义等问题。本文从专家粒度出发，提出MoRAM，即秩一联想记忆专家混合，将权重矩阵视为线性联想记忆以提升专家特化程度。该方法缓解专家重复与路由退化，从而抑制持续学习中的遗忘。
+大型预训练模型的持续学习需增量获取知识而不发生灾难性遗忘，但现有LoRA混合专家方法因专家粒度粗导致冗余、干扰与路由混乱。本文提出MoRAM（秩1联想记忆专家混合），基于权重矩阵即线性联想器的观点进行细粒度建模。该设计缓解专家重复与路由退化问题，从而减轻遗忘。该工作为持续学习中的记忆管理与遗忘抑制提供了新思路。
 
 ### 3. 对应检索需求
 Identify research on memory consolidation, forgetting, and memory management for continual learning agents.

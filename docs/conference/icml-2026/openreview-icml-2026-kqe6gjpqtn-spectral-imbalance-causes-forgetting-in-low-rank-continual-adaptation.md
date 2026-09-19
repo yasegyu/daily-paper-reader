@@ -1,6 +1,6 @@
 ---
 title: Spectral Imbalance Causes Forgetting in Low-Rank Continual Adaptation
-title_zh: 谱不平衡导致低秩持续适应中的遗忘
+title_zh: 谱不平衡导致低秩持续适配中的遗忘
 authors: "Hao Gu, Mao-Lin Luo, Zi-Hao Zhou, Han-Chen Zhang, Min-Ling Zhang, Tong Wei"
 date: 2026
 publication_date: 2026
@@ -9,15 +9,15 @@ publication_date_source: conference year only; exact release date unverified
 publication_date_kind: unknown
 pdf: "https://openreview.net/pdf/f53ed7c3d2434c97bc9e62ace5284761b332ecc7.pdf"
 tags: ["query:agent-memory"]
-score: 4.0
-evidence: 从谱不平衡角度分析持续适应中的遗忘
-tldr: 参数高效持续学习需在适应新任务时避免遗忘旧知识，但现有方法多只关注避免干扰而非分析更新为何能保留知识。作者从知识分解视角发现低秩适应存在奇异值谱高度不平衡的问题，主导成分易破坏旧知识并受后续任务干扰。据此提出显式平衡各成分的方法以缓解遗忘。该研究为持续学习中的遗忘机制提供了理论解释，但与智能体记忆架构关联较弱。
+score: 6.0
+evidence: 从谱不平衡角度研究持续学习中的遗忘
+tldr: 该文针对参数高效持续学习中的灾难性遗忘问题，指出低秩适配的奇异值谱高度不平衡，少数主导分量吸收大部分适配能量，从而更易破坏已学知识并受后续任务干扰。作者提出显式平衡各分量的解耦方法以自然保留旧知识。研究揭示了遗忘的结构性成因，为持续学习智能体的记忆保持提供了新视角。
 source: ICML-2026-Accepted
 selection_source: conference_retrieval
-motivation: 现有参数高效持续学习只关注避免干扰旧更新，未分析当前任务更新为何能自然保留既有知识。
-method: 从知识分解角度发现低秩适应的奇异值谱高度不平衡，据此解耦并显式平衡各成分以缓解遗忘。
-result: 分析表明主导成分易破坏旧知识并受后续任务干扰，平衡后能更好保留既有知识、减轻遗忘。
-conclusion: 为持续学习中的遗忘成因提供了谱视角解释，并给出缓解遗忘的成分平衡策略。
+motivation: 现有持续学习方法多关注避免干扰，却忽视何种更新属性可自然保留旧知识。
+method: 从知识分解视角分析低秩适配的奇异值谱，并提出解耦以显式平衡各分量。
+result: 发现谱不平衡与遗忘及后续干扰强相关，平衡后能更好保留历史知识。
+conclusion: 为持续学习智能体的抗遗忘记忆机制提供了可迁移的结构性准则。
 ---
 
 ## Abstract
@@ -32,10 +32,10 @@ Our method mitigates both backward and forward forgetting, consistently outperfo
 ## 论文详细总结（自动生成）
 
 ### 1. 检索相关性
-从谱不平衡角度分析持续适应中的遗忘。
+从谱不平衡角度研究持续学习中的遗忘。
 
 ### 2. 核心内容
-参数高效持续学习需在适应新任务时避免遗忘旧知识，但现有方法多只关注避免干扰而非分析更新为何能保留知识。作者从知识分解视角发现低秩适应存在奇异值谱高度不平衡的问题，主导成分易破坏旧知识并受后续任务干扰。据此提出显式平衡各成分的方法以缓解遗忘。该研究为持续学习中的遗忘机制提供了理论解释，但与智能体记忆架构关联较弱。
+该文针对参数高效持续学习中的灾难性遗忘问题，指出低秩适配的奇异值谱高度不平衡，少数主导分量吸收大部分适配能量，从而更易破坏已学知识并受后续任务干扰。作者提出显式平衡各分量的解耦方法以自然保留旧知识。研究揭示了遗忘的结构性成因，为持续学习智能体的记忆保持提供了新视角。
 
 ### 3. 对应检索需求
 Identify research on memory consolidation, forgetting, and memory management for continual learning agents.

@@ -1,6 +1,6 @@
 ---
 title: "Mem-T: Densifying Rewards for Long-Horizon Memory Agents"
-title_zh: Mem-T：为长程记忆智能体稠密化奖励
+title_zh: Mem-T：为长时序记忆智能体稠密化奖励
 authors: "Yanwei Yue, Guibin Zhang, Boci Peng, Xuanbo Fan, Jiaxin Guo, Qiankun Li, Yan Zhang"
 date: 2026
 publication_date: 2026
@@ -10,14 +10,14 @@ publication_date_kind: unknown
 pdf: "https://openreview.net/pdf/50453717a0322909321c24d35a41152273110a8c.pdf"
 tags: ["query:agent-memory"]
 score: 9.0
-evidence: 自主管理存储与多轮检索的记忆智能体
-tldr: 记忆智能体自主管理记忆的处理、存储与检索，但现有训练中智能体需经历长程记忆操作才能获得稀疏延迟奖励，难以端到端优化记忆管理策略。作者提出Mem-T，通过连接轻量级层次化记忆数据库对流式输入进行动态更新与多轮检索。并设计MoT-GRPO训练方法稠密化奖励，从而有效训练长程记忆管理能力，推动自主记忆智能体的端到端优化。
+evidence: 具备动态更新与多轮检索的自主记忆智能体
+tldr: 现有记忆智能体在长时序记忆操作中常面临奖励稀疏且延迟的问题，难以端到端优化记忆管理策略。本文提出Mem-T，一个自主记忆智能体，接入轻量分层记忆数据库，对流转输入进行动态更新与多轮检索。为训练长时序记忆能力，作者提出MoT-GRPO奖励稠密化方法。该工作提升了记忆管理策略的可训练性，为自主记忆智能体提供了新范式。
 source: ICML-2026-Accepted
 selection_source: conference_retrieval
-motivation: 记忆智能体需经历长程记忆操作才获得稀疏延迟奖励，难以端到端优化其记忆管理策略。
-method: 提出Mem-T自主记忆智能体，连接轻量级层次化记忆数据库进行动态更新与多轮检索，并用MoT-GRPO稠密化奖励训练。
-result: 稠密奖励训练使智能体更有效地学习长程记忆管理，提升了自主记忆处理与检索的端到端表现。
-conclusion: 表明通过奖励稠密化可训练长程自主记忆智能体，提升记忆管理策略的优化效果。
+motivation: 记忆智能体在长时序操作中奖励稀疏且延迟，阻碍记忆管理策略的端到端优化。
+method: 提出Mem-T自主记忆智能体，结合分层记忆数据库与MoT-GRPO奖励稠密化训练方法。
+result: 实现对流转输入的动态更新与多轮检索，并有效训练长时序记忆管理能力。
+conclusion: 为自主记忆智能体的记忆存储与检索管理提供了可端到端优化的新方案。
 ---
 
 ## Abstract
@@ -29,10 +29,10 @@ Extensive experiments demonstrate that Mem-T is **(1) high-performing**, surpass
 ## 论文详细总结（自动生成）
 
 ### 1. 检索相关性
-自主管理存储与多轮检索的记忆智能体。
+具备动态更新与多轮检索的自主记忆智能体。
 
 ### 2. 核心内容
-记忆智能体自主管理记忆的处理、存储与检索，但现有训练中智能体需经历长程记忆操作才能获得稀疏延迟奖励，难以端到端优化记忆管理策略。作者提出Mem-T，通过连接轻量级层次化记忆数据库对流式输入进行动态更新与多轮检索。并设计MoT-GRPO训练方法稠密化奖励，从而有效训练长程记忆管理能力，推动自主记忆智能体的端到端优化。
+现有记忆智能体在长时序记忆操作中常面临奖励稀疏且延迟的问题，难以端到端优化记忆管理策略。本文提出Mem-T，一个自主记忆智能体，接入轻量分层记忆数据库，对流转输入进行动态更新与多轮检索。为训练长时序记忆能力，作者提出MoT-GRPO奖励稠密化方法。该工作提升了记忆管理策略的可训练性，为自主记忆智能体提供了新范式。
 
 ### 3. 对应检索需求
 memory-augmented agent models that store and retrieve experience。

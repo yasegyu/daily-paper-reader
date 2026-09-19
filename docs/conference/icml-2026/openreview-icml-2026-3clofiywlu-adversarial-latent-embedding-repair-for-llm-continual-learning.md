@@ -1,6 +1,6 @@
 ---
 title: Adversarial Latent Embedding Repair for LLM Continual Learning
-title_zh: 面向LLM持续学习的对抗式潜在嵌入修复
+title_zh: 面向大模型持续学习的对抗潜在嵌入修复
 authors: "Xilin Xia, Tong Xialiang, Jie Wang, Chi Ma, Shengxue Li, Yinqi Bai, Yuhang Jiang, Xing Li, Jianye HAO, Mingxuan Yuan, Feng Wu"
 date: 2026
 publication_date: 2026
@@ -10,14 +10,14 @@ publication_date_kind: unknown
 pdf: "https://openreview.net/pdf/029da17b1af821f352ceb8e27573e1ae51a5e21f.pdf"
 tags: ["query:agent-memory"]
 score: 5.0
-evidence: 面向LLM持续学习的免数据抗遗忘框架
-tldr: LLM持续学习需在获取新技能时避免灾难性遗忘，但领域微调即便在窄更新下仍触发严重长尾遗忘，且预训练数据常不可得。本文提出ALER，一个免数据的持续学习框架，通过对抗搜索一小组潜在提示嵌入来最大化与冻结参考模型的logit差异，主动暴露高风险遗忘模式，再用在线蒸馏保留旧行为。该工作为LLM智能体的记忆保持与遗忘抑制提供新方法。
+evidence: 缓解灾难性遗忘的无数据持续学习
+tldr: 大模型持续学习希望在获取新技能的同时避免灾难性遗忘，但领域微调即使更新范围很窄，在预训练数据不可得时仍会引发严重的长尾遗忘。本文提出ALER，一个无数据持续学习框架，通过对抗搜索少量潜在提示嵌入来最大化与冻结参考模型的logit差异，主动暴露高风险遗忘模式，再用在线蒸馏保留原有行为。理论分析与实验表明该方法能在保持目标域适配的同时有效缓解遗忘。
 source: ICML-2026-Accepted
 selection_source: conference_retrieval
-motivation: LLM领域微调即便窄更新仍引发严重长尾遗忘，且预训练数据常不可访问。
-method: 对抗搜索潜在提示嵌入以暴露遗忘模式，并对冻结参考模型进行在线蒸馏。
-result: 在保留目标域适应性的同时有效抑制灾难性遗忘。
-conclusion: 为LLM持续学习中的知识保持与遗忘抑制提供免数据方案。
+motivation: 预训练数据不可得时，领域微调会引发严重的长尾灾难性遗忘。
+method: 提出ALER，对抗搜索潜在提示嵌入暴露遗忘模式，并在线蒸馏保持旧知识。
+result: 实验表明该方法在保持目标域适配的同时有效缓解遗忘。
+conclusion: 为无数据场景下的持续学习记忆保持提供了新方案。
 ---
 
 ## Abstract
@@ -33,10 +33,10 @@ suggesting a more proactive approach for LLM continual learning.
 ## 论文详细总结（自动生成）
 
 ### 1. 检索相关性
-面向LLM持续学习的免数据抗遗忘框架。
+缓解灾难性遗忘的无数据持续学习。
 
 ### 2. 核心内容
-LLM持续学习需在获取新技能时避免灾难性遗忘，但领域微调即便在窄更新下仍触发严重长尾遗忘，且预训练数据常不可得。本文提出ALER，一个免数据的持续学习框架，通过对抗搜索一小组潜在提示嵌入来最大化与冻结参考模型的logit差异，主动暴露高风险遗忘模式，再用在线蒸馏保留旧行为。该工作为LLM智能体的记忆保持与遗忘抑制提供新方法。
+大模型持续学习希望在获取新技能的同时避免灾难性遗忘，但领域微调即使更新范围很窄，在预训练数据不可得时仍会引发严重的长尾遗忘。本文提出ALER，一个无数据持续学习框架，通过对抗搜索少量潜在提示嵌入来最大化与冻结参考模型的logit差异，主动暴露高风险遗忘模式，再用在线蒸馏保留原有行为。理论分析与实验表明该方法能在保持目标域适配的同时有效缓解遗忘。
 
 ### 3. 对应检索需求
 Identify research on memory consolidation, forgetting, and memory management for continual learning agents.

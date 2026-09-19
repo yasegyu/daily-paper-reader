@@ -1,6 +1,6 @@
 ---
 title: "Darwinian Memory: A Training-Free Self-Regulating Memory System for GUI Agent Evolution"
-title_zh: 达尔文记忆：面向GUI智能体进化的免训练自调节记忆系统
+title_zh: 达尔文记忆：面向GUI智能体演化的免训练自调节记忆系统
 authors: "Hongze Mi, Yibo Feng, WenJie Lu, Song Cao, Jinyuan Li, Yanming Li, Xuelin Zhang, Haotian Luo, Songyang Peng, He Cui, Tengfei Tian, Jun Fang, Hua Chai, Naiqiang Tan"
 date: 2026
 publication_date: 2026
@@ -10,14 +10,14 @@ publication_date_kind: unknown
 pdf: "https://openreview.net/pdf/db9700e3ce01368639c8b929484815d1e360f418.pdf"
 tags: ["query:agent-memory"]
 score: 9.0
-evidence: 面向GUI智能体进化的自调节记忆系统
-tldr: 多模态大模型智能体在长程跨应用GUI任务中受限于上下文窗口，现有记忆范式难以适应动态GUI环境，存在高层意图与底层执行粒度不匹配及上下文污染问题。本文提出达尔文记忆系统DMS，将记忆构建为遵循适者生存法则的动态生态系统，把复杂轨迹分解为可自适应演化的记忆单元。该架构无需训练即可自我调节，减少过时经验累积导致的幻觉，提升智能体长期演化能力。
+evidence: 面向GUI智能体演化的自调节记忆系统
+tldr: 该文针对多模态GUI智能体在长程跨应用任务中上下文有限、既有记忆系统难以适应动态界面且易受陈旧经验污染的问题，提出达尔文记忆系统DMS。DMS将复杂轨迹分解并构建为遵循优胜劣汰法则的动态生态，让记忆在演化中自我调节。该训练无关架构缓解了幻觉并提升跨应用任务表现，为GUI智能体记忆管理提供新思路。
 source: ICML-2026-Accepted
 selection_source: conference_retrieval
-motivation: 现有GUI智能体记忆范式难以适应动态环境，存在粒度不匹配与过时经验累积导致的上下文污染和幻觉。
-method: 提出达尔文记忆系统DMS，将记忆构建为遵循适者生存法则的动态生态系统，对复杂轨迹分解与自演化管理。
-result: 该系统免训练即可自调节，减少过时经验的静态累积，缓解智能体在长程任务中的幻觉。
-conclusion: 该工作为动态环境下智能体记忆的自我调节与遗忘管理提供了新架构。
+motivation: GUI智能体受限于上下文窗口，静态记忆累积陈旧经验导致幻觉与粒度错配。
+method: 提出DMS，将记忆构建为优胜劣汰的动态生态并分解复杂轨迹。
+result: 通过自演化筛选记忆，缓解上下文污染并提升跨应用任务表现。
+conclusion: 为动态环境下智能体记忆管理提供免训练自调节方案。
 ---
 
 ## Abstract
@@ -29,13 +29,13 @@ Multimodal Large Language Model (MLLM) agents facilitate Graphical User Interfac
 ## 论文详细总结（自动生成）
 
 ### 1. 检索相关性
-面向GUI智能体进化的自调节记忆系统。
+面向GUI智能体演化的自调节记忆系统。
 
 ### 2. 核心内容
-多模态大模型智能体在长程跨应用GUI任务中受限于上下文窗口，现有记忆范式难以适应动态GUI环境，存在高层意图与底层执行粒度不匹配及上下文污染问题。本文提出达尔文记忆系统DMS，将记忆构建为遵循适者生存法则的动态生态系统，把复杂轨迹分解为可自适应演化的记忆单元。该架构无需训练即可自我调节，减少过时经验累积导致的幻觉，提升智能体长期演化能力。
+该文针对多模态GUI智能体在长程跨应用任务中上下文有限、既有记忆系统难以适应动态界面且易受陈旧经验污染的问题，提出达尔文记忆系统DMS。DMS将复杂轨迹分解并构建为遵循优胜劣汰法则的动态生态，让记忆在演化中自我调节。该训练无关架构缓解了幻觉并提升跨应用任务表现，为GUI智能体记忆管理提供新思路。
 
 ### 3. 对应检索需求
-Identify research on memory consolidation, forgetting, and memory management for continual learning agents.
+memory mechanisms in autonomous agents and agent memory architectures。
 
 ### 4. 来源与原文
 - Source：ICML-2026-Accepted

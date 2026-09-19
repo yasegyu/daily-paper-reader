@@ -1,6 +1,6 @@
 ---
 title: "A-MemGuard: A Proactive Defense Framework For LLM-Based Agent Memory"
-title_zh: A-MemGuard：面向大模型智能体记忆的主动防御框架
+title_zh: A-MemGuard：面向LLM智能体记忆的主动防御框架
 authors: "Qianshan Wei, Tengchao Yang, Yaochen Wang, Xinfeng Li, Lijun Li, Zhenfei Yin, Yi Zhan, Thorsten Holz, Zhiqiang Lin, XiaoFeng Wang"
 date: 2026
 publication_date: 2026
@@ -10,14 +10,14 @@ publication_date_kind: unknown
 pdf: "https://openreview.net/pdf/8770b2c7271dfa6194d2e234a12ce022d1f95224.pdf"
 tags: ["query:agent-memory"]
 score: 8.0
-evidence: 保护大模型智能体记忆免受注入攻击的防御框架
-tldr: 大模型智能体依赖记忆从历史交互中学习，但这也带来安全风险：攻击者可向记忆注入看似无害的记录以操纵其未来行为。此类攻击的恶意效果仅在特定情境激活、难以孤立审计发现，且一旦触发会形成自我强化的错误循环。本文提出A-MemGuard主动防御框架，针对记忆注入的两大特性进行检测与防护，提升了智能体记忆架构的安全性。
+evidence: 面向LLM智能体记忆的安全防御框架
+tldr: 大语言模型智能体依赖记忆从过往交互中学习，但这种依赖引入了安全隐患：攻击者可将看似无害的记录注入智能体记忆以操纵其未来行为，且这些记录仅在特定情境下激活并形成自我强化的错误循环，难以逐条审计发现。本文提出主动防御框架A-MemGuard，针对这类隐蔽且自增强的记忆投毒攻击进行检测与防护。该工作揭示了智能体记忆架构的安全脆弱性，为构建可信的记忆系统提供了防御思路。
 source: ICML-2026-Accepted
 selection_source: conference_retrieval
-motivation: 大模型智能体依赖记忆学习，但记忆注入攻击可在特定情境触发并形成自我强化的错误循环。
-method: 提出主动防御框架A-MemGuard，针对注入记录的情境激活与自强化特性进行检测与拦截。
-result: 该框架能识别孤立审计难以发现的恶意记忆，阻断错误累积与后续攻击门槛的降低。
-conclusion: 该工作为智能体记忆架构的安全性提供了主动防护思路。
+motivation: LLM智能体依赖记忆，但注入记录可在特定情境下激活并形成自我强化错误循环，威胁其行为。
+method: 提出主动防御框架A-MemGuard，针对隐蔽且自增强的智能体记忆投毒攻击进行检测与防护。
+result: 该框架能够识别仅在特定情境激活、难以逐条审计的恶意记忆记录。
+conclusion: 揭示了智能体记忆架构的安全脆弱性，为构建可信记忆系统提供防御思路。
 ---
 
 ## Abstract
@@ -29,10 +29,10 @@ Comprehensive evaluations on multiple benchmarks show that A-MemGuard effectivel
 ## 论文详细总结（自动生成）
 
 ### 1. 检索相关性
-保护大模型智能体记忆免受注入攻击的防御框架。
+面向LLM智能体记忆的安全防御框架。
 
 ### 2. 核心内容
-大模型智能体依赖记忆从历史交互中学习，但这也带来安全风险：攻击者可向记忆注入看似无害的记录以操纵其未来行为。此类攻击的恶意效果仅在特定情境激活、难以孤立审计发现，且一旦触发会形成自我强化的错误循环。本文提出A-MemGuard主动防御框架，针对记忆注入的两大特性进行检测与防护，提升了智能体记忆架构的安全性。
+大语言模型智能体依赖记忆从过往交互中学习，但这种依赖引入了安全隐患：攻击者可将看似无害的记录注入智能体记忆以操纵其未来行为，且这些记录仅在特定情境下激活并形成自我强化的错误循环，难以逐条审计发现。本文提出主动防御框架A-MemGuard，针对这类隐蔽且自增强的记忆投毒攻击进行检测与防护。该工作揭示了智能体记忆架构的安全脆弱性，为构建可信的记忆系统提供了防御思路。
 
 ### 3. 对应检索需求
 memory mechanisms in autonomous agents and agent memory architectures。

@@ -1,6 +1,6 @@
 ---
 title: "Textual Stochastic Gradient Descent: Discrete Optimization of External Memory for Reasoning Language Agents"
-title_zh: 文本随机梯度下降：推理语言智能体外部记忆的离散优化
+title_zh: 文本随机梯度下降：面向推理语言智能体外部记忆的离散优化
 authors: "Jian Li, Hua Huang"
 date: 2026
 publication_date: 2026
@@ -10,14 +10,14 @@ publication_date_kind: unknown
 pdf: "https://openreview.net/pdf/20d2cc89323456d72845cfab670731be07808850.pdf"
 tags: ["query:agent-memory"]
 score: 9.0
-evidence: 为推理语言智能体优化外部经验记忆库
-tldr: 针对RAG将记忆视为静态或仅追加语料、导致记忆饱和与噪声累积的问题，本文提出经验库优化框架，把智能体的外部记忆当作容量预算下的可学习参数，并设计文本随机梯度下降（TSGD）这一离散优化算法来精炼记忆。该工作使智能体无需参数重训即可从经验中持续学习，有效抑制冗余信息对性能的侵蚀，为记忆增强智能体提供了可管理的经验存储与更新机制。
+evidence: 优化语言智能体存储经验的外部记忆
+tldr: 大模型虽具强推理能力，但要从经验中持续学习而不做参数重训仍是难题，现有检索增强生成把记忆当作静态或仅追加的语料，导致噪声与冗余累积的记忆饱和。本文提出经验库优化框架，将智能体的外部记忆视为容量预算下的可学习参数，并设计文本随机梯度下降进行离散优化。实验表明该方法能有效管理记忆、缓解饱和并提升推理智能体的持续表现。
 source: ICML-2026-Accepted
 selection_source: conference_retrieval
-motivation: RAG把记忆当作静态或仅追加语料，导致噪声累积与记忆饱和，性能随时间退化。
-method: 提出经验库优化框架，将外部记忆视为容量受限的可学习参数，并用文本随机梯度下降离散优化。
-result: 在容量预算下有效精炼经验库，缓解记忆饱和，支持智能体持续从经验学习。
-conclusion: 为记忆增强智能体提供可管理的经验存储与更新范式，无需参数重训即可持续学习。
+motivation: 现有RAG把智能体记忆视为静态或仅追加语料，导致记忆饱和与性能退化。
+method: 提出经验库优化框架，把外部记忆当作可学习参数，并用文本随机梯度下降进行离散优化。
+result: 实验表明该方法能缓解记忆饱和并提升智能体持续推理表现。
+conclusion: 为语言智能体外部记忆的优化管理提供了新思路。
 ---
 
 ## Abstract
@@ -28,10 +28,10 @@ While Large Language Models (LLMs) possess strong reasoning capabilities, enabli
 ## 论文详细总结（自动生成）
 
 ### 1. 检索相关性
-为推理语言智能体优化外部经验记忆库。
+优化语言智能体存储经验的外部记忆。
 
 ### 2. 核心内容
-针对RAG将记忆视为静态或仅追加语料、导致记忆饱和与噪声累积的问题，本文提出经验库优化框架，把智能体的外部记忆当作容量预算下的可学习参数，并设计文本随机梯度下降（TSGD）这一离散优化算法来精炼记忆。该工作使智能体无需参数重训即可从经验中持续学习，有效抑制冗余信息对性能的侵蚀，为记忆增强智能体提供了可管理的经验存储与更新机制。
+大模型虽具强推理能力，但要从经验中持续学习而不做参数重训仍是难题，现有检索增强生成把记忆当作静态或仅追加的语料，导致噪声与冗余累积的记忆饱和。本文提出经验库优化框架，将智能体的外部记忆视为容量预算下的可学习参数，并设计文本随机梯度下降进行离散优化。实验表明该方法能有效管理记忆、缓解饱和并提升推理智能体的持续表现。
 
 ### 3. 对应检索需求
 memory-augmented agent models that store and retrieve experience。

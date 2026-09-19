@@ -9,15 +9,15 @@ publication_date_source: conference year only; exact release date unverified
 publication_date_kind: unknown
 pdf: "https://openreview.net/pdf/2e90eea000fd7ad6bfc9e10d372a0038b88a0140.pdf"
 tags: ["query:agent-memory"]
-score: 9.0
-evidence: 用于检索与执行规划的结构化智能体记忆
-tldr: 现代GUI智能体依赖以模型为中心、逐步交互的范式，需在每个界面重新解释并决策，在长程任务中十分脆弱。本文提出可执行智能体记忆EAM，用结构化知识图谱将GUI规划从自由生成转变为稳健的检索与执行过程。方法包含状态感知DFS与动作组挖掘的记忆构建流水线，以及由轻量Q函数引导MCTS的值引导图搜索。该工作为长程GUI任务提供高效可靠的规划记忆。
+score: 10.0
+evidence: 面向GUI智能体的可执行智能体记忆知识图谱
+tldr: 现代GUI智能体依赖逐步的模型中心交互，需在每个界面重新理解并决策，在长时程任务中十分脆弱。本文提出可执行智能体记忆EAM，用结构化知识图谱把GUI规划从自由生成转变为稳健的检索与执行过程。方法包含基于状态感知DFS与动作组挖掘的高样本效率记忆构建，以及由轻量Q函数引导的MCTS值引导图搜索，并从理论上证明了Q模型的偏差一致性。该工作为智能体记忆驱动的规划提供了可执行的记忆架构。
 source: ICML-2026-Accepted
 selection_source: conference_retrieval
-motivation: GUI智能体逐步交互范式需反复解释界面并决策，在长程任务中脆弱且低效。
-method: 提出可执行智能体记忆EAM，用知识图谱压缩多步例程，并以Q函数引导MCTS进行值引导图搜索。
-result: 该框架将规划转为检索与执行过程，理论上证明Q模型的偏差一致性并给出样本复杂度界。
-conclusion: 该工作为GUI智能体提供了结构化、可复用的记忆规划方案。
+motivation: GUI智能体逐步交互，需在每个界面重新理解并决策，导致长时程任务脆弱。
+method: 提出EAM，用知识图谱记忆压缩多步例程，并以值引导的MCTS进行检索与执行式规划。
+result: 理论上证明了Q模型的偏差一致性并给出样本复杂度界，提升长时程规划稳健性。
+conclusion: 把GUI规划转化为基于结构化记忆的检索执行过程，为智能体记忆架构提供新范式。
 ---
 
 ## Abstract
@@ -28,13 +28,13 @@ Modern GUI agents typically rely on a model-centric and step-wise interaction pa
 ## 论文详细总结（自动生成）
 
 ### 1. 检索相关性
-用于检索与执行规划的结构化智能体记忆。
+面向GUI智能体的可执行智能体记忆知识图谱。
 
 ### 2. 核心内容
-现代GUI智能体依赖以模型为中心、逐步交互的范式，需在每个界面重新解释并决策，在长程任务中十分脆弱。本文提出可执行智能体记忆EAM，用结构化知识图谱将GUI规划从自由生成转变为稳健的检索与执行过程。方法包含状态感知DFS与动作组挖掘的记忆构建流水线，以及由轻量Q函数引导MCTS的值引导图搜索。该工作为长程GUI任务提供高效可靠的规划记忆。
+现代GUI智能体依赖逐步的模型中心交互，需在每个界面重新理解并决策，在长时程任务中十分脆弱。本文提出可执行智能体记忆EAM，用结构化知识图谱把GUI规划从自由生成转变为稳健的检索与执行过程。方法包含基于状态感知DFS与动作组挖掘的高样本效率记忆构建，以及由轻量Q函数引导的MCTS值引导图搜索，并从理论上证明了Q模型的偏差一致性。该工作为智能体记忆驱动的规划提供了可执行的记忆架构。
 
 ### 3. 对应检索需求
-memory retrieval mechanisms for agent decision making。
+memory mechanisms in autonomous agents and agent memory architectures。
 
 ### 4. 来源与原文
 - Source：ICML-2026-Accepted

@@ -1,6 +1,6 @@
 ---
 title: "Memora: A Harmonic Memory Representation Balancing Abstraction and Specificity"
-title_zh: Memora：平衡抽象与具体的谐调记忆表示
+title_zh: Memora：平衡抽象与具体性的谐和记忆表示
 authors: "Menglin Xia, Xuchao Zhang, Shantanu Dixit, Paramaguru Harimurugan, Rujia Wang, Victor Rühle, Robert Sim, Chetan Bansal, Saravan Rajmohan"
 date: 2026
 publication_date: 2026
@@ -9,15 +9,15 @@ publication_date_source: conference year only; exact release date unverified
 publication_date_kind: unknown
 pdf: "https://openreview.net/pdf/0cb2d1b1e6a87f8e3c6fa7ef5facd8b3f2346657.pdf"
 tags: ["query:agent-memory"]
-score: 10.0
-evidence: 平衡抽象与具体的智能体记忆表示与检索
-tldr: 智能体记忆系统需容纳持续增长的信息并支持高效上下文感知检索，但抽象虽利于扩展却牺牲细节，影响推理。本文提出Memora谐调记忆表示，通过主抽象索引具体记忆值并整合相关更新，借助线索锚点扩展多角度检索访问并连接相关记忆。基于该结构设计激活式检索策略，在抽象与具体间取得平衡，为可扩展的智能体记忆架构提供新表示范式。
+score: 9.0
+evidence: 平衡抽象与具体性的智能体记忆表示
+tldr: 智能体记忆需在持续增长的信息中支持高效且上下文感知的检索，但抽象化虽利于扩展却牺牲细粒度细节，损害推理效果。本文提出Memora谐和记忆表示，用主抽象索引具体记忆值并整合更新，用线索锚点扩展检索路径并连接相关记忆。基于该结构采用检索策略进行访问。该工作为可扩展且细节保留的智能体记忆架构提供了新表示方案。
 source: ICML-2026-Accepted
 selection_source: conference_retrieval
-motivation: 智能体记忆需持续扩展并高效检索，但抽象化会牺牲推理所需的细粒度细节。
-method: 提出Memora谐调记忆表示，用主抽象索引具体值并用线索锚点扩展检索连接。
-result: 在抽象与具体之间取得结构平衡，支持高效上下文感知的记忆检索。
-conclusion: 为可扩展的智能体记忆架构提供新的记忆表示与检索策略。
+motivation: 智能体记忆需持续扩展并支持高效检索，但抽象化常损失推理所需的细粒度细节。
+method: 提出Memora记忆表示，用主抽象索引具体记忆并用线索锚点扩展检索，配合检索策略访问。
+result: 在扩展记忆规模的同时保留具体细节，提升上下文感知检索能力。
+conclusion: 为智能体记忆架构提供了兼顾抽象与具体性的结构化表示方案。
 ---
 
 ## Abstract
@@ -28,10 +28,10 @@ Agent memory systems must accommodate continuously growing information while sup
 ## 论文详细总结（自动生成）
 
 ### 1. 检索相关性
-平衡抽象与具体的智能体记忆表示与检索。
+平衡抽象与具体性的智能体记忆表示。
 
 ### 2. 核心内容
-智能体记忆系统需容纳持续增长的信息并支持高效上下文感知检索，但抽象虽利于扩展却牺牲细节，影响推理。本文提出Memora谐调记忆表示，通过主抽象索引具体记忆值并整合相关更新，借助线索锚点扩展多角度检索访问并连接相关记忆。基于该结构设计激活式检索策略，在抽象与具体间取得平衡，为可扩展的智能体记忆架构提供新表示范式。
+智能体记忆需在持续增长的信息中支持高效且上下文感知的检索，但抽象化虽利于扩展却牺牲细粒度细节，损害推理效果。本文提出Memora谐和记忆表示，用主抽象索引具体记忆值并整合更新，用线索锚点扩展检索路径并连接相关记忆。基于该结构采用检索策略进行访问。该工作为可扩展且细节保留的智能体记忆架构提供了新表示方案。
 
 ### 3. 对应检索需求
 memory mechanisms in autonomous agents and agent memory architectures。

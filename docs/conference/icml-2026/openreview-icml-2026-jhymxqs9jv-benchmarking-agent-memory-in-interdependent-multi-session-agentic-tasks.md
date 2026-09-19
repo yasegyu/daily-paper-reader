@@ -1,6 +1,6 @@
 ---
 title: Benchmarking Agent Memory in Interdependent Multi-Session Agentic Tasks
-title_zh: 在相互依赖的多会话智能体任务中评测智能体记忆
+title_zh: 在多会话相互依赖的智能体任务中评测智能体记忆
 authors: "Zexue He, Yu Wang, Churan Zhi, Yuanzhe Hu, Tzu-Ping Chen, Lang Yin, Ze Chen, Tong Arthur Wu, Siru Ouyang, Zihan Wang, Jiaxin Pei, Julian McAuley, Yejin Choi, Alex Pentland"
 date: 2026
 publication_date: 2026
@@ -10,14 +10,14 @@ publication_date_kind: unknown
 pdf: "https://openreview.net/pdf/76c2c4e7ec8f3e47d153e7f82d46e02885c63b47.pdf"
 tags: ["query:agent-memory"]
 score: 9.0
-evidence: 面向多会话智能体任务的智能体记忆基准
-tldr: 现有智能体记忆评测往往将记忆与行动割裂：一类只测对话或文本回忆，无法反映记忆如何指导决策；另一类只测单会话任务，无需长期记忆。本文提出MemoryArena，一个统一的评测平台，在记忆-智能体-环境循环中评估多会话智能体记忆。该基准由人工构建，捕捉记忆获取与后续任务求解紧密耦合的真实设定。它为智能体记忆研究提供更贴近实际的标准评测。
+evidence: 面向多会话决策任务的智能体记忆基准
+tldr: 现有智能体记忆评测通常把记忆与行动割裂：一类基准只测对话或文本回忆，无法反映记忆如何指导未来决策；另一类只在单会话任务中评估行动，无需长期记忆。为贴近真实场景，论文提出MemoryArena，一个统一评测平台，在记忆-智能体-环境的多会话循环中评估记忆。基准由人工设计任务构成，强调记忆在交互中获得并用于后续任务。该工作为智能体记忆能力提供了更贴近实际的评测标准。
 source: ICML-2026-Accepted
 selection_source: conference_retrieval
-motivation: 现有智能体记忆评测将记忆与行动割裂，无法反映记忆如何指导未来决策这一真实需求。
-method: 提出MemoryArena统一评测平台，在记忆-智能体-环境循环中评估多会话任务下记忆与行动的耦合。
-result: 该基准由人工构建，覆盖智能体在交互中获取记忆并用于后续任务求解的完整闭环。
-conclusion: 该工作为智能体记忆提供了更贴近现实、兼顾记忆与行动的标准化评测方案。
+motivation: 现有评测把记忆与行动割裂，无法反映智能体在交互中获得记忆并用其指导未来决策的真实情形。
+method: 提出统一评测平台MemoryArena，构建记忆-智能体-环境的多会话循环任务。
+result: 基准由人工设计任务组成，联合考察记忆与行动在跨会话任务中的耦合表现。
+conclusion: 为智能体记忆提供了更贴近实际的多会话评测标准。
 ---
 
 ## Abstract
@@ -28,13 +28,13 @@ Existing evaluations of agents with memory typically assess **memorization** and
 ## 论文详细总结（自动生成）
 
 ### 1. 检索相关性
-面向多会话智能体任务的智能体记忆基准。
+面向多会话决策任务的智能体记忆基准。
 
 ### 2. 核心内容
-现有智能体记忆评测往往将记忆与行动割裂：一类只测对话或文本回忆，无法反映记忆如何指导决策；另一类只测单会话任务，无需长期记忆。本文提出MemoryArena，一个统一的评测平台，在记忆-智能体-环境循环中评估多会话智能体记忆。该基准由人工构建，捕捉记忆获取与后续任务求解紧密耦合的真实设定。它为智能体记忆研究提供更贴近实际的标准评测。
+现有智能体记忆评测通常把记忆与行动割裂：一类基准只测对话或文本回忆，无法反映记忆如何指导未来决策；另一类只在单会话任务中评估行动，无需长期记忆。为贴近真实场景，论文提出MemoryArena，一个统一评测平台，在记忆-智能体-环境的多会话循环中评估记忆。基准由人工设计任务构成，强调记忆在交互中获得并用于后续任务。该工作为智能体记忆能力提供了更贴近实际的评测标准。
 
 ### 3. 对应检索需求
-memory-augmented agent models that store and retrieve experience。
+memory retrieval mechanisms for agent decision making。
 
 ### 4. 来源与原文
 - Source：ICML-2026-Accepted

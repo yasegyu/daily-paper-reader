@@ -1,6 +1,6 @@
 {
   "top_k": 200,
-  "generated_at": "2026-09-19T06:24:24.420035+00:00",
+  "generated_at": "2026-09-19T06:29:09.951445+00:00",
   "papers": [
     {
       "id": "openreview-icml-2026-jhymxqs9jv",
@@ -147,6 +147,36 @@
       "published": "2026-04-30T19:11:05.259+00:00",
       "link": "https://openreview.net/forum?id=GfQI92bpC1",
       "pdf_url": "https://openreview.net/pdf/7ed1b741cbaf7f73630f6eb88e2ab8f95b67d86d.pdf",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-fssirpjy9u",
+      "source": "ICML-2026-Accepted",
+      "title": "EvoCF: Multi-Agent Collaboration via Agentic Memory-Driven Evolutionary Counterfactual Planning",
+      "abstract": "Planning collaboration strategies for multi-agent embodied systems remains a core challenge for LLM-based planners, which often fail to capture the physical and coordination constraints of realworld environments. To address this, we present EvoCF, an agentic memory-driven evolutionary counterfactual planning framework for discovering improved multi-agent collaboration strategies through counterfactual plan generation and evaluation. First, we propose a symbolic constraint inductor that induces reusable symbolic constraints from failures, forming an evolving rule library. Then, we propose an evolutionary counterfactual plan generator that systematically explores semantically consistent plan variants through rule-conditioned mutations, enabling robust collaboration strategies beyond short-sighted one-shot LLM plans. Finally, we design an agentic memory-grounded evaluator that ranks candidate plans using retrieval-augmented evidence, producing interpretable, constraint-aware selections. Across multi-agent embodied simulation benchmarks, EvoCF consistently discovers more robust and executable plans compared to baseline approaches. Our results demonstrate that grounding multi-agent planning in agentic memory and counterfactual reasoning significantly enhances both effectiveness and robustness.",
+      "authors": [
+        "Haotian Chi",
+        "Zeyu Feng",
+        "Xingrui Yu",
+        "Linbo Luo",
+        "Yew-Soon Ong",
+        "Ivor Tsang",
+        "Hechang Chen",
+        "Yi Chang",
+        "Haiyan Yin"
+      ],
+      "primary_category": "Multi-Agent Collaboration",
+      "categories": [
+        "Multi-Agent Collaboration",
+        "Long-horizon Planning",
+        "Large Language Models"
+      ],
+      "published": "2026-04-30T19:16:42.261+00:00",
+      "link": "https://openreview.net/forum?id=FsSirPJy9U",
+      "pdf_url": "https://openreview.net/pdf/9fad72d7b7bbe2d670d065bff44b04133136bbb2.pdf",
       "tags": [
         "keyword:agent-memory",
         "query:agent-memory"
@@ -377,33 +407,6 @@
       ]
     },
     {
-      "id": "openreview-icml-2026-txhot32maj",
-      "source": "ICML-2026-Accepted",
-      "title": "Social Hippocampus Memory Learning",
-      "abstract": "Social learning highlights that learning agents improve not in isolation, but through interaction and structured knowledge exchange with others. When introduced into machine learning, this principle gives rise to social machine learning (SML), where multiple agents collaboratively learn by sharing abstracted knowledge. Federated learning (FL) provides a natural collaboration substrate for this paradigm, yet existing heterogeneous FL approaches often rely on sharing model parameters or intermediate representations, which may expose sensitive information and incur additional overhead.\nIn this work, we propose **SoHip** (**So**cial **Hip**pocampus Memory Learning), a memory-centric social machine learning framework that enables collaboration among heterogeneous agents via memory sharing rather than model sharing. SoHip abstracts each agent’s individual short-term memory from local representations, consolidates it into individual long-term memory through a hippocampus-inspired mechanism, and fuses it with collectively aggregated long-term memory to enhance local prediction. Throughout the process, raw data and local models remain on-device, while only lightweight memory are exchanged.\nWe provide theoretical analysis on convergence and privacy preservation properties. Experiments on two benchmark datasets with seven baselines demonstrate that SoHip consistently outperforms existing methods, achieving up to 8.78% accuracy improvements. The code of SoHip is available at https://github.com/LipingYi/SoHip.",
-      "authors": [
-        "Liping Yi",
-        "Zhiming Zhao",
-        "Kewen Zhu",
-        "Xiang Li",
-        "Zhiwei Shang",
-        "Qinghua Hu"
-      ],
-      "primary_category": "Social machine learning",
-      "categories": [
-        "Social machine learning",
-        "hippocampus memory learning",
-        "short--long memory",
-        "individual--collective memory"
-      ],
-      "published": "2026-04-30T19:08:38.439+00:00",
-      "link": "https://openreview.net/forum?id=TxHOT32Maj",
-      "pdf_url": "https://openreview.net/pdf/fc0da9f5a126e8760f247cd16891d1ffbecea71d.pdf",
-      "tags": [
-        "keyword:agent-memory"
-      ]
-    },
-    {
       "id": "openreview-icml-2026-nwkaqikogp",
       "source": "ICML-2026-Accepted",
       "title": "PlugMem: A Task-Agnostic Plugin Memory Module for LLM Agents",
@@ -466,6 +469,32 @@
       "published": "2026-04-30T19:21:32.671+00:00",
       "link": "https://openreview.net/forum?id=wInE6qnt9n",
       "pdf_url": "https://openreview.net/pdf/3e9e4ca03908c0899c354a7b64bb29b1550a6d28.pdf",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-ccfyy2lmf5",
+      "source": "ICML-2026-Accepted",
+      "title": "Learning to Share: Selective Memory for Efficient Parallel Agentic Systems",
+      "abstract": "Agentic systems solve complex tasks by coordinating multiple agents that iteratively reason, invoke tools, and exchange intermediate results. To improve robustness and solution quality, recent approaches deploy multiple agent teams running in parallel to explore diverse reasoning trajectories. However, parallel execution comes at a significant computational cost: when different teams independently reason about similar sub-problems or execute analogous steps, they repeatedly perform substantial overlapping computation. To address these limitations, in this paper, we propose Learning to Share (LTS), a learned shared-memory mechanism for parallel agentic frameworks that enables selective cross-team information reuse while controlling context growth. LTS introduces a global memory bank accessible to all teams and a lightweight controller that decides whether intermediate agent steps should be added to memory or not. The controller is trained using stepwise reinforcement learning with usage-aware credit assignment, allowing it to identify information that is globally useful across parallel executions. Experiments on the AssistantBench and GAIA benchmarks show that LTS significantly reduces overall runtime while matching or improving task performance compared to memory-free parallel baselines, demonstrating that learned memory admission is an effective strategy for improving the efficiency of parallel agentic systems.",
+      "authors": [
+        "Joseph Fioresi",
+        "Parth Parag Kulkarni",
+        "Ashmal Vayani",
+        "Song Wang",
+        "Mubarak Shah"
+      ],
+      "primary_category": "multi-agent system",
+      "categories": [
+        "multi-agent system",
+        "parallel",
+        "web-use"
+      ],
+      "published": "2026-04-30T19:10:24.775+00:00",
+      "link": "https://openreview.net/forum?id=cCFyY2LmF5",
+      "pdf_url": "https://openreview.net/pdf/36afa45a025ea9f91750ce099712175131a4547b.pdf",
       "tags": [
         "keyword:agent-memory",
         "query:agent-memory"
@@ -607,33 +636,6 @@
       ]
     },
     {
-      "id": "openreview-icml-2026-vbmdonzfev",
-      "source": "ICML-2026-Accepted",
-      "title": "Investigating Memory in Model-Free RL with POPGym Arcade",
-      "abstract": "How should we analyze memory in deep RL? We introduce tools for analyzing policies under partial observability and revealing how agents use memory to make decisions. To utilize these tools, we present POPGym Arcade, a collection of Atari-inspired, hardware-accelerated environments sharing a single observation and action space. Each environment provides fully and partially observable variants, enabling counterfactual studies on observability. We find that controlled studies are necessary for fair comparisons and identify a pathology where value functions smear credit over irrelevant history. Using this pathology, we demonstrate how out-of-distribution scenarios can contaminate memory, perturbing the policy far into the future.",
-      "authors": [
-        "Zekang Wang",
-        "Zhe He",
-        "Borong Zhang",
-        "Edan Toledo",
-        "Steven Morad"
-      ],
-      "primary_category": "reinforcement learning",
-      "categories": [
-        "reinforcement learning",
-        "pomdp",
-        "memory",
-        "rnn"
-      ],
-      "published": "2026-04-30T19:09:12.279+00:00",
-      "link": "https://openreview.net/forum?id=vBMdonzFEV",
-      "pdf_url": "https://openreview.net/pdf/f0b8999c07b219f8508fb1c20522f47d297d93e3.pdf",
-      "tags": [
-        "keyword:agent-memory",
-        "query:agent-memory"
-      ]
-    },
-    {
       "id": "openreview-icml-2026-pj0gpmfyrr",
       "source": "ICML-2026-Accepted",
       "title": "Experience-Evolving Multi-Turn Tool-Use Agent with Hybrid Episodic–Procedural Memory",
@@ -699,39 +701,6 @@
       ]
     },
     {
-      "id": "openreview-icml-2026-ajhtru25kd",
-      "source": "ICML-2026-Accepted",
-      "title": "Towards Cold-Start Drafting and Continual Refining: A Value-Driven Memory Approach with Application to NPU Kernel Synthesis",
-      "abstract": "Deploying Large Language Models to data-scarce programming domains poses significant challenges, particularly for kernel synthesis on emerging Domain-Specific Architectures where a ``Data Wall'' limits available training data.\nWhile models excel on data-rich platforms like CUDA, they suffer catastrophic performance drops on data-scarce ecosystems such as NPU programming.\nTo overcome this cold-start barrier without expensive fine-tuning, we introduce EvoKernel, a self-evolving agentic framework that automates the lifecycle of kernel synthesis from initial drafting to continual refining.\nEvoKernel addresses this by formulating the synthesis process as a memory-based reinforcement learning task. Through a novel value-driven retrieval mechanism, it learns stage-specific Q-values that prioritize experiences based on their contribution to the current objective—whether bootstrapping a feasible draft or iteratively refining latency.\nFurthermore, by enabling cross-task memory sharing, the agent generalizes insights from simple to complex operators.\nBy building an NPU variant of KernelBench and evaluating on it, EvoKernel improves frontier models' correctness from 11.0\\% to 83.0\\% and achieves a median speedup of 3.60$\\times$ over initial drafts through iterative refinement. This demonstrates that value-driven experience accumulation allows general-purpose models to master the kernel synthesis task on niche hardware ecosystems.",
-      "authors": [
-        "Yujie Zheng",
-        "Zhuo Li",
-        "Shengtao Zhang",
-        "Jiaqian Wang",
-        "Junjie Sheng",
-        "Junchi Yan",
-        "Weinan Zhang",
-        "Ying Wen",
-        "Bo Tang",
-        "Muning Wen"
-      ],
-      "primary_category": "Self-evolving Agents",
-      "categories": [
-        "Self-evolving Agents",
-        "Agent Memory",
-        "Large Language Model",
-        "Reinforcement Learning",
-        "Kernel Generation",
-        "NPU kernel"
-      ],
-      "published": "2026-04-30T19:13:18.545+00:00",
-      "link": "https://openreview.net/forum?id=ajHTru25Kd",
-      "pdf_url": "https://openreview.net/pdf/22928270cbb3cec9d649ad5a1a9275e1c4403016.pdf",
-      "tags": [
-        "keyword:agent-memory"
-      ]
-    },
-    {
       "id": "openreview-icml-2026-ftvnzxhw9w",
       "source": "ICML-2026-Accepted",
       "title": "RGMem: Renormalization Group–inspired Memory Evolution for Language Agents",
@@ -784,6 +753,34 @@
       "published": "2026-04-30T19:22:05.545+00:00",
       "link": "https://openreview.net/forum?id=9S9V5ntQJM",
       "pdf_url": "https://openreview.net/pdf/08ac4b5e4ff21fb40631ba5b306f6542c6784e16.pdf",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-fofvtwbgux",
+      "source": "ICML-2026-Accepted",
+      "title": "Investigating Component Contributions in Multi-Agent ML Systems",
+      "abstract": "Autonomous agents for machine learning engineering have advanced rapidly, yet comparing their effectiveness remains difficult. Existing systems combine different techniques---multi-agent decomposition, iterative refinement, memory management, and planning---in varying configurations, making it unclear which components actually drive performance. Complicating evaluation, existing benchmarks rely on historical competitions whose data likely contaminates LLM training corpora and whose static baselines reflect outdated human performance. To address this, we conduct over 4,000 controlled experiments systematically ablating architectural components, alongside K-live, a new benchmark of 25 active competitions that provides a contamination-free, dynamic evaluation environment. Our findings challenge common design assumptions: iterative feedback contributes more than architectural complexity, and multi-agent coordination can hurt as often as it helps. These results provide concrete guidance for practitioners building ML engineering agents.",
+      "authors": [
+        "Junsung Kim",
+        "Ilia Mireskandari",
+        "Seungwan Son",
+        "Yifan Zhou",
+        "Khizer Shahid",
+        "Dylan Yihan Dai"
+      ],
+      "primary_category": "Machine Learning",
+      "categories": [
+        "Machine Learning",
+        "Autonomous Agents",
+        "AutoML",
+        "Multi-Agent Systems"
+      ],
+      "published": "2026-04-30T19:22:22.049+00:00",
+      "link": "https://openreview.net/forum?id=FOfvTwBGUX",
+      "pdf_url": "https://openreview.net/pdf/866ee982631523ab881bc1761fa3547bed3ed10e.pdf",
       "tags": [
         "keyword:agent-memory",
         "query:agent-memory"
@@ -848,38 +845,6 @@
       ]
     },
     {
-      "id": "openreview-icml-2026-7d5wd70jkj",
-      "source": "ICML-2026-Accepted",
-      "title": "Integrated Episodic and Semantic Memory via Modulating Transformer FeedForward Layers",
-      "abstract": "It is widely recognized that, after generative pre-training, Transformer FeedForward layers implicitly function as semantic memory, encoding linguistic and factual knowledge, while the contexts in key–value (KV) cache contain raw events, serving as the source of models' episodic memory. In this work, we show that a same group of Transformer FeedForward-layer parameters can both be semantic and episodic memory, which is retrievable without explicitly attending to the related KV cache. To realize this idea, we introduce Hypermem, a hypernetwork that recurrently maps contexts into targeted updates of FeedForward parameters. We post-train the hypernetwork using continuation and random-access associative memory objectives, eliminating the need for test-time training. Extensive experiments demonstrate that our approach outperforms related methods, including MemoryLLM and generative adapter, on memory retrieval, long-context question answering, and personalization benchmarks, establishing a new state of the art for hypernetwork-based memory mechanisms. Our results suggest that directly bridging data and parameters provides a viable direction for exploring next-generation foundation models with more flexible and persistent memory capabilities.",
-      "authors": [
-        "Yiqun Yao",
-        "Xiang Li",
-        "Xin Jiang",
-        "Xuezhi Fang",
-        "Naitong Yu",
-        "Siwei Dong",
-        "Wenjia Ma",
-        "Jing Li",
-        "Aixin Sun",
-        "Yequan Wang"
-      ],
-      "primary_category": "memory",
-      "categories": [
-        "memory",
-        "hypernetwork",
-        "meta-learning",
-        "large language models"
-      ],
-      "published": "2026-04-30T19:22:20.432+00:00",
-      "link": "https://openreview.net/forum?id=7D5WD70jKj",
-      "pdf_url": "https://openreview.net/pdf/96b3a6d551885bf0b3b28a9bf42fcea315a722aa.pdf",
-      "tags": [
-        "keyword:agent-memory",
-        "query:agent-memory"
-      ]
-    },
-    {
       "id": "openreview-icml-2026-mnox4mkh3f",
       "source": "ICML-2026-Accepted",
       "title": "AOEB: Benchmarking Agent-Oriented Multimodal Embeddings",
@@ -913,29 +878,27 @@
       ]
     },
     {
-      "id": "openreview-icml-2026-1vshjguvbs",
+      "id": "openreview-icml-2026-mo7dgwffve",
       "source": "ICML-2026-Accepted",
-      "title": "MemoryLLM: Plug-n-Play Interpretable Feed-Forward Memory for Transformers",
-      "abstract": "Understanding how transformer components operate in LLMs is important, as it is at the core of recent technological advances in artificial intelligence. In this work, we revisit the challenges associated with interpretability of feed-forward modules (FFNs) and propose MemoryLLM, which aims to decouple FFNs from self-attention and enables us to study the decoupled FFNs as context-free token-wise neural retrieval memory. In detail, we investigate how input tokens access memory locations within FFN parameters and the importance of FFN memory across different downstream tasks. MemoryLLM achieves context-free FFNs by training them in isolation from self-attention directly using the token embeddings. This approach allows FFNs to be pre-computed as token-wise lookups (ToLs), enabling on-demand transfer between VRAM and storage, additionally enhancing inference efficiency. We also introduce Flex-MemoryLLM, positioning it between a conventional transformer design and MemoryLLM. This architecture bridges the performance gap caused by training FFNs with context-free token-wise embeddings.",
+      "title": "Neuromem: A Granular Decomposition of the Streaming Lifecycle in External Memory for LLMs",
+      "abstract": "Most evaluations of External Memory Module assume a static setting: memory is built offline and queried at a fixed state. In practice, memory is streaming: new facts arrive continuously, insertions interleave with retrievals, and the memory state evolves while the model is serving queries. In this regime, accuracy and cost are governed by the full memory lifecycle, which encompasses the ingestion, maintenance, retrieval, and integration of information into generation. We present Neuromem, a scalable testbed that benchmarks External Memory Module under an interleaved insertion-and-retrieval protocol and decomposes its lifecycle into five dimensions including memory data structure, normalization strategy, consolidation policy, query formulation strategy, and context integration mechanism. Using three representative datasets LoCoMo, LONGMEMEVAL, and MemAgentBench, Neuromem evaluates interchangeable variants within a shared serving stack, reporting token-level F1 and insertion/retrieval latency.Overall, we observe that performance typically degrades as memory grows across rounds, and time-related queries remain the most challenging category. The memory data structure largely determines the attainable quality frontier, while aggressive compression and generative integration mechanisms mostly shift cost between insertion and retrieval with limited accuracy gain.",
       "authors": [
-        "AJAY KUMAR JAISWAL",
-        "Lauren Hannah",
-        "Han-Byul Kim",
-        "Duc N.M Hoang",
-        "Arnav Kundu",
-        "Mehrdad Farajtabar",
-        "Minsik Cho"
+        "Ruicheng Zhang",
+        "Xinyi Li",
+        "Tianyi Xu",
+        "Shuhao Zhang",
+        "Xiaofei Liao",
+        "Hai Jin"
       ],
-      "primary_category": "Interpretability",
+      "primary_category": "Large Language Models",
       "categories": [
-        "Interpretability",
-        "FFN Memory",
-        "Lookup Table",
-        "LLM Efficiency"
+        "Large Language Models",
+        "External Memory",
+        "Evaluation"
       ],
-      "published": "2026-04-30T19:20:26.7+00:00",
-      "link": "https://openreview.net/forum?id=1vshJGUVBS",
-      "pdf_url": "https://openreview.net/pdf/d38b16825bfe52e58e802a86f8852003ac917dae.pdf",
+      "published": "2026-04-30T19:22:32.089+00:00",
+      "link": "https://openreview.net/forum?id=mO7DgwFFVe",
+      "pdf_url": "https://openreview.net/pdf/b220b1948f14ac0ed4397c5065686164ebfbf770.pdf",
       "tags": [
         "keyword:agent-memory"
       ]
@@ -1033,29 +996,52 @@
       ]
     },
     {
-      "id": "openreview-icml-2026-1tbhbsxcyx",
-      "source": "ICML-2026-Accepted",
-      "title": "RelayCaching: Accelerating LLM Collaboration via Decoding KV Cache Reuse",
-      "abstract": "The increasing complexity of AI tasks has shifted the paradigm from monolithic models toward multi-agent large language model (LLM) systems. However, these collaborative architectures introduce a critical bottleneck: redundant prefill computation for shared content generated by previous agents, which significantly increases KV cache memory usage and time-to-first-token (TTFT). While various KV cache methods have been proposed to mitigate prefill redundancy, they either fail to maintain accuracy on agent-generated outputs or exhibit low reuse rates due to rigid constraints. We present RelayCaching, a training-free inference method that directly reuses decoding phase KV caches from previous agents in subsequent prefill phases. Our key insight is that KV caches for identical content are highly consistent across phases, while prefix-induced deviations are sparse and localized within a limited range of layers and token positions. By selectively recomputing KV caches at these positions, RelayCaching preserves model accuracy with minimal overhead, yielding a superior accuracy–efficiency trade-off over existing methods. Experiments on diverse collaborative LLM tasks spanning mathematical reasoning, general knowledge, and code generation demonstrate that RelayCaching achieves over $80$\\% KV cache reuse, reduces TTFT by up to $4.7\\times$ compared to the standard pipeline, all with negligible accuracy degradation.",
+      "id": "openreview-icml-2026-xnkrytkwxo",
+      "source": "ICML-2026-Rejected-Public",
+      "title": "APEX: Adaptive Pattern Evolution with Principled Exploration --- A Wake-Sleep Cycle for Fixed--Backbone LLM Agents",
+      "abstract": "In-Context Reinforcement Learning (ICRL) has emerged as a promising paradigm for adapting frozen Large Language Models (LLMs) to specialized domains without parameter updates. However, existing methods trade off accumulation speed with retrieval efficiency, typically resulting in unstructured memory pools and suboptimal, static example selection. In this work, we propose **APEX** (Adaptive Pattern Evolution with **Principled** Exploration), a framework that reimagines ICRL as a **Wake-Sleep cycle** for fixed-backbone LLM agents. On the consolidation front (“Sleep”), we introduce an Evolutionary Memory Mechanism that structurally refines the experience pool through topological operators, distilling generalized patterns from raw trajectories rather than merely accumulating them. On the inference front (“Wake”), we formulate prompt selection as a Neural Contextual Bandit problem. By leveraging a non-linear reward predictor with **theoretically grounded exploration** derived from NeuralUCB, APEX adaptively constructs high-confidence context sets tailored to query hardness. Empirically, we show that this adaptive cycle boosts mathematical reasoning performance on benchmarks like AIME, allowing frozen agents to significantly outperform both static retrieval baselines and computationally expensive fine-tuned models. Code will be released upon acceptance.",
       "authors": [
-        "Yingsheng Geng",
-        "Yuchong Gao",
-        "Weihong Wu",
-        "Guyue Liu",
-        "Jiang liu"
+        "Yuxuan Fu",
+        "Xiaoyu Tan",
+        "Teqi Hao",
+        "Xihe Qiu"
       ],
-      "primary_category": "Large Lauguage Models",
+      "primary_category": "In-Context Reinforcement Learning",
       "categories": [
-        "Large Lauguage Models",
-        "Multi-agent Systems",
-        "KV Cache",
-        "Acceleration"
+        "In-Context Reinforcement Learning",
+        "Non-parametric Reinforcement Learning"
       ],
-      "published": "2026-04-30T19:22:43.759+00:00",
-      "link": "https://openreview.net/forum?id=1tbhBSXcyX",
-      "pdf_url": "https://openreview.net/pdf/dd7715f9e938a8a2b1ec56452c5e47284e3f86fe.pdf",
+      "published": "2026-01-09T12:39:26.599+00:00",
+      "link": "https://openreview.net/forum?id=xnKrytKWxo",
+      "pdf_url": "https://openreview.net/pdf/4bee1c0a0333e253793bdae055c57c5d26aa4d6d.pdf",
       "tags": [
-        "keyword:agent-memory"
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-ooruky3zjq",
+      "source": "ICML-2026-Accepted",
+      "title": "LRAgent: Efficient KV Cache Sharing for Multi-LoRA LLM Agents",
+      "abstract": "Role specialization in multi-LLM agent systems is often realized via multi-LoRA, where agents share a pretrained backbone and differ only through lightweight adapters.\nDespite sharing base model weights, each agent independently builds and stores its own KV cache for the same long, tool-augmented trajectories, incurring substantial memory and compute overhead.\nExisting KV cache sharing methods largely overlook this multi-LoRA setting.\nWe observe that, across agents, cache differences are dominated by adapter outputs, while activations from the shared pretrained backbone remain highly similar.\nBased on this observation, we propose LRAgent, a KV cache sharing framework for multi-LoRA agents that decomposes the cache into a shared base component from the pretrained weights and an adapter-dependent component from LoRA weights.\nLRAgent reduces memory overhead by sharing the base component and storing the adapter component in its inherent low-rank form, and further reduces compute overhead, enabled by shared-$A$ multi-LoRA architectures, by also sharing the low-rank cache and avoiding redundant computations for contexts already processed by other agents.\nTo efficiently reconstruct adapter contributions at runtime, we introduce Flash-LoRA-Attention, a kernel that reorders attention computation to avoid materializing the low-rank cache to full dimension.\nLRAgent achieves throughput and time-to-first-token latency close to fully shared caching, while preserving accuracy near the non-shared caching baseline across agentic question-answering benchmarks.",
+      "authors": [
+        "Hyesung Jeon",
+        "Hyeongju Ha",
+        "Jae-Joon Kim"
+      ],
+      "primary_category": "LLM",
+      "categories": [
+        "LLM",
+        "Agent",
+        "LoRA",
+        "KV cache"
+      ],
+      "published": "2026-04-30T19:11:18.775+00:00",
+      "link": "https://openreview.net/forum?id=ooRukY3zjQ",
+      "pdf_url": "https://openreview.net/pdf/aad6d5a22a6ab8a9ad7c83d6bff25e05e9d49a41.pdf",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
       ]
     },
     {
@@ -1084,6 +1070,37 @@
       "pdf_url": "https://openreview.net/pdf/868299e3b83f82e8c4c8baa5f861219b70cb2ec8.pdf",
       "tags": [
         "keyword:agent-memory",
+        "query:agent-memory"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-qzo3oby12w",
+      "source": "ICML-2026-Accepted",
+      "title": "AI Engram: In Search of Memory Traces in Artificial Intelligence",
+      "abstract": "Memory formation is fundamental to intelligence, yet whether deep neural networks preserve identifiable memory traces analogous to biological memory units remains an open question. This work introduces a geometric framework to identify such “AI engrams” by formalizing the neuroscientific criteria of specificity, reactivation, sufficiency, and necessity into a constrained inverse problem. We derive a closed-form estimator that isolates individual memory traces from globally entangled parameters, and show that this biologically-derived solution corresponds to a natural gradient update on the parameter manifold. AI engrams enable surgical manipulation of learned knowledge: any subset of memories can be composed or erased through linear arithmetic, without iterative optimization. Experiments ranging from simple MLPs to LLMs demonstrate the causal validity and substantial scalability of AI engrams. Together, these results bridge theories of biological memory and artificial representation learning and offer geometric insight into how deep networks simultaneously support functional specificity within distributed storage.",
+      "authors": [
+        "Jea Kwon",
+        "Dong-Kyum Kim",
+        "Jiwon Kim",
+        "Yonghyun Kim",
+        "Woong Kook",
+        "Meeyoung Cha"
+      ],
+      "primary_category": "Memory Traces",
+      "categories": [
+        "Memory Traces",
+        "Engram",
+        "Mechanistic Interpretability",
+        "Machine Unlearning",
+        "Geometric Deep Learning",
+        "Entanglement",
+        "Neuroscience-Inspired AI",
+        "Spectral Methods"
+      ],
+      "published": "2026-04-30T19:14:33.098+00:00",
+      "link": "https://openreview.net/forum?id=QZO3oby12w",
+      "pdf_url": "https://openreview.net/pdf/0f9a0557d49ba7165bc5060b9f2d89e480d4959c.pdf",
+      "tags": [
         "query:agent-memory"
       ]
     },
@@ -1186,6 +1203,30 @@
       ]
     },
     {
+      "id": "openreview-icml-2026-l35qwevxgn",
+      "source": "ICML-2026-Accepted",
+      "title": "On the Theory of Continual Learning with Gradient Descent for Neural Networks",
+      "abstract": "Continual learning, the ability of a model to adapt to an ongoing sequence of tasks without forgetting earlier ones, is a central goal of artificial intelligence. To better understand its underlying mechanisms, we study the limitations of continual learning in a tractable yet representative setting. Specifically, we analyze one-hidden-layer quadratic neural networks trained by gradient descent on a sequence of XOR-cluster datasets with Gaussian noise, where different tasks correspond to clusters with orthogonal means. Our analysis is based on a tight characterization of gradient descent dynamics for the training loss, which yields explicit bounds on the rate of train-time forgetting as functions of the number of iterations, sample size, number of tasks, and hidden-layer width. We then leverage an algorithmic stability framework to bound the generalization gap, leading to corresponding guarantees on test-time forgetting. Together, our results provide the first closed-form  guarantees for forgetting in continual learning with neural networks and show how key problem parameters jointly govern forgetting dynamics. Numerical experiments corroborate our theoretical results.",
+      "authors": [
+        "Hossein Taheri",
+        "Avishek Ghosh",
+        "Arya Mazumdar"
+      ],
+      "primary_category": "Generalization bounds",
+      "categories": [
+        "Generalization bounds",
+        "continual learning",
+        "forgetting bounds",
+        "neural networks"
+      ],
+      "published": "2026-04-30T19:15:41.694+00:00",
+      "link": "https://openreview.net/forum?id=l35QweVxgn",
+      "pdf_url": "https://openreview.net/pdf/fd3610d002a5b4ac50afa73945ce7902a9e6cb2b.pdf",
+      "tags": [
+        "query:agent-memory"
+      ]
+    },
+    {
       "id": "openreview-icml-2026-nvnkuqwuu3",
       "source": "ICML-2026-Accepted",
       "title": "Reinforcement Fine-Tuning Naturally Mitigates Forgetting in Continual Post-Training",
@@ -1213,6 +1254,35 @@
       "published": "2026-04-30T19:22:39.308+00:00",
       "link": "https://openreview.net/forum?id=nvnkuqWuu3",
       "pdf_url": "https://openreview.net/pdf/6c4b92466c2b046fdf36d0e8cafa951c44496790.pdf",
+      "tags": [
+        "query:agent-memory"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-b7p2wegaby",
+      "source": "ICML-2026-Accepted",
+      "title": "Plasticity Activation via Polar Operator: A Plug-in Method for Balancing Stability and Plasticity",
+      "abstract": "Continual learning (CL) seeks models that acquire new knowledge while avoiding catastrophic forgetting. However, many methods that mitigate forgetting constrain parameter updates and thereby reduce model plasticity. We revisit the singular value spectrum of gradients in representative CL methods and show that they commonly exhibit singular value collapse, where only a small subset of gradient directions drive parameter updates. Motivated by this observation, we propose **P**lasticity **A**ctivation via **P**olar **O**perator (PAPO), a plug-in that preserves the dominant directions that mitigate forgetting while activating previously suppressed directions to enhance plasticity. Concretely, PAPO modifies the gradient $\\mathbf{G}$ as\n$\\mathbf{G}\\leftarrow \\mathbf{G}+\\lambda \\cdot \\operatorname{polar}(\\mathbf{G})$,\nwhich uniformly increases near-zero singular values without changing the singular vectors. To avoid the cost of explicit singular value decomposition, we approximate the polar factor using the iteration-dependent Polar Express scheme, which relies only on matrix multiplications and additions. In our empirical evaluation on both vision and language benchmarks, incorporating PAPO yields consistent improvements. In particular, on MiniImageNet, integrating PAPO into ER, MAS, GPM and TRGP produces substantial accuracy gains of $9.01\\%$, $4.76\\%$, $8.90\\%$ and $9.19\\%$, respectively.",
+      "authors": [
+        "Guodong Zheng",
+        "Enneng Yang",
+        "Xiaoyan Wang",
+        "Yihan Chen",
+        "Feihong He",
+        "Quan Zheng",
+        "Peng Wang",
+        "Li Shen"
+      ],
+      "primary_category": "continual learning",
+      "categories": [
+        "continual learning",
+        "forgetting",
+        "stability",
+        "plasticity"
+      ],
+      "published": "2026-04-30T19:18:02.837+00:00",
+      "link": "https://openreview.net/forum?id=b7P2WegaBY",
+      "pdf_url": "https://openreview.net/pdf/dfb62414a6d304c72686326392b46ef5fa65831b.pdf",
       "tags": [
         "query:agent-memory"
       ]
@@ -1367,6 +1437,10 @@
           "score": 0.015151515151515152,
           "rank": 6
         },
+        "openreview-icml-2026-fofvtwbgux": {
+          "score": 0.014705882352941176,
+          "rank": 8
+        },
         "openreview-icml-2026-faja0snayq": {
           "score": 0.014492753623188406,
           "rank": 9
@@ -1379,6 +1453,10 @@
           "score": 0.013888888888888888,
           "rank": 12
         },
+        "openreview-icml-2026-qzo3oby12w": {
+          "score": 0.013513513513513514,
+          "rank": 14
+        },
         "openreview-icml-2026-rzlmkviany": {
           "score": 0.013333333333333334,
           "rank": 15
@@ -1386,6 +1464,14 @@
         "openreview-icml-2026-2cors45ucj": {
           "score": 0.01282051282051282,
           "rank": 18
+        },
+        "openreview-icml-2026-fssirpjy9u": {
+          "score": 0.012048192771084338,
+          "rank": 23
+        },
+        "openreview-icml-2026-ccfyy2lmf5": {
+          "score": 0.011764705882352941,
+          "rank": 25
         },
         "openreview-icml-2026-xrvwfts3es": {
           "score": 0.011627906976744186,
@@ -1403,6 +1489,10 @@
           "score": 0.01020408163265306,
           "rank": 38
         },
+        "openreview-icml-2026-ooruky3zjq": {
+          "score": 0.01,
+          "rank": 40
+        },
         "openreview-icml-2026-tnosqdv9j1": {
           "score": 0.009708737864077669,
           "rank": 43
@@ -1415,7 +1505,7 @@
           "star_rating": 5
         },
         {
-          "paper_id": "openreview-icml-2026-5g9puwbcsu",
+          "paper_id": "openreview-icml-2026-faja0snayq",
           "score": 1.0,
           "star_rating": 5
         },
@@ -1425,123 +1515,133 @@
           "star_rating": 5
         },
         {
-          "paper_id": "openreview-icml-2026-faja0snayq",
+          "paper_id": "openreview-icml-2026-xrvwfts3es",
           "score": 0.9586435070306036,
           "star_rating": 5
         },
         {
-          "paper_id": "openreview-icml-2026-rzlmkviany",
+          "paper_id": "openreview-icml-2026-5g9puwbcsu",
           "score": 0.9185999185999183,
           "star_rating": 5
-        },
-        {
-          "paper_id": "openreview-icml-2026-xrvwfts3es",
-          "score": 0.9185999185999183,
-          "star_rating": 5
-        },
-        {
-          "paper_id": "openreview-icml-2026-boixvrwtdi",
-          "score": 0.8798076923076922,
-          "star_rating": 4
         },
         {
           "paper_id": "openreview-icml-2026-nwkaqikogp",
-          "score": 0.8798076923076922,
-          "star_rating": 4
+          "score": 0.9185999185999183,
+          "star_rating": 5
         },
         {
-          "paper_id": "openreview-icml-2026-obglvd5yc6",
-          "score": 0.8422090729783037,
+          "paper_id": "openreview-icml-2026-rzlmkviany",
+          "score": 0.8798076923076922,
           "star_rating": 4
         },
         {
           "paper_id": "openreview-icml-2026-2cors45ucj",
+          "score": 0.8798076923076922,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-boixvrwtdi",
           "score": 0.8422090729783037,
           "star_rating": 4
         },
         {
-          "paper_id": "openreview-icml-2026-bydjzyqkxq",
-          "score": 0.8057498057498057,
-          "star_rating": 4
-        },
-        {
-          "paper_id": "openreview-icml-2026-8ppvmlta2v",
+          "paper_id": "openreview-icml-2026-obglvd5yc6",
           "score": 0.8057498057498057,
           "star_rating": 4
         },
         {
           "paper_id": "openreview-icml-2026-ftvnzxhw9w",
+          "score": 0.8057498057498057,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-8ppvmlta2v",
           "score": 0.7703788748564866,
           "star_rating": 4
         },
         {
           "paper_id": "openreview-icml-2026-1ynrlssrsk",
-          "score": 0.7703788748564866,
+          "score": 0.73604826546003,
           "star_rating": 4
         },
         {
-          "paper_id": "openreview-icml-2026-tnosqdv9j1",
+          "paper_id": "openreview-icml-2026-9s9v5ntqjm",
           "score": 0.73604826546003,
           "star_rating": 4
         },
         {
           "paper_id": "openreview-icml-2026-tnn9bikyxz",
-          "score": 0.73604826546003,
+          "score": 0.702712746191007,
           "star_rating": 4
         },
         {
-          "paper_id": "openreview-icml-2026-jhymxqs9jv",
+          "paper_id": "openreview-icml-2026-bydjzyqkxq",
+          "score": 0.6703296703296702,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-ooruky3zjq",
           "score": 0.6703296703296702,
           "star_rating": 4
         },
         {
           "paper_id": "openreview-icml-2026-udqe7uzuz6",
-          "score": 0.6703296703296702,
+          "score": 0.6388587937883712,
           "star_rating": 4
         },
         {
-          "paper_id": "openreview-icml-2026-1tbhbsxcyx",
+          "paper_id": "openreview-icml-2026-fssirpjy9u",
           "score": 0.6388587937883712,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-tnosqdv9j1",
+          "score": 0.608262108262108,
           "star_rating": 4
         },
         {
           "paper_id": "openreview-icml-2026-8metowzhjd",
-          "score": 0.6388587937883712,
-          "star_rating": 4
-        },
-        {
-          "paper_id": "openreview-icml-2026-vv4tmkyfwa",
-          "score": 0.608262108262108,
-          "star_rating": 4
-        },
-        {
-          "paper_id": "openreview-icml-2026-zvv11mhfld",
-          "score": 0.608262108262108,
-          "star_rating": 4
-        },
-        {
-          "paper_id": "openreview-icml-2026-ajhtru25kd",
           "score": 0.578503688092729,
-          "star_rating": 4
-        },
-        {
-          "paper_id": "openreview-icml-2026-9s9v5ntqjm",
-          "score": 0.578503688092729,
-          "star_rating": 4
-        },
-        {
-          "paper_id": "openreview-icml-2026-1vshjguvbs",
-          "score": 0.5213675213675214,
           "star_rating": 4
         },
         {
           "paper_id": "openreview-icml-2026-fyle5o8g5f",
-          "score": 0.46719946719946726,
+          "score": 0.578503688092729,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-fofvtwbgux",
+          "score": 0.5495495495495496,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-mo7dgwffve",
+          "score": 0.5495495495495496,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-zvv11mhfld",
+          "score": 0.5213675213675214,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-xnkrytkwxo",
+          "score": 0.5213675213675214,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-jhymxqs9jv",
+          "score": 0.49392712550607265,
           "star_rating": 3
         },
         {
           "paper_id": "openreview-icml-2026-wine6qnt9n",
-          "score": 0.3910256410256411,
+          "score": 0.49392712550607265,
+          "star_rating": 3
+        },
+        {
+          "paper_id": "openreview-icml-2026-vv4tmkyfwa",
+          "score": 0.46719946719946726,
           "star_rating": 3
         },
         {
@@ -1555,34 +1655,34 @@
           "star_rating": 3
         },
         {
-          "paper_id": "openreview-icml-2026-vbmdonzfev",
-          "score": 0.32035835650293487,
-          "star_rating": 3
-        },
-        {
-          "paper_id": "openreview-icml-2026-txhot32maj",
+          "paper_id": "openreview-icml-2026-pj0gpmfyrr",
           "score": 0.29792429792429775,
           "star_rating": 3
         },
         {
-          "paper_id": "openreview-icml-2026-pj0gpmfyrr",
-          "score": 0.2760180995475112,
+          "paper_id": "openreview-icml-2026-qzo3oby12w",
+          "score": 0.25462134764460337,
           "star_rating": 3
         },
         {
-          "paper_id": "openreview-icml-2026-zsrvkj0ers",
+          "paper_id": "openreview-icml-2026-ccfyy2lmf5",
           "score": 0.21328671328671328,
           "star_rating": 3
         },
         {
+          "paper_id": "openreview-icml-2026-zsrvkj0ers",
+          "score": 0.1360089186176142,
+          "star_rating": 3
+        },
+        {
           "paper_id": "openreview-icml-2026-sycsmgogxm",
-          "score": 0.09983633387888699,
-          "star_rating": 2
+          "score": 0.11772814998621459,
+          "star_rating": 3
         },
         {
           "paper_id": "openreview-icml-2026-wkmv7mxjur",
-          "score": 0.0319204604918889,
-          "star_rating": 2
+          "score": 0.0,
+          "star_rating": 1
         }
       ]
     },
@@ -1608,9 +1708,17 @@
           "score": 0.015625,
           "rank": 4
         },
+        "openreview-icml-2026-l35qwevxgn": {
+          "score": 0.015384615384615385,
+          "rank": 5
+        },
         "openreview-icml-2026-nvnkuqwuu3": {
           "score": 0.015151515151515152,
           "rank": 6
+        },
+        "openreview-icml-2026-b7p2wegaby": {
+          "score": 0.014925373134328358,
+          "rank": 7
         },
         "openreview-icml-2026-wkmv7mxjur": {
           "score": 0.014705882352941176,
@@ -1659,43 +1767,48 @@
       },
       "ranked": [
         {
-          "paper_id": "openreview-icml-2026-gfqi92bpc1",
-          "score": 1.0,
-          "star_rating": 5
-        },
-        {
           "paper_id": "openreview-icml-2026-8ppvmlta2v",
           "score": 1.0,
           "star_rating": 5
         },
         {
-          "paper_id": "openreview-icml-2026-obglvd5yc6",
-          "score": 0.9586435070306036,
-          "star_rating": 5
-        },
-        {
           "paper_id": "openreview-icml-2026-boixvrwtdi",
-          "score": 0.9586435070306036,
+          "score": 1.0,
           "star_rating": 5
         },
         {
           "paper_id": "openreview-icml-2026-jhymxqs9jv",
-          "score": 0.9185999185999183,
+          "score": 0.9586435070306036,
           "star_rating": 5
         },
         {
-          "paper_id": "openreview-icml-2026-9s9v5ntqjm",
-          "score": 0.9185999185999183,
+          "paper_id": "openreview-icml-2026-gfqi92bpc1",
+          "score": 0.9586435070306036,
           "star_rating": 5
         },
         {
           "paper_id": "openreview-icml-2026-xrvwfts3es",
+          "score": 0.9185999185999183,
+          "star_rating": 5
+        },
+        {
+          "paper_id": "openreview-icml-2026-obglvd5yc6",
+          "score": 0.9185999185999183,
+          "star_rating": 5
+        },
+        {
+          "paper_id": "openreview-icml-2026-cbicsaxmwq",
           "score": 0.8798076923076922,
           "star_rating": 4
         },
         {
-          "paper_id": "openreview-icml-2026-zmxbdbk4fm",
+          "paper_id": "openreview-icml-2026-9s9v5ntqjm",
           "score": 0.8798076923076922,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-vzdsheab4g",
+          "score": 0.8422090729783037,
           "star_rating": 4
         },
         {
@@ -1704,22 +1817,17 @@
           "star_rating": 4
         },
         {
-          "paper_id": "openreview-icml-2026-vv4tmkyfwa",
-          "score": 0.8422090729783037,
+          "paper_id": "openreview-icml-2026-zmxbdbk4fm",
+          "score": 0.8057498057498057,
           "star_rating": 4
         },
         {
-          "paper_id": "openreview-icml-2026-cbicsaxmwq",
+          "paper_id": "openreview-icml-2026-p247k4elcn",
           "score": 0.8057498057498057,
           "star_rating": 4
         },
         {
           "paper_id": "openreview-icml-2026-z8svqd3pmi",
-          "score": 0.8057498057498057,
-          "star_rating": 4
-        },
-        {
-          "paper_id": "openreview-icml-2026-vzdsheab4g",
           "score": 0.7703788748564866,
           "star_rating": 4
         },
@@ -1729,7 +1837,7 @@
           "star_rating": 4
         },
         {
-          "paper_id": "openreview-icml-2026-p247k4elcn",
+          "paper_id": "openreview-icml-2026-vv4tmkyfwa",
           "score": 0.73604826546003,
           "star_rating": 4
         },
@@ -1739,154 +1847,174 @@
           "star_rating": 4
         },
         {
+          "paper_id": "openreview-icml-2026-kqe6gjpqtn",
+          "score": 0.702712746191007,
+          "star_rating": 4
+        },
+        {
           "paper_id": "openreview-icml-2026-zsrvkj0ers",
           "score": 0.702712746191007,
           "star_rating": 4
         },
         {
-          "paper_id": "openreview-icml-2026-wine6qnt9n",
-          "score": 0.702712746191007,
-          "star_rating": 4
-        },
-        {
-          "paper_id": "openreview-icml-2026-2cors45ucj",
+          "paper_id": "openreview-icml-2026-nvnkuqwuu3",
           "score": 0.6703296703296702,
           "star_rating": 4
         },
         {
-          "paper_id": "openreview-icml-2026-kqe6gjpqtn",
-          "score": 0.6388587937883712,
-          "star_rating": 4
-        },
-        {
-          "paper_id": "openreview-icml-2026-3clofiywlu",
-          "score": 0.6388587937883712,
-          "star_rating": 4
-        },
-        {
-          "paper_id": "openreview-icml-2026-wkmv7mxjur",
-          "score": 0.608262108262108,
-          "star_rating": 4
-        },
-        {
-          "paper_id": "openreview-icml-2026-nvnkuqwuu3",
-          "score": 0.608262108262108,
-          "star_rating": 4
-        },
-        {
-          "paper_id": "openreview-icml-2026-ix1hdzko8u",
-          "score": 0.578503688092729,
+          "paper_id": "openreview-icml-2026-l35qwevxgn",
+          "score": 0.6703296703296702,
           "star_rating": 4
         },
         {
           "paper_id": "openreview-icml-2026-68amok2ynk",
-          "score": 0.578503688092729,
+          "score": 0.6388587937883712,
           "star_rating": 4
         },
         {
-          "paper_id": "openreview-icml-2026-faja0snayq",
-          "score": 0.5495495495495496,
+          "paper_id": "openreview-icml-2026-wine6qnt9n",
+          "score": 0.6388587937883712,
           "star_rating": 4
         },
         {
-          "paper_id": "openreview-icml-2026-zvv11mhfld",
-          "score": 0.5495495495495496,
+          "paper_id": "openreview-icml-2026-ix1hdzko8u",
+          "score": 0.608262108262108,
           "star_rating": 4
         },
         {
-          "paper_id": "openreview-icml-2026-5g9puwbcsu",
-          "score": 0.5213675213675214,
+          "paper_id": "openreview-icml-2026-2cors45ucj",
+          "score": 0.608262108262108,
           "star_rating": 4
         },
         {
           "paper_id": "openreview-icml-2026-nwkaqikogp",
+          "score": 0.578503688092729,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-3clofiywlu",
+          "score": 0.578503688092729,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-b7p2wegaby",
+          "score": 0.5495495495495496,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-wkmv7mxjur",
+          "score": 0.5495495495495496,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-1ynrlssrsk",
           "score": 0.5213675213675214,
           "star_rating": 4
         },
         {
-          "paper_id": "openreview-icml-2026-bydjzyqkxq",
+          "paper_id": "openreview-icml-2026-faja0snayq",
+          "score": 0.5213675213675214,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-zvv11mhfld",
           "score": 0.49392712550607265,
           "star_rating": 3
         },
         {
-          "paper_id": "openreview-icml-2026-1ynrlssrsk",
+          "paper_id": "openreview-icml-2026-5g9puwbcsu",
           "score": 0.46719946719946726,
           "star_rating": 3
         },
         {
-          "paper_id": "openreview-icml-2026-tnn9bikyxz",
-          "score": 0.46719946719946726,
-          "star_rating": 3
-        },
-        {
-          "paper_id": "openreview-icml-2026-pj0gpmfyrr",
+          "paper_id": "openreview-icml-2026-bydjzyqkxq",
           "score": 0.4411571334648256,
-          "star_rating": 3
-        },
-        {
-          "paper_id": "openreview-icml-2026-vbmdonzfev",
-          "score": 0.4411571334648256,
-          "star_rating": 3
-        },
-        {
-          "paper_id": "openreview-icml-2026-udqe7uzuz6",
-          "score": 0.3668882557771445,
-          "star_rating": 3
-        },
-        {
-          "paper_id": "openreview-icml-2026-txhot32maj",
-          "score": 0.32035835650293487,
           "star_rating": 3
         },
         {
           "paper_id": "openreview-icml-2026-8metowzhjd",
-          "score": 0.32035835650293487,
+          "score": 0.41577409931840303,
+          "star_rating": 3
+        },
+        {
+          "paper_id": "openreview-icml-2026-tnn9bikyxz",
+          "score": 0.41577409931840303,
           "star_rating": 3
         },
         {
           "paper_id": "openreview-icml-2026-ftvnzxhw9w",
+          "score": 0.3910256410256411,
+          "star_rating": 3
+        },
+        {
+          "paper_id": "openreview-icml-2026-pj0gpmfyrr",
+          "score": 0.3910256410256411,
+          "star_rating": 3
+        },
+        {
+          "paper_id": "openreview-icml-2026-qzo3oby12w",
+          "score": 0.3668882557771445,
+          "star_rating": 3
+        },
+        {
+          "paper_id": "openreview-icml-2026-xnkrytkwxo",
+          "score": 0.32035835650293487,
+          "star_rating": 3
+        },
+        {
+          "paper_id": "openreview-icml-2026-ccfyy2lmf5",
           "score": 0.2760180995475112,
           "star_rating": 3
         },
         {
-          "paper_id": "openreview-icml-2026-ajhtru25kd",
+          "paper_id": "openreview-icml-2026-sycsmgogxm",
           "score": 0.25462134764460337,
           "star_rating": 3
         },
         {
-          "paper_id": "openreview-icml-2026-tnosqdv9j1",
+          "paper_id": "openreview-icml-2026-udqe7uzuz6",
+          "score": 0.25462134764460337,
+          "star_rating": 3
+        },
+        {
+          "paper_id": "openreview-icml-2026-mo7dgwffve",
           "score": 0.23371647509578536,
           "star_rating": 3
         },
         {
-          "paper_id": "openreview-icml-2026-fyle5o8g5f",
+          "paper_id": "openreview-icml-2026-fofvtwbgux",
+          "score": 0.21328671328671328,
+          "star_rating": 3
+        },
+        {
+          "paper_id": "openreview-icml-2026-ooruky3zjq",
           "score": 0.1933160472486314,
           "star_rating": 3
         },
         {
+          "paper_id": "openreview-icml-2026-tnosqdv9j1",
+          "score": 0.1933160472486314,
+          "star_rating": 3
+        },
+        {
+          "paper_id": "openreview-icml-2026-fssirpjy9u",
+          "score": 0.11772814998621459,
+          "star_rating": 3
+        },
+        {
+          "paper_id": "openreview-icml-2026-fyle5o8g5f",
+          "score": 0.09983633387888699,
+          "star_rating": 2
+        },
+        {
           "paper_id": "openreview-icml-2026-4arh5kzrgz",
-          "score": 0.15469146238377016,
-          "star_rating": 3
-        },
-        {
-          "paper_id": "openreview-icml-2026-sycsmgogxm",
-          "score": 0.15469146238377016,
-          "star_rating": 3
-        },
-        {
-          "paper_id": "openreview-icml-2026-1vshjguvbs",
           "score": 0.0823211875843454,
           "star_rating": 2
         },
         {
-          "paper_id": "openreview-icml-2026-7d5wd70jkj",
+          "paper_id": "openreview-icml-2026-mnox4mkh3f",
           "score": 0.0483743061062648,
           "star_rating": 2
-        },
-        {
-          "paper_id": "openreview-icml-2026-mnox4mkh3f",
-          "score": 0.0,
-          "star_rating": 1
         }
       ]
     },
@@ -1911,10 +2039,6 @@
         "openreview-icml-2026-zsrvkj0ers": {
           "score": 0.015625,
           "rank": 4
-        },
-        "openreview-icml-2026-vbmdonzfev": {
-          "score": 0.015384615384615385,
-          "rank": 5
         },
         "openreview-icml-2026-fyle5o8g5f": {
           "score": 0.015151515151515152,
@@ -1968,10 +2092,6 @@
           "score": 0.011764705882352941,
           "rank": 25
         },
-        "openreview-icml-2026-7d5wd70jkj": {
-          "score": 0.011627906976744186,
-          "rank": 26
-        },
         "openreview-icml-2026-1ynrlssrsk": {
           "score": 0.011235955056179775,
           "rank": 29
@@ -1996,6 +2116,10 @@
           "score": 0.01020408163265306,
           "rank": 38
         },
+        "openreview-icml-2026-xnkrytkwxo": {
+          "score": 0.00980392156862745,
+          "rank": 42
+        },
         "openreview-icml-2026-9s9v5ntqjm": {
           "score": 0.009708737864077669,
           "rank": 43
@@ -2016,53 +2140,48 @@
           "star_rating": 5
         },
         {
-          "paper_id": "openreview-icml-2026-9s9v5ntqjm",
+          "paper_id": "openreview-icml-2026-rzlmkviany",
           "score": 1.0,
           "star_rating": 5
         },
         {
-          "paper_id": "openreview-icml-2026-rzlmkviany",
-          "score": 0.9586435070306036,
-          "star_rating": 5
-        },
-        {
-          "paper_id": "openreview-icml-2026-zsrvkj0ers",
-          "score": 0.9586435070306036,
-          "star_rating": 5
-        },
-        {
           "paper_id": "openreview-icml-2026-gfqi92bpc1",
-          "score": 0.9185999185999183,
-          "star_rating": 5
-        },
-        {
-          "paper_id": "openreview-icml-2026-obglvd5yc6",
-          "score": 0.9185999185999183,
+          "score": 0.9586435070306036,
           "star_rating": 5
         },
         {
           "paper_id": "openreview-icml-2026-nwkaqikogp",
-          "score": 0.8798076923076922,
-          "star_rating": 4
-        },
-        {
-          "paper_id": "openreview-icml-2026-ftvnzxhw9w",
-          "score": 0.8798076923076922,
-          "star_rating": 4
+          "score": 0.9586435070306036,
+          "star_rating": 5
         },
         {
           "paper_id": "openreview-icml-2026-sycsmgogxm",
-          "score": 0.8422090729783037,
-          "star_rating": 4
+          "score": 0.9185999185999183,
+          "star_rating": 5
         },
         {
-          "paper_id": "openreview-icml-2026-2cors45ucj",
-          "score": 0.8422090729783037,
-          "star_rating": 4
+          "paper_id": "openreview-icml-2026-9s9v5ntqjm",
+          "score": 0.9185999185999183,
+          "star_rating": 5
         },
         {
           "paper_id": "openreview-icml-2026-8ppvmlta2v",
-          "score": 0.8057498057498057,
+          "score": 0.8798076923076922,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-vv4tmkyfwa",
+          "score": 0.8798076923076922,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-pj0gpmfyrr",
+          "score": 0.8422090729783037,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-jhymxqs9jv",
+          "score": 0.8422090729783037,
           "star_rating": 4
         },
         {
@@ -2071,132 +2190,152 @@
           "star_rating": 4
         },
         {
-          "paper_id": "openreview-icml-2026-pj0gpmfyrr",
+          "paper_id": "openreview-icml-2026-faja0snayq",
+          "score": 0.8057498057498057,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-2cors45ucj",
           "score": 0.7703788748564866,
           "star_rating": 4
         },
         {
-          "paper_id": "openreview-icml-2026-8metowzhjd",
+          "paper_id": "openreview-icml-2026-zsrvkj0ers",
           "score": 0.7703788748564866,
           "star_rating": 4
         },
         {
-          "paper_id": "openreview-icml-2026-vv4tmkyfwa",
+          "paper_id": "openreview-icml-2026-fyle5o8g5f",
+          "score": 0.73604826546003,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-obglvd5yc6",
           "score": 0.73604826546003,
           "star_rating": 4
         },
         {
           "paper_id": "openreview-icml-2026-1ynrlssrsk",
-          "score": 0.73604826546003,
-          "star_rating": 4
-        },
-        {
-          "paper_id": "openreview-icml-2026-faja0snayq",
           "score": 0.702712746191007,
           "star_rating": 4
         },
         {
-          "paper_id": "openreview-icml-2026-boixvrwtdi",
+          "paper_id": "openreview-icml-2026-ftvnzxhw9w",
           "score": 0.702712746191007,
-          "star_rating": 4
-        },
-        {
-          "paper_id": "openreview-icml-2026-jhymxqs9jv",
-          "score": 0.6703296703296702,
-          "star_rating": 4
-        },
-        {
-          "paper_id": "openreview-icml-2026-wine6qnt9n",
-          "score": 0.6703296703296702,
-          "star_rating": 4
-        },
-        {
-          "paper_id": "openreview-icml-2026-fyle5o8g5f",
-          "score": 0.6388587937883712,
           "star_rating": 4
         },
         {
           "paper_id": "openreview-icml-2026-mnox4mkh3f",
+          "score": 0.6703296703296702,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-8metowzhjd",
+          "score": 0.6703296703296702,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-5g9puwbcsu",
           "score": 0.6388587937883712,
           "star_rating": 4
         },
         {
           "paper_id": "openreview-icml-2026-tnn9bikyxz",
+          "score": 0.6388587937883712,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-ccfyy2lmf5",
           "score": 0.608262108262108,
           "star_rating": 4
         },
         {
-          "paper_id": "openreview-icml-2026-5g9puwbcsu",
+          "paper_id": "openreview-icml-2026-boixvrwtdi",
           "score": 0.608262108262108,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-wine6qnt9n",
+          "score": 0.578503688092729,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-qzo3oby12w",
+          "score": 0.5495495495495496,
           "star_rating": 4
         },
         {
           "paper_id": "openreview-icml-2026-bydjzyqkxq",
-          "score": 0.578503688092729,
+          "score": 0.5495495495495496,
           "star_rating": 4
         },
         {
-          "paper_id": "openreview-icml-2026-7d5wd70jkj",
-          "score": 0.578503688092729,
+          "paper_id": "openreview-icml-2026-fssirpjy9u",
+          "score": 0.5213675213675214,
           "star_rating": 4
         },
         {
           "paper_id": "openreview-icml-2026-4arh5kzrgz",
-          "score": 0.5495495495495496,
-          "star_rating": 4
-        },
-        {
-          "paper_id": "openreview-icml-2026-txhot32maj",
-          "score": 0.5495495495495496,
-          "star_rating": 4
-        },
-        {
-          "paper_id": "openreview-icml-2026-vbmdonzfev",
           "score": 0.5213675213675214,
           "star_rating": 4
         },
         {
-          "paper_id": "openreview-icml-2026-zvv11mhfld",
-          "score": 0.5213675213675214,
-          "star_rating": 4
-        },
-        {
-          "paper_id": "openreview-icml-2026-tnosqdv9j1",
-          "score": 0.49392712550607265,
-          "star_rating": 3
-        },
-        {
-          "paper_id": "openreview-icml-2026-udqe7uzuz6",
+          "paper_id": "openreview-icml-2026-xnkrytkwxo",
           "score": 0.46719946719946726,
           "star_rating": 3
         },
         {
           "paper_id": "openreview-icml-2026-z8svqd3pmi",
-          "score": 0.41577409931840303,
+          "score": 0.4411571334648256,
+          "star_rating": 3
+        },
+        {
+          "paper_id": "openreview-icml-2026-udqe7uzuz6",
+          "score": 0.4411571334648256,
+          "star_rating": 3
+        },
+        {
+          "paper_id": "openreview-icml-2026-zvv11mhfld",
+          "score": 0.3910256410256411,
+          "star_rating": 3
+        },
+        {
+          "paper_id": "openreview-icml-2026-tnosqdv9j1",
+          "score": 0.3668882557771445,
           "star_rating": 3
         },
         {
           "paper_id": "openreview-icml-2026-wkmv7mxjur",
-          "score": 0.32035835650293487,
+          "score": 0.23371647509578536,
           "star_rating": 3
         },
         {
-          "paper_id": "openreview-icml-2026-ajhtru25kd",
-          "score": 0.29792429792429775,
+          "paper_id": "openreview-icml-2026-fofvtwbgux",
+          "score": 0.1737891737891738,
           "star_rating": 3
         },
         {
-          "paper_id": "openreview-icml-2026-1vshjguvbs",
-          "score": 0.25462134764460337,
-          "star_rating": 3
+          "paper_id": "openreview-icml-2026-p247k4elcn",
+          "score": 0.06517094017094004,
+          "star_rating": 2
         },
         {
-          "paper_id": "openreview-icml-2026-zmxbdbk4fm",
+          "paper_id": "openreview-icml-2026-ooruky3zjq",
           "score": 0.0483743061062648,
           "star_rating": 2
         },
         {
-          "paper_id": "openreview-icml-2026-p247k4elcn",
+          "paper_id": "openreview-icml-2026-mo7dgwffve",
+          "score": 0.015799015799015898,
+          "star_rating": 2
+        },
+        {
+          "paper_id": "openreview-icml-2026-zd2zhfsexc",
+          "score": 0.0,
+          "star_rating": 1
+        },
+        {
+          "paper_id": "openreview-icml-2026-zmxbdbk4fm",
           "score": 0.0,
           "star_rating": 1
         }
@@ -2227,6 +2366,10 @@
         "openreview-icml-2026-gfqi92bpc1": {
           "score": 0.015384615384615385,
           "rank": 5
+        },
+        "openreview-icml-2026-fssirpjy9u": {
+          "score": 0.015151515151515152,
+          "rank": 6
         },
         "openreview-icml-2026-qpkg0ekx4v": {
           "score": 0.014925373134328358,
@@ -2260,10 +2403,6 @@
           "score": 0.013333333333333334,
           "rank": 15
         },
-        "openreview-icml-2026-txhot32maj": {
-          "score": 0.012987012987012988,
-          "rank": 17
-        },
         "openreview-icml-2026-nwkaqikogp": {
           "score": 0.012658227848101266,
           "rank": 19
@@ -2271,6 +2410,10 @@
         "openreview-icml-2026-wine6qnt9n": {
           "score": 0.0125,
           "rank": 20
+        },
+        "openreview-icml-2026-ccfyy2lmf5": {
+          "score": 0.012345679012345678,
+          "rank": 21
         },
         "openreview-icml-2026-obglvd5yc6": {
           "score": 0.012195121951219513,
@@ -2292,10 +2435,6 @@
           "score": 0.011494252873563218,
           "rank": 27
         },
-        "openreview-icml-2026-vbmdonzfev": {
-          "score": 0.011363636363636364,
-          "rank": 28
-        },
         "openreview-icml-2026-pj0gpmfyrr": {
           "score": 0.010752688172043012,
           "rank": 33
@@ -2304,10 +2443,6 @@
           "score": 0.010638297872340425,
           "rank": 34
         },
-        "openreview-icml-2026-ajhtru25kd": {
-          "score": 0.01020408163265306,
-          "rank": 38
-        },
         "openreview-icml-2026-ftvnzxhw9w": {
           "score": 0.010101010101010102,
           "rank": 39
@@ -2315,6 +2450,10 @@
         "openreview-icml-2026-9s9v5ntqjm": {
           "score": 0.00980392156862745,
           "rank": 42
+        },
+        "openreview-icml-2026-fofvtwbgux": {
+          "score": 0.009708737864077669,
+          "rank": 43
         },
         "openreview-icml-2026-bydjzyqkxq": {
           "score": 0.009523809523809525,
@@ -2344,6 +2483,14 @@
           "score": 0.015384615384615385,
           "rank": 5
         },
+        "openreview-icml-2026-ccfyy2lmf5": {
+          "score": 0.014925373134328358,
+          "rank": 7
+        },
+        "openreview-icml-2026-fssirpjy9u": {
+          "score": 0.014705882352941176,
+          "rank": 8
+        },
         "openreview-icml-2026-1ynrlssrsk": {
           "score": 0.014492753623188406,
           "rank": 9
@@ -2363,6 +2510,10 @@
         "openreview-icml-2026-rzlmkviany": {
           "score": 0.013333333333333334,
           "rank": 15
+        },
+        "openreview-icml-2026-ooruky3zjq": {
+          "score": 0.013157894736842105,
+          "rank": 16
         },
         "openreview-icml-2026-gfqi92bpc1": {
           "score": 0.0125,
@@ -2424,10 +2575,6 @@
           "score": 0.015384615384615385,
           "rank": 5
         },
-        "openreview-icml-2026-7d5wd70jkj": {
-          "score": 0.015151515151515152,
-          "rank": 6
-        },
         "openreview-icml-2026-8ppvmlta2v": {
           "score": 0.014705882352941176,
           "rank": 8
@@ -2436,9 +2583,9 @@
           "score": 0.014492753623188406,
           "rank": 9
         },
-        "openreview-icml-2026-1vshjguvbs": {
-          "score": 0.014285714285714285,
-          "rank": 10
+        "openreview-icml-2026-mo7dgwffve": {
+          "score": 0.013513513513513514,
+          "rank": 14
         },
         "openreview-icml-2026-2cors45ucj": {
           "score": 0.013157894736842105,
@@ -2472,6 +2619,10 @@
           "score": 0.01020408163265306,
           "rank": 38
         },
+        "openreview-icml-2026-xnkrytkwxo": {
+          "score": 0.009900990099009901,
+          "rank": 41
+        },
         "openreview-icml-2026-zvv11mhfld": {
           "score": 0.00980392156862745,
           "rank": 42
@@ -2480,9 +2631,9 @@
           "score": 0.009345794392523364,
           "rank": 47
         },
-        "openreview-icml-2026-ajhtru25kd": {
-          "score": 0.009174311926605505,
-          "rank": 49
+        "openreview-icml-2026-fssirpjy9u": {
+          "score": 0.009259259259259259,
+          "rank": 48
         }
       }
     },
@@ -2524,6 +2675,10 @@
           "score": 0.014285714285714285,
           "rank": 10
         },
+        "openreview-icml-2026-ccfyy2lmf5": {
+          "score": 0.014084507042253521,
+          "rank": 11
+        },
         "openreview-icml-2026-boixvrwtdi": {
           "score": 0.013888888888888888,
           "rank": 12
@@ -2556,13 +2711,17 @@
           "score": 0.011904761904761904,
           "rank": 24
         },
+        "openreview-icml-2026-ooruky3zjq": {
+          "score": 0.011764705882352941,
+          "rank": 25
+        },
         "openreview-icml-2026-tnosqdv9j1": {
           "score": 0.010752688172043012,
           "rank": 33
         },
-        "openreview-icml-2026-vbmdonzfev": {
-          "score": 0.010416666666666666,
-          "rank": 36
+        "openreview-icml-2026-fssirpjy9u": {
+          "score": 0.010638297872340425,
+          "rank": 34
         },
         "openreview-icml-2026-5g9puwbcsu": {
           "score": 0.010101010101010102,
@@ -2648,6 +2807,10 @@
           "score": 0.0125,
           "rank": 20
         },
+        "openreview-icml-2026-ooruky3zjq": {
+          "score": 0.012195121951219513,
+          "rank": 22
+        },
         "openreview-icml-2026-faja0snayq": {
           "score": 0.011904761904761904,
           "rank": 24
@@ -2660,13 +2823,13 @@
           "score": 0.010416666666666666,
           "rank": 36
         },
+        "openreview-icml-2026-ccfyy2lmf5": {
+          "score": 0.010309278350515464,
+          "rank": 37
+        },
         "openreview-icml-2026-tnosqdv9j1": {
           "score": 0.01020408163265306,
           "rank": 38
-        },
-        "openreview-icml-2026-vbmdonzfev": {
-          "score": 0.00980392156862745,
-          "rank": 42
         },
         "openreview-icml-2026-mnox4mkh3f": {
           "score": 0.009708737864077669,
@@ -2704,6 +2867,14 @@
       "paper_tag": "keyword:agent-memory",
       "query_text": "multi-agent memory",
       "sim_scores": {
+        "openreview-icml-2026-fssirpjy9u": {
+          "score": 0.01639344262295082,
+          "rank": 1
+        },
+        "openreview-icml-2026-fofvtwbgux": {
+          "score": 0.015625,
+          "rank": 4
+        },
         "openreview-icml-2026-bydjzyqkxq": {
           "score": 0.015384615384615385,
           "rank": 5
@@ -2711,10 +2882,6 @@
         "openreview-icml-2026-faja0snayq": {
           "score": 0.014925373134328358,
           "rank": 7
-        },
-        "openreview-icml-2026-1tbhbsxcyx": {
-          "score": 0.013513513513513514,
-          "rank": 14
         }
       }
     },
@@ -2724,6 +2891,18 @@
       "paper_tag": "keyword:agent-memory",
       "query_text": "shared memory and communication in multi-agent systems",
       "sim_scores": {
+        "openreview-icml-2026-ooruky3zjq": {
+          "score": 0.016129032258064516,
+          "rank": 2
+        },
+        "openreview-icml-2026-ccfyy2lmf5": {
+          "score": 0.015873015873015872,
+          "rank": 3
+        },
+        "openreview-icml-2026-fssirpjy9u": {
+          "score": 0.014925373134328358,
+          "rank": 7
+        },
         "openreview-icml-2026-qpkg0ekx4v": {
           "score": 0.014492753623188406,
           "rank": 9
@@ -2887,8 +3066,8 @@
     "openreview-icml-2026-3clofiywlu",
     "openreview-icml-2026-91gdjfpm7f",
     "openreview-icml-2026-mpw3obdkcd",
-    "openreview-icml-2026-4s92fythbq",
     "openreview-icml-2026-1tbhbsxcyx",
+    "openreview-icml-2026-4s92fythbq",
     "openreview-icml-2026-ighbkqallp",
     "openreview-icml-2026-mo7dgwffve",
     "openreview-icml-2026-qzo3oby12w",
@@ -2905,21 +3084,21 @@
   "global_pool_limit": 120,
   "global_pool_guaranteed_per_lane": 2,
   "global_pool_effective_size": 120,
-  "reranked_at": "2026-09-19T06:25:16.125745+00:00",
+  "reranked_at": "2026-09-19T06:30:00.773572+00:00",
   "llm_ranked": [
     {
-      "paper_id": "openreview-icml-2026-obglvd5yc6",
+      "paper_id": "openreview-icml-2026-rzlmkviany",
       "score": 10.0,
-      "evidence_en": "Efficient lifelong memory framework for LLM agents managing historical experiences",
-      "evidence_cn": "面向LLM智能体的高效终身记忆框架",
-      "canonical_evidence": "面向LLM智能体的高效终身记忆框架",
-      "tldr_en": "SimpleMem proposes a semantic lossless compression memory framework with a three-stage pipeline to give LLM agents efficient lifelong memory, reducing redundancy and token cost versus context extension or iterative reasoning.",
-      "tldr_cn": "针对LLM智能体长期交互中记忆冗余与token开销大的问题，本文提出SimpleMem高效记忆框架，基于语义无损压缩设计三阶段流水线：语义结构化压缩将非结构化交互蒸馏为紧凑多视图索引记忆单元，在线语义合成在会话内即时整合相关上下文。该框架在最大化信息密度与token利用率的同时降低历史管理的成本，为智能体终身记忆架构提供了可扩展方案。",
-      "title_zh": "SimpleMem：面向LLM智能体的高效终身记忆",
-      "motivation_cn": "现有LLM智能体记忆要么被动扩展上下文导致冗余，要么迭代推理过滤噪声而token开销高。",
-      "method_cn": "提出基于语义无损压缩的三阶段流水线，将交互蒸馏为多视图索引记忆单元并进行在线语义合成。",
-      "result_cn": "在提升信息密度与token利用率的同时降低冗余，实现高效的终身记忆管理。",
-      "conclusion_cn": "为LLM智能体提供可扩展的高效终身记忆架构，缓解长程交互中的记忆膨胀问题。",
+      "evidence_en": "hybrid memory architecture for language agents with long-term and short-term memory",
+      "evidence_cn": "面向语言智能体的长短期混合记忆架构",
+      "canonical_evidence": "面向语言智能体的长短期混合记忆架构",
+      "tldr_en": "Most agentic memory systems only retrieve at episode start, causing static guidance to misalign over long tasks; AdaMEM uses a hybrid long-term trajectory and dynamic short-term strategy memory to adapt agents at test time without parameter updates.",
+      "tldr_cn": "语言智能体需要利用过往经验适应动态的测试时环境，但多数智能体记忆系统只在任务开始时检索一次，导致静态指引在长程任务中逐渐失配。本文提出自适应记忆智能体AdaMEM，在不更新模型参数的前提下，通过混合记忆架构维护离线收集的长期轨迹记忆，并在运行中动态生成短期策略记忆来指导决策。该机制使智能体能够在任务展开过程中持续调整行为，为测试时自适应与智能体记忆架构提供了新的方案。",
+      "title_zh": "AdaMEM：面向语言智能体的测试时自适应记忆",
+      "motivation_cn": "现有智能体记忆系统多在任务开始时一次性检索，静态指引在长程任务中逐渐失配。",
+      "method_cn": "提出AdaMEM，通过长期轨迹记忆与在线生成的短期策略记忆构成混合架构，实现免参数更新的测试时自适应。",
+      "result_cn": "该机制使智能体在长程任务中动态调整行为，持续利用过往经验改善决策。",
+      "conclusion_cn": "为语言智能体的记忆检索与测试时自适应提供了更灵活有效的架构。",
       "matched_requirement_id": "req-1",
       "matched_query_tag": "query:agent-memory",
       "matched_query_text": "memory mechanisms in autonomous agents and agent memory architectures"
@@ -2927,220 +3106,152 @@
     {
       "paper_id": "openreview-icml-2026-faja0snayq",
       "score": 10.0,
-      "evidence_en": "episodic memory reconstruction for LLM agent memory",
-      "evidence_cn": "面向LLM智能体记忆的情景上下文重建",
-      "canonical_evidence": "面向LLM智能体记忆的情景上下文重建",
-      "tldr_en": "E-mem addresses destructive de-contextualization in LLM agent memory preprocessing by shifting from memory preprocessing to episodic context reconstruction, using a hierarchical multi-agent architecture to maintain uncompressed memory for long-horizon reasoning.",
-      "tldr_cn": "现有LLM智能体记忆预处理范式将连续依赖压缩为嵌入或图结构，造成破坏性的去上下文，损害长程推理所需的叙事完整性。本文提出E-mem框架，受生物记忆印迹启发，从记忆预处理转向情景上下文重建，采用异构分层架构由多个辅助智能体维护未压缩的记忆内容。该设计旨在保持深度推理所需的逻辑完整性，为System 2式高精度问题求解提供支撑。",
-      "title_zh": "E-mem：面向LLM智能体记忆的基于多智能体的情景上下文重建",
-      "motivation_cn": "主流记忆预处理范式压缩连续依赖，导致上下文破坏，削弱LLM智能体长程推理的叙事完整性。",
-      "method_cn": "提出E-mem框架，受生物记忆印迹启发，用异构分层架构与多个辅助智能体维护未压缩的情景记忆内容。",
-      "result_cn": "通过保留未压缩的叙事记忆，E-mem支撑需要高精度与逻辑完整性的长程推理任务。",
-      "conclusion_cn": "该工作将记忆处理从预处理转向情景重建，为LLM智能体记忆架构提供新范式。",
+      "evidence_en": "Multi-agent episodic context reconstruction for LLM agent memory",
+      "evidence_cn": "面向LLM智能体记忆的多智能体情节上下文重建",
+      "canonical_evidence": "面向LLM智能体记忆的多智能体情节上下文重建",
+      "tldr_en": "E-mem proposes a heterogeneous hierarchical multi-agent architecture that reconstructs episodic context instead of preprocessing memory into fixed structures, preserving narrative integrity for long-horizon LLM agent reasoning.",
+      "tldr_cn": "现有LLM智能体记忆方法多将连续序列依赖压缩为嵌入或图等预定义结构，造成破坏性去语境化，损害深度推理所需的叙事完整性。为此，论文提出E-mem框架，受生物记忆印迹启发，从记忆预处理转向情节上下文重建，采用由多助手智能体构成的异构分层架构维护未压缩记忆内容。该工作旨在提升System 2式长程高精度推理中记忆的连贯性，为智能体记忆架构提供新范式。",
+      "title_zh": "E-mem：面向LLM智能体记忆的多智能体情节上下文重建",
+      "motivation_cn": "主流记忆预处理把连续序列压缩为嵌入或图结构，破坏语境，损害长程深度推理所需的逻辑完整性。",
+      "method_cn": "提出E-mem，采用多助手智能体构成的异构分层架构，维护未压缩记忆并重建情节上下文而非预处理压缩。",
+      "result_cn": "摘要未给出具体量化结果，但框架旨在维持长时程推理的叙事与逻辑完整性。",
+      "conclusion_cn": "以情节上下文重建替代记忆预处理，为LLM智能体记忆架构提供生物启发的新思路。",
       "matched_requirement_id": "req-6",
       "matched_query_tag": "query:agent-memory",
       "matched_query_text": "Search for papers about long term memory, episodic memory, and memory retrieval in interactive agent systems."
     },
     {
-      "paper_id": "openreview-icml-2026-xrvwfts3es",
+      "paper_id": "openreview-icml-2026-8metowzhjd",
       "score": 10.0,
-      "evidence_en": "graph memory and active reconstruction for LLM agent reasoning",
-      "evidence_cn": "面向LLM智能体推理的图记忆与主动重建",
-      "canonical_evidence": "面向LLM智能体推理的图记忆与主动重建",
-      "tldr_en": "MRAgent replaces the static retrieve-then-reason pipeline with a Cue-Tag-Content associative memory graph and an active reconstruction mechanism that integrates LLM reasoning into memory access for long-history agent reasoning.",
-      "tldr_cn": "LLM智能体在长交互历史推理上仍显不足，现有记忆增强智能体依赖静态的先检索后推理范式，无法根据推理中发现的中间证据动态调整记忆访问。本文提出MRAgent，将记忆表示为线索-标签-内容图，并引入主动重建机制，把LLM推理直接融入记忆访问过程。该框架使智能体能迭代探索记忆，突破刚性流水线限制，提升长程推理能力。",
-      "title_zh": "记忆是被重建而非检索：面向LLM智能体的图记忆",
-      "motivation_cn": "现有记忆增强智能体的先检索后推理范式过于刚性，无法根据推理中发现的中间证据动态调整记忆访问。",
-      "method_cn": "提出MRAgent，将记忆组织为线索-标签-内容关联图，并用主动重建机制把LLM推理融入记忆访问。",
-      "result_cn": "智能体可迭代探索记忆结构，动态重构所需记忆内容，改善长交互历史下的推理表现。",
-      "conclusion_cn": "该工作主张记忆是重建而非检索，为智能体记忆访问范式提供新思路。",
-      "matched_requirement_id": "req-3",
+      "evidence_en": "Executable agentic memory as knowledge graph for GUI agent planning",
+      "evidence_cn": "面向GUI智能体的可执行智能体记忆知识图谱",
+      "canonical_evidence": "面向GUI智能体的可执行智能体记忆知识图谱",
+      "tldr_en": "EAM builds a structured knowledge graph memory for GUI agents, using state-aware DFS and action-group mining to compress routines and value-guided MCTS with a Q-model for retrieval-and-execution planning, improving long-horizon robustness.",
+      "tldr_cn": "现代GUI智能体依赖逐步的模型中心交互，需在每个界面重新理解并决策，在长时程任务中十分脆弱。本文提出可执行智能体记忆EAM，用结构化知识图谱把GUI规划从自由生成转变为稳健的检索与执行过程。方法包含基于状态感知DFS与动作组挖掘的高样本效率记忆构建，以及由轻量Q函数引导的MCTS值引导图搜索，并从理论上证明了Q模型的偏差一致性。该工作为智能体记忆驱动的规划提供了可执行的记忆架构。",
+      "title_zh": "面向GUI智能体的可执行智能体记忆",
+      "motivation_cn": "GUI智能体逐步交互，需在每个界面重新理解并决策，导致长时程任务脆弱。",
+      "method_cn": "提出EAM，用知识图谱记忆压缩多步例程，并以值引导的MCTS进行检索与执行式规划。",
+      "result_cn": "理论上证明了Q模型的偏差一致性并给出样本复杂度界，提升长时程规划稳健性。",
+      "conclusion_cn": "把GUI规划转化为基于结构化记忆的检索执行过程，为智能体记忆架构提供新范式。",
+      "matched_requirement_id": "req-1",
       "matched_query_tag": "query:agent-memory",
-      "matched_query_text": "memory retrieval mechanisms for agent decision making"
+      "matched_query_text": "memory mechanisms in autonomous agents and agent memory architectures"
+    },
+    {
+      "paper_id": "openreview-icml-2026-pj0gpmfyrr",
+      "score": 10.0,
+      "evidence_en": "Hybrid episodic-procedural memory for experience-evolving tool-use agents",
+      "evidence_cn": "面向经验演化工具使用智能体的情节-程序混合记忆",
+      "canonical_evidence": "面向经验演化工具使用智能体的情节-程序混合记忆",
+      "tldr_en": "H-EPM introduces a hybrid episodic-procedural memory that builds a tool graph from accumulated trajectories, capturing procedural routines and adaptively reusing partially overlapping successful experiences for multi-turn tool-use agents.",
+      "tldr_cn": "多轮智能体在意图展开与环境变化中面临不断迁移的决策情境，但现有经验复用方法受限：完整轨迹过于具体难以迁移，工具级复用又忽略上下文与环境。本文提出情节-程序混合记忆策略H-EPM，借鉴人类情节与程序记忆的整合，从累积轨迹构建工具图，以重复出现的工具依赖刻画程序性例程。该策略在推理与训练中自适应复用部分重叠的成功经验，实现多轮工具使用策略的经验演化。工作表明混合记忆能有效提升智能体的经验迁移能力。",
+      "title_zh": "基于情节-程序混合记忆的经验演化多轮工具使用智能体",
+      "motivation_cn": "多轮工具使用智能体面对不断变化的决策情境，完整轨迹难以迁移、工具级复用又忽略上下文。",
+      "method_cn": "提出H-EPM混合情节-程序记忆，从轨迹构建工具图，捕捉工具依赖的程序性例程并自适应复用经验。",
+      "result_cn": "在推理与训练中复用部分重叠的成功经验，实现多轮工具使用策略的经验演化。",
+      "conclusion_cn": "表明情节与程序记忆的整合能提升智能体经验复用的迁移性与效率。",
+      "matched_requirement_id": "req-2",
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "memory-augmented agent models that store and retrieve experience"
     },
     {
       "paper_id": "openreview-icml-2026-nwkaqikogp",
       "score": 10.0,
-      "evidence_en": "task-agnostic plugin memory module storing episodic experience for LLM agents",
-      "evidence_cn": "面向LLM智能体的任务无关可插拔记忆模块",
-      "canonical_evidence": "面向LLM智能体的任务无关可插拔记忆模块",
-      "tldr_en": "PlugMem is a task-agnostic plugin memory module for LLM agents that structures episodic memories into a knowledge-centric graph, enabling transferable and efficient long-term memory retrieval.",
-      "tldr_cn": "现有LLM智能体记忆设计要么任务专用难以迁移，要么任务无关但检索相关性低且上下文爆炸。本文提出PlugMem，一个可插入任意LLM智能体的任务无关插件式记忆模块，受认知科学启发将情节记忆组织为紧凑可扩展的知识中心记忆图，显式表示命题性与规范性知识。该表示实现高效记忆检索，提升决策相关性并抑制上下文膨胀，为通用智能体长期记忆提供可迁移方案。",
+      "evidence_en": "Task-agnostic plugin memory module for LLM agents",
+      "evidence_cn": "面向LLM智能体的任务无关插件式记忆模块",
+      "canonical_evidence": "面向LLM智能体的任务无关插件式记忆模块",
+      "tldr_en": "PlugMem is a task-agnostic plugin memory module that structures episodic memories into a compact knowledge-centric memory graph representing propositional and prescriptive knowledge, enabling efficient transferable long-term memory for arbitrary LLM agents.",
+      "tldr_cn": "长期记忆对复杂环境中的LLM智能体至关重要，但现有设计要么任务特定难以迁移，要么任务无关却因检索原始经验而相关性低、上下文爆炸。本文提出PlugMem，一个可附加到任意LLM智能体的任务无关插件式记忆模块。受认知科学启发，它把情节记忆组织为紧凑可扩展、以知识为中心的记忆图，显式表示命题性与规范性知识。该表示支持高效检索并提升决策相关性，为通用智能体记忆提供了可迁移方案。",
       "title_zh": "PlugMem：面向LLM智能体的任务无关插件式记忆模块",
-      "motivation_cn": "现有智能体记忆要么任务专用难迁移，要么任务无关但检索相关性低、上下文易爆炸。",
-      "method_cn": "提出可插入任意LLM智能体的插件式记忆模块，将情节记忆组织为知识中心的记忆图。",
-      "result_cn": "实现高效检索，提升任务相关性并缓解上下文膨胀，且无需任务专用重设计。",
-      "conclusion_cn": "为通用LLM智能体提供可迁移、可扩展的长期记忆架构。",
+      "motivation_cn": "LLM智能体的长期记忆设计要么任务特定难迁移，要么任务无关却因原始检索导致相关性低与上下文爆炸。",
+      "method_cn": "提出PlugMem插件式记忆模块，把情节记忆组织为以知识为中心的紧凑记忆图，表示命题与规范性知识。",
+      "result_cn": "可附加到任意LLM智能体而无需任务特定改造，提升记忆检索的相关性与效率。",
+      "conclusion_cn": "为通用LLM智能体提供了可迁移、任务无关的长期记忆方案。",
       "matched_requirement_id": "req-2",
       "matched_query_tag": "query:agent-memory",
       "matched_query_text": "memory-augmented agent models that store and retrieve experience"
+    },
+    {
+      "paper_id": "openreview-icml-2026-5g9puwbcsu",
+      "score": 9.0,
+      "evidence_en": "runtime agent memory framework with budget-tier routing",
+      "evidence_cn": "带预算分层路由的运行时智能体记忆框架",
+      "canonical_evidence": "带预算分层路由的运行时智能体记忆框架",
+      "tldr_en": "BudgetMem is a runtime agent memory framework giving explicit query-aware control over the performance-cost trade-off by routing among memory modules offered in three budget tiers.",
+      "tldr_cn": "现有LLM智能体记忆系统多依赖离线、与查询无关的构建方式，效率低且可能丢失查询关键信息。本文提出BudgetMem运行时记忆框架，将记忆处理拆分为多个模块，每个模块提供低中高三档预算，并用轻量路由器按查询动态选择预算层级。该设计在性能与成本之间实现显式可控的权衡，为跨上下文窗口的智能体记忆提供了更灵活的运行时方案。",
+      "title_zh": "面向运行时智能体记忆的查询感知预算分层路由学习",
+      "motivation_cn": "现有智能体记忆多为离线且与查询无关的构建方式，效率低且易丢弃关键信息。",
+      "method_cn": "提出BudgetMem，把记忆处理组织为多模块三档预算，并用轻量路由器按查询进行预算分层路由。",
+      "result_cn": "实现显式的查询感知性能与成本权衡控制，提升运行时记忆利用效率。",
+      "conclusion_cn": "为跨上下文窗口的LLM智能体提供灵活可控的运行时记忆管理框架。",
+      "matched_requirement_id": "req-1",
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "memory mechanisms in autonomous agents and agent memory architectures"
+    },
+    {
+      "paper_id": "openreview-icml-2026-8ppvmlta2v",
+      "score": 9.0,
+      "evidence_en": "autonomous memory agent with dynamic update and multi-turn retrieval",
+      "evidence_cn": "具备动态更新与多轮检索的自主记忆智能体",
+      "canonical_evidence": "具备动态更新与多轮检索的自主记忆智能体",
+      "tldr_en": "Mem-T is an autonomous memory agent that endogenously manages memory storage and retrieval over streaming inputs, trained via MoT-GRPO to densify sparse rewards for long-horizon memory management.",
+      "tldr_cn": "现有记忆智能体在长时序记忆操作中常面临奖励稀疏且延迟的问题，难以端到端优化记忆管理策略。本文提出Mem-T，一个自主记忆智能体，接入轻量分层记忆数据库，对流转输入进行动态更新与多轮检索。为训练长时序记忆能力，作者提出MoT-GRPO奖励稠密化方法。该工作提升了记忆管理策略的可训练性，为自主记忆智能体提供了新范式。",
+      "title_zh": "Mem-T：为长时序记忆智能体稠密化奖励",
+      "motivation_cn": "记忆智能体在长时序操作中奖励稀疏且延迟，阻碍记忆管理策略的端到端优化。",
+      "method_cn": "提出Mem-T自主记忆智能体，结合分层记忆数据库与MoT-GRPO奖励稠密化训练方法。",
+      "result_cn": "实现对流转输入的动态更新与多轮检索，并有效训练长时序记忆管理能力。",
+      "conclusion_cn": "为自主记忆智能体的记忆存储与检索管理提供了可端到端优化的新方案。",
+      "matched_requirement_id": "req-2",
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "memory-augmented agent models that store and retrieve experience"
+    },
+    {
+      "paper_id": "openreview-icml-2026-ccfyy2lmf5",
+      "score": 9.0,
+      "evidence_en": "learned shared-memory mechanism across parallel agent teams",
+      "evidence_cn": "面向并行智能体团队的习得共享记忆机制",
+      "canonical_evidence": "面向并行智能体团队的习得共享记忆机制",
+      "tldr_en": "Learning to Share introduces a learned shared-memory mechanism for parallel agentic systems that enables selective cross-team information reuse while controlling context growth.",
+      "tldr_cn": "并行多智能体系统通过多团队探索提升鲁棒性，但团队间对相似子问题的独立推理造成大量重复计算与开销。本文提出Learning to Share（LTS），一种可学习的共享记忆机制，使并行智能体框架能够选择性地跨团队复用信息，同时控制上下文增长。该工作降低了并行执行成本，为多智能体系统的共享记忆与协作通信提供了新思路。",
+      "title_zh": "学会共享：面向高效并行智能体系统的选择性记忆",
+      "motivation_cn": "并行多智能体团队独立推理相似子问题导致大量重复计算与高昂开销。",
+      "method_cn": "提出Learning to Share可学习共享记忆机制，实现跨团队选择性信息复用并控制上下文增长。",
+      "result_cn": "在保持鲁棒性与解质量的同时降低并行执行的重复计算成本。",
+      "conclusion_cn": "为多智能体并行系统提供高效的共享记忆与协作通信机制。",
+      "matched_requirement_id": "req-4",
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "shared memory and communication in multi-agent systems"
     },
     {
       "paper_id": "openreview-icml-2026-zsrvkj0ers",
-      "score": 10.0,
-      "evidence_en": "harmonic memory representation balancing abstraction and specificity for agent memory retrieval",
-      "evidence_cn": "平衡抽象与具体的智能体记忆表示与检索",
-      "canonical_evidence": "平衡抽象与具体的智能体记忆表示与检索",
-      "tldr_en": "Memora is a harmonic memory representation that balances abstraction and specificity for agent memory, using primary abstractions and cue anchors to enable efficient context-aware retrieval.",
-      "tldr_cn": "智能体记忆系统需容纳持续增长的信息并支持高效上下文感知检索，但抽象虽利于扩展却牺牲细节，影响推理。本文提出Memora谐调记忆表示，通过主抽象索引具体记忆值并整合相关更新，借助线索锚点扩展多角度检索访问并连接相关记忆。基于该结构设计激活式检索策略，在抽象与具体间取得平衡，为可扩展的智能体记忆架构提供新表示范式。",
-      "title_zh": "Memora：平衡抽象与具体的谐调记忆表示",
-      "motivation_cn": "智能体记忆需持续扩展并高效检索，但抽象化会牺牲推理所需的细粒度细节。",
-      "method_cn": "提出Memora谐调记忆表示，用主抽象索引具体值并用线索锚点扩展检索连接。",
-      "result_cn": "在抽象与具体之间取得结构平衡，支持高效上下文感知的记忆检索。",
-      "conclusion_cn": "为可扩展的智能体记忆架构提供新的记忆表示与检索策略。",
+      "score": 9.0,
+      "evidence_en": "agent memory representation balancing abstraction and specificity",
+      "evidence_cn": "平衡抽象与具体性的智能体记忆表示",
+      "canonical_evidence": "平衡抽象与具体性的智能体记忆表示",
+      "tldr_en": "Memora is a harmonic memory representation for agent memory that structurally balances abstraction and specificity via primary abstractions and cue anchors with a retrieval policy.",
+      "tldr_cn": "智能体记忆需在持续增长的信息中支持高效且上下文感知的检索，但抽象化虽利于扩展却牺牲细粒度细节，损害推理效果。本文提出Memora谐和记忆表示，用主抽象索引具体记忆值并整合更新，用线索锚点扩展检索路径并连接相关记忆。基于该结构采用检索策略进行访问。该工作为可扩展且细节保留的智能体记忆架构提供了新表示方案。",
+      "title_zh": "Memora：平衡抽象与具体性的谐和记忆表示",
+      "motivation_cn": "智能体记忆需持续扩展并支持高效检索，但抽象化常损失推理所需的细粒度细节。",
+      "method_cn": "提出Memora记忆表示，用主抽象索引具体记忆并用线索锚点扩展检索，配合检索策略访问。",
+      "result_cn": "在扩展记忆规模的同时保留具体细节，提升上下文感知检索能力。",
+      "conclusion_cn": "为智能体记忆架构提供了兼顾抽象与具体性的结构化表示方案。",
       "matched_requirement_id": "req-1",
       "matched_query_tag": "query:agent-memory",
       "matched_query_text": "memory mechanisms in autonomous agents and agent memory architectures"
     },
     {
-      "paper_id": "openreview-icml-2026-rzlmkviany",
-      "score": 10.0,
-      "evidence_en": "hybrid long-term and short-term memory architecture for language agents",
-      "evidence_cn": "面向语言智能体的长短时混合记忆架构",
-      "canonical_evidence": "面向语言智能体的长短时混合记忆架构",
-      "tldr_en": "AdaMEM proposes a hybrid memory architecture for language agents that keeps a long-term trajectory memory and generates dynamic short-term strategy memory at test time, overcoming static retrieval-at-episode-start and improving long-horizon adaptation.",
-      "tldr_cn": "现有语言智能体的记忆机制多把检索限制在任务开始时，导致长程任务中静态指导逐渐失配。为此作者提出自适应记忆智能体AdaMEM，在不更新参数的情况下维护离线收集的长期轨迹记忆，并在线生成动态短期策略记忆以指导决策。该混合记忆架构使智能体在测试时能持续适配环境变化，提升了长程任务的适应性与表现，为智能体记忆架构提供了新的设计范式。",
-      "title_zh": "AdaMEM：面向语言智能体的测试时自适应记忆",
-      "motivation_cn": "现有智能体记忆大多仅在回合开始时检索，导致长程任务中静态指导逐渐失配，难以动态适配测试时环境。",
-      "method_cn": "提出AdaMEM框架，在不更新模型参数的前提下，结合离线长期轨迹记忆与在线生成的短期策略记忆来指导决策。",
-      "result_cn": "该混合记忆机制使智能体在长程任务中持续调整行为，缓解了静态指导的失配问题并提升测试时适应能力。",
-      "conclusion_cn": "表明将长期经验与动态短期策略记忆结合，是实现语言智能体测试时自适应记忆的有效途径。",
-      "matched_requirement_id": "req-1",
-      "matched_query_tag": "query:agent-memory",
-      "matched_query_text": "memory mechanisms in autonomous agents and agent memory architectures"
-    },
-    {
-      "paper_id": "openreview-icml-2026-qpkg0ekx4v",
-      "score": 10.0,
-      "evidence_en": "meta-evolution jointly evolving agent memory architecture and experience",
-      "evidence_cn": "联合演化智能体记忆架构与经验的元演化",
-      "canonical_evidence": "联合演化智能体记忆架构与经验的元演化",
-      "tldr_en": "MemEvolve proposes a meta-evolutionary framework that jointly evolves agents' experiential knowledge and their memory architecture, overcoming the staticity of manually engineered memory systems.",
-      "tldr_cn": "自演化记忆系统正重塑LLM智能体的演化范式，但以往多依赖人工设计的记忆架构存储轨迹、蒸馏经验与合成工具，其记忆系统本身是静态的，无法针对多样任务进行元适配。作者提出MemEvolve元演化框架，联合演化智能体的经验知识与记忆架构。该方法使智能体系统不仅能积累经验，还能自适应调整记忆结构，为智能体记忆架构的自动化演进开辟了新方向。",
-      "title_zh": "MemEvolve：智能体记忆系统的元演化",
-      "motivation_cn": "以往智能体记忆多依赖人工设计的静态架构，虽支持智能体演化，却无法针对多样任务对记忆架构本身进行元适配。",
-      "method_cn": "提出MemEvolve元演化框架，联合演化智能体的经验知识与记忆架构，使二者协同自适应调整。",
-      "result_cn": "该框架让智能体不仅积累经验，还能自适应地重构记忆结构，提升了跨多样任务情境的适应能力。",
-      "conclusion_cn": "表明记忆架构可与经验协同元演化，突破静态人工记忆系统的局限。",
-      "matched_requirement_id": "req-1",
-      "matched_query_tag": "query:agent-memory",
-      "matched_query_text": "memory mechanisms in autonomous agents and agent memory architectures"
-    },
-    {
-      "paper_id": "openreview-icml-2026-zvv11mhfld",
+      "paper_id": "openreview-icml-2026-9s9v5ntqjm",
       "score": 9.0,
-      "evidence_en": "Optimizing external memory experience library for reasoning language agents",
-      "evidence_cn": "为推理语言智能体优化外部经验记忆库",
-      "canonical_evidence": "为推理语言智能体优化外部经验记忆库",
-      "tldr_en": "To avoid memory saturation in RAG, the paper treats an agent's external experience library as a learnable parameter under a capacity budget and proposes Textual Stochastic Gradient Descent for discrete memory optimization.",
-      "tldr_cn": "针对RAG将记忆视为静态或仅追加语料、导致记忆饱和与噪声累积的问题，本文提出经验库优化框架，把智能体的外部记忆当作容量预算下的可学习参数，并设计文本随机梯度下降（TSGD）这一离散优化算法来精炼记忆。该工作使智能体无需参数重训即可从经验中持续学习，有效抑制冗余信息对性能的侵蚀，为记忆增强智能体提供了可管理的经验存储与更新机制。",
-      "title_zh": "文本随机梯度下降：推理语言智能体外部记忆的离散优化",
-      "motivation_cn": "RAG把记忆当作静态或仅追加语料，导致噪声累积与记忆饱和，性能随时间退化。",
-      "method_cn": "提出经验库优化框架，将外部记忆视为容量受限的可学习参数，并用文本随机梯度下降离散优化。",
-      "result_cn": "在容量预算下有效精炼经验库，缓解记忆饱和，支持智能体持续从经验学习。",
-      "conclusion_cn": "为记忆增强智能体提供可管理的经验存储与更新范式，无需参数重训即可持续学习。",
-      "matched_requirement_id": "req-2",
-      "matched_query_tag": "query:agent-memory",
-      "matched_query_text": "memory-augmented agent models that store and retrieve experience"
-    },
-    {
-      "paper_id": "openreview-icml-2026-2cors45ucj",
-      "score": 9.0,
-      "evidence_en": "Subtask-level memory storage and retrieval for software engineering agents",
-      "evidence_cn": "面向软件工程智能体的子任务级记忆存储与检索",
-      "canonical_evidence": "面向软件工程智能体的子任务级记忆存储与检索",
-      "tldr_en": "The paper argues instance-level memory causes granularity mismatch and proposes Structurally Aligned Subtask-Level Memory aligning storage, retrieval and updating for software engineering agents.",
-      "tldr_cn": "针对软件工程智能体记忆以整个问题解决实例为原子单位、存在粒度失配导致检索误导的问题，本文通过实证揭示相似表层描述的任务在特定阶段需要不同推理逻辑，提出结构对齐的子任务级记忆方法，将记忆的存储、检索与更新对齐到子任务粒度。该工作提升了长程推理中记忆检索的准确性，为智能体记忆架构的粒度设计提供了重要启示。",
-      "title_zh": "面向软件工程智能体的结构对齐子任务级记忆",
-      "motivation_cn": "现有软件工程智能体记忆以实例为原子粒度，存在粒度失配导致检索误导。",
-      "method_cn": "提出结构对齐的子任务级记忆方法，使记忆存储、检索与更新对齐到子任务粒度。",
-      "result_cn": "实证表明子任务级记忆能缓解相似描述任务的检索误导，提升长程推理准确性。",
-      "conclusion_cn": "为智能体记忆架构的粒度对齐设计提供了重要方法与经验启示。",
-      "matched_requirement_id": "req-2",
-      "matched_query_tag": "query:agent-memory",
-      "matched_query_text": "memory-augmented agent models that store and retrieve experience"
-    },
-    {
-      "paper_id": "openreview-icml-2026-tnn9bikyxz",
-      "score": 9.0,
-      "evidence_en": "self-regulating memory system for GUI agent evolution",
-      "evidence_cn": "面向GUI智能体进化的自调节记忆系统",
-      "canonical_evidence": "面向GUI智能体进化的自调节记忆系统",
-      "tldr_en": "Darwinian Memory System builds agent memory as a dynamic ecosystem governed by survival of the fittest, decomposing trajectories into adaptive units to avoid context pollution and hallucination in long-horizon GUI tasks without training.",
-      "tldr_cn": "多模态大模型智能体在长程跨应用GUI任务中受限于上下文窗口，现有记忆范式难以适应动态GUI环境，存在高层意图与底层执行粒度不匹配及上下文污染问题。本文提出达尔文记忆系统DMS，将记忆构建为遵循适者生存法则的动态生态系统，把复杂轨迹分解为可自适应演化的记忆单元。该架构无需训练即可自我调节，减少过时经验累积导致的幻觉，提升智能体长期演化能力。",
-      "title_zh": "达尔文记忆：面向GUI智能体进化的免训练自调节记忆系统",
-      "motivation_cn": "现有GUI智能体记忆范式难以适应动态环境，存在粒度不匹配与过时经验累积导致的上下文污染和幻觉。",
-      "method_cn": "提出达尔文记忆系统DMS，将记忆构建为遵循适者生存法则的动态生态系统，对复杂轨迹分解与自演化管理。",
-      "result_cn": "该系统免训练即可自调节，减少过时经验的静态累积，缓解智能体在长程任务中的幻觉。",
-      "conclusion_cn": "该工作为动态环境下智能体记忆的自我调节与遗忘管理提供了新架构。",
-      "matched_requirement_id": "req-7",
-      "matched_query_tag": "query:agent-memory",
-      "matched_query_text": "Identify research on memory consolidation, forgetting, and memory management for continual learning agents."
-    },
-    {
-      "paper_id": "openreview-icml-2026-8metowzhjd",
-      "score": 9.0,
-      "evidence_en": "structured agent memory for retrieval-and-execution planning",
-      "evidence_cn": "用于检索与执行规划的结构化智能体记忆",
-      "canonical_evidence": "用于检索与执行规划的结构化智能体记忆",
-      "tldr_en": "Executable Agentic Memory uses a structured knowledge graph to shift GUI planning from free-form generation to retrieval-and-execution, with a state-aware DFS construction pipeline and a Q-function guided MCTS search.",
-      "tldr_cn": "现代GUI智能体依赖以模型为中心、逐步交互的范式，需在每个界面重新解释并决策，在长程任务中十分脆弱。本文提出可执行智能体记忆EAM，用结构化知识图谱将GUI规划从自由生成转变为稳健的检索与执行过程。方法包含状态感知DFS与动作组挖掘的记忆构建流水线，以及由轻量Q函数引导MCTS的值引导图搜索。该工作为长程GUI任务提供高效可靠的规划记忆。",
-      "title_zh": "面向GUI智能体的可执行智能体记忆",
-      "motivation_cn": "GUI智能体逐步交互范式需反复解释界面并决策，在长程任务中脆弱且低效。",
-      "method_cn": "提出可执行智能体记忆EAM，用知识图谱压缩多步例程，并以Q函数引导MCTS进行值引导图搜索。",
-      "result_cn": "该框架将规划转为检索与执行过程，理论上证明Q模型的偏差一致性并给出样本复杂度界。",
-      "conclusion_cn": "该工作为GUI智能体提供了结构化、可复用的记忆规划方案。",
-      "matched_requirement_id": "req-3",
-      "matched_query_tag": "query:agent-memory",
-      "matched_query_text": "memory retrieval mechanisms for agent decision making"
-    },
-    {
-      "paper_id": "openreview-icml-2026-jhymxqs9jv",
-      "score": 9.0,
-      "evidence_en": "benchmark for agent memory in multi-session agentic tasks",
-      "evidence_cn": "面向多会话智能体任务的智能体记忆基准",
-      "canonical_evidence": "面向多会话智能体任务的智能体记忆基准",
-      "tldr_en": "MemoryArena is a unified evaluation gym for agent memory in multi-session Memory-Agent-Environment loops, coupling memorization and action so that acquired memory is used to solve future tasks, unlike prior isolated evaluations.",
-      "tldr_cn": "现有智能体记忆评测往往将记忆与行动割裂：一类只测对话或文本回忆，无法反映记忆如何指导决策；另一类只测单会话任务，无需长期记忆。本文提出MemoryArena，一个统一的评测平台，在记忆-智能体-环境循环中评估多会话智能体记忆。该基准由人工构建，捕捉记忆获取与后续任务求解紧密耦合的真实设定。它为智能体记忆研究提供更贴近实际的标准评测。",
-      "title_zh": "在相互依赖的多会话智能体任务中评测智能体记忆",
-      "motivation_cn": "现有智能体记忆评测将记忆与行动割裂，无法反映记忆如何指导未来决策这一真实需求。",
-      "method_cn": "提出MemoryArena统一评测平台，在记忆-智能体-环境循环中评估多会话任务下记忆与行动的耦合。",
-      "result_cn": "该基准由人工构建，覆盖智能体在交互中获取记忆并用于后续任务求解的完整闭环。",
-      "conclusion_cn": "该工作为智能体记忆提供了更贴近现实、兼顾记忆与行动的标准化评测方案。",
-      "matched_requirement_id": "req-2",
-      "matched_query_tag": "query:agent-memory",
-      "matched_query_text": "memory-augmented agent models that store and retrieve experience"
-    },
-    {
-      "paper_id": "openreview-icml-2026-pj0gpmfyrr",
-      "score": 9.0,
-      "evidence_en": "hybrid episodic-procedural memory for multi-turn tool-use agents reusing past experience",
-      "evidence_cn": "面向多轮工具智能体的情景-程序混合记忆复用经验",
-      "canonical_evidence": "面向多轮工具智能体的情景-程序混合记忆复用经验",
-      "tldr_en": "Proposes a hybrid episodic-procedural memory (H-EPM) that builds a tool graph from trajectories to adaptively reuse overlapping successful experiences for experience-evolving multi-turn tool-use agents.",
-      "tldr_cn": "多轮工具使用智能体面临不断变化的决策情境，现有方法要么复用整条轨迹过于具体、要么工具级复用忽略上下文。本文提出混合情景-程序记忆策略H-EPM，从累积轨迹构建工具图，用工具间依赖刻画程序性惯例，并在推理与训练中自适应复用部分重叠的成功经验。该机制使智能体的工具使用策略能够随经验演化，提升了多轮决策的迁移与复用能力。",
-      "title_zh": "具有情景-程序混合记忆的经验演化多轮工具使用智能体",
-      "motivation_cn": "现有多轮智能体经验复用要么整轨迹过于具体，要么工具级复用忽略上下文，难以有效迁移经验。",
-      "method_cn": "提出混合情景-程序记忆策略H-EPM，从累积轨迹构建工具图，捕获工具间依赖并在推理与训练中自适应复用成功经验。",
-      "result_cn": "该方法让多轮工具使用策略实现经验演化，能够复用部分重叠的成功经验以应对动态决策情境。",
-      "conclusion_cn": "情景与程序记忆的融合为智能体经验复用提供了新范式，有助于提升多轮工具使用的迁移能力。",
-      "matched_requirement_id": "req-2",
-      "matched_query_tag": "query:agent-memory",
-      "matched_query_text": "memory-augmented agent models that store and retrieve experience"
-    },
-    {
-      "paper_id": "openreview-icml-2026-4arh5kzrgz",
-      "score": 9.0,
-      "evidence_en": "LLM agents learn from experience via latent retrieval of stored experiences",
-      "evidence_cn": "大模型智能体通过潜在检索存储经验来学习",
-      "canonical_evidence": "大模型智能体通过潜在检索存储经验来学习",
-      "tldr_en": "ExpWeaver lets LLM agents learn from experience through latent retrieval-augmented generation, encoding and retrieving past experiences in hidden space instead of explicit text concatenation.",
-      "tldr_cn": "现有基于经验的智能体方法局限于显式文本空间，通过语义相似度检索并拼接经验到上下文，导致大量token开销且检索与生成相互解耦。本文提出ExpWeaver，利用大模型自身隐状态编码经验，在解码每一步于潜在空间直接检索相关经验并融入生成，无需独立RAG模块。该方法降低了开销并提升了经验复用效率，为智能体经验学习提供了新架构。",
-      "title_zh": "ExpWeaver：大模型智能体通过潜在检索增强生成从经验中学习",
-      "motivation_cn": "现有经验学习方法局限于显式文本空间，检索拼接带来高token开销且检索与生成解耦。",
-      "method_cn": "提出ExpWeaver，用大模型隐状态编码经验，在潜在空间逐解码步检索并融合经验，无需独立RAG模块。",
-      "result_cn": "该框架在降低token开销的同时实现检索与生成一体化，提升了智能体规划与推理的经验复用效果。",
-      "conclusion_cn": "潜在空间经验检索为智能体记忆与经验学习提供了高效新范式。",
+      "evidence_en": "memory-augmented self-evolving GUI agent with episodic and semantic memory retrieval",
+      "evidence_cn": "具备情景与语义记忆检索的记忆增强自演化GUI智能体",
+      "canonical_evidence": "具备情景与语义记忆检索的记忆增强自演化GUI智能体",
+      "tldr_en": "SE-GA integrates hierarchical memory with self-improvement for GUI agents, using Test-Time Memory Extension to retrieve episodic, semantic, and experiential memories for long-term planning.",
+      "tldr_cn": "自主GUI智能体在多步任务中受限于上下文窗口和静态策略，难以适应动态环境。本文提出SE-GA自演化GUI智能体框架，将分层记忆结构与迭代自改进机制结合。核心的测试时记忆扩展（TTME）在推理时动态检索情景、语义与经验记忆以支持长期规划，记忆增强自演化（MASE）利用收集数据持续训练。该工作为交互式智能体的长期记忆与持续学习提供了完整方案。",
+      "title_zh": "SE-GA：面向GUI智能体的记忆增强自演化",
+      "motivation_cn": "自主GUI智能体受限于上下文窗口与静态策略，难以应对多步任务与动态环境。",
+      "method_cn": "提出SE-GA框架，结合分层记忆、测试时记忆扩展TTME与记忆增强自演化MASE训练流程。",
+      "result_cn": "在推理时动态检索情景、语义与经验记忆以支持长期规划并持续提升策略。",
+      "conclusion_cn": "为交互式GUI智能体提供长期记忆检索与持续学习的一体化框架。",
       "matched_requirement_id": "req-2",
       "matched_query_tag": "query:agent-memory",
       "matched_query_text": "memory-augmented agent models that store and retrieve experience"
@@ -3148,390 +3259,458 @@
     {
       "paper_id": "openreview-icml-2026-boixvrwtdi",
       "score": 9.0,
-      "evidence_en": "unified memory extraction and management framework for LLM agent memory",
-      "evidence_cn": "面向大模型智能体记忆的统一提取与管理框架",
-      "canonical_evidence": "面向大模型智能体记忆的统一提取与管理框架",
-      "tldr_en": "UMEM jointly optimizes memory extraction and management for LLM agents, using semantic neighborhood modeling to avoid instance-specific noise and build generalizable memory.",
-      "tldr_cn": "自演化记忆被视为大模型智能体的可训练参数，其经验提取与记忆库更新需紧密协同。然而现有方法主要优化记忆管理，将提取视为静态过程，导致智能体积累大量实例特异噪声而非稳健记忆，泛化性差。本文提出统一记忆提取与管理框架UMEM，联合优化同一大模型同时进行记忆提取与管理，并引入语义邻域建模以缓解对特定实例的过拟合。",
+      "evidence_en": "unified memory extraction and management framework for self-evolving LLM agents",
+      "evidence_cn": "面向自演化大模型智能体的统一记忆提取与管理框架",
+      "canonical_evidence": "面向自演化大模型智能体的统一记忆提取与管理框架",
+      "tldr_en": "This paper tackles poor generalization in agent memory systems that optimize management but treat extraction statically, proposing UMEM to jointly learn memory extraction and management.",
+      "tldr_cn": "该文针对大模型智能体自演化记忆中提取与管理脱节的问题，指出既有方法多只优化记忆管理，而将记忆提取视为静态过程，导致智能体积累实例噪声而非稳健记忆。作者提出统一记忆提取与管理框架UMEM，联合优化同一模型同时完成经验提炼与记忆库更新，并引入语义邻域建模缓解过拟合。该方法提升了记忆的泛化能力，对智能体长期记忆架构具有重要意义。",
       "title_zh": "UMEM：面向可泛化记忆的统一记忆提取与管理框架",
-      "motivation_cn": "现有智能体记忆方法只优化记忆管理、将提取视为静态，导致积累实例噪声且泛化性差。",
-      "method_cn": "提出UMEM框架，联合优化大模型同时进行记忆提取与管理，并引入语义邻域建模抑制过拟合。",
-      "result_cn": "联合优化与语义邻域建模使智能体获得更稳健、可泛化的记忆，减少实例特异噪声的累积。",
-      "conclusion_cn": "统一提取与管理为智能体自演化记忆的可泛化性提供了有效方案。",
+      "motivation_cn": "现有智能体记忆系统只优化管理而忽视提取，导致记忆泛化差、噪声多。",
+      "method_cn": "提出UMEM联合优化提取与管理，并引入语义邻域建模抑制实例过拟合。",
+      "result_cn": "使智能体同时提炼与维护记忆，获得更稳健可泛化的记忆。",
+      "conclusion_cn": "统一提取与管理为自演化智能体记忆架构提供新范式。",
       "matched_requirement_id": "req-1",
       "matched_query_tag": "query:agent-memory",
       "matched_query_text": "memory mechanisms in autonomous agents and agent memory architectures"
     },
     {
-      "paper_id": "openreview-icml-2026-gfqi92bpc1",
+      "paper_id": "openreview-icml-2026-tnn9bikyxz",
       "score": 9.0,
-      "evidence_en": "benchmark for long-horizon memory in realistic agentic applications",
-      "evidence_cn": "面向真实智能体应用的长时程记忆评测基准",
-      "canonical_evidence": "面向真实智能体应用的长时程记忆评测基准",
-      "tldr_en": "AMA-Bench is a benchmark for evaluating long-horizon memory in realistic agentic settings, using real and synthetic agent trajectories with expert-curated and rule-based QA.",
-      "tldr_cn": "现有记忆基准多聚焦对话，而真实智能体记忆由状态、动作、观测与工具输出构成的连续交互轨迹组成。本文提出AMA-Bench，一个面向任意长度智能体记忆的评测基准，融合真实应用轨迹与专家标注问答，并提供可扩展至任意时程的合成轨迹与规则化问答。研究揭示当前记忆方法在长时程智能体场景下的不足，为智能体长期记忆研究提供标准化评测工具。",
-      "title_zh": "AMA-Bench：面向智能体应用的长时程记忆评测",
-      "motivation_cn": "现有记忆基准多为对话中心，无法反映由状态、动作、观测构成真实智能体交互轨迹。",
-      "method_cn": "构建AMA-Bench基准，融合真实应用轨迹与专家问答，并用合成轨迹扩展时程。",
-      "result_cn": "揭示现有记忆方法在真实长时程智能体场景中的能力差距。",
-      "conclusion_cn": "为智能体长期记忆研究提供标准化、可扩展的评测基准。",
-      "matched_requirement_id": "req-6",
+      "evidence_en": "self-regulating memory system for GUI agent evolution",
+      "evidence_cn": "面向GUI智能体演化的自调节记忆系统",
+      "canonical_evidence": "面向GUI智能体演化的自调节记忆系统",
+      "tldr_en": "This paper addresses context pollution and granularity mismatch in GUI agent memory, proposing the Darwinian Memory System that evolves memory by survival-of-the-fittest selection.",
+      "tldr_cn": "该文针对多模态GUI智能体在长程跨应用任务中上下文有限、既有记忆系统难以适应动态界面且易受陈旧经验污染的问题，提出达尔文记忆系统DMS。DMS将复杂轨迹分解并构建为遵循优胜劣汰法则的动态生态，让记忆在演化中自我调节。该训练无关架构缓解了幻觉并提升跨应用任务表现，为GUI智能体记忆管理提供新思路。",
+      "title_zh": "达尔文记忆：面向GUI智能体演化的免训练自调节记忆系统",
+      "motivation_cn": "GUI智能体受限于上下文窗口，静态记忆累积陈旧经验导致幻觉与粒度错配。",
+      "method_cn": "提出DMS，将记忆构建为优胜劣汰的动态生态并分解复杂轨迹。",
+      "result_cn": "通过自演化筛选记忆，缓解上下文污染并提升跨应用任务表现。",
+      "conclusion_cn": "为动态环境下智能体记忆管理提供免训练自调节方案。",
+      "matched_requirement_id": "req-1",
       "matched_query_tag": "query:agent-memory",
-      "matched_query_text": "Search for papers about long term memory, episodic memory, and memory retrieval in interactive agent systems."
+      "matched_query_text": "memory mechanisms in autonomous agents and agent memory architectures"
     },
     {
-      "paper_id": "openreview-icml-2026-8ppvmlta2v",
+      "paper_id": "openreview-icml-2026-4arh5kzrgz",
       "score": 9.0,
-      "evidence_en": "autonomous memory agent managing storage and multi-turn retrieval",
-      "evidence_cn": "自主管理存储与多轮检索的记忆智能体",
-      "canonical_evidence": "自主管理存储与多轮检索的记忆智能体",
-      "tldr_en": "Mem-T is an autonomous memory agent interfacing a hierarchical memory database for dynamic updates and multi-turn retrieval, trained with MoT-GRPO to densify rewards for long-horizon memory management.",
-      "tldr_cn": "记忆智能体自主管理记忆的处理、存储与检索，但现有训练中智能体需经历长程记忆操作才能获得稀疏延迟奖励，难以端到端优化记忆管理策略。作者提出Mem-T，通过连接轻量级层次化记忆数据库对流式输入进行动态更新与多轮检索。并设计MoT-GRPO训练方法稠密化奖励，从而有效训练长程记忆管理能力，推动自主记忆智能体的端到端优化。",
-      "title_zh": "Mem-T：为长程记忆智能体稠密化奖励",
-      "motivation_cn": "记忆智能体需经历长程记忆操作才获得稀疏延迟奖励，难以端到端优化其记忆管理策略。",
-      "method_cn": "提出Mem-T自主记忆智能体，连接轻量级层次化记忆数据库进行动态更新与多轮检索，并用MoT-GRPO稠密化奖励训练。",
-      "result_cn": "稠密奖励训练使智能体更有效地学习长程记忆管理，提升了自主记忆处理与检索的端到端表现。",
-      "conclusion_cn": "表明通过奖励稠密化可训练长程自主记忆智能体，提升记忆管理策略的优化效果。",
+      "evidence_en": "LLM agents learn from experience via latent retrieval-augmented generation",
+      "evidence_cn": "大模型智能体通过潜在检索增强生成从经验中学习",
+      "canonical_evidence": "大模型智能体通过潜在检索增强生成从经验中学习",
+      "tldr_en": "This paper tackles token-heavy explicit experience retrieval in agents, proposing ExpWeaver that encodes and retrieves past experiences in latent space during decoding.",
+      "tldr_cn": "该文针对智能体经验学习中显式文本检索语义相似经验并拼接进上下文所带来的token开销大、检索与生成解耦的问题，提出ExpWeaver框架。它用大模型自身隐状态编码经验，在每个解码步于潜在空间直接检索相关经验并融合，无需独立RAG模块。该潜在记忆机制提升了智能体规划推理的经验复用效率。",
+      "title_zh": "ExpWeaver：大模型智能体通过潜在RAG从经验中学习",
+      "motivation_cn": "现有经验学习依赖显式文本检索与拼接，token开销大且检索生成解耦。",
+      "method_cn": "提出ExpWeaver，用隐状态编码经验并在解码步于潜在空间检索融合。",
+      "result_cn": "无需独立RAG模块即可高效复用过往经验提升规划推理。",
+      "conclusion_cn": "为记忆增强智能体的经验存储与检索提供潜在空间新方案。",
       "matched_requirement_id": "req-2",
       "matched_query_tag": "query:agent-memory",
       "matched_query_text": "memory-augmented agent models that store and retrieve experience"
     },
     {
-      "paper_id": "openreview-icml-2026-9s9v5ntqjm",
+      "paper_id": "openreview-icml-2026-ftvnzxhw9w",
       "score": 9.0,
-      "evidence_en": "hierarchical memory retrieving episodic semantic experiential memory for GUI agents",
-      "evidence_cn": "为GUI智能体检索情景语义经验记忆的层次记忆",
-      "canonical_evidence": "为GUI智能体检索情景语义经验记忆的层次记忆",
-      "tldr_en": "SE-GA integrates hierarchical memory with iterative self-improvement for GUI agents, using Test-Time Memory Extension to retrieve episodic, semantic, and experiential memories for long-term planning.",
-      "tldr_cn": "自主GUI智能体因上下文窗口受限和策略静态，难以应对多步任务。作者提出自演化GUI智能体SE-GA，将层次化记忆结构与迭代自改进机制结合。其核心测试时记忆扩展TTME在推理时动态检索情景、语义与经验记忆，为长期规划提供显著上下文，并配记忆增强自演化训练管线持续学习。该方法提升了GUI智能体在动态环境中的多步任务表现。",
-      "title_zh": "SE-GA：面向GUI智能体的记忆增强自演化",
-      "motivation_cn": "自主GUI智能体受限于上下文窗口和静态策略，难以适应动态环境中的多步任务。",
-      "method_cn": "提出SE-GA框架，结合层次化记忆与迭代自改进，用测试时记忆扩展动态检索情景、语义和经验记忆，并配记忆增强自演化训练。",
-      "result_cn": "该记忆增强机制为长期规划提供显著上下文并支持持续学习，提升了GUI智能体在多步任务中的表现。",
-      "conclusion_cn": "表明层次化记忆检索结合自演化训练可有效增强GUI智能体的长程决策能力。",
+      "evidence_en": "self-evolving multi-scale memory evolution for long-term conversational language agents",
+      "evidence_cn": "面向语言智能体长期对话记忆的多尺度自演化框架",
+      "canonical_evidence": "面向语言智能体长期对话记忆的多尺度自演化框架",
+      "tldr_en": "This paper addresses fact-level memory limits in long-term conversational agents, proposing RGMem, a renormalization-group-inspired multi-scale memory evolution framework.",
+      "tldr_cn": "该文针对大模型对话智能体在有限上下文与静态参数记忆下难以建模跨会话长期用户状态、且既有RAG与显式记忆多停留在事实层的问题，提出RGMem框架。受重整化群多尺度组织启发，它将长期对话记忆建模为多尺度演化过程，把碎片化情节交互逐层提炼为稳定偏好与深层特质。该自演化记忆提升了长期个性化对话建模能力。",
+      "title_zh": "RGMem：受重整化群启发的语言智能体记忆演化",
+      "motivation_cn": "有限上下文与事实级记忆难以从跨会话对话中提炼稳定偏好与深层特质。",
+      "method_cn": "提出RGMem，以重整化群思想将长期记忆建模为多尺度演化过程。",
+      "result_cn": "将碎片化情节逐层提炼为稳定用户偏好，增强长期个性化建模。",
+      "conclusion_cn": "为语言智能体长期记忆演化提供多尺度自演化新范式。",
       "matched_requirement_id": "req-6",
       "matched_query_tag": "query:agent-memory",
       "matched_query_text": "Search for papers about long term memory, episodic memory, and memory retrieval in interactive agent systems."
     },
     {
-      "paper_id": "openreview-icml-2026-ftvnzxhw9w",
+      "paper_id": "openreview-icml-2026-gfqi92bpc1",
       "score": 9.0,
-      "evidence_en": "self-evolving memory framework for long-term episodic memory in language agents",
-      "evidence_cn": "面向语言智能体长期情景记忆的自演化记忆框架",
-      "canonical_evidence": "面向语言智能体长期情景记忆的自演化记忆框架",
-      "tldr_en": "RGMem models long-term conversational memory as a multi-scale evolutionary process inspired by the renormalization group, distilling stable user preferences and traits from evolving, conflicting dialogues.",
-      "tldr_cn": "基于大模型的对话智能体受限于有限上下文窗口与静态参数记忆，难以建模跨会话的长期用户状态，现有检索增强与显式记忆方法多停留在事实层面，难以从演化且冲突的对话中提炼稳定偏好与深层特质。作者提出RGMem自演化记忆框架，借鉴重整化群的多尺度组织思想，将长期对话记忆建模为多尺度演化过程。该框架把情景交互逐级转化为抽象状态，从而跨会话整合信息并蒸馏稳定用户特质。工作为语言智能体的长期个性化记忆提供新范式。",
-      "title_zh": "RGMem：受重整化群启发的语言智能体记忆演化",
-      "motivation_cn": "大模型对话智能体受限于有限上下文与静态参数记忆，现有方法多停留事实层面，难以从演化冲突对话中提炼稳定偏好与深层特质。",
-      "method_cn": "作者提出RGMem自演化记忆框架，借鉴重整化群的多尺度组织思想，将长期对话记忆建模为多尺度演化过程。",
-      "result_cn": "该框架把情景交互逐级转化为抽象状态，跨会话整合信息并缓解事实冲突，蒸馏出稳定的用户偏好与深层特质。",
-      "conclusion_cn": "工作为语言智能体的长期个性化记忆提供新范式，推动跨会话用户状态建模研究。",
+      "evidence_en": "benchmark for long-horizon memory in agentic applications",
+      "evidence_cn": "面向智能体长时程记忆的评测基准",
+      "canonical_evidence": "面向智能体长时程记忆的评测基准",
+      "tldr_en": "Existing memory benchmarks are dialogue-centric, but real agent memory consists of long interaction trajectories. AMA-Bench evaluates long-horizon memory using real and synthetic agent trajectories with QA.",
+      "tldr_cn": "现有记忆评测多聚焦对话，无法刻画真实智能体由状态、动作、观测与工具输出构成的连续交互轨迹。本文提出AMA-Bench，结合真实应用中的智能体轨迹与专家标注问答，并用可扩展至任意长度的合成轨迹和规则问答补充。研究揭示当前模型在长时程智能体记忆上的不足，为智能体记忆架构提供了更贴近实际的评测标准。",
+      "title_zh": "AMA-Bench：面向智能体应用的长时程记忆评测",
+      "motivation_cn": "现有记忆基准多为对话式，无法反映真实智能体连续交互轨迹中的记忆需求。",
+      "method_cn": "提出AMA-Bench，融合真实智能体轨迹与专家问答，并加入可扩展到任意长度的合成轨迹与规则问答。",
+      "result_cn": "实验显示现有方法在长时程智能体记忆任务上表现存在明显不足。",
+      "conclusion_cn": "该基准为评估智能体记忆能力提供了更贴近真实场景的标准化工具。",
+      "matched_requirement_id": "req-1",
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "memory mechanisms in autonomous agents and agent memory architectures"
+    },
+    {
+      "paper_id": "openreview-icml-2026-qpkg0ekx4v",
+      "score": 9.0,
+      "evidence_en": "meta-evolution of agent memory architectures storing experience",
+      "evidence_cn": "智能体记忆架构的元进化与经验存储",
+      "canonical_evidence": "智能体记忆架构的元进化与经验存储",
+      "tldr_en": "Manually engineered agent memory architectures cannot adapt to diverse tasks. MemEvolve jointly evolves an agent's experiential knowledge and its memory architecture via meta-evolution.",
+      "tldr_cn": "现有基于大模型的智能体多依赖人工设计的记忆架构来存储轨迹、提炼经验并合成可复用工具，但记忆系统本身是静态的，无法随任务上下文进行元适应。本文提出MemEvolve，一个联合进化智能体经验知识与记忆架构的元进化框架，使智能体系统能同时积累经验并自适应调整记忆结构。实验表明该框架能提升智能体在多样任务中的演化能力，为自适应智能体记忆架构开辟新方向。",
+      "title_zh": "MemEvolve：智能体记忆系统的元进化",
+      "motivation_cn": "人工设计的智能体记忆架构静态固定，无法适应多样任务上下文。",
+      "method_cn": "提出MemEvolve元进化框架，联合进化智能体的经验知识与记忆架构本身。",
+      "result_cn": "实验显示该方法能让智能体同时积累经验并自适应调整记忆结构。",
+      "conclusion_cn": "为可自适应的智能体记忆系统设计提供了新的元进化范式。",
+      "matched_requirement_id": "req-1",
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "memory mechanisms in autonomous agents and agent memory architectures"
+    },
+    {
+      "paper_id": "openreview-icml-2026-zvv11mhfld",
+      "score": 9.0,
+      "evidence_en": "optimizing external memory of language agents to store experience",
+      "evidence_cn": "优化语言智能体存储经验的外部记忆",
+      "canonical_evidence": "优化语言智能体存储经验的外部记忆",
+      "tldr_en": "RAG treats agent memory as static or append-only, causing memory saturation. This work optimizes an experience library as a learnable parameter via textual SGD.",
+      "tldr_cn": "大模型虽具强推理能力，但要从经验中持续学习而不做参数重训仍是难题，现有检索增强生成把记忆当作静态或仅追加的语料，导致噪声与冗余累积的记忆饱和。本文提出经验库优化框架，将智能体的外部记忆视为容量预算下的可学习参数，并设计文本随机梯度下降进行离散优化。实验表明该方法能有效管理记忆、缓解饱和并提升推理智能体的持续表现。",
+      "title_zh": "文本随机梯度下降：面向推理语言智能体外部记忆的离散优化",
+      "motivation_cn": "现有RAG把智能体记忆视为静态或仅追加语料，导致记忆饱和与性能退化。",
+      "method_cn": "提出经验库优化框架，把外部记忆当作可学习参数，并用文本随机梯度下降进行离散优化。",
+      "result_cn": "实验表明该方法能缓解记忆饱和并提升智能体持续推理表现。",
+      "conclusion_cn": "为语言智能体外部记忆的优化管理提供了新思路。",
+      "matched_requirement_id": "req-2",
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "memory-augmented agent models that store and retrieve experience"
+    },
+    {
+      "paper_id": "openreview-icml-2026-obglvd5yc6",
+      "score": 9.0,
+      "evidence_en": "efficient lifelong memory framework for LLM agents",
+      "evidence_cn": "面向LLM智能体的高效终身记忆框架",
+      "canonical_evidence": "面向LLM智能体的高效终身记忆框架",
+      "tldr_en": "LLM agents need memory for long-term interaction, but full-history retention is redundant and iterative filtering is costly. SimpleMem proposes a semantic lossless compression pipeline that distills interactions into compact multi-view indexed units with online semantic synthesis, maximizing token efficiency for lifelong agent memory.",
+      "tldr_cn": "面向复杂环境中LLM智能体的长期交互，现有记忆方法要么被动扩展上下文造成大量冗余，要么依赖迭代推理过滤噪声而消耗高昂token。SimpleMem提出基于语义无损压缩的三阶段记忆框架，通过语义结构化压缩把非结构化交互蒸馏为紧凑的多视图索引记忆单元，并借助在线语义合成在会话内即时整合相关上下文。该方法最大化信息密度与token利用率，为智能体提供高效的终身记忆能力。",
+      "title_zh": "SimpleMem：面向LLM智能体的高效终身记忆",
+      "motivation_cn": "LLM智能体长期交互需管理历史经验，现有方法要么保留全部历史导致冗余，要么依赖迭代推理过滤噪声而开销高。",
+      "method_cn": "提出基于语义无损压缩的三阶段记忆框架，将非结构化交互蒸馏为紧凑的多视图索引记忆单元，并在线进行语义合成。",
+      "result_cn": "该流程提升信息密度与token利用率，在长期交互中兼顾效率与准确性。",
+      "conclusion_cn": "为LLM智能体提供高效终身记忆方案。",
+      "matched_requirement_id": "req-5",
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "Find top tier AI conference papers on memory architectures for autonomous agents and large language model agents."
+    },
+    {
+      "paper_id": "openreview-icml-2026-xrvwfts3es",
+      "score": 9.0,
+      "evidence_en": "active memory reconstruction retrieval for LLM agent reasoning",
+      "evidence_cn": "面向LLM智能体推理的主动记忆重构检索",
+      "canonical_evidence": "面向LLM智能体推理的主动记忆重构检索",
+      "tldr_en": "LLM agents struggle with long histories and current memory-augmented agents rely on a rigid retrieve-then-reason paradigm. MRAgent represents memory as a cue-tag-content graph and integrates LLM reasoning into an active reconstruction mechanism for dynamic memory access.",
+      "tldr_cn": "LLM智能体在长交互历史上推理困难，现有记忆增强智能体多依赖静态的先检索后推理范式，这种刚性流程无法根据推理过程中发现的中间证据动态调整记忆访问。MRAgent提出将记忆表示为线索-标签-内容图，其中关联标签充当连接细粒度线索与记忆内容的语义桥梁，并引入主动重构机制把LLM推理直接整合进记忆访问，使智能体能够迭代地探索记忆，为智能体记忆检索提供了主动重构的新范式。",
+      "title_zh": "记忆是被重构而非检索：面向LLM智能体的图记忆",
+      "motivation_cn": "LLM智能体难以对长交互历史进行推理，现有记忆增强智能体依赖静态的先检索后推理范式，无法根据推理中发现的中间证据动态调整记忆访问。",
+      "method_cn": "提出MRAgent框架，将记忆表示为线索-标签-内容图，标签作为语义桥梁连接细粒度线索与内容，并引入主动重构机制将LLM推理融入记忆访问。",
+      "result_cn": "该框架使智能体能迭代探索记忆，提升长历史推理能力。",
+      "conclusion_cn": "为智能体记忆检索提供主动重构的新范式。",
+      "matched_requirement_id": "req-3",
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "memory retrieval mechanisms for agent decision making"
+    },
+    {
+      "paper_id": "openreview-icml-2026-2cors45ucj",
+      "score": 9.0,
+      "evidence_en": "subtask-level memory architecture for LLM software agents",
+      "evidence_cn": "面向LLM软件智能体的子任务级记忆架构",
+      "canonical_evidence": "面向LLM软件智能体的子任务级记忆架构",
+      "tldr_en": "Memory-augmented SWE agents usually store and retrieve at coarse instance granularity, causing misguided retrieval when similar tasks need different reasoning. This work proposes structurally aligned subtask-level memory to align storage, retrieval and update with subtasks.",
+      "tldr_cn": "LLM已展现作为自主软件工程智能体的潜力，近期工作为其引入记忆机制以支持长程推理，但这些方法通常在实例粒度上操作，把整个求解回合作为存储与检索的原子单元。作者实证表明实例级记忆存在根本性的粒度错配，当任务表面描述相似但在特定阶段需要不同推理逻辑时会导致误导性检索。为此提出结构对齐的子任务级记忆方法，将记忆的存储、检索与更新对齐到子任务粒度，从而缓解误导性检索问题。",
+      "title_zh": "面向软件工程智能体的结构对齐子任务级记忆",
+      "motivation_cn": "LLM作为软件工程智能体已展现潜力，但现有记忆机制多在整个问题求解回合的实例粒度上存储与检索，存在粒度错配。",
+      "method_cn": "提出结构对齐的子任务级记忆方法，将记忆的存储、检索与更新对齐到子任务粒度。",
+      "result_cn": "实验证明实例级记忆在表面描述相似但推理逻辑不同的任务上会导致误导性检索，子任务级对齐可缓解该问题。",
+      "conclusion_cn": "为长程软件工程智能体提供更细粒度的记忆机制。",
       "matched_requirement_id": "req-1",
       "matched_query_tag": "query:agent-memory",
       "matched_query_text": "memory mechanisms in autonomous agents and agent memory architectures"
     },
     {
       "paper_id": "openreview-icml-2026-tnosqdv9j1",
-      "score": 8.0,
-      "evidence_en": "Parametric reflective memory module for language agents to store reflection patterns",
-      "evidence_cn": "为语言智能体存储反思模式的参数化反思记忆模块",
-      "canonical_evidence": "为语言智能体存储反思模式的参数化反思记忆模块",
-      "tldr_en": "ParamMem encodes cross-sample reflection patterns into model parameters as a parametric memory, enabling diverse reflection generation and improving language agent reasoning via the ParamAgent framework.",
-      "tldr_cn": "针对语言智能体自反思常产生重复输出、限制推理性能的问题，本文发现反思多样性与任务成功率强正相关，提出ParamMem参数化记忆模块，将跨样本反思模式编码进模型参数，并通过温度控制采样生成多样化反思。基于该模块构建的ParamAgent反思式智能体框架进一步整合这些信号，显著提升推理表现，为智能体记忆增强提供了参数化存储与检索的新思路。",
-      "title_zh": "ParamMem：以参数化反思记忆增强语言智能体",
-      "motivation_cn": "语言智能体自反思易产生重复输出，限制推理性能，且缺乏多样反思信号。",
-      "method_cn": "提出参数化记忆模块ParamMem，将跨样本反思模式编码进模型参数并温度采样生成多样反思。",
-      "result_cn": "基于该模块的ParamAgent框架提升了反思多样性与任务成功率。",
-      "conclusion_cn": "为语言智能体提供参数化记忆存储与检索机制，改善迭代推理的多样性。",
+      "score": 9.0,
+      "evidence_en": "Parametric reflective memory module augmenting language agents",
+      "evidence_cn": "为语言智能体增强的参数化反思记忆模块",
+      "canonical_evidence": "为语言智能体增强的参数化反思记忆模块",
+      "tldr_en": "ParamMem encodes cross-sample reflection patterns into model parameters, enabling diverse reflection generation via temperature-controlled sampling; built into ParamAgent, it improves language agent reasoning by avoiding repetitive self-reflection.",
+      "tldr_cn": "自反思能让语言智能体迭代改进解，但常产生重复输出，限制推理性能，现有方法通过提升反思多样性来缓解。本文提出参数化记忆模块ParamMem，将跨样本的反思模式编码进模型参数，并通过温度控制采样生成多样化的反思信号。基于该模块构建的ParamAgent框架把反思记忆融入智能体推理流程。作者的分析显示反思多样性与任务成功率强正相关，表明参数化记忆是增强智能体经验利用的有效途径。",
+      "title_zh": "ParamMem：为语言智能体增强的参数化反思记忆",
+      "motivation_cn": "语言智能体的自反思常产生重复输出，限制推理性能，而反思多样性与任务成功强相关。",
+      "method_cn": "提出参数化记忆模块ParamMem，把跨样本反思模式编码进模型参数，用温度采样生成多样反思。",
+      "result_cn": "基于该模块构建的ParamAgent框架通过提升反思多样性改善推理表现。",
+      "conclusion_cn": "表明参数化记忆可作为智能体存储与复用经验的有效机制。",
       "matched_requirement_id": "req-2",
       "matched_query_tag": "query:agent-memory",
       "matched_query_text": "memory-augmented agent models that store and retrieve experience"
-    },
-    {
-      "paper_id": "openreview-icml-2026-7d5wd70jkj",
-      "score": 8.0,
-      "evidence_en": "Unifies episodic and semantic memory by modulating Transformer feedforward layers",
-      "evidence_cn": "通过调制Transformer前馈层统一情景记忆与语义记忆",
-      "canonical_evidence": "通过调制Transformer前馈层统一情景记忆与语义记忆",
-      "tldr_en": "Hypermem shows a single group of Transformer feedforward parameters can serve as both semantic and episodic memory, using a hypernetwork to map contexts into targeted parameter updates retrievable without KV cache.",
-      "tldr_cn": "针对Transformer中语义记忆隐含于前馈层、情景记忆依赖KV缓存且难以直接检索的问题，本文提出Hypermem，用超网络将上下文循环映射为前馈层参数的定向更新，使同一组参数兼具语义与情景记忆，并可在不显式访问KV缓存的情况下检索。作者以续写与随机访问联想记忆目标对超网络后训练，验证了统一记忆的可行性，为智能体情景记忆与长期记忆机制提供了新范式。",
-      "title_zh": "通过调制Transformer前馈层整合情景记忆与语义记忆",
-      "motivation_cn": "现有模型语义记忆隐含于前馈层、情景记忆存于KV缓存，二者分离且情景记忆难以直接检索。",
-      "method_cn": "提出Hypermem超网络，将上下文循环映射为前馈层参数的定向更新，实现统一记忆。",
-      "result_cn": "以续写与随机访问联想记忆目标后训练，验证同一组参数兼具语义与情景记忆。",
-      "conclusion_cn": "为智能体情景记忆与长期记忆机制提供了统一、可检索的新范式。",
-      "matched_requirement_id": "req-6",
-      "matched_query_tag": "query:agent-memory",
-      "matched_query_text": "Search for papers about long term memory, episodic memory, and memory retrieval in interactive agent systems."
     },
     {
       "paper_id": "openreview-icml-2026-vv4tmkyfwa",
-      "score": 8.0,
-      "evidence_en": "Layout-aware visual memory compressing long-horizon agent interaction history",
-      "evidence_cn": "以布局感知的视觉记忆压缩长程智能体交互历史",
-      "canonical_evidence": "以布局感知的视觉记忆压缩长程智能体交互历史",
-      "tldr_en": "MemOCR is a multimodal memory agent that renders structured rich-text memory into an image, using adaptive visual layout to prioritize key evidence and compress auxiliary details for long-horizon reasoning.",
-      "tldr_cn": "针对长程智能体推理中交互历史不断增长、文本序列化记忆token成本线性上升的问题，本文提出MemOCR多模态记忆智能体，维护结构化富文本记忆并将其渲染为图像供智能体检索，通过视觉布局按信息密度自适应分配记忆空间，优先呈现关键证据并大幅压缩次要细节。该工作为在有限上下文预算下的长时程记忆访问与压缩提供了新方法，提升了智能体长程推理效率。",
-      "title_zh": "MemOCR：面向高效长程推理的布局感知视觉记忆",
-      "motivation_cn": "长程智能体推理需将增长的交互历史压缩进有限上下文，文本记忆成本随长度线性增长。",
-      "method_cn": "提出MemOCR多模态记忆智能体，将结构化富文本记忆渲染为图像，用视觉布局自适应分配信息密度。",
-      "result_cn": "在紧张上下文预算下优先保留关键证据并压缩次要细节，提升长程推理效率。",
-      "conclusion_cn": "为智能体长时程记忆压缩与访问提供了视觉化、可扩展的新方案。",
+      "score": 9.0,
+      "evidence_en": "Layout-aware visual memory for long-horizon agentic reasoning",
+      "evidence_cn": "面向长时程智能体推理的版面感知视觉记忆",
+      "canonical_evidence": "面向长时程智能体推理的版面感知视觉记忆",
+      "tldr_en": "MemOCR compresses growing interaction histories into an image-based rich-text memory, using visual layout to allocate adaptive information density, so agents retrieve crucial evidence under tight context budgets for long-horizon reasoning.",
+      "tldr_cn": "长时程智能体推理需要把不断增长的交互历史压缩进有限上下文，但现有记忆系统多以文本序列化历史，token成本随长度线性增长，浪费在低价值细节上。为此，论文提出多模态记忆智能体MemOCR，通过视觉版面为记忆分配自适应信息密度。它维护结构化的富文本记忆（如标题、高亮）并渲染成图像，智能体查阅该图像访问记忆，视觉上突出关键证据并压缩次要细节。该工作为紧张上下文预算下的智能体记忆压缩提供了新思路。",
+      "title_zh": "MemOCR：面向高效长时程推理的版面感知视觉记忆",
+      "motivation_cn": "长时程推理需把增长的交互历史压入有限上下文，而文本式记忆token成本线性增长且浪费于低价值细节。",
+      "method_cn": "提出多模态记忆智能体MemOCR，维护结构化富文本记忆并渲染为图像，用视觉版面自适应分配信息密度。",
+      "result_cn": "在紧张上下文预算下提升长时程推理效率，视觉突出关键证据并压缩次要细节。",
+      "conclusion_cn": "为智能体记忆压缩与检索提供基于视觉版面的新范式。",
       "matched_requirement_id": "req-6",
       "matched_query_tag": "query:agent-memory",
       "matched_query_text": "Search for papers about long term memory, episodic memory, and memory retrieval in interactive agent systems."
     },
     {
-      "paper_id": "openreview-icml-2026-udqe7uzuz6",
-      "score": 8.0,
-      "evidence_en": "defense framework securing LLM-based agent memory against injection",
-      "evidence_cn": "保护大模型智能体记忆免受注入攻击的防御框架",
-      "canonical_evidence": "保护大模型智能体记忆免受注入攻击的防御框架",
-      "tldr_en": "A-MemGuard is a proactive defense framework that protects LLM agent memory from injected records that can manipulate future behavior and trigger self-reinforcing error cycles.",
-      "tldr_cn": "大模型智能体依赖记忆从历史交互中学习，但这也带来安全风险：攻击者可向记忆注入看似无害的记录以操纵其未来行为。此类攻击的恶意效果仅在特定情境激活、难以孤立审计发现，且一旦触发会形成自我强化的错误循环。本文提出A-MemGuard主动防御框架，针对记忆注入的两大特性进行检测与防护，提升了智能体记忆架构的安全性。",
-      "title_zh": "A-MemGuard：面向大模型智能体记忆的主动防御框架",
-      "motivation_cn": "大模型智能体依赖记忆学习，但记忆注入攻击可在特定情境触发并形成自我强化的错误循环。",
-      "method_cn": "提出主动防御框架A-MemGuard，针对注入记录的情境激活与自强化特性进行检测与拦截。",
-      "result_cn": "该框架能识别孤立审计难以发现的恶意记忆，阻断错误累积与后续攻击门槛的降低。",
-      "conclusion_cn": "该工作为智能体记忆架构的安全性提供了主动防护思路。",
-      "matched_requirement_id": "req-1",
-      "matched_query_tag": "query:agent-memory",
-      "matched_query_text": "memory mechanisms in autonomous agents and agent memory architectures"
-    },
-    {
-      "paper_id": "openreview-icml-2026-bydjzyqkxq",
-      "score": 8.0,
-      "evidence_en": "memory-augmented self-play with persistent memory bank for multi-agent LLM games",
-      "evidence_cn": "面向多智能体LLM博弈的记忆增强持续记忆库",
-      "canonical_evidence": "面向多智能体LLM博弈的记忆增强持续记忆库",
-      "tldr_en": "MEMO is a memory-augmented self-play framework for multi-turn multi-agent LLM games, coupling retention of trajectories into a persistent memory bank with exploration to stabilize and improve play.",
-      "tldr_cn": "多轮多智能体LLM博弈存在显著的运行间方差，长时程交互中小偏差经多智能体耦合放大，导致胜率估计偏差与排名不稳。本文提出MEMO记忆增强的模型上下文优化框架，将推理时上下文视为可优化对象，通过保留机制把自博弈轨迹蒸馏进持久记忆库，并结合探索机制。实验表明该方法提升稳定性与表现，为记忆增强的多智能体决策与经验复用提供方案。",
-      "title_zh": "MEMO：面向鲁棒多轮多智能体LLM博弈的记忆增强模型上下文优化",
-      "motivation_cn": "多轮多智能体LLM博弈方差大，小偏差经耦合放大，导致胜率估计偏差与排名不稳。",
-      "method_cn": "提出MEMO自博弈框架，用保留机制将轨迹蒸馏进持久记忆库并结合探索优化上下文。",
-      "result_cn": "提升博弈稳定性与表现，抑制运行间方差，改善胜率估计。",
-      "conclusion_cn": "为记忆增强的多智能体决策与经验复用提供可优化框架。",
-      "matched_requirement_id": "req-2",
-      "matched_query_tag": "query:agent-memory",
-      "matched_query_text": "memory-augmented agent models that store and retrieve experience"
-    },
-    {
-      "paper_id": "openreview-icml-2026-fyle5o8g5f",
-      "score": 8.0,
-      "evidence_en": "multimodal memory graph for retrieval in agentic reasoning",
-      "evidence_cn": "用于智能体推理检索的多模态记忆图",
-      "canonical_evidence": "用于智能体推理检索的多模态记忆图",
-      "tldr_en": "VimRAG tackles long multimodal context in retrieval-augmented reasoning by modeling the reasoning process as a dynamic directed acyclic graph that structures agent states and retrieved evidence into a structured memory.",
-      "tldr_cn": "传统检索增强生成依赖线性交互历史，难以应对长上下文尤其是信息稀疏但token繁重的视觉数据。作者提出VimRAG框架，将智能体推理过程建模为动态有向无环图，把智能体状态与检索到的多模态证据组织为结构化记忆。该结构化记忆机制改善了跨文本、图像与视频的迭代推理与检索效率，为多模态智能体记忆检索提供了新思路。",
-      "title_zh": "通过多模态记忆图应对检索增强生成中的海量视觉上下文",
-      "motivation_cn": "传统RAG依赖线性交互历史，难以处理迭代推理中信息稀疏却token繁重的长上下文多模态数据。",
-      "method_cn": "提出VimRAG框架，将智能体推理过程建模为动态有向无环图，结构化组织智能体状态与检索到的多模态证据。",
-      "result_cn": "该结构化记忆机制提升了跨文本、图像和视频的检索与迭代推理表现，缓解了长上下文处理难题。",
-      "conclusion_cn": "说明用图结构记忆组织多模态证据可有效支撑智能体的长上下文检索增强推理。",
+      "paper_id": "openreview-icml-2026-jhymxqs9jv",
+      "score": 9.0,
+      "evidence_en": "Benchmark for agent memory in multi-session decision tasks",
+      "evidence_cn": "面向多会话决策任务的智能体记忆基准",
+      "canonical_evidence": "面向多会话决策任务的智能体记忆基准",
+      "tldr_en": "MemoryArena is a unified evaluation gym benchmarking agent memory in multi-session Memory-Agent-Environment loops, coupling memorization with action so that memory acquired during interaction is later used to solve future tasks.",
+      "tldr_cn": "现有智能体记忆评测通常把记忆与行动割裂：一类基准只测对话或文本回忆，无法反映记忆如何指导未来决策；另一类只在单会话任务中评估行动，无需长期记忆。为贴近真实场景，论文提出MemoryArena，一个统一评测平台，在记忆-智能体-环境的多会话循环中评估记忆。基准由人工设计任务构成，强调记忆在交互中获得并用于后续任务。该工作为智能体记忆能力提供了更贴近实际的评测标准。",
+      "title_zh": "在多会话相互依赖的智能体任务中评测智能体记忆",
+      "motivation_cn": "现有评测把记忆与行动割裂，无法反映智能体在交互中获得记忆并用其指导未来决策的真实情形。",
+      "method_cn": "提出统一评测平台MemoryArena，构建记忆-智能体-环境的多会话循环任务。",
+      "result_cn": "基准由人工设计任务组成，联合考察记忆与行动在跨会话任务中的耦合表现。",
+      "conclusion_cn": "为智能体记忆提供了更贴近实际的多会话评测标准。",
       "matched_requirement_id": "req-3",
       "matched_query_tag": "query:agent-memory",
       "matched_query_text": "memory retrieval mechanisms for agent decision making"
     },
     {
-      "paper_id": "openreview-icml-2026-wine6qnt9n",
+      "paper_id": "openreview-icml-2026-sycsmgogxm",
       "score": 8.0,
-      "evidence_en": "decoupled memory/context management for long-horizon agentic models",
-      "evidence_cn": "面向长程智能体模型的解耦式记忆管理",
-      "canonical_evidence": "面向长程智能体模型的解耦式记忆管理",
-      "tldr_en": "CoMem decouples memory management from the primary agent workflow, using an asynchronous pipeline to overlap summarization with agent inference and a reward-driven training strategy to hide context-processing latency.",
-      "tldr_cn": "智能体模型通过迭代摘要历史交互来实现长程任务，但额外的摘要token带来显著解码开销，拖慢端到端响应。作者提出CoMem框架，将记忆管理从主智能体工作流中解耦，使二者并行执行，并提出k步异步流水线把摘要与推理重叠。配合奖励驱动训练策略保证异步下的鲁棒性，有效掩盖上下文处理延迟，为智能体记忆管理的效率问题提供了新方案。",
-      "title_zh": "CoMem：基于解耦长上下文模型的上下文管理",
-      "motivation_cn": "智能体通过迭代摘要历史交互解决长程任务，但额外摘要token带来显著解码开销，拖慢端到端响应延迟。",
-      "method_cn": "提出CoMem框架，将记忆管理与主智能体工作流解耦，用k步异步流水线重叠摘要与推理，并配奖励驱动训练。",
-      "result_cn": "该异步解耦方案有效掩盖上下文处理延迟，在保证鲁棒性的同时降低了长程任务的响应开销。",
-      "conclusion_cn": "表明解耦并异步化记忆管理是提升智能体长程上下文处理效率的有效途径。",
-      "matched_requirement_id": "req-1",
+      "evidence_en": "episodic-like order memory mechanisms in long-context language models",
+      "evidence_cn": "长上下文语言模型中类情景记忆的时序机制",
+      "canonical_evidence": "长上下文语言模型中类情景记忆的时序机制",
+      "tldr_en": "This work investigates whether long-context LLMs capture behavioral signatures of human episodic memory via a temporal order memory task, finding a matching distance effect and temporal context reinstatement mechanisms.",
+      "tldr_cn": "人类情景记忆能检索跨越长时间跨度的经历，但其计算机制因长期记忆实验难以观测而存在争议。本文利用长上下文LLM开展时序顺序记忆任务，基于对整部长篇小说的记忆构建人类行为数据集。结果显示模型表现出与人类相同的距离效应，并通过长上下文机制分析揭示时序上下文重现的驱动作用。该工作为情景记忆的计算机制研究提供了可解释的模型视角。",
+      "title_zh": "时序上下文重现驱动长上下文语言模型中的类情景顺序记忆",
+      "motivation_cn": "人类情景记忆的检索计算机制难以直接观测，长上下文语言模型提供了可分析的研究途径。",
+      "method_cn": "构建基于整部长篇小说记忆的人类行为数据集，在LLM上进行时序顺序记忆任务与机制分析。",
+      "result_cn": "模型呈现与人类一致的距离效应，机制分析显示时序上下文重现驱动该现象。",
+      "conclusion_cn": "揭示长上下文语言模型中的类情景记忆机制，为记忆研究提供计算视角。",
+      "matched_requirement_id": "req-6",
       "matched_query_tag": "query:agent-memory",
-      "matched_query_text": "memory mechanisms in autonomous agents and agent memory architectures"
+      "matched_query_text": "Search for papers about long term memory, episodic memory, and memory retrieval in interactive agent systems."
     },
     {
-      "paper_id": "openreview-icml-2026-5g9puwbcsu",
+      "paper_id": "openreview-icml-2026-xnkrytkwxo",
       "score": 8.0,
-      "evidence_en": "runtime agent memory with query-aware budget-tier routing",
-      "evidence_cn": "带查询感知预算分层路由的运行时智能体记忆",
-      "canonical_evidence": "带查询感知预算分层路由的运行时智能体记忆",
-      "tldr_en": "BudgetMem presents a runtime agent memory framework that structures memory processing into modules with budget tiers, using a lightweight router for query-aware performance-cost control.",
-      "tldr_cn": "记忆对超出单一上下文窗口的LLM智能体日益关键，但多数系统依赖离线、与查询无关的记忆构建，既低效又可能丢弃查询关键信息，而运行时记忆利用又常带来高昂开销且缺乏对性能成本权衡的控制。作者提出BudgetMem运行时智能体记忆框架，将记忆处理组织为多个模块并各设低中高三档预算。轻量路由器进行查询感知的预算分层路由，从而显式平衡任务性能与成本。",
-      "title_zh": "面向运行时智能体记忆的查询感知预算分层路由学习",
-      "motivation_cn": "现有智能体记忆多为离线且与查询无关，效率低并可能丢弃关键信息，运行时利用又开销大且缺乏性能成本控制。",
-      "method_cn": "提出BudgetMem框架，将记忆处理组织为多模块并各设低中高预算档，用轻量路由器做查询感知的预算分层路由。",
-      "result_cn": "该框架实现了显式的查询感知性能成本权衡，在降低运行时记忆开销的同时保留查询关键信息。",
-      "conclusion_cn": "表明模块化预算分层路由可为运行时智能体记忆提供可控的性能与成本平衡。",
-      "matched_requirement_id": "req-3",
+      "evidence_en": "evolutionary memory mechanism consolidating experience pool for LLM agents",
+      "evidence_cn": "为LLM智能体整合经验池的演化记忆机制",
+      "canonical_evidence": "为LLM智能体整合经验池的演化记忆机制",
+      "tldr_en": "APEX reimagines in-context RL as a wake-sleep cycle for fixed-backbone LLM agents, using an evolutionary memory mechanism to consolidate and refine the experience pool.",
+      "tldr_cn": "上下文强化学习（ICRL）无需更新参数即可让冻结LLM适配新领域，但现有方法在积累速度与检索效率间难以兼顾，常形成无结构记忆池与静态示例选择。本文提出APEX框架，将ICRL重构为固定主干LLM智能体的唤醒-睡眠循环。在睡眠阶段引入演化记忆机制，通过拓扑算子结构化精炼经验池并蒸馏泛化模式。该工作为智能体的经验记忆整合与高效检索提供了新范式。",
+      "title_zh": "APEX：面向固定主干LLM智能体的自适应模式演化与有原则探索——一种唤醒-睡眠循环",
+      "motivation_cn": "ICRL在积累速度与检索效率间难兼顾，常产生无结构记忆池与次优静态示例选择。",
+      "method_cn": "提出APEX框架，将ICRL重构为唤醒-睡眠循环，睡眠阶段用演化记忆机制精炼经验池。",
+      "result_cn": "通过拓扑算子结构化整合经验并蒸馏泛化模式，提升记忆检索与利用效率。",
+      "conclusion_cn": "为固定主干LLM智能体的经验记忆整合与演化提供新范式。",
+      "matched_requirement_id": "req-7",
       "matched_query_tag": "query:agent-memory",
-      "matched_query_text": "memory retrieval mechanisms for agent decision making"
+      "matched_query_text": "Identify research on memory consolidation, forgetting, and memory management for continual learning agents."
     },
     {
-      "paper_id": "openreview-icml-2026-txhot32maj",
-      "score": 7.0,
-      "evidence_en": "Memory-centric social learning framework sharing memory among heterogeneous agents",
-      "evidence_cn": "以记忆为中心、在异构智能体间共享记忆的社会学习框架",
-      "canonical_evidence": "以记忆为中心、在异构智能体间共享记忆的社会学习框架",
-      "tldr_en": "SoHip proposes a memory-centric social machine learning framework enabling heterogeneous agents to collaborate by sharing abstracted memory rather than model parameters, improving privacy and reducing overhead.",
-      "tldr_cn": "针对异构联邦学习中共享模型参数或中间表示易泄露敏感信息且开销大的问题，本文受社会学习启发提出SoHip社会海马体记忆学习框架，让多个异构智能体通过共享抽象化的记忆而非参数进行协作学习。该框架以记忆共享为核心机制，在保护隐私、降低通信开销的同时实现知识交换，为多智能体系统中的共享记忆与协作通信提供了新的实现路径。",
-      "title_zh": "社会海马体记忆学习",
-      "motivation_cn": "异构联邦学习共享模型参数或中间表示易泄露隐私且通信开销大。",
-      "method_cn": "提出SoHip以记忆为中心的社会机器学习框架，让异构智能体通过共享抽象记忆进行协作。",
-      "result_cn": "在保护隐私、降低开销的同时实现异构智能体间的知识交换与协作。",
-      "conclusion_cn": "为多智能体系统共享记忆与通信协作提供了新的记忆中心式范式。",
+      "paper_id": "openreview-icml-2026-fssirpjy9u",
+      "score": 8.0,
+      "evidence_en": "agentic memory-driven multi-agent collaboration planning",
+      "evidence_cn": "智能体记忆驱动的多智能体协作规划",
+      "canonical_evidence": "智能体记忆驱动的多智能体协作规划",
+      "tldr_en": "LLM planners struggle with physical and coordination constraints in multi-agent embodied systems. EvoCF uses agentic memory to drive evolutionary counterfactual planning.",
+      "tldr_cn": "为多智能体具身系统规划协作策略是大模型规划器的核心挑战，它们常难以捕捉真实环境的物理与协调约束。本文提出EvoCF，一个智能体记忆驱动的进化反事实规划框架，通过符号约束归纳器从失败中提炼可复用规则形成进化规则库，并用进化式反事实规划生成器探索语义一致的规划变体。实验表明该方法能发现更优的多智能体协作策略，凸显了智能体记忆在协作规划中的作用。",
+      "title_zh": "EvoCF：基于智能体记忆驱动进化反事实规划的多智能体协作",
+      "motivation_cn": "大模型规划器难以捕捉多智能体具身环境中的物理与协调约束。",
+      "method_cn": "提出EvoCF，用符号约束归纳器构建进化规则库，并结合进化反事实规划生成器探索规划变体。",
+      "result_cn": "实验表明该方法能发现改进的多智能体协作策略。",
+      "conclusion_cn": "验证了智能体记忆驱动的规划框架在多智能体协作中的有效性。",
       "matched_requirement_id": "req-4",
       "matched_query_tag": "query:agent-memory",
       "matched_query_text": "shared memory and communication in multi-agent systems"
     },
     {
-      "paper_id": "openreview-icml-2026-1ynrlssrsk",
-      "score": 7.0,
-      "evidence_en": "memory poisoning attack on LLM agent long-term memory",
-      "evidence_cn": "针对LLM智能体长期记忆的记忆投毒攻击",
-      "canonical_evidence": "针对LLM智能体长期记忆的记忆投毒攻击",
-      "tldr_en": "MemIncept is a memory poisoning attack that biases LLM agents in black-box settings using only benign-appearing queries, generating a cooperative query set via a bidirectional evolutionary strategy to overcome the stealth-effectiveness dilemma.",
-      "tldr_cn": "长期记忆赋予LLM智能体自适应推理能力，却也暴露了攻击面，攻击者可注入恶意记录以偏置智能体行为。现有攻击面临两难：有效注入往往明显恶意易被检测，而隐蔽注入效果有限。本文提出MemIncept，一种黑盒设置下仅用良性查询的记忆投毒攻击，通过双向进化策略优化协作查询集。该工作揭示了智能体记忆系统的安全脆弱性。",
-      "title_zh": "MemIncept：通过协作式隐蔽记忆注入操控LLM智能体",
-      "motivation_cn": "长期记忆虽提升LLM智能体的自适应推理能力，却让攻击者可通过注入恶意记录偏置其行为。",
-      "method_cn": "提出MemIncept记忆投毒攻击，用双向进化策略生成协同查询集，在黑盒下以良性查询实施注入。",
-      "result_cn": "相比注入孤立记录的先前方法，协同查询集能更隐蔽且有效地改变智能体行为。",
-      "conclusion_cn": "该研究揭示智能体长期记忆的安全风险，为记忆系统防御提供警示。",
-      "matched_requirement_id": "req-5",
-      "matched_query_tag": "query:agent-memory",
-      "matched_query_text": "Find top tier AI conference papers on memory architectures for autonomous agents and large language model agents."
-    },
-    {
-      "paper_id": "openreview-icml-2026-zmxbdbk4fm",
-      "score": 7.0,
-      "evidence_en": "quantitative analysis and detection of spurious forgetting in continual learning",
-      "evidence_cn": "持续学习中伪遗忘的量化分析与检测",
-      "canonical_evidence": "持续学习中伪遗忘的量化分析与检测",
-      "tldr_en": "Extends prior work on spurious forgetting by introducing a shallow-versus-deep alignment framework that quantitatively characterizes alignment depth and enables real-time detection in continual learning.",
-      "tldr_cn": "大语言模型的持续学习长期受灾难性遗忘困扰，近期研究发现部分性能下降实为任务对齐被打断导致的伪遗忘而非真正知识丢失，但既有工作仅有定性描述且依赖事后分析。本文提出浅层与深层对齐框架，首次对对齐深度进行量化刻画，并给出伪遗忘的实时检测机制。该工作为持续学习中的遗忘诊断与管理提供了可量化的工具。",
-      "title_zh": "持续学习中伪遗忘的实时检测与量化分析",
-      "motivation_cn": "持续学习中灾难性遗忘可能源于任务对齐被打断造成的伪遗忘，但既有研究仅定性描述且依赖事后分析。",
-      "method_cn": "提出浅层与深层对齐框架，量化刻画对齐深度，并构建伪遗忘的实时自动检测机制。",
-      "result_cn": "分析表明当前任务对齐方法存在浅层对齐问题，对齐仅维持在前若干输出上，框架可实时区分真假遗忘。",
-      "conclusion_cn": "该工作为持续学习中的遗忘诊断提供量化基础，有助于更准确地管理记忆与知识保持。",
+      "paper_id": "openreview-icml-2026-mo7dgwffve",
+      "score": 8.0,
+      "evidence_en": "streaming lifecycle of external memory including consolidation and retrieval",
+      "evidence_cn": "外部记忆的流式生命周期含巩固与检索",
+      "canonical_evidence": "外部记忆的流式生命周期含巩固与检索",
+      "tldr_en": "Most external memory evaluations assume a static offline setting, but real memory is streaming with interleaved insertions and retrievals. Neuromem offers a scalable testbed decomposing the memory lifecycle into data structure, normalization, consolidation policy and query dimensions.",
+      "tldr_cn": "现有对外部记忆模块的评估大多假设静态设定，即记忆离线构建并在固定状态下被查询，但现实中记忆是流式的，新事实持续到达，插入与检索交错进行。Neuromem提出一个可扩展测试平台，在插入与检索交错的协议下评测外部记忆，并将记忆生命周期细分为数据结构、归一化策略、巩固策略、查询方式等五个维度，从而揭示流式记忆在准确率与成本上的规律，为外部记忆研究提供细粒度评测基础。",
+      "title_zh": "Neuromem：LLM外部记忆流式生命周期的细粒度分解",
+      "motivation_cn": "现有外部记忆模块评估多假设静态离线设定，而实际记忆是流式的，新事实不断到达且插入与检索交错。",
+      "method_cn": "提出可扩展测试平台Neuromem，在插入-检索交错协议下评测外部记忆，并将记忆生命周期分解为数据结构、归一化、巩固策略、查询等维度。",
+      "result_cn": "该平台揭示了流式记忆在准确率与成本上的生命周期规律。",
+      "conclusion_cn": "为外部记忆模块提供细粒度、流式化的评测框架。",
       "matched_requirement_id": "req-7",
       "matched_query_tag": "query:agent-memory",
       "matched_query_text": "Identify research on memory consolidation, forgetting, and memory management for continual learning agents."
     },
     {
-      "paper_id": "openreview-icml-2026-vbmdonzfev",
-      "score": 7.0,
-      "evidence_en": "analyzing how RL agents use memory to make decisions under partial observability",
-      "evidence_cn": "分析强化学习智能体如何在部分可观测下利用记忆决策",
-      "canonical_evidence": "分析强化学习智能体如何在部分可观测下利用记忆决策",
-      "tldr_en": "Introduces POPGym Arcade and analysis tools to study how model-free RL agents use memory for decisions under partial observability, revealing credit smearing and memory contamination.",
-      "tldr_cn": "如何分析深度强化学习中的记忆机制尚缺乏系统工具，部分可观测下智能体如何利用记忆决策仍不清晰。本文提出POPGym Arcade，一组共享观测与动作空间、兼具完全与部分可观测变体的硬件加速环境，并提供分析工具。研究发现受控对比研究对公平比较是必要的，并揭示价值函数将信用摊到无关历史、以及分布外情境污染记忆的病理现象。",
-      "title_zh": "用POPGym Arcade研究无模型强化学习中的记忆",
-      "motivation_cn": "部分可观测下深度强化学习智能体如何利用记忆决策缺乏系统分析工具与受控对比环境。",
-      "method_cn": "提出POPGym Arcade环境集与配套分析工具，提供完全与部分可观测变体以开展可观测性反事实研究。",
-      "result_cn": "研究发现价值函数会将信用摊到无关历史，且分布外情境会污染记忆并长期扰动策略。",
-      "conclusion_cn": "该工作为理解智能体记忆机制与诊断记忆病理提供了可复用的实验平台与工具。",
+      "paper_id": "openreview-icml-2026-bydjzyqkxq",
+      "score": 8.0,
+      "evidence_en": "memory-augmented context optimization for multi-agent LLM games",
+      "evidence_cn": "面向多智能体LLM博弈的记忆增强上下文优化",
+      "canonical_evidence": "面向多智能体LLM博弈的记忆增强上下文优化",
+      "tldr_en": "Multi-turn multi-agent LLM game evaluation suffers high run-to-run variance that compounds over turns. MEMO treats inference context as an optimizable agentic object, coupling retention via a persistent memory bank with exploration to stabilize and improve play.",
+      "tldr_cn": "多轮多智能体LLM博弈评估存在显著的运行间方差，长程交互中的小偏差会跨轮累积并被多智能体耦合放大，从而偏置胜率估计并动摇比较排名，提示词选择还会进一步加剧这种不稳定。MEMO提出一种自博弈框架，把推理时上下文视为可优化的智能体对象，通过保留与探索的耦合，将自博弈轨迹蒸馏为持久的结构化记忆库，在缓解评估不稳定性的同时提升博弈表现，为多智能体交互提供了记忆增强的上下文优化方案。",
+      "title_zh": "MEMO：面向稳健多轮多智能体LLM博弈的记忆增强模型上下文优化",
+      "motivation_cn": "多轮多智能体LLM博弈评估存在显著的运行间方差，长期交互中小偏差跨轮累积并被多智能体耦合放大，导致胜率估计偏差与排名不稳。",
+      "method_cn": "提出自博弈框架MEMO，把推理时上下文视为可优化的智能体对象，通过保留与探索耦合，将自博弈轨迹蒸馏为持久记忆库。",
+      "result_cn": "该方法缓解了评估不稳定并提升了博弈表现。",
+      "conclusion_cn": "为多智能体LLM博弈提供记忆增强的上下文优化方案。",
+      "matched_requirement_id": "req-4",
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "shared memory and communication in multi-agent systems"
+    },
+    {
+      "paper_id": "openreview-icml-2026-udqe7uzuz6",
+      "score": 8.0,
+      "evidence_en": "security and defense framework for LLM-based agent memory",
+      "evidence_cn": "面向LLM智能体记忆的安全防御框架",
+      "canonical_evidence": "面向LLM智能体记忆的安全防御框架",
+      "tldr_en": "LLM agents rely on memory but injected records can manipulate future behavior; A-MemGuard proactively defends agent memory against context-activated, self-reinforcing poisoning attacks.",
+      "tldr_cn": "大语言模型智能体依赖记忆从过往交互中学习，但这种依赖引入了安全隐患：攻击者可将看似无害的记录注入智能体记忆以操纵其未来行为，且这些记录仅在特定情境下激活并形成自我强化的错误循环，难以逐条审计发现。本文提出主动防御框架A-MemGuard，针对这类隐蔽且自增强的记忆投毒攻击进行检测与防护。该工作揭示了智能体记忆架构的安全脆弱性，为构建可信的记忆系统提供了防御思路。",
+      "title_zh": "A-MemGuard：面向LLM智能体记忆的主动防御框架",
+      "motivation_cn": "LLM智能体依赖记忆，但注入记录可在特定情境下激活并形成自我强化错误循环，威胁其行为。",
+      "method_cn": "提出主动防御框架A-MemGuard，针对隐蔽且自增强的智能体记忆投毒攻击进行检测与防护。",
+      "result_cn": "该框架能够识别仅在特定情境激活、难以逐条审计的恶意记忆记录。",
+      "conclusion_cn": "揭示了智能体记忆架构的安全脆弱性，为构建可信记忆系统提供防御思路。",
       "matched_requirement_id": "req-1",
       "matched_query_tag": "query:agent-memory",
       "matched_query_text": "memory mechanisms in autonomous agents and agent memory architectures"
     },
     {
-      "paper_id": "openreview-icml-2026-68amok2ynk",
-      "score": 6.0,
-      "evidence_en": "Theory of generalization and forgetting in in-context continual learning",
-      "evidence_cn": "上下文持续学习中的泛化与遗忘理论分析",
-      "canonical_evidence": "上下文持续学习中的泛化与遗忘理论分析",
-      "tldr_en": "The paper builds the first theoretical framework for in-context continual learning, analyzing how a pretrained Transformer processes sequential tasks within one prompt and deriving error expressions for generalization and forgetting.",
-      "tldr_cn": "针对现有上下文学习理论多局限于单任务、无法解释提示中含异构任务序列时模型是否隐式持续学习的问题，本文提出首个上下文持续学习理论框架，建模预训练Transformer通过共享注意力在单条提示内处理多顺序任务的过程，针对线性与掩码线性自注意力推导泛化与遗忘的误差表达式。该工作揭示了推理阶段隐式持续学习中的遗忘机制，为面向持续学习智能体的记忆管理与遗忘研究提供理论支撑。",
-      "title_zh": "理解上下文持续学习中的泛化与遗忘",
-      "motivation_cn": "现有上下文学习理论多研究单任务，无法解释提示含异构任务序列时是否隐式持续学习。",
-      "method_cn": "提出首个上下文持续学习理论框架，建模Transformer在单提示内处理多顺序任务并推导误差式。",
-      "result_cn": "针对线性与掩码线性自注意力给出泛化与遗忘的误差表达式，揭示隐式持续学习机制。",
-      "conclusion_cn": "为面向持续学习智能体的遗忘与记忆管理研究提供了理论基础。",
-      "matched_requirement_id": "req-7",
+      "paper_id": "openreview-icml-2026-wine6qnt9n",
+      "score": 8.0,
+      "evidence_en": "Decoupled long-context memory management for agentic models",
+      "evidence_cn": "面向智能体模型的解耦长上下文记忆管理",
+      "canonical_evidence": "面向智能体模型的解耦长上下文记忆管理",
+      "tldr_en": "CoMem decouples memory management from the agent workflow via a k-step-off asynchronous pipeline that overlaps summarization with agent inference, using reward-driven training to mask context-processing latency in long-horizon agentic tasks.",
+      "tldr_cn": "上下文管理让智能体模型通过迭代摘要历史交互来解决长时程任务，但额外摘要token带来大量解码开销，严重影响部署时的端到端响应延迟。本文提出CoMem框架，把记忆管理与主智能体工作流解耦，使二者可并行执行。方法采用k步偏移的异步流水线，将记忆模型的摘要与智能体推理重叠，从而掩盖上下文处理延迟，并用奖励驱动的训练策略保证异步下的稳健性。该工作提升了智能体记忆管理的部署效率。",
+      "title_zh": "CoMem：基于解耦长上下文模型的上下文管理",
+      "motivation_cn": "智能体通过迭代摘要历史解决长时程任务，但摘要token带来大量解码开销，拖慢端到端响应。",
+      "method_cn": "提出CoMem，把记忆管理与主智能体工作流解耦，用k步偏移异步流水线重叠摘要与推理。",
+      "result_cn": "以奖励驱动训练保证异步稳健性，有效掩盖上下文处理延迟，提升部署效率。",
+      "conclusion_cn": "为智能体记忆管理提供低延迟的解耦式框架。",
+      "matched_requirement_id": "req-1",
       "matched_query_tag": "query:agent-memory",
-      "matched_query_text": "Identify research on memory consolidation, forgetting, and memory management for continual learning agents."
+      "matched_query_text": "memory mechanisms in autonomous agents and agent memory architectures"
     },
     {
       "paper_id": "openreview-icml-2026-p247k4elcn",
-      "score": 6.0,
-      "evidence_en": "associative memory experts for continual learning without forgetting",
-      "evidence_cn": "用于持续学习抗遗忘的联想记忆专家",
-      "canonical_evidence": "用于持续学习抗遗忘的联想记忆专家",
-      "tldr_en": "MoRAM tackles redundancy, interference and routing ambiguity in LoRA-based mixture-of-experts continual learning by treating weight matrices as linear associative memory and using incremental rank-1 associative memory experts to reduce forgetting.",
-      "tldr_cn": "大型预训练模型的持续学习需增量获取知识而不遗忘旧任务，现有基于LoRA的专家混合方法存在冗余、干扰与路由歧义等问题。本文从专家粒度出发，提出MoRAM，即秩一联想记忆专家混合，将权重矩阵视为线性联想记忆以提升专家特化程度。该方法缓解专家重复与路由退化，从而抑制持续学习中的遗忘。",
-      "title_zh": "积少成多：基于增量式秩一联想记忆专家的持续学习",
-      "motivation_cn": "现有LoRA专家混合方法因专家粒度粗导致冗余、干扰、路由歧义，进而引发持续学习中的遗忘。",
-      "method_cn": "提出MoRAM，将权重矩阵视为线性联想记忆，采用增量式秩一联想记忆专家实现细粒度专家特化。",
-      "result_cn": "通过提升专家特化与路由质量，MoRAM缓解专家重复与干扰，改善持续学习性能。",
-      "conclusion_cn": "该工作表明细粒度联想记忆专家是抑制持续学习遗忘的有效方向。",
+      "score": 7.0,
+      "evidence_en": "continual learning via rank-1 associative memory experts mitigating forgetting",
+      "evidence_cn": "通过秩1联想记忆专家缓解灾难性遗忘的持续学习",
+      "canonical_evidence": "通过秩1联想记忆专家缓解灾难性遗忘的持续学习",
+      "tldr_en": "MoRAM proposes a mixture of rank-1 associative memory experts for continual learning, addressing catastrophic forgetting and expert interference caused by coarse-grained expert granularity.",
+      "tldr_cn": "大型预训练模型的持续学习需增量获取知识而不发生灾难性遗忘，但现有LoRA混合专家方法因专家粒度粗导致冗余、干扰与路由混乱。本文提出MoRAM（秩1联想记忆专家混合），基于权重矩阵即线性联想器的观点进行细粒度建模。该设计缓解专家重复与路由退化问题，从而减轻遗忘。该工作为持续学习中的记忆管理与遗忘抑制提供了新思路。",
+      "title_zh": "循序渐进：通过增量秩1联想记忆专家混合实现持续学习",
+      "motivation_cn": "持续学习中LoRA混合专家方法因专家粒度粗导致冗余、干扰与路由混乱并引发遗忘。",
+      "method_cn": "提出MoRAM，将权重矩阵视为线性联想器，构建细粒度的秩1联想记忆专家混合。",
+      "result_cn": "缓解专家重复、干扰与路由退化，从而减轻持续学习中的灾难性遗忘。",
+      "conclusion_cn": "为持续学习智能体的记忆管理与遗忘抑制提供了细粒度专家方案。",
       "matched_requirement_id": "req-7",
       "matched_query_tag": "query:agent-memory",
       "matched_query_text": "Identify research on memory consolidation, forgetting, and memory management for continual learning agents."
     },
     {
-      "paper_id": "openreview-icml-2026-sycsmgogxm",
-      "score": 6.0,
-      "evidence_en": "episodic-like order memory in long-context LLMs",
-      "evidence_cn": "长上下文语言模型中的类情景顺序记忆",
-      "canonical_evidence": "长上下文语言模型中的类情景顺序记忆",
-      "tldr_en": "Using a temporal order memory task and a novel dataset based on a full-length novel, the study shows long-context LLMs exhibit the human distance effect, then applies mechanistic interpretability to reveal episodic-like retrieval mechanisms.",
-      "tldr_cn": "人类情景记忆能检索长时间跨度内的经历，但其计算机制因实验可及性有限而存争议。本文利用长上下文LLM探索这一机制，采用时间顺序记忆任务，并基于对整部长篇小说的记忆构建新数据集。实验显示模型表现出与人类一致的距离效应，随后作者应用长上下文机制可解释性方法分析其内部表征。该研究为情景记忆的计算机制提供了可检验的模型证据。",
-      "title_zh": "时间上下文重现驱动长上下文语言模型中的类情景顺序记忆",
-      "motivation_cn": "人类情景记忆的计算机制因长期记忆实验可及性有限而存在争议，缺乏可操作的模型证据。",
-      "method_cn": "利用长上下文LLM执行时间顺序记忆任务，并构建基于长篇小说的人类行为数据集进行机制可解释性分析。",
-      "result_cn": "模型在任务上表现出与人类一致的距离效应，机制分析揭示了时间上下文重现的作用。",
-      "conclusion_cn": "该研究说明长上下文LLM可作为研究情景记忆计算机制的有效平台。",
-      "matched_requirement_id": "req-6",
-      "matched_query_tag": "query:agent-memory",
-      "matched_query_text": "Search for papers about long term memory, episodic memory, and memory retrieval in interactive agent systems."
-    },
-    {
-      "paper_id": "openreview-icml-2026-ajhtru25kd",
-      "score": 6.0,
-      "evidence_en": "self-evolving agentic framework with value-driven memory for continual refining",
-      "evidence_cn": "基于价值驱动记忆的自演化智能体框架用于持续精炼",
-      "canonical_evidence": "基于价值驱动记忆的自演化智能体框架用于持续精炼",
-      "tldr_en": "EvoKernel frames NPU kernel synthesis as a memory-based reinforcement learning task, using a value-driven memory approach to overcome cold-start drafting and enable continual refining.",
-      "tldr_cn": "在NPU等数据稀缺的编程领域，大模型受数据墙限制难以进行内核合成，性能较CUDA等数据丰富平台大幅下降。本文提出EvoKernel，将合成过程建模为基于记忆的强化学习任务，通过价值驱动记忆机制实现从初始草稿到持续精炼的自演化智能体流程，无需昂贵微调即可突破冷启动瓶颈。该工作展示了记忆驱动智能体在领域编程中的迁移价值。",
-      "title_zh": "面向冷启动草拟与持续精炼：一种价值驱动记忆方法及其在NPU内核合成中的应用",
-      "motivation_cn": "NPU等数据稀缺编程领域存在数据墙，大模型内核合成遭遇冷启动与性能骤降问题。",
-      "method_cn": "提出EvoKernel自演化智能体框架，将内核合成建模为基于记忆的强化学习任务，实现草拟到持续精炼。",
-      "result_cn": "该框架无需昂贵微调即可缓解冷启动，通过记忆驱动持续精炼逐步提升内核合成质量。",
-      "conclusion_cn": "价值驱动记忆为数据稀缺领域中的智能体自演化与持续改进提供了可行路径。",
-      "matched_requirement_id": "req-2",
-      "matched_query_tag": "query:agent-memory",
-      "matched_query_text": "memory-augmented agent models that store and retrieve experience"
-    },
-    {
       "paper_id": "openreview-icml-2026-z8svqd3pmi",
-      "score": 6.0,
-      "evidence_en": "persistent evolving retrieval memory that avoids forgetting across queries",
-      "evidence_cn": "跨查询持续演化且不遗忘的检索记忆",
-      "canonical_evidence": "跨查询持续演化且不遗忘的检索记忆",
-      "tldr_en": "ERM is a training-free framework that turns transient query-time retrieval gains into persistent index improvements, updating retrieval memory continually without semantic drift.",
-      "tldr_cn": "检索增强生成常通过查询扩展与迭代检索提升鲁棒性，但这类查询时适配是无状态的，每次重算且随即丢弃，无法累积学习。索引侧方法虽有持久性，却依赖离线预处理或启发式更新，易产生语义漂移与噪声累积。本文提出演化检索记忆ERM，免训练地将查询时的瞬时收益转化为持久的检索改进，实现持续且不遗忘的检索记忆更新。",
-      "title_zh": "不忘却的检索增强生成：持续查询注入的键记忆",
-      "motivation_cn": "现有查询时适配无状态、无法累积，索引侧更新又依赖离线或启发式处理，易致语义漂移。",
-      "method_cn": "提出免训练框架ERM，将查询时的瞬时收益通过相关性更新转化为检索索引的持久改进。",
-      "result_cn": "ERM实现持续演化且不遗忘的检索记忆，在累积学习同时避免语义漂移与噪声堆积。",
-      "conclusion_cn": "持久化检索记忆为RAG系统提供了可累积、抗遗忘的记忆管理方案。",
+      "score": 7.0,
+      "evidence_en": "continual evolving retrieval memory without forgetting in RAG",
+      "evidence_cn": "RAG中不遗忘的持续演化检索记忆",
+      "canonical_evidence": "RAG中不遗忘的持续演化检索记忆",
+      "tldr_en": "Evolving Retrieval Memory is a training-free framework that turns transient query-time RAG gains into persistent retrieval improvements by continually updating the retrieval index, avoiding forgetting.",
+      "tldr_cn": "现有RAG的查询期适配（如查询扩展、迭代检索）是无状态的，每次查询重新计算并丢弃，无法累积学习且重复消耗推理成本。索引侧方法虽具持久性，却依赖离线预处理或弱对齐的启发式更新，导致语义漂移与噪声累积。本文提出Evolving Retrieval Memory（ERM），一个免训练框架，通过持续更新检索索引将瞬时收益转化为持久改进。该工作为RAG记忆的持续演化与遗忘抑制提供了新方法。",
+      "title_zh": "不遗忘的RAG：持续查询注入式键记忆",
+      "motivation_cn": "RAG查询期适配无状态、无法累积学习，索引侧方法又易语义漂移与噪声累积。",
+      "method_cn": "提出免训练的Evolving Retrieval Memory框架，通过持续更新检索索引持久化查询收益。",
+      "result_cn": "将瞬时查询收益转化为持久检索改进，缓解语义漂移与重复推理开销。",
+      "conclusion_cn": "为RAG系统的持续记忆演化与遗忘抑制提供免训练方案。",
+      "matched_requirement_id": "req-7",
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "Identify research on memory consolidation, forgetting, and memory management for continual learning agents."
+    },
+    {
+      "paper_id": "openreview-icml-2026-fyle5o8g5f",
+      "score": 7.0,
+      "evidence_en": "multimodal memory graph structuring agent states and retrieved evidence",
+      "evidence_cn": "以多模态记忆图组织智能体状态与检索证据",
+      "canonical_evidence": "以多模态记忆图组织智能体状态与检索证据",
+      "tldr_en": "This paper tackles linear RAG histories failing on long multimodal contexts, proposing VimRAG that models agent reasoning as a dynamic graph serving as structured memory.",
+      "tldr_cn": "该文针对智能体系统在长上下文多模态推理中传统RAG依赖线性交互历史、难以处理信息稀疏却token密集的视觉数据的问题，提出VimRAG框架。它把推理过程建模为动态有向无环图，将智能体状态与检索到的多模态证据结构化为记忆，并在其上执行图式检索。该结构化记忆提升了跨文本图像视频的检索增强推理能力。",
+      "title_zh": "通过多模态记忆图导航检索增强生成中的海量视觉上下文",
+      "motivation_cn": "传统RAG依赖线性历史，难以应对长程、token密集的多模态推理场景。",
+      "method_cn": "提出VimRAG，将推理建模为动态有向无环图作为结构化记忆并图式检索。",
+      "result_cn": "结构化多模态记忆提升了长上下文检索增强推理效果。",
+      "conclusion_cn": "为交互式智能体的长程多模态记忆与检索提供图结构方案。",
       "matched_requirement_id": "req-6",
       "matched_query_tag": "query:agent-memory",
       "matched_query_text": "Search for papers about long term memory, episodic memory, and memory retrieval in interactive agent systems."
     },
     {
-      "paper_id": "openreview-icml-2026-vzdsheab4g",
+      "paper_id": "openreview-icml-2026-1ynrlssrsk",
+      "score": 7.0,
+      "evidence_en": "memory poisoning attack targeting LLM agent long-term memory",
+      "evidence_cn": "针对LLM智能体长期记忆的记忆投毒攻击",
+      "canonical_evidence": "针对LLM智能体长期记忆的记忆投毒攻击",
+      "tldr_en": "Long-term memory gives LLM agents adaptive reasoning but also an attack surface where malicious records can bias behavior. MemIncept uses a bidirectional evolutionary strategy to craft cooperative benign-looking queries that stealthily poison agent memory even in black-box settings.",
+      "tldr_cn": "长期记忆让LLM智能体具备自适应推理能力，但也带来了关键攻击面，攻击者可注入恶意记录来偏置智能体行为。现有攻击面临两难：有效注入往往明显恶意而容易被检测，隐蔽良性的注入又难以改变行为。MemIncept提出一种记忆投毒攻击，通过双向进化策略优化一组协作查询，即使仅有看似良性的查询也能在黑盒设定下协同偏置智能体，凸显了智能体记忆系统的安全隐患。",
+      "title_zh": "MemIncept：通过协作式隐蔽记忆注入操控LLM智能体",
+      "motivation_cn": "长期记忆赋予LLM智能体自适应推理能力，但也暴露攻击面，攻击者可注入恶意记录以偏置智能体行为。",
+      "method_cn": "提出记忆投毒攻击MemIncept，利用双向进化策略优化一组协作查询，仅用看似良性的查询即可在黑盒下注入并偏置智能体。",
+      "result_cn": "该攻击在隐蔽性与有效性间取得平衡，能影响智能体行为。",
+      "conclusion_cn": "揭示并利用LLM智能体长期记忆的安全脆弱性。",
+      "matched_requirement_id": "req-1",
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "memory mechanisms in autonomous agents and agent memory architectures"
+    },
+    {
+      "paper_id": "openreview-icml-2026-mnox4mkh3f",
       "score": 6.0,
-      "evidence_en": "experience replay for forgetting resistance in continual learning policies",
-      "evidence_cn": "持续学习中经验回放的抗遗忘研究",
-      "canonical_evidence": "持续学习中经验回放的抗遗忘研究",
-      "tldr_en": "Pretrained Vision-Language-Action models are remarkably resistant to forgetting in continual learning, where simple experience replay often achieves near-zero forgetting.",
-      "tldr_cn": "持续学习要求机器人在习得新技能时避免灾难性遗忘旧技能，但既有研究多针对从零训练的小型行为克隆策略，对大规模预训练VLA模型的行为尚不清楚。本文发现预训练VLA模型对遗忘具有显著鲁棒性，简单的经验回放即可在少量回放数据下实现近乎零遗忘，并分析其内在原因。该发现为持续学习智能体的记忆与遗忘管理提供新见解。",
-      "title_zh": "预训练视觉-语言-动作模型在持续学习中出乎意料地抗遗忘",
-      "motivation_cn": "持续学习中预训练VLA模型是否如小模型般易遗忘尚未被充分研究。",
-      "method_cn": "系统对比预训练VLA与从零训练策略的持续学习表现，并测试经验回放效果。",
-      "result_cn": "预训练VLA对遗忘高度鲁棒，简单经验回放在少量数据下近乎零遗忘。",
-      "conclusion_cn": "为持续学习智能体的记忆与遗忘管理提供新认识。",
+      "evidence_en": "benchmark for agent-centric embedding retrieval including memory retrieval",
+      "evidence_cn": "面向智能体嵌入检索（含记忆检索）的基准",
+      "canonical_evidence": "面向智能体嵌入检索（含记忆检索）的基准",
+      "tldr_en": "AOEB is an agent-oriented multimodal embedding benchmark covering five agent retrieval capabilities including memory retrieval, addressing the gap in general-purpose embedding benchmarks.",
+      "tldr_cn": "基于检索与RAG的LLM智能体日益普及，嵌入模型在检索中至关重要，但现有嵌入基准多面向通用场景，难以匹配智能体应用的多样化需求。本文提出Agent-Oriented Embedding Benchmark（AOEB），涵盖代码、工具、推理、记忆检索等五项智能体检索能力，并支持多模态评测。该基准为智能体记忆检索等场景的嵌入模型评估提供了针对性工具。",
+      "title_zh": "AOEB：面向智能体的多模态嵌入基准评测",
+      "motivation_cn": "现有嵌入基准面向通用场景，无法匹配LLM智能体多样化检索需求。",
+      "method_cn": "提出AOEB基准，覆盖代码、工具、推理与记忆检索等五项能力并支持多模态评测。",
+      "result_cn": "为智能体中心检索（含记忆检索）的嵌入模型提供系统化评测。",
+      "conclusion_cn": "弥补通用嵌入基准与智能体检索需求之间的评估空白。",
+      "matched_requirement_id": "req-3",
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "memory retrieval mechanisms for agent decision making"
+    },
+    {
+      "paper_id": "openreview-icml-2026-kqe6gjpqtn",
+      "score": 6.0,
+      "evidence_en": "studies forgetting in continual learning via spectral imbalance of low-rank updates",
+      "evidence_cn": "从谱不平衡角度研究持续学习中的遗忘",
+      "canonical_evidence": "从谱不平衡角度研究持续学习中的遗忘",
+      "tldr_en": "This paper studies why low-rank continual adaptation forgets, showing imbalanced singular value spectra disrupt past knowledge, and proposes decoupling to balance components.",
+      "tldr_cn": "该文针对参数高效持续学习中的灾难性遗忘问题，指出低秩适配的奇异值谱高度不平衡，少数主导分量吸收大部分适配能量，从而更易破坏已学知识并受后续任务干扰。作者提出显式平衡各分量的解耦方法以自然保留旧知识。研究揭示了遗忘的结构性成因，为持续学习智能体的记忆保持提供了新视角。",
+      "title_zh": "谱不平衡导致低秩持续适配中的遗忘",
+      "motivation_cn": "现有持续学习方法多关注避免干扰，却忽视何种更新属性可自然保留旧知识。",
+      "method_cn": "从知识分解视角分析低秩适配的奇异值谱，并提出解耦以显式平衡各分量。",
+      "result_cn": "发现谱不平衡与遗忘及后续干扰强相关，平衡后能更好保留历史知识。",
+      "conclusion_cn": "为持续学习智能体的抗遗忘记忆机制提供了可迁移的结构性准则。",
+      "matched_requirement_id": "req-7",
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "Identify research on memory consolidation, forgetting, and memory management for continual learning agents."
+    },
+    {
+      "paper_id": "openreview-icml-2026-zmxbdbk4fm",
+      "score": 6.0,
+      "evidence_en": "quantitative analysis of spurious forgetting in continual learning",
+      "evidence_cn": "持续学习中虚假遗忘的定量分析",
+      "canonical_evidence": "持续学习中虚假遗忘的定量分析",
+      "tldr_en": "Catastrophic forgetting may stem from spurious alignment disruption rather than true knowledge loss. This work quantifies alignment depth and detects forgetting in real time.",
+      "tldr_cn": "灾难性遗忘是大模型持续学习的核心难题，近期研究指出性能下降可能源于任务对齐被破坏的虚假遗忘，而非真实知识丢失，但此前工作仅定性描述且依赖事后分析。本文提出浅层与深层对齐框架，首次定量刻画对齐深度，并实现虚假遗忘的实时检测与自动区分。结果揭示了现有对齐方法存在浅层对齐问题，为持续学习中的遗忘诊断与记忆管理提供了新工具。",
+      "title_zh": "持续学习中虚假遗忘的实时检测与定量分析",
+      "motivation_cn": "大模型持续学习中的性能下降可能来自虚假遗忘，但缺乏定量刻画与自动区分手段。",
+      "method_cn": "提出浅层与深层对齐框架，定量刻画对齐深度并实时检测虚假遗忘。",
+      "result_cn": "实验发现现有对齐方法存在浅层对齐问题，导致输出层遗忘。",
+      "conclusion_cn": "为持续学习中的遗忘诊断与记忆保持提供了量化分析框架。",
       "matched_requirement_id": "req-7",
       "matched_query_tag": "query:agent-memory",
       "matched_query_text": "Identify research on memory consolidation, forgetting, and memory management for continual learning agents."
@@ -3539,175 +3718,226 @@
     {
       "paper_id": "openreview-icml-2026-wkmv7mxjur",
       "score": 6.0,
-      "evidence_en": "learning to remember, learn and forget in attention via metaplasticity",
-      "evidence_cn": "通过元可塑性在注意力中学习记忆与遗忘",
-      "canonical_evidence": "通过元可塑性在注意力中学习记忆与遗忘",
-      "tldr_en": "Palimpsa treats in-context learning as a continual learning problem, using Bayesian metaplasticity to tie attention-state plasticity to importance, addressing stability-plasticity in memory.",
-      "tldr_cn": "Transformer的上下文学习被视为在线联想记忆，但在门控线性注意力中该记忆容量固定且易受干扰，尤其对长序列。本文将上下文学习视为需处理稳定性-可塑性困境的持续学习问题，提出Palimpsa自注意力模型，采用贝叶斯元可塑性，将每个注意力状态的可塑性绑定到由先验分布锚定的重要性状态。研究表明多种门控线性注意力模型可作为其特例涌现，为记忆的保持与遗忘管理提供统一视角。",
-      "title_zh": "在注意力模型中学习记忆、学习与遗忘",
-      "motivation_cn": "门控线性注意力中上下文学习记忆容量固定且易受干扰，长序列尤甚。",
-      "method_cn": "提出Palimpsa，用贝叶斯元可塑性将注意力状态可塑性绑定到重要性状态。",
-      "result_cn": "在稳定性-可塑性间取得平衡，多种门控线性注意力作为特例涌现。",
-      "conclusion_cn": "为注意力记忆的保持与遗忘管理提供统一理论视角。",
+      "evidence_en": "continual learning view of memory with remembering and forgetting",
+      "evidence_cn": "从持续学习视角研究记忆的记与忘",
+      "canonical_evidence": "从持续学习视角研究记忆的记与忘",
+      "tldr_en": "In-context learning acts as an online associative memory with fixed capacity prone to interference. Palimpsa frames it as continual learning with Bayesian metaplasticity.",
+      "tldr_cn": "Transformer的上下文学习被视为一种在线联想记忆，但门控线性注意力模型中该记忆容量固定且易受长序列干扰。本文提出Palimpsa，将上下文学习视为需处理稳定性-可塑性困境的持续学习问题，用贝叶斯元可塑性将每个注意力状态的可塑性与其重要度绑定。研究表明多种门控线性注意力模型可作为其特例，为记忆的保留与遗忘提供了统一建模视角。",
+      "title_zh": "在基于注意力的模型中学习记忆、学习与遗忘",
+      "motivation_cn": "门控线性注意力模型的上下文记忆容量固定，长序列下易受干扰。",
+      "method_cn": "提出Palimpsa，用贝叶斯元可塑性将注意力状态可塑性绑定重要度，把ICL建模为持续学习。",
+      "result_cn": "多种门控线性注意力模型被证明是该方法的具体架构特例与后验近似。",
+      "conclusion_cn": "为注意力模型中的记忆保持与遗忘提供了统一的持续学习框架。",
       "matched_requirement_id": "req-7",
       "matched_query_tag": "query:agent-memory",
       "matched_query_text": "Identify research on memory consolidation, forgetting, and memory management for continual learning agents."
     },
     {
-      "paper_id": "openreview-icml-2026-mnox4mkh3f",
+      "paper_id": "openreview-icml-2026-vzdsheab4g",
       "score": 6.0,
-      "evidence_en": "benchmark covering memory retrieval capability for LLM agents",
-      "evidence_cn": "覆盖LLM智能体记忆检索能力的基准",
-      "canonical_evidence": "覆盖LLM智能体记忆检索能力的基准",
-      "tldr_en": "AOEB introduces an agent-oriented embedding benchmark covering five retrieval capabilities including memory retrieval, addressing the mismatch between general-purpose embedding evaluation and agentic retrieval needs.",
-      "tldr_cn": "现有嵌入模型评测多聚焦通用场景，难以贴合智能体应用多样且演进的检索需求。作者提出面向智能体的嵌入基准AOEB，覆盖代码、工具、推理与记忆检索等五项关键能力，并支持多模态评测。该基准为评估智能体记忆检索等嵌入能力提供了统一标准，有助于推动智能体检索系统的发展，但对记忆架构本身贡献有限。",
-      "title_zh": "AOEB：面向智能体的多模态嵌入基准",
-      "motivation_cn": "现有嵌入评测聚焦通用场景，无法对齐智能体应用多样且不断演进的检索需求，尤其是记忆检索能力。",
-      "method_cn": "提出面向智能体的嵌入基准AOEB，覆盖代码、工具、推理、记忆检索等五项任务能力，并提供多模态评测。",
-      "result_cn": "该基准为评估智能体检索相关嵌入模型提供了统一评测套件，揭示了通用嵌入在智能体场景的不足。",
-      "conclusion_cn": "强调需要专门面向智能体检索的评测标准，以支撑记忆检索等能力的可靠衡量。",
-      "matched_requirement_id": "req-5",
+      "evidence_en": "experience replay and resistance to forgetting in continual learning",
+      "evidence_cn": "持续学习中的经验回放与抗遗忘",
+      "canonical_evidence": "持续学习中的经验回放与抗遗忘",
+      "tldr_en": "Continual learning behavior of pretrained VLA models is underexplored. This work finds VLAs resist forgetting, with simple experience replay nearly eliminating it.",
+      "tldr_cn": "持续学习是机器人策略学习的长期难题，需在习得新技能时避免灾难性遗忘，但以往研究多聚焦从零训练的小型行为克隆模型，对大规模预训练视觉-语言-动作模型的遗忘行为了解不足。本文发现预训练VLA模型对遗忘具有显著抵抗力，简单经验回放甚至能在小回放数据下实现零遗忘，并分析其背后原因。该结果为持续学习中的记忆回放策略提供了重要参考。",
+      "title_zh": "预训练视觉-语言-动作模型在持续学习中出人意料地抗遗忘",
+      "motivation_cn": "大规模预训练VLA模型在持续学习中的遗忘行为尚未被充分研究。",
+      "method_cn": "对比预训练VLA与从零训练模型，并测试简单经验回放策略的效果。",
+      "result_cn": "发现VLA显著抗遗忘，小规模经验回放即可实现近乎零遗忘。",
+      "conclusion_cn": "为机器人持续学习中的记忆回放策略提供了新见解。",
+      "matched_requirement_id": "req-7",
       "matched_query_tag": "query:agent-memory",
-      "matched_query_text": "Find top tier AI conference papers on memory architectures for autonomous agents and large language model agents."
+      "matched_query_text": "Identify research on memory consolidation, forgetting, and memory management for continual learning agents."
     },
     {
-      "paper_id": "openreview-icml-2026-nvnkuqwuu3",
-      "score": 5.0,
-      "evidence_en": "Comparing SFT and RFT for knowledge retention and forgetting in continual post-training",
-      "evidence_cn": "比较SFT与RFT在持续后训练中的知识保持与遗忘",
-      "canonical_evidence": "比较SFT与RFT在持续后训练中的知识保持与遗忘",
-      "tldr_en": "The paper compares supervised and reinforcement fine-tuning for continual post-training of multimodal LLMs, finding reinforcement fine-tuning naturally mitigates catastrophic forgetting in knowledge retention.",
-      "tldr_cn": "针对持续后训练中遗忘问题、现有方法多聚焦数据回放与参数正则而忽视学习范式作用的问题，本文对监督微调与强化微调两种范式进行对比分析，在多模态任务上以Qwen2.5-VL-7B-Instruct为基座开展实验。研究发现强化微调能天然缓解持续后训练中的遗忘，更好保持已有知识，为持续学习智能体的记忆保持与遗忘缓解提供了新的范式视角。",
-      "title_zh": "强化微调天然缓解持续后训练中的遗忘",
-      "motivation_cn": "持续后训练存在遗忘问题，现有研究多聚焦数据回放与参数正则，忽视学习范式的作用。",
-      "method_cn": "对比监督微调与强化微调两种范式，在多模态任务上以Qwen2.5-VL为基座分析知识保持。",
-      "result_cn": "发现强化微调能天然缓解持续后训练中的遗忘，更好地保持已有知识。",
-      "conclusion_cn": "为持续学习智能体的遗忘缓解与记忆保持提供了学习范式层面的新视角。",
+      "paper_id": "openreview-icml-2026-b7p2wegaby",
+      "score": 6.0,
+      "evidence_en": "continual learning plugin balancing forgetting and plasticity",
+      "evidence_cn": "平衡遗忘与可塑性的持续学习插件",
+      "canonical_evidence": "平衡遗忘与可塑性的持续学习插件",
+      "tldr_en": "Continual learning must learn new tasks while avoiding catastrophic forgetting, yet many anti-forgetting methods constrain updates and hurt plasticity. PAPO inspects gradient singular spectra, finds singular value collapse, and activates suppressed directions to balance stability and plasticity.",
+      "tldr_cn": "持续学习要求模型在学习新任务的同时避免灾难性遗忘，但许多缓解遗忘的方法通过约束参数更新而牺牲了可塑性。作者重新审视典型持续学习方法的梯度奇异值谱，发现普遍存在奇异值塌缩，仅少数梯度方向驱动更新。为此提出极算子可塑性激活插件PAPO，在保留抑制遗忘的主方向同时激活被压制的方向以增强可塑性，实验证明其能兼顾稳定性与可塑性。",
+      "title_zh": "通过极算子激活可塑性：平衡稳定性与可塑性的插件方法",
+      "motivation_cn": "持续学习需学习新知识又避免灾难性遗忘，但许多抗遗忘方法限制参数更新，削弱了模型可塑性。",
+      "method_cn": "作者分析梯度奇异值谱，发现奇异值塌缩现象，提出PAPO插件，保留抗遗忘主方向同时激活被抑制方向以增强可塑性。",
+      "result_cn": "实验表明该方法在缓解遗忘的同时提升可塑性。",
+      "conclusion_cn": "为持续学习提供平衡稳定性与可塑性的通用插件。",
       "matched_requirement_id": "req-7",
       "matched_query_tag": "query:agent-memory",
       "matched_query_text": "Identify research on memory consolidation, forgetting, and memory management for continual learning agents."
     },
     {
       "paper_id": "openreview-icml-2026-ix1hdzko8u",
-      "score": 5.0,
-      "evidence_en": "catastrophic forgetting in continual learning",
-      "evidence_cn": "持续学习中的灾难性遗忘",
-      "canonical_evidence": "持续学习中的灾难性遗忘",
-      "tldr_en": "The paper reformulates continual learning as a control problem where learning and preservation signals compete, converting regularization into preservation signals to protect prior-task representations without storing curvature.",
-      "tldr_cn": "针对神经网络顺序训练时的灾难性遗忘问题，本文将持续学习重构为控制问题，让学习信号与保持信号在神经活动动态中竞争。方法将正则惩罚转化为保护先验任务表征的保持信号，通过最小化整合新任务的控制代价来更新权重。实验表明该框架能恢复真实的先验任务曲率，无需显式存储曲率即可保护旧任务表征。其贡献在于提出continual-natural gradient概念，为持续学习中的遗忘抑制提供新的控制论视角。",
+      "score": 6.0,
+      "evidence_en": "continual learning reformulated to counter catastrophic forgetting",
+      "evidence_cn": "为对抗灾难性遗忘重构的持续学习",
+      "canonical_evidence": "为对抗灾难性遗忘重构的持续学习",
+      "tldr_en": "Catastrophic forgetting remains fundamental in sequential learning. This work reformulates continual learning as a control problem where learning and preservation signals compete, yielding implicit prior-task curvature without explicit storage, and recovering true priors in experiments.",
+      "tldr_cn": "灾难性遗忘是神经网络在顺序学习任务时面临的根本挑战。本文把持续学习重新表述为一个控制问题，让学习信号与保护信号在神经活动动力学中相互竞争，将正则惩罚转化为保护先前任务表示的保护信号，学习过程则通过最小化整合新任务所需的控制代价来进行。平衡时神经活动产生的权重更新可隐式编码完整的先验任务曲率，无需显式存储，实验验证该框架能恢复真实的先验信息，为持续学习提供了新视角。",
       "title_zh": "通过控制最小化实现持续学习",
-      "motivation_cn": "神经网络顺序训练时存在灾难性遗忘，需要在新任务学习与旧任务保持之间取得平衡。",
-      "method_cn": "将持续学习重构为控制问题，把正则惩罚转化为保持信号，通过最小化整合新任务的控制代价来更新权重。",
-      "result_cn": "实验证明该方法能恢复真实的先验任务曲率，无需显式存储曲率即可保护旧任务表征。",
-      "conclusion_cn": "提出continual-natural gradient概念，为持续学习中的遗忘抑制提供了新的控制论视角。",
-      "matched_requirement_id": "req-7",
-      "matched_query_tag": "query:agent-memory",
-      "matched_query_text": "Identify research on memory consolidation, forgetting, and memory management for continual learning agents."
-    },
-    {
-      "paper_id": "openreview-icml-2026-1vshjguvbs",
-      "score": 5.0,
-      "evidence_en": "interpretable feed-forward memory in transformers",
-      "evidence_cn": "Transformer中可解释的前馈记忆机制",
-      "canonical_evidence": "Transformer中可解释的前馈记忆机制",
-      "tldr_en": "MemoryLLM decouples feed-forward networks from self-attention and studies them as context-free token-wise neural retrieval memory, training FFNs in isolation to analyze how tokens access memory stored in parameters.",
-      "tldr_cn": "理解Transformer组件运作对AI进展至关重要，本文聚焦前馈模块的可解释性难题。作者提出MemoryLLM，将前馈网络与自注意力解耦，使其可作为上下文无关的逐token神经检索记忆进行研究。方法通过仅用token嵌入单独训练前馈网络，实现记忆的预计算。该工作揭示输入token如何访问前馈参数中的记忆位置，为LLM记忆机制的可解释性提供新工具。",
-      "title_zh": "MemoryLLM：面向Transformer的即插即用可解释前馈记忆",
-      "motivation_cn": "前馈模块的可解释性不足，且其与自注意力耦合，难以单独研究其作为记忆的功能。",
-      "method_cn": "提出MemoryLLM，将前馈网络与自注意力解耦，仅用token嵌入单独训练，使其成为上下文无关的检索记忆。",
-      "result_cn": "分析显示不同下游任务对前馈记忆的依赖程度不同，且token以特定方式访问记忆位置。",
-      "conclusion_cn": "该工作为理解LLM内部记忆机制提供了可解释的分析框架。",
-      "matched_requirement_id": "req-5",
-      "matched_query_tag": "query:agent-memory",
-      "matched_query_text": "Find top tier AI conference papers on memory architectures for autonomous agents and large language model agents."
-    },
-    {
-      "paper_id": "openreview-icml-2026-zd2zhfsexc",
-      "score": 5.0,
-      "evidence_en": "replay-free continual learning framework controlling backward transfer without forgetting",
-      "evidence_cn": "无回放的持续学习框架在不忘却前提下控制反向迁移",
-      "canonical_evidence": "无回放的持续学习框架在不忘却前提下控制反向迁移",
-      "tldr_en": "SABER is a replay-free framework enabling controlled backward knowledge transfer in prompt-based continual learning by deciding when and how to refine safely without catastrophic forgetting.",
-      "tldr_cn": "基于提示的参数高效持续学习虽通过隔离任务提示缓解灾难性遗忘，但这种隔离也限制了后续任务改进早期任务，反向知识迁移研究不足。本文提出SABER，一种无回放框架，利用提示梯度几何与损失分布相似性判断反向精炼的时机，并通过限制更新方向安全执行精炼。该方法在不引起遗忘的前提下实现了受控的正向反向迁移。",
-      "title_zh": "不忘却地回望：面向参数高效持续学习的选择性反向精炼",
-      "motivation_cn": "提示隔离虽缓解灾难性遗忘，却限制后续任务改进早期任务，反向知识迁移未被充分探索。",
-      "method_cn": "提出无回放框架SABER，用提示梯度几何与损失分布相似性判断精炼时机并限制更新方向以安全精炼。",
-      "result_cn": "该方法在避免灾难性遗忘的同时实现受控的反向知识迁移，改善早期任务的性能。",
-      "conclusion_cn": "选择性反向精炼为持续学习中的知识迁移与记忆保持提供了新思路。",
+      "motivation_cn": "灾难性遗忘是神经网络顺序学习任务时的根本挑战。",
+      "method_cn": "将持续学习重构为控制问题，把正则惩罚转化为保护先前任务表示的保护信号，通过最小化整合新任务所需的控制代价来学习。",
+      "result_cn": "平衡时神经活动产生的权重更新隐式编码先前任务曲率，无需显式存储，实验验证其能恢复真实先验。",
+      "conclusion_cn": "为持续学习提供无需曲率存储的新框架。",
       "matched_requirement_id": "req-7",
       "matched_query_tag": "query:agent-memory",
       "matched_query_text": "Identify research on memory consolidation, forgetting, and memory management for continual learning agents."
     },
     {
       "paper_id": "openreview-icml-2026-cbicsaxmwq",
-      "score": 5.0,
-      "evidence_en": "memory-based replay to mitigate catastrophic forgetting in continual learning",
-      "evidence_cn": "基于记忆回放的持续学习抗遗忘方法",
-      "canonical_evidence": "基于记忆回放的持续学习抗遗忘方法",
-      "tldr_en": "Data reassembly boosts memory efficiency in continual learning by synthesizing composite replay samples from patches, mitigating forgetting under limited buffer capacity.",
-      "tldr_cn": "针对记忆回放受限于缓冲区容量、每个样本仅代表单个实例的问题，本文提出数据重组范式，将当前任务数据切分为基本片段并通过能量模型动态重组为连贯回放样本。该方法显著提升记忆效率，在有限缓冲下缓解灾难性遗忘。其贡献在于为持续学习提供更高效的记忆管理机制，对智能体长期学习中的遗忘抑制具有借鉴意义。",
-      "title_zh": "超越缓冲区限制：面向持续学习的能量式数据重组",
-      "motivation_cn": "记忆回放方法受限于缓冲区容量，每个存储样本仅代表单个数据实例，导致抗遗忘效果受限。",
-      "method_cn": "将当前任务训练数据切分为基本片段，通过能量模型动态重组为连贯的复合回放样本。",
-      "result_cn": "在有限记忆容量下显著提升记忆效率，有效缓解灾难性遗忘。",
-      "conclusion_cn": "为持续学习提供更高效的记忆管理范式，可支撑智能体的长期学习。",
+      "score": 6.0,
+      "evidence_en": "Memory-efficient replay via data reassembly for continual learning",
+      "evidence_cn": "面向持续学习的高效记忆重放数据重组方法",
+      "canonical_evidence": "面向持续学习的高效记忆重放数据重组方法",
+      "tldr_en": "This paper proposes data reassembly for continual learning, partitioning task data into elementary patches and dynamically reassembling composite replay samples via an energy-based approach, increasing memory efficiency beyond limited replay buffer capacity.",
+      "tldr_cn": "持续学习需在非平稳数据流上获取新知识并保持旧任务性能，基于记忆重放的方法虽能缓解灾难性遗忘，却受限于有限记忆容量，因为每个存储样本只代表单个数据实例。本文提出面向持续学习的数据重组范式，不再存储原始样本，而是把当前任务数据划分为基本片段，并通过基于能量的方法动态重组为连贯的重放实例。该方法显著提升记忆效率，突破重放缓冲区容量限制。其为持续学习中的记忆管理与遗忘缓解提供了新途径。",
+      "title_zh": "超越缓冲区限制：面向持续学习的基于能量的数据重组",
+      "motivation_cn": "基于重放的持续学习受限于记忆容量，每个存储样本仅代表单个数据实例，效率低下。",
+      "method_cn": "提出数据重组范式，把任务数据切分为基本片段，并用基于能量的方法动态重组为连贯重放样本。",
+      "result_cn": "显著提升记忆效率，突破重放缓冲区的容量限制并缓解灾难性遗忘。",
+      "conclusion_cn": "为持续学习中的记忆管理与遗忘缓解提供了更高效率的重放途径。",
       "matched_requirement_id": "req-7",
       "matched_query_tag": "query:agent-memory",
       "matched_query_text": "Identify research on memory consolidation, forgetting, and memory management for continual learning agents."
     },
     {
-      "paper_id": "openreview-icml-2026-3clofiywlu",
+      "paper_id": "openreview-icml-2026-ooruky3zjq",
       "score": 5.0,
-      "evidence_en": "data-free continual learning framework to reduce catastrophic forgetting in LLMs",
-      "evidence_cn": "面向LLM持续学习的免数据抗遗忘框架",
-      "canonical_evidence": "面向LLM持续学习的免数据抗遗忘框架",
-      "tldr_en": "ALER is a data-free continual learning framework that adversarially searches latent prompt embeddings to expose forgetting modes, then distills from a frozen reference model.",
-      "tldr_cn": "LLM持续学习需在获取新技能时避免灾难性遗忘，但领域微调即便在窄更新下仍触发严重长尾遗忘，且预训练数据常不可得。本文提出ALER，一个免数据的持续学习框架，通过对抗搜索一小组潜在提示嵌入来最大化与冻结参考模型的logit差异，主动暴露高风险遗忘模式，再用在线蒸馏保留旧行为。该工作为LLM智能体的记忆保持与遗忘抑制提供新方法。",
-      "title_zh": "面向LLM持续学习的对抗式潜在嵌入修复",
-      "motivation_cn": "LLM领域微调即便窄更新仍引发严重长尾遗忘，且预训练数据常不可访问。",
-      "method_cn": "对抗搜索潜在提示嵌入以暴露遗忘模式，并对冻结参考模型进行在线蒸馏。",
-      "result_cn": "在保留目标域适应性的同时有效抑制灾难性遗忘。",
-      "conclusion_cn": "为LLM持续学习中的知识保持与遗忘抑制提供免数据方案。",
-      "matched_requirement_id": "req-7",
-      "matched_query_tag": "query:agent-memory",
-      "matched_query_text": "Identify research on memory consolidation, forgetting, and memory management for continual learning agents."
-    },
-    {
-      "paper_id": "openreview-icml-2026-1tbhbsxcyx",
-      "score": 4.0,
-      "evidence_en": "reusing KV caches across agents in multi-agent LLM collaboration",
-      "evidence_cn": "多智能体大模型协作中跨智能体复用KV缓存",
-      "canonical_evidence": "多智能体大模型协作中跨智能体复用KV缓存",
-      "tldr_en": "RelayCaching reuses decoding-phase KV caches from previous agents during later prefill phases to cut redundant computation and memory in multi-agent LLM collaboration.",
-      "tldr_cn": "多智能体大模型协作架构中，前序智能体生成的共享内容被反复预填充，造成KV缓存显存占用与首token时延的瓶颈。本文提出RelayCaching，一种免训练推理方法，直接在后续预填充阶段复用前序智能体的解码阶段KV缓存。该方法在保持智能体生成输出准确性的同时提升了缓存复用率，缓解了协作推理的冗余计算与显存压力。",
-      "title_zh": "RelayCaching：通过解码阶段KV缓存复用加速大模型协作",
-      "motivation_cn": "多智能体大模型协作中共享内容反复预填充，导致KV缓存显存占用与首token时延升高。",
-      "method_cn": "提出免训练推理方法RelayCaching，在后续预填充阶段直接复用前序智能体解码阶段的KV缓存。",
-      "result_cn": "该方法在维持智能体生成输出准确性的同时提高缓存复用率，降低冗余计算与时延。",
-      "conclusion_cn": "跨智能体KV缓存复用为多智能体协作推理的效率优化提供了实用手段。",
+      "evidence_en": "shares KV cache memory across multi-LoRA agents to cut redundancy",
+      "evidence_cn": "在多LoRA智能体间共享KV缓存以减少冗余",
+      "canonical_evidence": "在多LoRA智能体间共享KV缓存以减少冗余",
+      "tldr_en": "This paper addresses redundant per-agent KV caches in multi-LoRA agent systems, proposing LRAgent to decompose the cache into shared backbone and adapter-specific parts.",
+      "tldr_cn": "该文针对多LoRA多智能体系统中各智能体独立存储KV缓存导致的内存与算力开销问题，观察到智能体间缓存差异主要来自适配器输出，而共享骨干的激活高度相似。作者提出LRAgent，将缓存分解为共享基础分量与适配器分量以实现跨智能体复用。该方法为多智能体共享记忆与高效推理提供了系统级支持。",
+      "title_zh": "LRAgent：面向多LoRA大模型智能体的高效KV缓存共享",
+      "motivation_cn": "多LoRA智能体各自存储KV缓存，造成大量内存与计算冗余。",
+      "method_cn": "提出LRAgent，将缓存分解为共享骨干分量与适配器输出分量以复用。",
+      "result_cn": "利用骨干激活高度相似性实现跨智能体缓存共享，降低开销。",
+      "conclusion_cn": "为多智能体系统的共享内存与高效服务提供实用方案。",
       "matched_requirement_id": "req-4",
       "matched_query_tag": "query:agent-memory",
       "matched_query_text": "shared memory and communication in multi-agent systems"
     },
     {
-      "paper_id": "openreview-icml-2026-kqe6gjpqtn",
+      "paper_id": "openreview-icml-2026-68amok2ynk",
+      "score": 5.0,
+      "evidence_en": "theoretical framework for generalization and forgetting in in-context continual learning",
+      "evidence_cn": "上下文持续学习中泛化与遗忘的理论框架",
+      "canonical_evidence": "上下文持续学习中泛化与遗忘的理论框架",
+      "tldr_en": "This paper provides the first theoretical framework for in-context continual learning, analyzing how a Transformer processes sequential tasks in one prompt and when forgetting arises.",
+      "tldr_cn": "该文针对上下文学习理论多局限于单任务、而真实提示常包含异质任务序列的问题，提出首个上下文持续学习理论框架。作者建模预训练Transformer通过共享注意力在单个提示内处理多个顺序任务的过程，针对线性与掩码线性自注意力推导误差表达式，刻画泛化与遗忘条件。该理论为理解智能体推理时的隐式持续学习与遗忘提供基础。",
+      "title_zh": "理解上下文持续学习中的泛化与遗忘",
+      "motivation_cn": "现有上下文学习理论多针对单任务，缺乏对提示内多任务序列遗忘的分析。",
+      "method_cn": "构建上下文持续学习理论框架，对线性自注意力推导误差表达式。",
+      "result_cn": "刻画了Transformer在单提示内处理顺序任务时的泛化与遗忘条件。",
+      "conclusion_cn": "为推理阶段的隐式持续学习与遗忘提供理论解释。",
+      "matched_requirement_id": "req-7",
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "Identify research on memory consolidation, forgetting, and memory management for continual learning agents."
+    },
+    {
+      "paper_id": "openreview-icml-2026-fofvtwbgux",
+      "score": 5.0,
+      "evidence_en": "ablates memory management among multi-agent architectural components",
+      "evidence_cn": "在多智能体架构组件中消融记忆管理",
+      "canonical_evidence": "在多智能体架构组件中消融记忆管理",
+      "tldr_en": "Multi-agent ML systems combine memory management, planning and decomposition, making component contributions unclear. This work runs 4000+ ablations and a new contamination-free benchmark.",
+      "tldr_cn": "面向机器学习的自主智能体系统整合了多智能体分解、迭代精化、记忆管理与规划等多种技术，但难以判断哪些组件真正带来性能提升，且现有基准存在数据污染与过时基线问题。作者开展四千余次受控消融实验，并构建包含25个活跃竞赛的无污染动态基准K-live。结果系统性地厘清了记忆管理等组件对整体性能的贡献，为多智能体系统设计提供了可靠评估依据。",
+      "title_zh": "多智能体机器学习系统中组件贡献的探究",
+      "motivation_cn": "多智能体系统混合了记忆管理等多种组件，但难以判断哪些组件真正驱动性能。",
+      "method_cn": "开展四千余次受控消融实验，并提出无数据污染的动态基准K-live。",
+      "result_cn": "实验系统性地量化了记忆管理等各架构组件对性能的贡献。",
+      "conclusion_cn": "为多智能体系统的组件设计与评估提供了可靠依据。",
+      "matched_requirement_id": "req-5",
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "Find top tier AI conference papers on memory architectures for autonomous agents and large language model agents."
+    },
+    {
+      "paper_id": "openreview-icml-2026-3clofiywlu",
+      "score": 5.0,
+      "evidence_en": "data-free continual learning to mitigate catastrophic forgetting",
+      "evidence_cn": "缓解灾难性遗忘的无数据持续学习",
+      "canonical_evidence": "缓解灾难性遗忘的无数据持续学习",
+      "tldr_en": "Domain-specific fine-tuning causes long-tailed forgetting when pretraining data is inaccessible. ALER adversarially finds latent embeddings to expose forgetting and distills online.",
+      "tldr_cn": "大模型持续学习希望在获取新技能的同时避免灾难性遗忘，但领域微调即使更新范围很窄，在预训练数据不可得时仍会引发严重的长尾遗忘。本文提出ALER，一个无数据持续学习框架，通过对抗搜索少量潜在提示嵌入来最大化与冻结参考模型的logit差异，主动暴露高风险遗忘模式，再用在线蒸馏保留原有行为。理论分析与实验表明该方法能在保持目标域适配的同时有效缓解遗忘。",
+      "title_zh": "面向大模型持续学习的对抗潜在嵌入修复",
+      "motivation_cn": "预训练数据不可得时，领域微调会引发严重的长尾灾难性遗忘。",
+      "method_cn": "提出ALER，对抗搜索潜在提示嵌入暴露遗忘模式，并在线蒸馏保持旧知识。",
+      "result_cn": "实验表明该方法在保持目标域适配的同时有效缓解遗忘。",
+      "conclusion_cn": "为无数据场景下的持续学习记忆保持提供了新方案。",
+      "matched_requirement_id": "req-7",
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "Identify research on memory consolidation, forgetting, and memory management for continual learning agents."
+    },
+    {
+      "paper_id": "openreview-icml-2026-qzo3oby12w",
+      "score": 5.0,
+      "evidence_en": "memory traces and erasure in neural networks",
+      "evidence_cn": "神经网络中的记忆痕迹与擦除",
+      "canonical_evidence": "神经网络中的记忆痕迹与擦除",
+      "tldr_en": "Whether deep networks preserve identifiable memory traces like biological memory units remains open. AI Engram formalizes neuroscientific criteria into a constrained inverse problem, deriving a closed-form estimator that isolates and manipulates individual memories.",
+      "tldr_cn": "记忆形成是智能的基础，但深度神经网络是否像生物大脑那样保留可识别的记忆痕迹仍是未解问题。本文提出几何框架，将神经科学的特异性、再激活、充分性与必要性准则形式化为约束逆问题，推导出可从未缠结的全局参数中隔离单个记忆痕迹的闭式估计器。该解对应参数流形上的自然梯度更新，并支持通过线性算术组合或擦除任意记忆子集，为理解与操控人工网络记忆提供新工具。",
+      "title_zh": "AI记忆印迹：在人工智能中寻找记忆痕迹",
+      "motivation_cn": "记忆形成是智能的基础，但深度神经网络是否保留类似生物记忆单元的可识别记忆痕迹仍是未解问题。",
+      "method_cn": "提出几何框架，将神经科学的特异性、再激活、充分性与必要性准则形式化为约束逆问题，推导出闭式估计器以隔离单个记忆痕迹。",
+      "result_cn": "该估计器与参数流形上的自然梯度更新对应，可对学得知识进行组合或擦除等外科手术式操作。",
+      "conclusion_cn": "为理解与操控人工网络中的记忆痕迹提供统一框架。",
+      "matched_requirement_id": "req-7",
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "Identify research on memory consolidation, forgetting, and memory management for continual learning agents."
+    },
+    {
+      "paper_id": "openreview-icml-2026-l35qwevxgn",
+      "score": 5.0,
+      "evidence_en": "Theory of forgetting in continual learning with gradient descent",
+      "evidence_cn": "梯度下降持续学习中的遗忘理论分析",
+      "canonical_evidence": "梯度下降持续学习中的遗忘理论分析",
+      "tldr_en": "This paper analyzes limitations of continual learning by studying one-hidden-layer quadratic networks trained on sequences of XOR-cluster tasks, deriving explicit bounds on train-time forgetting as functions of iterations, sample size and task count.",
+      "tldr_cn": "持续学习要求模型在适应新任务的同时不遗忘旧任务，但其内在机制仍不清晰。本文在可解析且具代表性的设定下研究其局限，分析单隐层二次神经网络在带高斯噪声的XOR簇数据序列上经梯度下降训练的动态。通过对训练损失梯度下降动态的紧致刻画，作者给出了训练时遗忘率关于迭代次数、样本量与任务数的显式界。该结果为理解持续学习与灾难性遗忘提供理论工具，但未涉及智能体记忆管理。",
+      "title_zh": "论神经网络中基于梯度下降的持续学习理论",
+      "motivation_cn": "持续学习希望模型适应新任务而不遗忘旧任务，但其内在机制与遗忘成因仍缺乏理论理解。",
+      "method_cn": "在单隐层二次网络、XOR簇正交均值序列设定下，对梯度下降训练损失动态进行紧致刻画并推导遗忘率界。",
+      "result_cn": "给出了训练时遗忘率关于迭代次数、样本规模和任务数量的显式上界。",
+      "conclusion_cn": "为持续学习与灾难性遗忘提供理论刻画，但聚焦神经网络训练而非智能体记忆管理。",
+      "matched_requirement_id": "req-7",
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "Identify research on memory consolidation, forgetting, and memory management for continual learning agents."
+    },
+    {
+      "paper_id": "openreview-icml-2026-nvnkuqwuu3",
       "score": 4.0,
-      "evidence_en": "analyzing forgetting in continual adaptation via spectral imbalance",
-      "evidence_cn": "从谱不平衡角度分析持续适应中的遗忘",
-      "canonical_evidence": "从谱不平衡角度分析持续适应中的遗忘",
-      "tldr_en": "This paper studies forgetting in parameter-efficient continual learning, observing that low-rank adaptations have imbalanced singular value spectra and proposing to balance components to better preserve prior knowledge.",
-      "tldr_cn": "参数高效持续学习需在适应新任务时避免遗忘旧知识，但现有方法多只关注避免干扰而非分析更新为何能保留知识。作者从知识分解视角发现低秩适应存在奇异值谱高度不平衡的问题，主导成分易破坏旧知识并受后续任务干扰。据此提出显式平衡各成分的方法以缓解遗忘。该研究为持续学习中的遗忘机制提供了理论解释，但与智能体记忆架构关联较弱。",
-      "title_zh": "谱不平衡导致低秩持续适应中的遗忘",
-      "motivation_cn": "现有参数高效持续学习只关注避免干扰旧更新，未分析当前任务更新为何能自然保留既有知识。",
-      "method_cn": "从知识分解角度发现低秩适应的奇异值谱高度不平衡，据此解耦并显式平衡各成分以缓解遗忘。",
-      "result_cn": "分析表明主导成分易破坏旧知识并受后续任务干扰，平衡后能更好保留既有知识、减轻遗忘。",
-      "conclusion_cn": "为持续学习中的遗忘成因提供了谱视角解释，并给出缓解遗忘的成分平衡策略。",
+      "evidence_en": "investigates forgetting and knowledge retention in continual post-training",
+      "evidence_cn": "研究持续后训练中的遗忘与知识保持",
+      "canonical_evidence": "研究持续后训练中的遗忘与知识保持",
+      "tldr_en": "Compares supervised and reinforcement fine-tuning for continual post-training, showing reinforcement fine-tuning naturally mitigates catastrophic forgetting and better retains knowledge on multimodal tasks.",
+      "tldr_cn": "持续后训练能让基础模型适应不断变化的下游任务，但以往研究多聚焦数据回放等方法，学习范式本身对知识保持的作用仍不清楚。本文系统对比监督微调与强化微调两种后训练范式，以Qwen2.5-VL-7B-Instruct为基础在多个多模态任务上开展实验，考察二者对持续后训练中知识保持的影响。结果显示强化微调范式能够自然缓解遗忘，为持续学习智能体的记忆保持提供了新的范式视角。",
+      "title_zh": "强化微调自然缓解持续后训练中的遗忘",
+      "motivation_cn": "持续后训练中学习范式本身对知识保持的作用尚不明确，现有研究多关注数据回放等具体方法。",
+      "method_cn": "对比监督微调与强化微调两种后训练范式，在多模态任务上考察其对持续后训练知识保持的影响。",
+      "result_cn": "以Qwen2.5-VL-7B-Instruct为基础在多个多模态任务上实验，发现两种范式在遗忘程度上存在显著差异。",
+      "conclusion_cn": "强化微调范式可自然缓解灾难性遗忘，为持续学习中的知识保持提供新思路。",
+      "matched_requirement_id": "req-7",
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "Identify research on memory consolidation, forgetting, and memory management for continual learning agents."
+    },
+    {
+      "paper_id": "openreview-icml-2026-zd2zhfsexc",
+      "score": 4.0,
+      "evidence_en": "backward knowledge transfer and mitigating catastrophic forgetting in continual learning",
+      "evidence_cn": "持续学习中的反向知识迁移与缓解灾难性遗忘",
+      "canonical_evidence": "持续学习中的反向知识迁移与缓解灾难性遗忘",
+      "tldr_en": "Prompt-based parameter-efficient continual learning isolates prompts but blocks backward knowledge transfer; SABER is a replay-free framework enabling controlled backward refinement using task-correlation criteria.",
+      "tldr_cn": "基于提示的参数高效持续学习虽能通过隔离任务提示缓解灾难性遗忘，却也阻碍了后续任务改进先前任务，反向知识迁移长期被忽视。本文提出无回放的SABER框架，利用基于提示梯度几何与损失分布相似度的任务相关性准则判断何时进行反向精炼，并通过限制更新方向保证精炼安全。该框架实现了受控的正向反向知识迁移，为持续学习中的知识保持与再利用提供了新方法。",
+      "title_zh": "无遗忘地回望：面向参数高效持续学习的选择性反向精炼",
+      "motivation_cn": "提示隔离虽缓解灾难性遗忘，却限制了后续任务对先前任务的反向知识迁移。",
+      "method_cn": "提出无回放框架SABER，基于提示梯度几何与损失分布相似度判断并安全执行反向精炼。",
+      "result_cn": "在参数高效持续学习设定下实现受控的反向知识迁移，提升知识再利用。",
+      "conclusion_cn": "为持续学习中的遗忘缓解与知识迁移平衡提供了新的精炼框架。",
       "matched_requirement_id": "req-7",
       "matched_query_tag": "query:agent-memory",
       "matched_query_text": "Identify research on memory consolidation, forgetting, and memory management for continual learning agents."
     }
   ],
-  "llm_ranked_at": "2026-09-19T06:26:17.098480+00:00",
+  "llm_ranked_at": "2026-09-19T06:31:02.270458+00:00",
   "display_min_score": 4.0,
-  "pruned_at": "2026-09-19T06:26:17.136315+00:00"
+  "pruned_at": "2026-09-19T06:31:02.308550+00:00"
 }

@@ -1,6 +1,6 @@
 ---
 title: "ParamMem: Augmenting Language Agents with Parametric Reflective Memory"
-title_zh: ParamMem：以参数化反思记忆增强语言智能体
+title_zh: ParamMem：为语言智能体增强的参数化反思记忆
 authors: "Tianjun Yao, Yongqiang Chen, Yujia Zheng, Pan Li, Zhiqiang Shen, Kun Zhang"
 date: 2026
 publication_date: 2026
@@ -9,15 +9,15 @@ publication_date_source: conference year only; exact release date unverified
 publication_date_kind: unknown
 pdf: "https://openreview.net/pdf/a8f8d44c9fbeda54d0be37feb00e39fa531c146f.pdf"
 tags: ["query:agent-memory"]
-score: 8.0
-evidence: 为语言智能体存储反思模式的参数化反思记忆模块
-tldr: 针对语言智能体自反思常产生重复输出、限制推理性能的问题，本文发现反思多样性与任务成功率强正相关，提出ParamMem参数化记忆模块，将跨样本反思模式编码进模型参数，并通过温度控制采样生成多样化反思。基于该模块构建的ParamAgent反思式智能体框架进一步整合这些信号，显著提升推理表现，为智能体记忆增强提供了参数化存储与检索的新思路。
+score: 9.0
+evidence: 为语言智能体增强的参数化反思记忆模块
+tldr: 自反思能让语言智能体迭代改进解，但常产生重复输出，限制推理性能，现有方法通过提升反思多样性来缓解。本文提出参数化记忆模块ParamMem，将跨样本的反思模式编码进模型参数，并通过温度控制采样生成多样化的反思信号。基于该模块构建的ParamAgent框架把反思记忆融入智能体推理流程。作者的分析显示反思多样性与任务成功率强正相关，表明参数化记忆是增强智能体经验利用的有效途径。
 source: ICML-2026-Accepted
 selection_source: conference_retrieval
-motivation: 语言智能体自反思易产生重复输出，限制推理性能，且缺乏多样反思信号。
-method: 提出参数化记忆模块ParamMem，将跨样本反思模式编码进模型参数并温度采样生成多样反思。
-result: 基于该模块的ParamAgent框架提升了反思多样性与任务成功率。
-conclusion: 为语言智能体提供参数化记忆存储与检索机制，改善迭代推理的多样性。
+motivation: 语言智能体的自反思常产生重复输出，限制推理性能，而反思多样性与任务成功强相关。
+method: 提出参数化记忆模块ParamMem，把跨样本反思模式编码进模型参数，用温度采样生成多样反思。
+result: 基于该模块构建的ParamAgent框架通过提升反思多样性改善推理表现。
+conclusion: 表明参数化记忆可作为智能体存储与复用经验的有效机制。
 ---
 
 ## Abstract
@@ -28,10 +28,10 @@ Self-reflection enables language agents to iteratively refine solutions, yet oft
 ## 论文详细总结（自动生成）
 
 ### 1. 检索相关性
-为语言智能体存储反思模式的参数化反思记忆模块。
+为语言智能体增强的参数化反思记忆模块。
 
 ### 2. 核心内容
-针对语言智能体自反思常产生重复输出、限制推理性能的问题，本文发现反思多样性与任务成功率强正相关，提出ParamMem参数化记忆模块，将跨样本反思模式编码进模型参数，并通过温度控制采样生成多样化反思。基于该模块构建的ParamAgent反思式智能体框架进一步整合这些信号，显著提升推理表现，为智能体记忆增强提供了参数化存储与检索的新思路。
+自反思能让语言智能体迭代改进解，但常产生重复输出，限制推理性能，现有方法通过提升反思多样性来缓解。本文提出参数化记忆模块ParamMem，将跨样本的反思模式编码进模型参数，并通过温度控制采样生成多样化的反思信号。基于该模块构建的ParamAgent框架把反思记忆融入智能体推理流程。作者的分析显示反思多样性与任务成功率强正相关，表明参数化记忆是增强智能体经验利用的有效途径。
 
 ### 3. 对应检索需求
 memory-augmented agent models that store and retrieve experience。

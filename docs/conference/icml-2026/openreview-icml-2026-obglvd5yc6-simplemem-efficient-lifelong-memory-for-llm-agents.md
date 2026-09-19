@@ -9,15 +9,15 @@ publication_date_source: conference year only; exact release date unverified
 publication_date_kind: unknown
 pdf: "https://openreview.net/pdf/af171ffc96696a3f1b46bc14d3e93f5a6ea2126c.pdf"
 tags: ["query:agent-memory"]
-score: 10.0
+score: 9.0
 evidence: 面向LLM智能体的高效终身记忆框架
-tldr: 针对LLM智能体长期交互中记忆冗余与token开销大的问题，本文提出SimpleMem高效记忆框架，基于语义无损压缩设计三阶段流水线：语义结构化压缩将非结构化交互蒸馏为紧凑多视图索引记忆单元，在线语义合成在会话内即时整合相关上下文。该框架在最大化信息密度与token利用率的同时降低历史管理的成本，为智能体终身记忆架构提供了可扩展方案。
+tldr: 面向复杂环境中LLM智能体的长期交互，现有记忆方法要么被动扩展上下文造成大量冗余，要么依赖迭代推理过滤噪声而消耗高昂token。SimpleMem提出基于语义无损压缩的三阶段记忆框架，通过语义结构化压缩把非结构化交互蒸馏为紧凑的多视图索引记忆单元，并借助在线语义合成在会话内即时整合相关上下文。该方法最大化信息密度与token利用率，为智能体提供高效的终身记忆能力。
 source: ICML-2026-Accepted
 selection_source: conference_retrieval
-motivation: 现有LLM智能体记忆要么被动扩展上下文导致冗余，要么迭代推理过滤噪声而token开销高。
-method: 提出基于语义无损压缩的三阶段流水线，将交互蒸馏为多视图索引记忆单元并进行在线语义合成。
-result: 在提升信息密度与token利用率的同时降低冗余，实现高效的终身记忆管理。
-conclusion: 为LLM智能体提供可扩展的高效终身记忆架构，缓解长程交互中的记忆膨胀问题。
+motivation: LLM智能体长期交互需管理历史经验，现有方法要么保留全部历史导致冗余，要么依赖迭代推理过滤噪声而开销高。
+method: 提出基于语义无损压缩的三阶段记忆框架，将非结构化交互蒸馏为紧凑的多视图索引记忆单元，并在线进行语义合成。
+result: 该流程提升信息密度与token利用率，在长期交互中兼顾效率与准确性。
+conclusion: 为LLM智能体提供高效终身记忆方案。
 ---
 
 ## Abstract
@@ -31,10 +31,10 @@ To support long-term interaction in complex environments, LLM agents require mem
 面向LLM智能体的高效终身记忆框架。
 
 ### 2. 核心内容
-针对LLM智能体长期交互中记忆冗余与token开销大的问题，本文提出SimpleMem高效记忆框架，基于语义无损压缩设计三阶段流水线：语义结构化压缩将非结构化交互蒸馏为紧凑多视图索引记忆单元，在线语义合成在会话内即时整合相关上下文。该框架在最大化信息密度与token利用率的同时降低历史管理的成本，为智能体终身记忆架构提供了可扩展方案。
+面向复杂环境中LLM智能体的长期交互，现有记忆方法要么被动扩展上下文造成大量冗余，要么依赖迭代推理过滤噪声而消耗高昂token。SimpleMem提出基于语义无损压缩的三阶段记忆框架，通过语义结构化压缩把非结构化交互蒸馏为紧凑的多视图索引记忆单元，并借助在线语义合成在会话内即时整合相关上下文。该方法最大化信息密度与token利用率，为智能体提供高效的终身记忆能力。
 
 ### 3. 对应检索需求
-memory mechanisms in autonomous agents and agent memory architectures。
+Find top tier AI conference papers on memory architectures for autonomous agents and large language model agents.
 
 ### 4. 来源与原文
 - Source：ICML-2026-Accepted

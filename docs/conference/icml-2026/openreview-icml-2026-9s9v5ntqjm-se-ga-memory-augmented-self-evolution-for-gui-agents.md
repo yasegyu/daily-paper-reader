@@ -10,14 +10,14 @@ publication_date_kind: unknown
 pdf: "https://openreview.net/pdf/08ac4b5e4ff21fb40631ba5b306f6542c6784e16.pdf"
 tags: ["query:agent-memory"]
 score: 9.0
-evidence: 为GUI智能体检索情景语义经验记忆的层次记忆
-tldr: 自主GUI智能体因上下文窗口受限和策略静态，难以应对多步任务。作者提出自演化GUI智能体SE-GA，将层次化记忆结构与迭代自改进机制结合。其核心测试时记忆扩展TTME在推理时动态检索情景、语义与经验记忆，为长期规划提供显著上下文，并配记忆增强自演化训练管线持续学习。该方法提升了GUI智能体在动态环境中的多步任务表现。
+evidence: 具备情景与语义记忆检索的记忆增强自演化GUI智能体
+tldr: 自主GUI智能体在多步任务中受限于上下文窗口和静态策略，难以适应动态环境。本文提出SE-GA自演化GUI智能体框架，将分层记忆结构与迭代自改进机制结合。核心的测试时记忆扩展（TTME）在推理时动态检索情景、语义与经验记忆以支持长期规划，记忆增强自演化（MASE）利用收集数据持续训练。该工作为交互式智能体的长期记忆与持续学习提供了完整方案。
 source: ICML-2026-Accepted
 selection_source: conference_retrieval
-motivation: 自主GUI智能体受限于上下文窗口和静态策略，难以适应动态环境中的多步任务。
-method: 提出SE-GA框架，结合层次化记忆与迭代自改进，用测试时记忆扩展动态检索情景、语义和经验记忆，并配记忆增强自演化训练。
-result: 该记忆增强机制为长期规划提供显著上下文并支持持续学习，提升了GUI智能体在多步任务中的表现。
-conclusion: 表明层次化记忆检索结合自演化训练可有效增强GUI智能体的长程决策能力。
+motivation: 自主GUI智能体受限于上下文窗口与静态策略，难以应对多步任务与动态环境。
+method: 提出SE-GA框架，结合分层记忆、测试时记忆扩展TTME与记忆增强自演化MASE训练流程。
+result: 在推理时动态检索情景、语义与经验记忆以支持长期规划并持续提升策略。
+conclusion: 为交互式GUI智能体提供长期记忆检索与持续学习的一体化框架。
 ---
 
 ## Abstract
@@ -28,13 +28,13 @@ Autonomous Graphical User Interface (GUI) agents often struggle with multi-step 
 ## 论文详细总结（自动生成）
 
 ### 1. 检索相关性
-为GUI智能体检索情景语义经验记忆的层次记忆。
+具备情景与语义记忆检索的记忆增强自演化GUI智能体。
 
 ### 2. 核心内容
-自主GUI智能体因上下文窗口受限和策略静态，难以应对多步任务。作者提出自演化GUI智能体SE-GA，将层次化记忆结构与迭代自改进机制结合。其核心测试时记忆扩展TTME在推理时动态检索情景、语义与经验记忆，为长期规划提供显著上下文，并配记忆增强自演化训练管线持续学习。该方法提升了GUI智能体在动态环境中的多步任务表现。
+自主GUI智能体在多步任务中受限于上下文窗口和静态策略，难以适应动态环境。本文提出SE-GA自演化GUI智能体框架，将分层记忆结构与迭代自改进机制结合。核心的测试时记忆扩展（TTME）在推理时动态检索情景、语义与经验记忆以支持长期规划，记忆增强自演化（MASE）利用收集数据持续训练。该工作为交互式智能体的长期记忆与持续学习提供了完整方案。
 
 ### 3. 对应检索需求
-Search for papers about long term memory, episodic memory, and memory retrieval in interactive agent systems.
+memory-augmented agent models that store and retrieve experience。
 
 ### 4. 来源与原文
 - Source：ICML-2026-Accepted

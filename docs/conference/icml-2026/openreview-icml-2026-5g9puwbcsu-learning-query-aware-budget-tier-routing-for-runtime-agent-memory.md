@@ -9,15 +9,15 @@ publication_date_source: conference year only; exact release date unverified
 publication_date_kind: unknown
 pdf: "https://openreview.net/pdf/6d34d163d6de7c6e7c44fb7d8ce6427a25700991.pdf"
 tags: ["query:agent-memory"]
-score: 8.0
-evidence: 带查询感知预算分层路由的运行时智能体记忆
-tldr: 记忆对超出单一上下文窗口的LLM智能体日益关键，但多数系统依赖离线、与查询无关的记忆构建，既低效又可能丢弃查询关键信息，而运行时记忆利用又常带来高昂开销且缺乏对性能成本权衡的控制。作者提出BudgetMem运行时智能体记忆框架，将记忆处理组织为多个模块并各设低中高三档预算。轻量路由器进行查询感知的预算分层路由，从而显式平衡任务性能与成本。
+score: 9.0
+evidence: 带预算分层路由的运行时智能体记忆框架
+tldr: 现有LLM智能体记忆系统多依赖离线、与查询无关的构建方式，效率低且可能丢失查询关键信息。本文提出BudgetMem运行时记忆框架，将记忆处理拆分为多个模块，每个模块提供低中高三档预算，并用轻量路由器按查询动态选择预算层级。该设计在性能与成本之间实现显式可控的权衡，为跨上下文窗口的智能体记忆提供了更灵活的运行时方案。
 source: ICML-2026-Accepted
 selection_source: conference_retrieval
-motivation: 现有智能体记忆多为离线且与查询无关，效率低并可能丢弃关键信息，运行时利用又开销大且缺乏性能成本控制。
-method: 提出BudgetMem框架，将记忆处理组织为多模块并各设低中高预算档，用轻量路由器做查询感知的预算分层路由。
-result: 该框架实现了显式的查询感知性能成本权衡，在降低运行时记忆开销的同时保留查询关键信息。
-conclusion: 表明模块化预算分层路由可为运行时智能体记忆提供可控的性能与成本平衡。
+motivation: 现有智能体记忆多为离线且与查询无关的构建方式，效率低且易丢弃关键信息。
+method: 提出BudgetMem，把记忆处理组织为多模块三档预算，并用轻量路由器按查询进行预算分层路由。
+result: 实现显式的查询感知性能与成本权衡控制，提升运行时记忆利用效率。
+conclusion: 为跨上下文窗口的LLM智能体提供灵活可控的运行时记忆管理框架。
 ---
 
 ## Abstract
@@ -28,13 +28,13 @@ Memory is increasingly central to Large Language Model (LLM) agents operating be
 ## 论文详细总结（自动生成）
 
 ### 1. 检索相关性
-带查询感知预算分层路由的运行时智能体记忆。
+带预算分层路由的运行时智能体记忆框架。
 
 ### 2. 核心内容
-记忆对超出单一上下文窗口的LLM智能体日益关键，但多数系统依赖离线、与查询无关的记忆构建，既低效又可能丢弃查询关键信息，而运行时记忆利用又常带来高昂开销且缺乏对性能成本权衡的控制。作者提出BudgetMem运行时智能体记忆框架，将记忆处理组织为多个模块并各设低中高三档预算。轻量路由器进行查询感知的预算分层路由，从而显式平衡任务性能与成本。
+现有LLM智能体记忆系统多依赖离线、与查询无关的构建方式，效率低且可能丢失查询关键信息。本文提出BudgetMem运行时记忆框架，将记忆处理拆分为多个模块，每个模块提供低中高三档预算，并用轻量路由器按查询动态选择预算层级。该设计在性能与成本之间实现显式可控的权衡，为跨上下文窗口的智能体记忆提供了更灵活的运行时方案。
 
 ### 3. 对应检索需求
-memory retrieval mechanisms for agent decision making。
+memory mechanisms in autonomous agents and agent memory architectures。
 
 ### 4. 来源与原文
 - Source：ICML-2026-Accepted
