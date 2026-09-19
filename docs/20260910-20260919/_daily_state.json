@@ -1,0 +1,489 @@
+{
+  "date": "20260910-20260919",
+  "date_label": "2026-09-10 ~ 2026-09-19",
+  "generated_at": "2026-09-19 07:24:52 UTC",
+  "recommend_exists": true,
+  "run_count": 1,
+  "papers": [
+    {
+      "paper_id": "2609.15009v1",
+      "route": "20260910-20260919/2609.15009v1-comem-collective-individual-memory-synergy-for-evolutionary-multi-agent-systems",
+      "title": "CoMem: Collective-Individual Memory Synergy for Evolutionary Multi-Agent Systems",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 10.0,
+      "evidence": "集体-个体记忆协同，统一私有经验与共享知识",
+      "first_seen_at": "2026-09-19 07:24:52 UTC",
+      "updated_at": "2026-09-19 07:24:52 UTC"
+    },
+    {
+      "paper_id": "2609.11308v1",
+      "route": "20260910-20260919/2609.11308v1-2am-grounding-agent-side-memory-as-guidance-for-steerable-action-models-in-long-horizon-manipulation",
+      "title": "2AM: Grounding Agent-Side Memory as Guidance for Steerable Action Models in Long-Horizon Manipulation",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "面向长期机器人操作的任务侧记忆架构",
+      "first_seen_at": "2026-09-19 07:24:52 UTC",
+      "updated_at": "2026-09-19 07:24:52 UTC"
+    },
+    {
+      "paper_id": "2609.11561v1",
+      "route": "20260910-20260919/2609.11561v1-memory-as-plans-world-action-modeling-with-memory-grounded-planning",
+      "title": "Memory as Plans: World-Action Modeling with Memory-Grounded Planning",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "基于记忆规划的长期操作，利用多模态情景上下文",
+      "first_seen_at": "2026-09-19 07:24:52 UTC",
+      "updated_at": "2026-09-19 07:24:52 UTC"
+    },
+    {
+      "paper_id": "2609.12320v1",
+      "route": "20260910-20260919/2609.12320v1-aim-a-privacy-aware-interoperable-memory-framework-for-multi-agent-multi-user-llm-systems",
+      "title": "AIM: A Privacy-Aware Interoperable Memory Framework for Multi-Agent Multi-User LLM Systems",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "面向多代理多用户LLM系统的共享记忆框架并考虑隐私",
+      "first_seen_at": "2026-09-19 07:24:52 UTC",
+      "updated_at": "2026-09-19 07:24:52 UTC"
+    },
+    {
+      "paper_id": "2609.12354v1",
+      "route": "20260910-20260919/2609.12354v1-cuemem-cue-guided-context-reconstruction-for-long-term-conversational-memory",
+      "title": "CueMem: Cue-Guided Context Reconstruction for Long-Term Conversational Memory",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "长期对话记忆的检索与重建",
+      "first_seen_at": "2026-09-19 07:24:52 UTC",
+      "updated_at": "2026-09-19 07:24:52 UTC"
+    },
+    {
+      "paper_id": "2609.12436v1",
+      "route": "20260910-20260919/2609.12436v1-lifefuse-mem-lifecycle-aware-state-fusion-against-temporary-overwriting-for-long-term-memory",
+      "title": "LifeFuse-Mem: Lifecycle-Aware State Fusion Against Temporary Overwriting for Long-Term Memory",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "生命周期感知的记忆框架，防止临时信息覆盖持久知识",
+      "first_seen_at": "2026-09-19 07:24:52 UTC",
+      "updated_at": "2026-09-19 07:24:52 UTC"
+    },
+    {
+      "paper_id": "2609.12655v1",
+      "route": "20260910-20260919/2609.12655v1-lifemem-enabling-lifelong-experience-reuse-for-llm-agents",
+      "title": "LifeMem: Enabling Lifelong Experience Reuse for LLM Agents",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "为LLM代理提供终身学习框架，解决灾难性遗忘，实现跨环境经验复用",
+      "first_seen_at": "2026-09-19 07:24:52 UTC",
+      "updated_at": "2026-09-19 07:24:52 UTC"
+    },
+    {
+      "paper_id": "2609.13771v1",
+      "route": "20260910-20260919/2609.13771v1-homeostatic-continual-learning",
+      "title": "Homeostatic Continual Learning",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "持续学习无灾难性遗忘",
+      "first_seen_at": "2026-09-19 07:24:52 UTC",
+      "updated_at": "2026-09-19 07:24:52 UTC"
+    },
+    {
+      "paper_id": "2609.14066v1",
+      "route": "20260910-20260919/2609.14066v1-gramrag-orchestrating-multi-agent-multi-step-reasoning-via-graph-memory-with-reinforcement-learning",
+      "title": "GraMRAG: Orchestrating Multi-Agent Multi-Step Reasoning via Graph Memory with Reinforcement Learning",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "图记忆指导检索与多步推理，面向决策的记忆检索",
+      "first_seen_at": "2026-09-19 07:24:52 UTC",
+      "updated_at": "2026-09-19 07:24:52 UTC"
+    },
+    {
+      "paper_id": "2609.14138v1",
+      "route": "20260910-20260919/2609.14138v1-limbo-lifelong-inference-time-memory-and-budget-optimization-for-llm-agents",
+      "title": "LIMBO: Lifelong Inference-Time Memory and Budget Optimization for LLM Agents",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "终身代理的经验回放记忆与预算优化",
+      "first_seen_at": "2026-09-19 07:24:52 UTC",
+      "updated_at": "2026-09-19 07:24:52 UTC"
+    },
+    {
+      "paper_id": "2609.15364v1",
+      "route": "20260910-20260919/2609.15364v1-rsiagent-autonomous-exploration-for-recursive-self-improvement-in-new-environments",
+      "title": "RSIAgent: Autonomous Exploration for Recursive Self-improvement in New Environments",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "自主记忆构建，存储环境知识与经验",
+      "first_seen_at": "2026-09-19 07:24:52 UTC",
+      "updated_at": "2026-09-19 07:24:52 UTC"
+    },
+    {
+      "paper_id": "2609.15976v2",
+      "route": "20260910-20260919/2609.15976v2-messymem-learning-from-doing-memory-for-mobile-manipulation",
+      "title": "MessyMem: Learning-from-Doing Memory for Mobile Manipulation",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "为移动代理存储和检索交互经验的持久记忆系统",
+      "first_seen_at": "2026-09-19 07:24:52 UTC",
+      "updated_at": "2026-09-19 07:24:52 UTC"
+    },
+    {
+      "paper_id": "2609.16053v1",
+      "route": "20260910-20260919/2609.16053v1-retrieval-driven-memory-reconsolidation-for-long-term-llm-agents",
+      "title": "Retrieval-Driven Memory Reconsolidation for Long-Term LLM Agents",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "检索驱动的记忆重建，用于记忆巩固和管理",
+      "first_seen_at": "2026-09-19 07:24:52 UTC",
+      "updated_at": "2026-09-19 07:24:52 UTC"
+    },
+    {
+      "paper_id": "2609.16073v1",
+      "route": "20260910-20260919/2609.16073v1-the-immutable-past-formalizing-state-mutability-and-conflict-resolution-in-mutable-rag",
+      "title": "The Immutable Past: Formalizing State Mutability and Conflict Resolution in Mutable RAG",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "RAG作为自治代理的主要记忆架构，形式化状态可变性与冲突解决",
+      "first_seen_at": "2026-09-19 07:24:52 UTC",
+      "updated_at": "2026-09-19 07:24:52 UTC"
+    },
+    {
+      "paper_id": "2609.17010v1",
+      "route": "20260910-20260919/2609.17010v1-thinkflow-self-evolving-probabilistic-latent-memory-for-lifelong-conversational-agents",
+      "title": "ThinkFlow: Self-Evolving Probabilistic Latent Memory for Lifelong Conversational Agents",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "终身对话智能体的潜在记忆，捕捉长期行为模式与情绪变化",
+      "first_seen_at": "2026-09-19 07:24:52 UTC",
+      "updated_at": "2026-09-19 07:24:52 UTC"
+    },
+    {
+      "paper_id": "2609.17331v1",
+      "route": "20260910-20260919/2609.17331v1-self-emergence-agent-architecturebehavior-inertia-hmm-reflexive-metacognitionand-social-contrastive-self-modeling",
+      "title": "Self-Emergence Agent Architecture:Behavior-Inertia HMM, Reflexive Metacognition,and Social-Contrastive Self-Modeling",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "提出代理架构，包含基于HMM的长期记忆和更新记忆参数的反思元认知",
+      "first_seen_at": "2026-09-19 07:24:52 UTC",
+      "updated_at": "2026-09-19 07:24:52 UTC"
+    },
+    {
+      "paper_id": "2609.17921v1",
+      "route": "20260910-20260919/2609.17921v1-collaborative-memory-for-multi-agent-vlm-systems",
+      "title": "Collaborative Memory for Multi-Agent VLM Systems",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "明确处理多代理VLM系统中的共享记忆与跨代理一致性",
+      "first_seen_at": "2026-09-19 07:24:52 UTC",
+      "updated_at": "2026-09-19 07:24:52 UTC"
+    },
+    {
+      "paper_id": "2609.19502v1",
+      "route": "20260910-20260919/2609.19502v1-reputation-as-community-memory-for-the-agentic-web",
+      "title": "Reputation as Community Memory for the Agentic Web",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "代理社区记忆平台，通过集体声誉共享代理间的知识",
+      "first_seen_at": "2026-09-19 07:24:52 UTC",
+      "updated_at": "2026-09-19 07:24:52 UTC"
+    },
+    {
+      "paper_id": "2609.19519v1",
+      "route": "20260910-20260919/2609.19519v1-an-architecture-for-long-horizon-agents-levels-ticks-and-cascaded-intelligence",
+      "title": "An Architecture for Long-Horizon Agents: Levels, Ticks and Cascaded Intelligence",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "面向长期任务的分层Agent架构，按时间尺度维护有界摘要文件",
+      "first_seen_at": "2026-09-19 07:24:52 UTC",
+      "updated_at": "2026-09-19 07:24:52 UTC"
+    },
+    {
+      "paper_id": "2609.11060v1",
+      "route": "20260910-20260919/2609.11060v1-grounding-agent-memory-environment-probing-curation-for-enterprise-agents",
+      "title": "Grounding Agent Memory: Environment-Probing Curation for Enterprise Agents",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "环境探测式整理用于智能体记忆架构",
+      "first_seen_at": "2026-09-19 07:24:52 UTC",
+      "updated_at": "2026-09-19 07:24:52 UTC"
+    },
+    {
+      "paper_id": "2609.11636v1",
+      "route": "20260910-20260919/2609.11636v1-maple-memory-augmented-planning-with-language-and-evolution",
+      "title": "MAPLE: Memory-Augmented Planning with Language and Evolution",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "记忆增强规划智能体存储并重用搜索结果",
+      "first_seen_at": "2026-09-19 07:24:52 UTC",
+      "updated_at": "2026-09-19 07:24:52 UTC"
+    },
+    {
+      "paper_id": "2609.12322v1",
+      "route": "20260910-20260919/2609.12322v1-affective-agent-on-device-personalized-intervention-reasoning-for-wearable-systems",
+      "title": "Affective Agent: On-Device Personalized Intervention Reasoning for Wearable Systems",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "结构化记忆演化的代理个性化",
+      "first_seen_at": "2026-09-19 07:24:52 UTC",
+      "updated_at": "2026-09-19 07:24:52 UTC"
+    },
+    {
+      "paper_id": "2609.13667v1",
+      "route": "20260910-20260919/2609.13667v1-geoskillexperience-driven-hierarchical-skill-learning-with-collaborative-revision-forgeospatialagents",
+      "title": "GeoSkill:Experience-Driven Hierarchical Skill Learning with Collaborative Revision forGeospatialAgents",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "将先前执行经验提炼为可复用过程知识，经验增强检索",
+      "first_seen_at": "2026-09-19 07:24:52 UTC",
+      "updated_at": "2026-09-19 07:24:52 UTC"
+    },
+    {
+      "paper_id": "2609.15011v1",
+      "route": "20260910-20260919/2609.15011v1-semantic-tvm-structure-preserving-trustworthy-virtual-memory-for-memory-augmented-and-tool-using-agents",
+      "title": "Semantic-TVM: Structure-Preserving Trustworthy Virtual Memory for Memory-Augmented and Tool-Using Agents",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "代理的可信虚拟内存架构",
+      "first_seen_at": "2026-09-19 07:24:52 UTC",
+      "updated_at": "2026-09-19 07:24:52 UTC"
+    },
+    {
+      "paper_id": "2609.15161v1",
+      "route": "20260910-20260919/2609.15161v1-emr-self-evolving-medical-multi-agent-system-via-experience-mining-and-reuse",
+      "title": "EMR: Self-Evolving Medical Multi-Agent System via Experience Mining and Reuse",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "自演化医疗多智能体系统，层级临床经验库实现经验挖掘与重用",
+      "first_seen_at": "2026-09-19 07:24:52 UTC",
+      "updated_at": "2026-09-19 07:24:52 UTC"
+    },
+    {
+      "paper_id": "2609.15457v1",
+      "route": "20260910-20260919/2609.15457v1-anchorgui-asymmetric-memory-for-dual-scale-learning-in-gui-navigation",
+      "title": "AnchorGUI: Asymmetric Memory for Dual-Scale Learning in GUI Navigation",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "面向GUI导航智能体的跨试验与试验内非对称记忆",
+      "first_seen_at": "2026-09-19 07:24:52 UTC",
+      "updated_at": "2026-09-19 07:24:52 UTC"
+    },
+    {
+      "paper_id": "2609.16752v1",
+      "route": "20260910-20260919/2609.16752v1-beyond-episodic-ai-cognitive-field-networks-for-biologically-inspired-persistent-cognition",
+      "title": "Beyond Episodic AI: Cognitive Field Networks for Biologically Inspired Persistent Cognition",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "通过递归动力学实现持久记忆，用于长期认知",
+      "first_seen_at": "2026-09-19 07:24:52 UTC",
+      "updated_at": "2026-09-19 07:24:52 UTC"
+    },
+    {
+      "paper_id": "2609.16800v1",
+      "route": "20260910-20260919/2609.16800v1-smarter-by-the-moment-environment-driven-dynamic-policies-for-continual-llm-improvement",
+      "title": "Smarter by the Moment: Environment-Driven Dynamic Policies for Continual LLM Improvement",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "检索式策略生成用于代理决策",
+      "first_seen_at": "2026-09-19 07:24:52 UTC",
+      "updated_at": "2026-09-19 07:24:52 UTC"
+    },
+    {
+      "paper_id": "2609.17320v1",
+      "route": "20260910-20260919/2609.17320v1-emergence-world-adversarial-stress-testing-of-long-horizon-multi-agent-systems",
+      "title": "Emergence World: Adversarial Stress-Testing of Long-Horizon Multi-Agent Systems",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "多智能体环境含持久记忆与工具使用，用于对抗性压力测试",
+      "first_seen_at": "2026-09-19 07:24:52 UTC",
+      "updated_at": "2026-09-19 07:24:52 UTC"
+    },
+    {
+      "paper_id": "2609.19167v1",
+      "route": "20260910-20260919/2609.19167v1-to-memories-and-beyond-from-remembering-to-knowing-you-across-long-term-multimodal-personal-archives",
+      "title": "To Memories and Beyond: From Remembering to Knowing You across Long-Term Multimodal Personal Archives",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "首个基于真实多年个人视觉档案的长期多模态记忆基准，评估记忆与偏好追踪",
+      "first_seen_at": "2026-09-19 07:24:52 UTC",
+      "updated_at": "2026-09-19 07:24:52 UTC"
+    }
+  ]
+}
