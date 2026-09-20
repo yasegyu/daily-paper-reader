@@ -48,17 +48,17 @@
 <section class="dpr-home-dashboard-card dpr-home-report-card">
   <div class="dpr-home-dashboard-header">
     <div>
-      <span class="dpr-home-dashboard-kicker">2026-09-19</span>
+      <span class="dpr-home-dashboard-kicker">2026-09-20</span>
       <h3 class="dpr-home-dashboard-title">今日汇总</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">共 16 篇</strong>
+    <strong class="dpr-home-dashboard-count">共 5 篇</strong>
   </div>
   <dl class="dpr-home-dashboard-stats">
     <div class="dpr-home-dashboard-stat"><dt>累计更新</dt><dd>1 次</dd></div>
-    <div class="dpr-home-dashboard-stat"><dt>精读</dt><dd>6</dd></div>
-    <div class="dpr-home-dashboard-stat"><dt>速读</dt><dd>10</dd></div>
+    <div class="dpr-home-dashboard-stat"><dt>精读</dt><dd>1</dd></div>
+    <div class="dpr-home-dashboard-stat"><dt>速读</dt><dd>4</dd></div>
   </dl>
-  <p class="dpr-home-dashboard-body">最近更新：2026-09-19 19:14:13 UTC<br>状态：成功</p>
+  <p class="dpr-home-dashboard-body">最近更新：2026-09-20 19:36:44 UTC<br>状态：成功</p>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-brief-card">
   <div class="dpr-home-dashboard-header">
@@ -69,9 +69,9 @@
     <strong class="dpr-home-dashboard-count">AI</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<p>今日推荐16篇论文，重点聚焦记忆系统与智能体长期交互，6篇精读、10篇速读。</p>
-<p>最值得关注的是两篇满分精读：用神经符号推理解耦长期记忆，以及提出记忆几何学实现个性化AI的长期记忆非均匀建模。</p>
-<p>建议普通读者优先精读这两篇框架性论文，速读可关注EconSkills、JustMem等记忆检索与效率场景的应用研究。</p>
+<p>今日精读关注状态型LLM对话的工作记忆延迟物化，另速读视觉RAG、回滚反思与按需注意力三篇，共5篇论文。</p>
+<p>最值得看：精读的《Pull》提出工作记忆按需物化，可降低状态对话开销；速读中《On-Demand Attention》与《Navigating Sparse Evidence》分别探索了注意力触发与稀疏证据的显式筛选，适合关注检索增强或记忆机制的读者。</p>
+<p>建议优先精读《Pull》获取核心方法，其余速读了解思路，后续可关注多轮交互场景下的记忆与检索效率对比。</p>
   </div>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-deep-card">
@@ -80,12 +80,12 @@
       <span class="dpr-home-dashboard-kicker">今日累计</span>
       <h3 class="dpr-home-dashboard-title">精读推荐</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">6 篇</strong>
+    <strong class="dpr-home-dashboard-count">1 篇</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="Disentangling Long-Term Memory via Latent Neuro-Symbolic Reasoning">Disentangling Long-Term Memory via Latent Neuro-Symbolic Reasoning</span></li><li><span class="dpr-home-dashboard-paper-title" title="Memory Has Geometry: Non-Uniform Geometric Memory for Long-Horizon Personalized AI">Memory Has Geometry: Non-Uniform Geometric Memory for Long-Horizon Personalized AI</span></li><li><span class="dpr-home-dashboard-paper-title" title="Long-Lived Characters, Local Inference: Incremental Memory Maintenance for Game NPCs">Long-Lived Characters, Local Inference: Incremental Memory Maintenance for Game NPCs</span></li></ul>
+<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="Pull: Lazy Materialization of Working Memory for Stateful LLM Conversations">Pull: Lazy Materialization of Working Memory for Stateful LLM Conversations</span></li></ul>
   </div>
-  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">agent-memory <strong>6</strong></span></div>
+  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">agent-memory <strong>1</strong></span></div>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-skim-card">
   <div class="dpr-home-dashboard-header">
@@ -93,12 +93,12 @@
       <span class="dpr-home-dashboard-kicker">今日累计</span>
       <h3 class="dpr-home-dashboard-title">速读推荐</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">10 篇</strong>
+    <strong class="dpr-home-dashboard-count">4 篇</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="EconSkills: Studying Skill Transfer and Retrieval for Web Agents on Live Economic Data">EconSkills: Studying Skill Transfer and Retrieval for Web Agents on Live Economic Data</span></li><li><span class="dpr-home-dashboard-paper-title" title="JustMem: Just-Enough Memory Access for Long-Term Conversations">JustMem: Just-Enough Memory Access for Long-Term Conversations</span></li><li><span class="dpr-home-dashboard-paper-title" title="AdaRepair-Mem: Adaptive Experience Orchestration for Repository-Level Program Repair">AdaRepair-Mem: Adaptive Experience Orchestration for Repository-Level Program Repair</span></li></ul>
+<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="Navigating Sparse Evidence: Agentic Visual RAG via Explicit Context Selection and Consolidation">Navigating Sparse Evidence: Agentic Visual RAG via Explicit Context Selection and Consolidation</span></li><li><span class="dpr-home-dashboard-paper-title" title="Rollback the World, Keep the Reflection: Rollback-Induced Reflection for Long-Horizon LLM Agents">Rollback the World, Keep the Reflection: Rollback-Induced Reflection for Long-Horizon LLM Agents</span></li><li><span class="dpr-home-dashboard-paper-title" title="On-Demand Attention: Language Models Know When to Recall">On-Demand Attention: Language Models Know When to Recall</span></li></ul>
   </div>
-  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">agent-memory <strong>10</strong></span></div>
+  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">agent-memory <strong>4</strong></span></div>
 </section>
 </div>
 

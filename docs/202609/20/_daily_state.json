@@ -1,0 +1,89 @@
+{
+  "date": "20260920",
+  "date_label": "",
+  "generated_at": "2026-09-20 19:36:44 UTC",
+  "recommend_exists": true,
+  "run_count": 1,
+  "papers": [
+    {
+      "paper_id": "2609.14773v1",
+      "route": "202609/20/2609.14773v1-pull-lazy-materialization-of-working-memory-for-stateful-llm-conversations",
+      "title": "Pull: Lazy Materialization of Working Memory for Stateful LLM Conversations",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "为LLM对话设计的工作记忆架构，支持可逆物化",
+      "first_seen_at": "2026-09-20 19:36:44 UTC",
+      "updated_at": "2026-09-20 19:36:44 UTC"
+    },
+    {
+      "paper_id": "2609.15800v1",
+      "route": "202609/20/2609.15800v1-navigating-sparse-evidence-agentic-visual-rag-via-explicit-context-selection-and-consolidation",
+      "title": "Navigating Sparse Evidence: Agentic Visual RAG via Explicit Context Selection and Consolidation",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "代理式视觉RAG通过显式上下文选择与整合，处理记忆使用和证据组织",
+      "first_seen_at": "2026-09-20 19:36:44 UTC",
+      "updated_at": "2026-09-20 19:36:44 UTC"
+    },
+    {
+      "paper_id": "2609.18304v1",
+      "route": "202609/20/2609.18304v1-rollback-the-world-keep-the-reflection-rollback-induced-reflection-for-long-horizon-llm-agents",
+      "title": "Rollback the World, Keep the Reflection: Rollback-Induced Reflection for Long-Horizon LLM Agents",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "回滚中的记忆保留；长时程智能体的反射式恢复",
+      "first_seen_at": "2026-09-20 19:36:44 UTC",
+      "updated_at": "2026-09-20 19:36:44 UTC"
+    },
+    {
+      "paper_id": "2609.20734v1",
+      "route": "202609/20/2609.20734v1-on-demand-attention-language-models-know-when-to-recall",
+      "title": "On-Demand Attention: Language Models Know When to Recall",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "选择性回忆头决定何时调用全局注意力，是智能体推理中的记忆检索机制",
+      "first_seen_at": "2026-09-20 19:36:44 UTC",
+      "updated_at": "2026-09-20 19:36:44 UTC"
+    },
+    {
+      "paper_id": "2609.14412v1",
+      "route": "202609/20/2609.14412v1-questions-gambit-the-first-move-matters-in-agentic-deep-search",
+      "title": "Question's Gambit: The First Move Matters in Agentic Deep Search",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "深度研究智能体的首步检索模块，分解并重构查询以提升证据检索",
+      "first_seen_at": "2026-09-20 19:36:44 UTC",
+      "updated_at": "2026-09-20 19:36:44 UTC"
+    }
+  ]
+}

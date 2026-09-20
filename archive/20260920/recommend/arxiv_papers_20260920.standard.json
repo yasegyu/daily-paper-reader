@@ -1,0 +1,214 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-09-20T19:35:55.413201+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 1,
+    "deep_cap": 6,
+    "deep_selected": 1,
+    "quick_candidates": 4,
+    "quick_skim_target": 11,
+    "quick_selected": 4
+  },
+  "deep_dive": [
+    {
+      "id": "2609.14773v1",
+      "source": "arxiv",
+      "title": "Pull: Lazy Materialization of Working Memory for Stateful LLM Conversations",
+      "abstract": "As LLM conversations grow to hundreds of turns, full-context injection incurs $O(N^2)$ cumulative token costs, while lossy summarization or hard truncation irreversibly discards historical state. We propose Pull, a session router that maintains an addressable metadata directory via a local, deterministic Purifier (zero LLM calls, millisecond-level latency). At query time, the LLM lazily materializes only the turns it needs; unmaterialized turns remain accessible but collapsed. Unlike irreversible compression, Pull's materialization is reversible; subsequent queries can expand any collapsed turn. On LoCoEval (128 conversations, 12,780 turns), Pull reduces per-query context tokens (Phase 2) by 75.1 percent on single-hop tasks with equivalent quality ($Δ= -0.002$, n.s.) and by 72.0 percent on multi-hop tasks with no quality loss ($Δ= +0.017$). A controlled routing benchmark (7,831 queries x 10 methods) shows that entity lifecycle tracking is empirically a prerequisite for distance-independent routing. On BEAM 1M (14 conversations, 263 questions), Pull improves F1 by +55.2 percent over a truncation baseline.",
+      "authors": [
+        "Jiangang Chen"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL"
+      ],
+      "published": "2026-09-13T20:26:13+00:00",
+      "link": "https://arxiv.org/pdf/2609.14773v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Working memory architecture for LLM conversations with reversible materialization",
+      "llm_evidence_cn": "为LLM对话设计的工作记忆架构，支持可逆物化",
+      "llm_evidence": "为LLM对话设计的工作记忆架构，支持可逆物化",
+      "canonical_evidence": "为LLM对话设计的工作记忆架构，支持可逆物化",
+      "llm_tldr_en": "Pull proposes a session router that lazily materializes only the needed conversation turns, reducing per-query context tokens by 75.1% while preserving reversibility and quality.",
+      "llm_tldr_cn": "LLM长对话中，全上下文注入代价随轮数平方增长，而截断或摘要不可逆地丢失历史。Pull提出会话路由器，通过可寻址元数据目录在查询时仅惰性物化所需轮次，未物化部分保持可访问且可逆展开。在LoCoEval基准上，单跳任务每查询上下文token减少75.1%且质量等价。该方法实现了高效且无损的工作记忆管理，对智能体长期对话至关重要。",
+      "llm_tldr": "LLM长对话中，全上下文注入代价随轮数平方增长，而截断或摘要不可逆地丢失历史。Pull提出会话路由器，通过可寻址元数据目录在查询时仅惰性物化所需轮次，未物化部分保持可访问且可逆展开。在LoCoEval基准上，单跳任务每查询上下文token减少75.1%且质量等价。该方法实现了高效且无损的工作记忆管理，对智能体长期对话至关重要。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "memory mechanisms in autonomous agents and agent memory architectures",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2609.15800v1",
+      "source": "arxiv",
+      "title": "Navigating Sparse Evidence: Agentic Visual RAG via Explicit Context Selection and Consolidation",
+      "abstract": "Visual Retrieval-Augmented Generation (VRAG) empowers models to navigate and answer queries about visually rich documents by retrieving relevant page images as visual evidence and reasoning over their content. However, effectively utilizing this visual evidence is usually impeded by two main challenges. First, answer-relevant evidence is sparse and may be concentrated in a small region of one page or dispersed across multiple pages. Second, existing agentic methods often generate answers based on raw exploration trajectories or compressed textual memories rather than an explicitly organized set of supporting images, making answers susceptible to exploration noise and obscuring the evidence-backed reasoning trace. We argue that the bottleneck lies not only in evidence discovery but also in its preservation and organization before answer generation. We propose SCoRE (Selection and Consolidation for Robust Evidence), a unified agent loop for explicit evidence selection and consolidation. During exploration, SCoRE retains only query-relevant observations and their source pointers in a maintained textual ledger, preserving earlier evidence while keeping the visual context bounded. At termination, it reloads the referenced original images and consolidates the visual evidence for answering, arranging it into a logical sequence. This decouples final reasoning from exploratory trial-and-error while ensuring strict visual grounding via indexed claim-to-image linkages. To enable end-to-end optimization of this unified rollout, our training paradigm combines filtered cold-start trajectory distillation with evidence-aware reinforcement learning, whose reward promotes evidence coverage, consolidation compactness, and answer correctness.",
+      "authors": [
+        "Yucheng Shen",
+        "Lingyong Yan",
+        "Jiulong Wu",
+        "Shuaiqiang Wang",
+        "Jianmin WU",
+        "Dawei Yin",
+        "Min Cao"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-09-14T16:11:35+00:00",
+      "link": "https://arxiv.org/pdf/2609.15800v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "agentic visual RAG with explicit context selection and consolidation, addressing memory use and evidence organization",
+      "llm_evidence_cn": "代理式视觉RAG通过显式上下文选择与整合，处理记忆使用和证据组织",
+      "llm_evidence": "代理式视觉RAG通过显式上下文选择与整合，处理记忆使用和证据组织",
+      "canonical_evidence": "代理式视觉RAG通过显式上下文选择与整合，处理记忆使用和证据组织",
+      "llm_tldr_en": "Addresses sparse evidence in visual RAG by explicitly selecting and consolidating supporting images instead of raw trajectories or compressed memories.",
+      "llm_tldr_cn": "该论文解决视觉RAG中答案相关证据稀疏且分散的问题，现有代理方法常依赖原始探索轨迹或压缩文本记忆，易受噪音干扰且缺乏可追溯性。提出显式上下文选择与整合机制，组织支持图像集合作为推理依据，减少探索噪声，保留证据支持的推理链，从而提升回答准确性和可解释性。",
+      "llm_tldr": "该论文解决视觉RAG中答案相关证据稀疏且分散的问题，现有代理方法常依赖原始探索轨迹或压缩文本记忆，易受噪音干扰且缺乏可追溯性。提出显式上下文选择与整合机制，组织支持图像集合作为推理依据，减少探索噪声，保留证据支持的推理链，从而提升回答准确性和可解释性。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "Search for papers about long term memory, episodic memory, and memory retrieval in interactive agent systems.",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2609.14412v1",
+      "source": "arxiv",
+      "title": "Question's Gambit: The First Move Matters in Agentic Deep Search",
+      "abstract": "Deep research agents answer complex questions through iterative loops of searching, reading, and reasoning. Recent work on reasoning-intensive benchmarks such as BrowseComp-Plus shows that well-configured lexical retrieval can surface high-quality evidence, yet agents may still fail to connect documents carrying evidence to the gold documents. We identify a deep research agent's first retrieval move as an important design decision for this setting. We introduce Question's Gambit, a first-move retrieval module that decomposes the question into a set of clues, reformulates them into complementary searches, consolidates the retrieved results, and reranks the candidate pool before the agent begins its iterative search-and-reasoning process. This produces an opening context designed to support both clue aggregation and final-answer verification. We further evaluate on MultiHop-RAG to test whether these benefits transfer beyond BrowseComp-Plus to a more conventional multi-hop question structure. Experiments on BrowseComp-Plus show that Question's Gambit improves retrieval recall and downstream agent accuracy over strong baselines, improving answer accuracy from 83.1% to 90.5% with gpt-5.5 over Pi-Serini, the strongest reported agentic baseline. Our results confirm that effective agentic deep research depends not only on the tools available inside the loop, but also on the quality of the first move. We published our implementation publicly at https://github.com/radinhamidi/Question-s-Gambit.",
+      "authors": [
+        "Radin Hamidi Rad",
+        "Amin Bigdeli",
+        "Negar Arabzadeh",
+        "Sajad Ebrahimi",
+        "Charles L. A. Clarke",
+        "Benjamin C. M. Fung",
+        "Ebrahim Bagheri"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.CL",
+        "cs.IR"
+      ],
+      "published": "2026-09-13T10:21:07+00:00",
+      "link": "https://arxiv.org/pdf/2609.14412v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "First-move retrieval module for deep research agents; decomposes and reformulates queries to improve evidence retrieval",
+      "llm_evidence_cn": "深度研究智能体的首步检索模块，分解并重构查询以提升证据检索",
+      "llm_evidence": "深度研究智能体的首步检索模块，分解并重构查询以提升证据检索",
+      "canonical_evidence": "深度研究智能体的首步检索模块，分解并重构查询以提升证据检索",
+      "llm_tldr_en": "Deep research agents often miss evidence; Question's Gambit improves first-move retrieval by clue decomposition, complementary search, and candidate reranking before iterative reasoning.",
+      "llm_tldr_cn": "该论文指出深度研究智能体在迭代搜索中可能无法连接证据文档。提出Question's Gambit首步检索模块，将问题分解为线索并进行互补搜索，再整合重排候选池。该方法显著提高了后续检索和推理的证据覆盖率，验证了首步检索对智能体决策质量的关键作用。",
+      "llm_tldr": "该论文指出深度研究智能体在迭代搜索中可能无法连接证据文档。提出Question's Gambit首步检索模块，将问题分解为线索并进行互补搜索，再整合重排候选池。该方法显著提高了后续检索和推理的证据覆盖率，验证了首步检索对智能体决策质量的关键作用。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "memory retrieval mechanisms for agent decision making",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2609.18304v1",
+      "source": "arxiv",
+      "title": "Rollback the World, Keep the Reflection: Rollback-Induced Reflection for Long-Horizon LLM Agents",
+      "abstract": "Large language model (LLM) agents increasingly tackle long-horizon tasks through multi-step environment interaction, yet a single erroneous action can alter subsequent states and observations, causing errors to compound over time. Existing methods either correct the context without repairing altered environment states or restore earlier states while discarding useful experience, making it difficult to both eliminate failure conditions and avoid repeating past mistakes. We argue that reliable recovery should instead be treated as a rollback-boundary control problem that jointly determines when to intervene, where to resume, and what information should survive recovery. Based on this view, we propose Rollback-Induced Reflection (RIR), a unified recovery framework that restores execution to a selected prior state while carrying forward reusable knowledge distilled from the abandoned trajectory to guide subsequent decisions. We further characterize recovery through a unified operator over rollback depth and retained memory, providing a general view of state restoration and knowledge retention. Experiments on three long-horizon benchmarks demonstrate that RIR consistently improves task performance across multiple LLM backbones, with structured reflection memory preserving useful experience and selective rollback enabling efficient recovery.",
+      "authors": [
+        "Yi Yu",
+        "Liuyi Yao",
+        "Yaliang Li",
+        "Enshu Wang",
+        "Libing Wu"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.RO"
+      ],
+      "published": "2026-09-16T08:26:14+00:00",
+      "link": "https://arxiv.org/pdf/2609.18304v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Memory preservation during rollback; reflection-based recovery in long-horizon agents",
+      "llm_evidence_cn": "回滚中的记忆保留；长时程智能体的反射式恢复",
+      "llm_evidence": "回滚中的记忆保留；长时程智能体的反射式恢复",
+      "canonical_evidence": "回滚中的记忆保留；长时程智能体的反射式恢复",
+      "llm_tldr_en": "LLM agents face error compounding in long-horizon tasks; Rollback-Induced Reflection jointly decides intervention, resume point, and surviving information, preserving useful experience while repairing states.",
+      "llm_tldr_cn": "该论文研究了长时程LLM智能体中单一错误导致状态漂移和错误累积的问题。提出回滚诱导反射方法，将恢复视为回滚边界控制问题，联合决定干预时机、恢复位置和应保留的信息。实验表明该方法能有效消除失败条件并保留有用经验，避免重复错误，提升长时程任务的可靠性。",
+      "llm_tldr": "该论文研究了长时程LLM智能体中单一错误导致状态漂移和错误累积的问题。提出回滚诱导反射方法，将恢复视为回滚边界控制问题，联合决定干预时机、恢复位置和应保留的信息。实验表明该方法能有效消除失败条件并保留有用经验，避免重复错误，提升长时程任务的可靠性。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "Identify research on memory consolidation, forgetting, and memory management for continual learning agents.",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2609.20734v1",
+      "source": "arxiv",
+      "title": "On-Demand Attention: Language Models Know When to Recall",
+      "abstract": "Reasoning and agentic workloads increasingly demand efficient long-context inference. Yet full-attention decoding reads the growing history at every step, regardless of its benefit to the next prediction. We show that a pretrained model's decoding states already contain information predictive of this benefit, before the global read. Building on this finding, we introduce On-Demand Attention (ODA), a local-first decoding method that uses a lightweight recall head to selectively invoke global attention as its predicted benefit changes during generation. ODA trains only the recall head, leaving pretrained weights unchanged and the complete historical KV cache available for future recall. We further implement GPU-side conditional execution in vLLM, translating reduced global reads into practical decoding speedups over full attention at long context lengths. Experiments across Qwen and Gemma models, including hybrid-attention backbones, show that selective recall recovers most of the performance lost under local attention while substantially reducing global reads. These findings support long-context inference in which pretrained models guide their own access to the information they retain.",
+      "authors": [
+        "Haibo Feng",
+        "Ruiqi Liang",
+        "Hanyang Peng",
+        "Shiqi Yu"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL"
+      ],
+      "published": "2026-09-17T17:24:48+00:00",
+      "link": "https://arxiv.org/pdf/2609.20734v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "selective recall head decides when to invoke global attention, a memory retrieval mechanism for agent inference",
+      "llm_evidence_cn": "选择性回忆头决定何时调用全局注意力，是智能体推理中的记忆检索机制",
+      "llm_evidence": "选择性回忆头决定何时调用全局注意力，是智能体推理中的记忆检索机制",
+      "canonical_evidence": "选择性回忆头决定何时调用全局注意力，是智能体推理中的记忆检索机制",
+      "llm_tldr_en": "Introduces On-Demand Attention, a local-first decoding method with a lightweight recall head that selectively invokes global attention, improving long-context inference efficiency.",
+      "llm_tldr_cn": "该论文发现预训练模型的解码状态已包含预测收益信息，据此提出按需注意力（ODA）机制，用轻量级回忆头按需调用全局注意力，只训练回忆头并保留完整KV缓存。在vLLM中实现GPU端条件执行，显著降低长上下文推理开销，为智能体长程推理中的高效记忆检索提供了实用方案。",
+      "llm_tldr": "该论文发现预训练模型的解码状态已包含预测收益信息，据此提出按需注意力（ODA）机制，用轻量级回忆头按需调用全局注意力，只训练回忆头并保留完整KV缓存。在vLLM中实现GPU端条件执行，显著降低长上下文推理开销，为智能体长程推理中的高效记忆检索提供了实用方案。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "memory retrieval mechanisms for agent decision making",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
