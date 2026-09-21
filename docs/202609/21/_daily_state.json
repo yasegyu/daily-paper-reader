@@ -1,0 +1,169 @@
+{
+  "date": "20260921",
+  "date_label": "",
+  "generated_at": "2026-09-21 19:16:59 UTC",
+  "recommend_exists": true,
+  "run_count": 1,
+  "papers": [
+    {
+      "paper_id": "2609.21533v1",
+      "route": "202609/21/2609.21533v1-mace-memory-agent-co-evolution-with-adaptive-memory-graphs-for-multi-agent-systems",
+      "title": "MACE: Memory-Agent Co-Evolution with Adaptive Memory Graphs for Multi-Agent Systems",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "多智能体系统中的自适应记忆图共享记忆",
+      "first_seen_at": "2026-09-21 19:16:59 UTC",
+      "updated_at": "2026-09-21 19:16:59 UTC"
+    },
+    {
+      "paper_id": "2609.21940v1",
+      "route": "202609/21/2609.21940v1-autoviewmem-self-configuring-orthogonal-views-for-conversational-long-term-memory",
+      "title": "AutoViewMem: Self-Configuring Orthogonal Views for Conversational Long-Term Memory",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "直接针对LLM智能体的长期记忆组织与检索",
+      "first_seen_at": "2026-09-21 19:16:59 UTC",
+      "updated_at": "2026-09-21 19:16:59 UTC"
+    },
+    {
+      "paper_id": "2609.22043v1",
+      "route": "202609/21/2609.22043v1-an-interpretable-memory-decision-controller-for-llm-agents-based-on-three-signal-complementarity-decoupling-confidence-and-consistency",
+      "title": "An Interpretable Memory Decision Controller for LLM Agents Based on Three-Signal Complementarity: Decoupling Confidence and Consistency",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "缓解冲突记忆的LLM代理记忆决策控制器",
+      "first_seen_at": "2026-09-21 19:16:59 UTC",
+      "updated_at": "2026-09-21 19:16:59 UTC"
+    },
+    {
+      "paper_id": "2609.22086v1",
+      "route": "202609/21/2609.22086v1-designer-rsi-evolving-procedural-memory-from-user-traffic-for-agentic-graphic-design",
+      "title": "Designer-RSI: Evolving Procedural Memory from User Traffic for Agentic Graphic Design",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "从经验演化程序性记忆用于代理任务",
+      "first_seen_at": "2026-09-21 19:16:59 UTC",
+      "updated_at": "2026-09-21 19:16:59 UTC"
+    },
+    {
+      "paper_id": "2609.21154v1",
+      "route": "202609/21/2609.21154v1-colearn-an-agentic-tutor-that-learns-its-learner-in-a-human--ai-co-learning-loop",
+      "title": "CoLearn: An Agentic Tutor that Learns its Learner in a Human--AI Co-Learning Loop",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "持久学习者状态记忆，证据驱动记忆更新以生成个性化问题",
+      "first_seen_at": "2026-09-21 19:16:59 UTC",
+      "updated_at": "2026-09-21 19:16:59 UTC"
+    },
+    {
+      "paper_id": "2609.21527v1",
+      "route": "202609/21/2609.21527v1-openmas-gcom-a-diagnostic-benchmark-for-graph-enhanced-multi-agent-systems",
+      "title": "OpenMAS-GCom. A Diagnostic Benchmark for Graph-enhanced Multi-Agent Systems",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "针对多智能体系统中通信图与共享中间信息的诊断基准",
+      "first_seen_at": "2026-09-21 19:16:59 UTC",
+      "updated_at": "2026-09-21 19:16:59 UTC"
+    },
+    {
+      "paper_id": "2609.21924v1",
+      "route": "202609/21/2609.21924v1-what-should-we-ask-next-retrieval-aware-question-learning-under-partial-evidence",
+      "title": "What Should We Ask Next? Retrieval-Aware Question Learning under Partial Evidence",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "交互式检索、部分证据下的问题选择，智能体决定下一步问题",
+      "first_seen_at": "2026-09-21 19:16:59 UTC",
+      "updated_at": "2026-09-21 19:16:59 UTC"
+    },
+    {
+      "paper_id": "2609.22055v1",
+      "route": "202609/21/2609.22055v1-benchmarking-world-models-for-continual-learning-on-compositional-tasks",
+      "title": "Benchmarking World Models for Continual Learning on Compositional Tasks",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "持续学习世界模型中分离知识复用与遗忘的基准",
+      "first_seen_at": "2026-09-21 19:16:59 UTC",
+      "updated_at": "2026-09-21 19:16:59 UTC"
+    },
+    {
+      "paper_id": "2609.18591v1",
+      "route": "202609/21/2609.18591v1-recursive-reasoning-or-statistical-extrapolation-in-context-learning-in-multi-agent-interdependent-decision-making",
+      "title": "Recursive Reasoning or Statistical Extrapolation? In-Context Learning in Multi-Agent Interdependent Decision-Making",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "在多智能体博弈中利用交互历史进行决策",
+      "first_seen_at": "2026-09-21 19:16:59 UTC",
+      "updated_at": "2026-09-21 19:16:59 UTC"
+    },
+    {
+      "paper_id": "2609.19610v1",
+      "route": "202609/21/2609.19610v1-simlife-pattern-understanding-for-long-horizon-human-agent-partnership",
+      "title": "SIMLIFE: Pattern Understanding for Long-Horizon Human-Agent Partnership",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "提供长期上下文模式理解基准，用于从长期观察推断行为规则，与交互代理中的情景记忆相关",
+      "first_seen_at": "2026-09-21 19:16:59 UTC",
+      "updated_at": "2026-09-21 19:16:59 UTC"
+    }
+  ]
+}

@@ -48,17 +48,17 @@
 <section class="dpr-home-dashboard-card dpr-home-report-card">
   <div class="dpr-home-dashboard-header">
     <div>
-      <span class="dpr-home-dashboard-kicker">2026-09-20</span>
+      <span class="dpr-home-dashboard-kicker">2026-09-21</span>
       <h3 class="dpr-home-dashboard-title">今日汇总</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">共 5 篇</strong>
+    <strong class="dpr-home-dashboard-count">共 10 篇</strong>
   </div>
   <dl class="dpr-home-dashboard-stats">
     <div class="dpr-home-dashboard-stat"><dt>累计更新</dt><dd>1 次</dd></div>
-    <div class="dpr-home-dashboard-stat"><dt>精读</dt><dd>1</dd></div>
-    <div class="dpr-home-dashboard-stat"><dt>速读</dt><dd>4</dd></div>
+    <div class="dpr-home-dashboard-stat"><dt>精读</dt><dd>5</dd></div>
+    <div class="dpr-home-dashboard-stat"><dt>速读</dt><dd>5</dd></div>
   </dl>
-  <p class="dpr-home-dashboard-body">最近更新：2026-09-20 19:36:44 UTC<br>状态：成功</p>
+  <p class="dpr-home-dashboard-body">最近更新：2026-09-21 19:16:59 UTC<br>状态：成功</p>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-brief-card">
   <div class="dpr-home-dashboard-header">
@@ -69,9 +69,9 @@
     <strong class="dpr-home-dashboard-count">AI</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<p>今日精读关注状态型LLM对话的工作记忆延迟物化，另速读视觉RAG、回滚反思与按需注意力三篇，共5篇论文。</p>
-<p>最值得看：精读的《Pull》提出工作记忆按需物化，可降低状态对话开销；速读中《On-Demand Attention》与《Navigating Sparse Evidence》分别探索了注意力触发与稀疏证据的显式筛选，适合关注检索增强或记忆机制的读者。</p>
-<p>建议优先精读《Pull》获取核心方法，其余速读了解思路，后续可关注多轮交互场景下的记忆与检索效率对比。</p>
+<p>今日日报聚焦10篇论文，精读5篇、速读5篇，核心围绕多智能体与长期记忆系统展开。</p>
+<p>最值得关注的是两篇9.0分精读：MACE提出记忆-智能体协同进化与自适应记忆图，AutoViewMem则用正交视图优化对话长期记忆。</p>
+<p>建议优先阅读这两篇，深入理解多智能体记忆管理的前沿设计，后续再扩展速读中的基准测试类论文。</p>
   </div>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-deep-card">
@@ -80,12 +80,12 @@
       <span class="dpr-home-dashboard-kicker">今日累计</span>
       <h3 class="dpr-home-dashboard-title">精读推荐</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">1 篇</strong>
+    <strong class="dpr-home-dashboard-count">5 篇</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="Pull: Lazy Materialization of Working Memory for Stateful LLM Conversations">Pull: Lazy Materialization of Working Memory for Stateful LLM Conversations</span></li></ul>
+<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="MACE: Memory-Agent Co-Evolution with Adaptive Memory Graphs for Multi-Agent Systems">MACE: Memory-Agent Co-Evolution with Adaptive Memory Graphs for Multi-Agent Systems</span></li><li><span class="dpr-home-dashboard-paper-title" title="AutoViewMem: Self-Configuring Orthogonal Views for Conversational Long-Term Memory">AutoViewMem: Self-Configuring Orthogonal Views for Conversational Long-Term Memory</span></li><li><span class="dpr-home-dashboard-paper-title" title="An Interpretable Memory Decision Controller for LLM Agents Based on Three-Signal Complementarity: Decoupling Confidence and Consistency">An Interpretable Memory Decision Controller for LLM Agents Based on Three-Signal Complementarity: Decoupling Confidence and Consistency</span></li></ul>
   </div>
-  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">agent-memory <strong>1</strong></span></div>
+  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">agent-memory <strong>5</strong></span></div>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-skim-card">
   <div class="dpr-home-dashboard-header">
@@ -93,12 +93,12 @@
       <span class="dpr-home-dashboard-kicker">今日累计</span>
       <h3 class="dpr-home-dashboard-title">速读推荐</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">4 篇</strong>
+    <strong class="dpr-home-dashboard-count">5 篇</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="Navigating Sparse Evidence: Agentic Visual RAG via Explicit Context Selection and Consolidation">Navigating Sparse Evidence: Agentic Visual RAG via Explicit Context Selection and Consolidation</span></li><li><span class="dpr-home-dashboard-paper-title" title="Rollback the World, Keep the Reflection: Rollback-Induced Reflection for Long-Horizon LLM Agents">Rollback the World, Keep the Reflection: Rollback-Induced Reflection for Long-Horizon LLM Agents</span></li><li><span class="dpr-home-dashboard-paper-title" title="On-Demand Attention: Language Models Know When to Recall">On-Demand Attention: Language Models Know When to Recall</span></li></ul>
+<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="OpenMAS-GCom. A Diagnostic Benchmark for Graph-enhanced Multi-Agent Systems">OpenMAS-GCom. A Diagnostic Benchmark for Graph-enhanced Multi-Agent Systems</span></li><li><span class="dpr-home-dashboard-paper-title" title="What Should We Ask Next? Retrieval-Aware Question Learning under Partial Evidence">What Should We Ask Next? Retrieval-Aware Question Learning under Partial Evidence</span></li><li><span class="dpr-home-dashboard-paper-title" title="Benchmarking World Models for Continual Learning on Compositional Tasks">Benchmarking World Models for Continual Learning on Compositional Tasks</span></li></ul>
   </div>
-  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">agent-memory <strong>4</strong></span></div>
+  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">agent-memory <strong>5</strong></span></div>
 </section>
 </div>
 
