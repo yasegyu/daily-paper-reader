@@ -1,0 +1,233 @@
+{
+  "date": "20260922",
+  "date_label": "",
+  "generated_at": "2026-09-22 19:40:46 UTC",
+  "recommend_exists": true,
+  "run_count": 1,
+  "papers": [
+    {
+      "paper_id": "2609.23449v1",
+      "route": "202609/22/2609.23449v1-psd-pseudo-self-distillation-of-memory-representation-capabilities-for-llm-agents",
+      "title": "PSD: Pseudo Self-Distillation of Memory Representation Capabilities for LLM Agents",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "提出蒸馏框架构建LLM智能体的层次记忆表示",
+      "first_seen_at": "2026-09-22 19:40:46 UTC",
+      "updated_at": "2026-09-22 19:40:46 UTC"
+    },
+    {
+      "paper_id": "2609.23465v1",
+      "route": "202609/22/2609.23465v1-propose-verify-commit-evidence-grounded-memory-for-long-horizon-multi-actor-conversations",
+      "title": "Propose, Verify, Commit: Evidence-Grounded Memory for Long-Horizon Multi-Actor Conversations",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "将长期多参与者记忆建模为可检索状态机，采用证据基础读写协议",
+      "first_seen_at": "2026-09-22 19:40:46 UTC",
+      "updated_at": "2026-09-22 19:40:46 UTC"
+    },
+    {
+      "paper_id": "2609.23466v1",
+      "route": "202609/22/2609.23466v1-rpmem-learning-long-term-recurrent-parametric-memory-across-sessions-for-llm-agents",
+      "title": "RPMem: Learning Long-Term Recurrent Parametric Memory Across Sessions for LLM Agents",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "跨会话参数化记忆存储与检索经验",
+      "first_seen_at": "2026-09-22 19:40:46 UTC",
+      "updated_at": "2026-09-22 19:40:46 UTC"
+    },
+    {
+      "paper_id": "2609.23570v1",
+      "route": "202609/22/2609.23570v1-vibemembench-evaluating-memory-systems-for-coding-agents-on-real-repository-coding-tasks",
+      "title": "VibeMemBench: Evaluating Memory Systems for Coding Agents on Real Repository Coding Tasks",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "面向编码代理的内存系统基准，评估经验存储与检索",
+      "first_seen_at": "2026-09-22 19:40:46 UTC",
+      "updated_at": "2026-09-22 19:40:46 UTC"
+    },
+    {
+      "paper_id": "2609.23986v1",
+      "route": "202609/22/2609.23986v1-jev-mem-system-one-controlled-agentic-memory-for-efficient-ai-agents",
+      "title": "Jev-Mem: System-One-Controlled Agentic Memory for Efficient AI Agents",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "System-One控制的智能体记忆架构",
+      "first_seen_at": "2026-09-22 19:40:46 UTC",
+      "updated_at": "2026-09-22 19:40:46 UTC"
+    },
+    {
+      "paper_id": "2609.24271v1",
+      "route": "202609/22/2609.24271v1-me-brain-10-memory-cognition-and-action-for-evolving-embodied-intelligence",
+      "title": "ME-Brain-1.0: Memory, Cognition and Action for Evolving Embodied Intelligence",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "具身智能体的可进化记忆与认知",
+      "first_seen_at": "2026-09-22 19:40:46 UTC",
+      "updated_at": "2026-09-22 19:40:46 UTC"
+    },
+    {
+      "paper_id": "2609.24971v1",
+      "route": "202609/22/2609.24971v1-dolphinbench-mapping-the-pareto-frontier-of-agent-memory",
+      "title": "DolphinBench: Mapping the Pareto Frontier of Agent Memory",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "映射智能体记忆帕累托前沿的基准",
+      "first_seen_at": "2026-09-22 19:40:46 UTC",
+      "updated_at": "2026-09-22 19:40:46 UTC"
+    },
+    {
+      "paper_id": "2609.22641v1",
+      "route": "202609/22/2609.22641v1-consistworld-evidence-routing-for-consistent-multi-agent-world-models",
+      "title": "ConsistWorld: Evidence Routing for Consistent Multi-Agent World Models",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "多代理世界模型，包含共享记忆检索和对等共享",
+      "first_seen_at": "2026-09-22 19:40:46 UTC",
+      "updated_at": "2026-09-22 19:40:46 UTC"
+    },
+    {
+      "paper_id": "2609.22684v1",
+      "route": "202609/22/2609.22684v1-statemem-single-state-residual-memory-with-adaptive-inference-for-vision-language-action-policies",
+      "title": "StateMem: Single-State Residual Memory with Adaptive Inference for Vision-Language-Action Policies",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "记忆增强的VLA策略，存储持久记忆token并自适应检索历史信息",
+      "first_seen_at": "2026-09-22 19:40:46 UTC",
+      "updated_at": "2026-09-22 19:40:46 UTC"
+    },
+    {
+      "paper_id": "2609.24259v1",
+      "route": "202609/22/2609.24259v1-memcalib-benchmarking-and-optimizing-memory-use-in-llm-agents",
+      "title": "MemCalib: Benchmarking and Optimizing Memory Use in LLM Agents",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "记忆使用与优化的基准测试",
+      "first_seen_at": "2026-09-22 19:40:46 UTC",
+      "updated_at": "2026-09-22 19:40:46 UTC"
+    },
+    {
+      "paper_id": "2609.22691v1",
+      "route": "202609/22/2609.22691v1-generative-embodied-multiple-behavior-control-systems-for-human-like-agents",
+      "title": "Generative Embodied Multiple Behavior Control Systems for Human-like Agents",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "习惯控制器从个性化习惯记忆检索行为，体现记忆驱动的行为控制",
+      "first_seen_at": "2026-09-22 19:40:46 UTC",
+      "updated_at": "2026-09-22 19:40:46 UTC"
+    },
+    {
+      "paper_id": "2609.23121v1",
+      "route": "202609/22/2609.23121v1-mm-contextfold-context-folding-for-multimodal-agentic-retrieval",
+      "title": "MM-ContextFold: Context Folding for Multimodal Agentic Retrieval",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "多模态智能体检索中管理增长上下文，减少视觉冗余",
+      "first_seen_at": "2026-09-22 19:40:46 UTC",
+      "updated_at": "2026-09-22 19:40:46 UTC"
+    },
+    {
+      "paper_id": "2609.24289v1",
+      "route": "202609/22/2609.24289v1-ttse-a-two-track-online-self-evolution-framework",
+      "title": "TTSE: A Two-Track Online Self-Evolution Framework",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "持续学习代理的知识管理在线自我演化",
+      "first_seen_at": "2026-09-22 19:40:46 UTC",
+      "updated_at": "2026-09-22 19:40:46 UTC"
+    },
+    {
+      "paper_id": "2609.24663v1",
+      "route": "202609/22/2609.24663v1-beyond-endpoint-performance-process-level-evaluation-of-self-evolving-agents",
+      "title": "Beyond Endpoint Performance: Process-Level Evaluation of Self-Evolving Agents",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "评估自进化代理，其将反馈转化为记忆工件，追踪能力演化",
+      "first_seen_at": "2026-09-22 19:40:46 UTC",
+      "updated_at": "2026-09-22 19:40:46 UTC"
+    }
+  ]
+}

@@ -48,17 +48,17 @@
 <section class="dpr-home-dashboard-card dpr-home-report-card">
   <div class="dpr-home-dashboard-header">
     <div>
-      <span class="dpr-home-dashboard-kicker">2026-09-21</span>
+      <span class="dpr-home-dashboard-kicker">2026-09-22</span>
       <h3 class="dpr-home-dashboard-title">今日汇总</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">共 10 篇</strong>
+    <strong class="dpr-home-dashboard-count">共 14 篇</strong>
   </div>
   <dl class="dpr-home-dashboard-stats">
     <div class="dpr-home-dashboard-stat"><dt>累计更新</dt><dd>1 次</dd></div>
-    <div class="dpr-home-dashboard-stat"><dt>精读</dt><dd>5</dd></div>
-    <div class="dpr-home-dashboard-stat"><dt>速读</dt><dd>5</dd></div>
+    <div class="dpr-home-dashboard-stat"><dt>精读</dt><dd>7</dd></div>
+    <div class="dpr-home-dashboard-stat"><dt>速读</dt><dd>7</dd></div>
   </dl>
-  <p class="dpr-home-dashboard-body">最近更新：2026-09-21 19:16:59 UTC<br>状态：成功</p>
+  <p class="dpr-home-dashboard-body">最近更新：2026-09-22 19:40:46 UTC<br>状态：成功</p>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-brief-card">
   <div class="dpr-home-dashboard-header">
@@ -69,9 +69,7 @@
     <strong class="dpr-home-dashboard-count">AI</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<p>今日日报聚焦10篇论文，精读5篇、速读5篇，核心围绕多智能体与长期记忆系统展开。</p>
-<p>最值得关注的是两篇9.0分精读：MACE提出记忆-智能体协同进化与自适应记忆图，AutoViewMem则用正交视图优化对话长期记忆。</p>
-<p>建议优先阅读这两篇，深入理解多智能体记忆管理的前沿设计，后续再扩展速读中的基准测试类论文。</p>
+<p>今日精读7篇、速读7篇，重点聚焦LLM智能体的记忆表征与多智能体世界模型，整体质量高（最高9.0分）。最值得关注的是《PSD》和《Propose, Verify, Commit》两篇9.0分工作，分别从伪自蒸馏记忆表征和证据接地记忆机制提升长对话与多轮推理表现。建议普通读者优先精读这两篇高分论文，并参考《MemCalib》对记忆使用进行基准化优化。</p>
   </div>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-deep-card">
@@ -80,12 +78,12 @@
       <span class="dpr-home-dashboard-kicker">今日累计</span>
       <h3 class="dpr-home-dashboard-title">精读推荐</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">5 篇</strong>
+    <strong class="dpr-home-dashboard-count">7 篇</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="MACE: Memory-Agent Co-Evolution with Adaptive Memory Graphs for Multi-Agent Systems">MACE: Memory-Agent Co-Evolution with Adaptive Memory Graphs for Multi-Agent Systems</span></li><li><span class="dpr-home-dashboard-paper-title" title="AutoViewMem: Self-Configuring Orthogonal Views for Conversational Long-Term Memory">AutoViewMem: Self-Configuring Orthogonal Views for Conversational Long-Term Memory</span></li><li><span class="dpr-home-dashboard-paper-title" title="An Interpretable Memory Decision Controller for LLM Agents Based on Three-Signal Complementarity: Decoupling Confidence and Consistency">An Interpretable Memory Decision Controller for LLM Agents Based on Three-Signal Complementarity: Decoupling Confidence and Consistency</span></li></ul>
+<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="PSD: Pseudo Self-Distillation of Memory Representation Capabilities for LLM Agents">PSD: Pseudo Self-Distillation of Memory Representation Capabilities for LLM Agents</span></li><li><span class="dpr-home-dashboard-paper-title" title="Propose, Verify, Commit: Evidence-Grounded Memory for Long-Horizon Multi-Actor Conversations">Propose, Verify, Commit: Evidence-Grounded Memory for Long-Horizon Multi-Actor Conversations</span></li><li><span class="dpr-home-dashboard-paper-title" title="RPMem: Learning Long-Term Recurrent Parametric Memory Across Sessions for LLM Agents">RPMem: Learning Long-Term Recurrent Parametric Memory Across Sessions for LLM Agents</span></li></ul>
   </div>
-  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">agent-memory <strong>5</strong></span></div>
+  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">agent-memory <strong>7</strong></span></div>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-skim-card">
   <div class="dpr-home-dashboard-header">
@@ -93,12 +91,12 @@
       <span class="dpr-home-dashboard-kicker">今日累计</span>
       <h3 class="dpr-home-dashboard-title">速读推荐</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">5 篇</strong>
+    <strong class="dpr-home-dashboard-count">7 篇</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="OpenMAS-GCom. A Diagnostic Benchmark for Graph-enhanced Multi-Agent Systems">OpenMAS-GCom. A Diagnostic Benchmark for Graph-enhanced Multi-Agent Systems</span></li><li><span class="dpr-home-dashboard-paper-title" title="What Should We Ask Next? Retrieval-Aware Question Learning under Partial Evidence">What Should We Ask Next? Retrieval-Aware Question Learning under Partial Evidence</span></li><li><span class="dpr-home-dashboard-paper-title" title="Benchmarking World Models for Continual Learning on Compositional Tasks">Benchmarking World Models for Continual Learning on Compositional Tasks</span></li></ul>
+<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="ConsistWorld: Evidence Routing for Consistent Multi-Agent World Models">ConsistWorld: Evidence Routing for Consistent Multi-Agent World Models</span></li><li><span class="dpr-home-dashboard-paper-title" title="StateMem: Single-State Residual Memory with Adaptive Inference for Vision-Language-Action Policies">StateMem: Single-State Residual Memory with Adaptive Inference for Vision-Language-Action Policies</span></li><li><span class="dpr-home-dashboard-paper-title" title="MemCalib: Benchmarking and Optimizing Memory Use in LLM Agents">MemCalib: Benchmarking and Optimizing Memory Use in LLM Agents</span></li></ul>
   </div>
-  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">agent-memory <strong>5</strong></span></div>
+  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">agent-memory <strong>7</strong></span></div>
 </section>
 </div>
 

@@ -1,0 +1,603 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-09-22T19:38:36.898310+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 10,
+    "deep_cap": 6,
+    "deep_selected": 7,
+    "quick_candidates": 7,
+    "quick_skim_target": 11,
+    "quick_selected": 7
+  },
+  "deep_dive": [
+    {
+      "id": "2609.23449v1",
+      "source": "arxiv",
+      "title": "PSD: Pseudo Self-Distillation of Memory Representation Capabilities for LLM Agents",
+      "abstract": "Memory systems are becoming a core component of LLM agents, but constructing and maintaining memory remains expensive because it relies on repeated calls to large proprietary language models. This cost creates a major barrier to deploying memory-enhanced agents at scale. In this paper, we present Pseudo Self-Distillation (PSD), a framework that enables small language models (SLMs) to construct hierarchical memory representations by distilling behavior from a strong black-box oracle through a multi-stage training pipeline. Standard distillation methods require access to teacher logits or hidden states, which closed models do not expose. Unlike conventional self-distillation settings, where supervision is derived from a model's own predictions, sampled rollouts, or aggregated outputs, PSD enables a single-model distillation setup while channeling external oracle knowledge through the prompt. PSD uses a single small model in two roles: a teacher that sees a privileged prompt containing the oracle's answer as reference context, and a student that sees only the task prompt. The student learns to reproduce the teacher's output distribution, absorbing oracle-guided behavior into its own weights without accessing the oracle's internals. On LoCoMo, PSD-trained Qwen3-0.6B, 1.7B, and 4B match or exceed GPT-4.1-mini on downstream retrieval at a fraction of the deployment cost, with off-policy PSD achieving the strongest results across most conditions. We further show that this memory-construction capability transfers out-of-distribution to LongMemEval, despite the students being trained exclusively on LoCoMo with no exposure to LongMemEval data.",
+      "authors": [
+        "Pirzada Suhail",
+        "Menglin Xia",
+        "Xuchao Zhang",
+        "Mayukh Das",
+        "Chetan Bansal",
+        "Saravan Rajmohan"
+      ],
+      "primary_category": "cs.IR",
+      "categories": [
+        "cs.IR",
+        "cs.CL",
+        "cs.LG"
+      ],
+      "published": "2026-09-20T08:24:52+00:00",
+      "link": "https://arxiv.org/pdf/2609.23449v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Presents a distillation framework for constructing hierarchical memory representations in LLM agents",
+      "llm_evidence_cn": "提出蒸馏框架构建LLM智能体的层次记忆表示",
+      "llm_evidence": "提出蒸馏框架构建LLM智能体的层次记忆表示",
+      "canonical_evidence": "提出蒸馏框架构建LLM智能体的层次记忆表示",
+      "llm_tldr_en": "Memory systems are core to LLM agents but costly due to repeated calls to large proprietary models. This paper introduces Pseudo Self-Distillation (PSD), a multi-stage training framework enabling small models to construct hierarchical memory representations by distilling from a black-box oracle without requiring logits. It reduces deployment cost while preserving memory capabilities.",
+      "llm_tldr_cn": "记忆系统对LLM智能体至关重要，但依赖反复调用大型专有模型导致昂贵成本。本文提出伪自蒸馏框架（PSD），通过多阶段训练从黑盒强模型蒸馏行为，让小语言模型无需访问教师logits即可构建层次化记忆表示。该方法显著降低部署成本，同时保持记忆能力，推动了记忆增强智能体的规模化应用。",
+      "llm_tldr": "记忆系统对LLM智能体至关重要，但依赖反复调用大型专有模型导致昂贵成本。本文提出伪自蒸馏框架（PSD），通过多阶段训练从黑盒强模型蒸馏行为，让小语言模型无需访问教师logits即可构建层次化记忆表示。该方法显著降低部署成本，同时保持记忆能力，推动了记忆增强智能体的规模化应用。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "memory mechanisms in autonomous agents and agent memory architectures",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2609.23465v1",
+      "source": "arxiv",
+      "title": "Propose, Verify, Commit: Evidence-Grounded Memory for Long-Horizon Multi-Actor Conversations",
+      "abstract": "Long-horizon conversational memory is especially challenging in multi-actor settings, where relevant evidence is distributed across participants and contexts and previously established information may later be revised. We introduce EGMEMORY, which formulates long-horizon multi-actor memory as a searchable state machine that separates persistent message-level evidence from an explicit active state. At write time, adaptive state resolution and an evidence-grounded propose-verify-commit protocol govern how this state evolves. At read time, adaptive evidence navigation iteratively resolves the state and supporting evidence required for a query, using conversational structure to narrow the search space and lexical-semantic relevance to rank candidates. The system operates through prompting and tool use without memory-specific policy training. EGMEMORY achieves 68.2% on GroupMemBench and 77.9% on EverMemBench, outperforming the strongest evaluated baselines by 22.7 and 21.4 percentage points, respectively. It further reaches 73.6% on the dyadic LoCoMo benchmark, demonstrating generalization beyond multi-actor conversations. We will release the codebase upon formal publication.",
+      "authors": [
+        "Zihao Lu",
+        "Zhihang Yuan",
+        "Lei Shi"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "published": "2026-09-20T08:51:07+00:00",
+      "link": "https://arxiv.org/pdf/2609.23465v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Formulates long-horizon multi-actor memory as a searchable state machine with evidence-grounded write and read protocols",
+      "llm_evidence_cn": "将长期多参与者记忆建模为可检索状态机，采用证据基础读写协议",
+      "llm_evidence": "将长期多参与者记忆建模为可检索状态机，采用证据基础读写协议",
+      "canonical_evidence": "将长期多参与者记忆建模为可检索状态机，采用证据基础读写协议",
+      "llm_tldr_en": "Long-horizon conversational memory in multi-actor settings is challenging due to distributed evidence and revisions. EGMEMORY models memory as a searchable state machine separating persistent evidence from active state, using propose-verify-commit for writes and adaptive navigation for reads. This improves evidence-grounded retrieval and state resolution in complex conversations.",
+      "llm_tldr_cn": "在多参与者长期对话中，记忆面临证据分散和修订挑战，传统方法难以准确检索。本文提出EGMEMORY，将长期记忆建模为可搜索状态机，分离持久消息证据与显式活动状态。写入时通过自适应状态解析和提议-验证-提交协议，读取时利用会话结构缩小搜索范围并迭代解析证据。实验证实该方法能有效支持长期多参与者对话的记忆查询。",
+      "llm_tldr": "在多参与者长期对话中，记忆面临证据分散和修订挑战，传统方法难以准确检索。本文提出EGMEMORY，将长期记忆建模为可搜索状态机，分离持久消息证据与显式活动状态。写入时通过自适应状态解析和提议-验证-提交协议，读取时利用会话结构缩小搜索范围并迭代解析证据。实验证实该方法能有效支持长期多参与者对话的记忆查询。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "Search for papers about long term memory, episodic memory, and memory retrieval in interactive agent systems.",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2609.23466v1",
+      "source": "arxiv",
+      "title": "RPMem: Learning Long-Term Recurrent Parametric Memory Across Sessions for LLM Agents",
+      "abstract": "Long-running LLM agents require memory that persists and evolves across sessions. Text-based memory retrieves and reconstructs past interactions at every query, making long-horizon performance increasingly dependent on retrieval quality and contextual reasoning as histories grow. Parametric memory encodes experience directly into model computation, but existing approaches provide limited support for cross-session memory evolution. Their coupling to a specific backbone further restricts memory reuse after model replacement. We introduce RPMem, a two-stage architecture that compiles each session into a model-independent latent memory through forward computation and selectively integrates it with retained memory via a task-trained recurrent gate. The consolidated memory is then mapped to backbone-specific low-rank adaptation (LoRA) parameters, allowing the encoding capability to transfer when the backbone is replaced. Evaluation across three long-term memory benchmarks and five diverse backbones demonstrates broad generalization with near-constant update cost and memory footprint. With Qwen3-8B on PERMA, RPMem reaches 85.52%, outperforming the strongest parametric and text-based baselines by 5.32 and 12.98 percentage points, respectively. Ablations validate the complementary roles of session compilation and cross-session consolidation, while dynamics analyses reveal that the gate acquires task-specific memory integration strategies. These results establish RPMem as a lifecycle-independent parametric memory framework that maintains evolving cross-session memory that remains reusable across backbone replacements. Our implementation is available at https://github.com/Quark-Medical/rpmem/tree/main.",
+      "authors": [
+        "Fanyu Zhao",
+        "Ruike Cao",
+        "Liang Dong",
+        "Fugen Yao",
+        "Jian Xu",
+        "Guanjun Jiang",
+        "Han Zhang",
+        "Yifei Zhao",
+        "Yinsheng Li"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "published": "2026-09-20T08:51:10+00:00",
+      "link": "https://arxiv.org/pdf/2609.23466v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "parametric memory storing and retrieving cross-session experience",
+      "llm_evidence_cn": "跨会话参数化记忆存储与检索经验",
+      "llm_evidence": "跨会话参数化记忆存储与检索经验",
+      "canonical_evidence": "跨会话参数化记忆存储与检索经验",
+      "llm_tldr_en": "RPMem learns a model-independent latent memory across sessions via a two-stage recurrent architecture, enabling persistent memory evolution for LLM agents.",
+      "llm_tldr_cn": "LLM智能体的记忆需要跨会话持续演化。文本记忆依赖检索质量，参数记忆又受限于特定骨干网络。RPMem通过前向计算将会话编译为与模型无关的潜在记忆，并用任务训练的循环机制选择性整合与保留记忆。这种两阶段架构支持记忆复用和更新，提升长期性能。",
+      "llm_tldr": "LLM智能体的记忆需要跨会话持续演化。文本记忆依赖检索质量，参数记忆又受限于特定骨干网络。RPMem通过前向计算将会话编译为与模型无关的潜在记忆，并用任务训练的循环机制选择性整合与保留记忆。这种两阶段架构支持记忆复用和更新，提升长期性能。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "memory-augmented agent models that store and retrieve experience",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2609.23570v1",
+      "source": "arxiv",
+      "title": "VibeMemBench: Evaluating Memory Systems for Coding Agents on Real Repository Coding Tasks",
+      "abstract": "Coding agents operate on real repository coding tasks, and persistent memory systems promise to reuse experience across tasks. Yet existing evaluations do not show whether those systems improve executable repository work. Repository benchmarks test code changes but do not isolate memory, while memory benchmarks score recall without measuring downstream coding outcomes. We introduce VibeMemBench, a benchmark for evaluating memory systems on 111 coding targets from 90 SWE-rebench V2 repositories and 3,634 history trajectories from the target repositories. The targets follow the SWE benchmark style and cover bug fixes, feature requests, interface changes, and configuration work. An agent edits each target codebase under a declared memory condition. Executable tests decide task resolution. Each target is retained only when injected history experience improves its executable outcome in a reference setting, so every target carries a prior experience whose usefulness is verified by execution in that setting. The frozen verified experience is then transferred to five held-out solvers. Direct injection raises observed task resolution on four of them by 1.1 to 4.5 percentage points while lowering agent steps on all five. Yet when four existing memory systems must construct and retrieve experience from the same history, eleven of twelve solver and system pairings fail to exceed the matched memory-off baseline. VibeMemBench exposes the gap between the useful experience that repository history holds and the experience existing memory systems deliver for repository coding tasks.",
+      "authors": [
+        "Liyang Fan",
+        "Yingcheng Shi",
+        "Yongbin Li",
+        "Chenghao Sun",
+        "Xin Chen",
+        "Xander Xu",
+        "Hu Wei",
+        "Shiwen Ni",
+        "Min Yang",
+        "Jieping Ye"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE",
+        "cs.CL"
+      ],
+      "published": "2026-09-20T11:44:03+00:00",
+      "link": "https://arxiv.org/pdf/2609.23570v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Benchmark for memory systems storing and retrieving experience in coding agents",
+      "llm_evidence_cn": "面向编码代理的内存系统基准，评估经验存储与检索",
+      "llm_evidence": "面向编码代理的内存系统基准，评估经验存储与检索",
+      "canonical_evidence": "面向编码代理的内存系统基准，评估经验存储与检索",
+      "llm_tldr_en": "VibeMemBench evaluates persistent memory systems on real repository coding benchmarks, isolating memory effects on downstream executable tasks.",
+      "llm_tldr_cn": "现有内存基准只测召回率而不测下游编码效果，仓库基准又无法隔离内存贡献。本文提出VibeMemBench，基于111个真实仓库目标评估编码代理的内存系统，通过历史轨迹和声明式记忆目标测试工作效果。结果显示内存系统对真实代码修改的改善有限，为内存评估提供更准确的指标。",
+      "llm_tldr": "现有内存基准只测召回率而不测下游编码效果，仓库基准又无法隔离内存贡献。本文提出VibeMemBench，基于111个真实仓库目标评估编码代理的内存系统，通过历史轨迹和声明式记忆目标测试工作效果。结果显示内存系统对真实代码修改的改善有限，为内存评估提供更准确的指标。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "memory-augmented agent models that store and retrieve experience",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2609.23986v1",
+      "source": "arxiv",
+      "title": "Jev-Mem: System-One-Controlled Agentic Memory for Efficient AI Agents",
+      "abstract": "Agentic memory is becoming essential for long-horizon AI agents, yet many existing systems rely on autoregressive LLMs to control how memories are organized, retrieved, and used, placing expensive generation on the critical path of memory operations. We introduce \\textbf{\\method}, a new agentic memory architecture inspired by System-One/System-Two cognition. System One captures fast, lightweight decision-making, whereas System Two performs slower, deliberative reasoning. Jev-Mem brings this division of labor to agentic memory through a dedicated System-One control plane, a structured multi-relational memory plane, and a System-Two reasoning plane. The System-One controller governs memory typing and relational organization during construction, and dynamically performs query routing, retrieval-budget allocation, graph traversal, candidate scoring, and adaptive stopping during retrieval. System Two is invoked only for complex reasoning and answer synthesis. This design improves both memory effectiveness and system efficiency: on LoCoMo Jev-Mem achieves an overall LLM-as-a-Judge score of 0.777, an 11.0\\% relative improvement over the strongest baseline, while reducing memory construction time to 158\\,s, a 6.6$\\times$ speedup over the fastest competing memory system, and lowering average query latency to 0.93\\,s, a 36.7\\% reduction.",
+      "authors": [
+        "Dongming Jiang",
+        "Yi Li",
+        "Bingzhe Li"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-09-21T01:43:12+00:00",
+      "link": "https://arxiv.org/pdf/2609.23986v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "System-One-controlled agentic memory architecture",
+      "llm_evidence_cn": "System-One控制的智能体记忆架构",
+      "llm_evidence": "System-One控制的智能体记忆架构",
+      "canonical_evidence": "System-One控制的智能体记忆架构",
+      "llm_tldr_en": "Introduces Jev-Mem, an agentic memory architecture using a dedicated System-One control plane to avoid expensive LLM generation on the critical path of memory operations.",
+      "llm_tldr_cn": "现有智能体记忆系统依赖自回归LLM控制记忆操作，开销大。Jev-Mem借鉴系统一/系统二认知，引入专用系统一控制平面、结构化多关系记忆平面和系统二推理平面。系统一控制器负责记忆类型和关系组织，实现轻量高效的记忆管理。该方法显著提升长期智能体的记忆效率。",
+      "llm_tldr": "现有智能体记忆系统依赖自回归LLM控制记忆操作，开销大。Jev-Mem借鉴系统一/系统二认知，引入专用系统一控制平面、结构化多关系记忆平面和系统二推理平面。系统一控制器负责记忆类型和关系组织，实现轻量高效的记忆管理。该方法显著提升长期智能体的记忆效率。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "memory mechanisms in autonomous agents and agent memory architectures",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2609.24271v1",
+      "source": "arxiv",
+      "title": "ME-Brain-1.0: Memory, Cognition and Action for Evolving Embodied Intelligence",
+      "abstract": "Current embodied systems largely rely on pretrained capabilities that remain fixed after deployment, limiting their ability to learn from physical interaction. We introduce MachEmbodied-Brain (ME-Brain), a self-evolving embodied system organized around a closed loop of action execution, experience acquisition, experience evolution, and improved execution. Evolvable Memory consolidates multimodal trajectories into hierarchical, reusable experience; Cognitive Core transforms physical experience into transferable skills; and the Action Model combines event-driven keyframes, EventCell local-world prediction, and action-conditioned memory modulation to focus computation on decision-critical moments, regions, and historical evidence. Together, these modules shift embodied intelligence from train-and-freeze to deploy-and-evolve without model retraining. Cognitive Core outperforms the strongest comparison models by 8.2 and 9.6 points on embodied and agent benchmarks. The Action Model achieves 47.88% mean success on RoboMME, a 3.26-point improvement over the strongest baseline. On RoboDojo, it reaches a 21.51 mean Score and 16.03% success rate, exceeding $π_{0.5}$ by 10.10 and 9.12 points. On the six-task ME-RealBench, ME-Brain achieves a 69.5 mean Score and 66.7% success rate, outperforming DM0.5 by 12.8 and 11.7 points, respectively.",
+      "authors": [
+        "Wei He",
+        "Hengtao Li",
+        "Zhongrui Yu",
+        "Xuhan Zhu",
+        "Maokui He",
+        "Zide Liu",
+        "Xiyue Zhang",
+        "Xianwei Mao",
+        "Chunpeng Zhou",
+        "Jia Shi",
+        "Yanze Xin",
+        "Jingwen Li",
+        "Jingxie Zheng",
+        "Sijie Zeng",
+        "Chenfeng Wang",
+        "Fan Lu",
+        "Zeyu Zhang",
+        "Shuai Guo",
+        "Hengxuan Zhang",
+        "Pengfei Yu",
+        "Jia Shi",
+        "Yu Liu",
+        "Kun Zhan",
+        "Yan Xie"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-09-21T08:35:37+00:00",
+      "link": "https://arxiv.org/pdf/2609.24271v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "evolvable memory and cognition for embodied agents",
+      "llm_evidence_cn": "具身智能体的可进化记忆与认知",
+      "llm_evidence": "具身智能体的可进化记忆与认知",
+      "canonical_evidence": "具身智能体的可进化记忆与认知",
+      "llm_tldr_en": "ME-Brain presents a self-evolving embodied system with evolvable memory consolidating multimodal trajectories into reusable experience, a cognitive core for skill transfer, and action-conditioned memory modulation for decision-critical computation.",
+      "llm_tldr_cn": "当前具身系统部署后能力固定，无法从物理交互中持续学习。本文提出ME-Brain，围绕行动执行、经验获取、经验演化与改进执行构建闭环。可进化记忆将多模态轨迹整合为层次化可复用经验；认知核心将物理经验转化为可迁移技能；行动模型结合事件驱动关键帧、EventCell预测和行动条件记忆调制，突出决策关键信息。该系统使具身智能体能够通过记忆演化实现自我改进。",
+      "llm_tldr": "当前具身系统部署后能力固定，无法从物理交互中持续学习。本文提出ME-Brain，围绕行动执行、经验获取、经验演化与改进执行构建闭环。可进化记忆将多模态轨迹整合为层次化可复用经验；认知核心将物理经验转化为可迁移技能；行动模型结合事件驱动关键帧、EventCell预测和行动条件记忆调制，突出决策关键信息。该系统使具身智能体能够通过记忆演化实现自我改进。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "memory mechanisms in autonomous agents and agent memory architectures",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2609.24971v1",
+      "source": "arxiv",
+      "title": "DolphinBench: Mapping the Pareto Frontier of Agent Memory",
+      "abstract": "Agents today often take real-world actions that depend on long-term memory and context recall over time. However, most current memory benchmarks are built for a conversational question-answer format, where the question itself signals that some fact must be retrieved, and often which one. Moreover, benchmarks rarely require anything beyond accuracy from submissions, allowing memory systems to make unreasonable cost/time tradeoffs to achieve higher scores.   We present DolphinBench, a benchmark that evaluates memory directly through an agent's task completion. DolphinBench includes three knowledge-work personas with roughly 500k tokens of user messages per persona and evaluates agents on tasks that depend on information from that history. We verify all 200 tasks per persona by running an agent with and without the relevant history, requiring success with it and failure without it.   Finally, we require all evaluations to report total cost and latency alongside accuracy, which enables us to evaluate agent memory systems holistically. No existing memory benchmark combines all three. The dataset and evaluation code are available at https://dolphinbench.ai.",
+      "authors": [
+        "Soumil Rathi",
+        "Deshraj Yadav",
+        "Taranjeet Singh"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "published": "2026-09-21T17:54:35+00:00",
+      "link": "https://arxiv.org/pdf/2609.24971v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "benchmark mapping agent memory Pareto frontier",
+      "llm_evidence_cn": "映射智能体记忆帕累托前沿的基准",
+      "llm_evidence": "映射智能体记忆帕累托前沿的基准",
+      "canonical_evidence": "映射智能体记忆帕累托前沿的基准",
+      "llm_tldr_en": "DolphinBench is a benchmark that evaluates agent memory through task completion using long user histories across three knowledge-work personas, mapping the Pareto frontier of cost-time-accuracy tradeoffs.",
+      "llm_tldr_cn": "现有记忆基准多为对话问答格式，且只评价准确率，忽略了成本与时间权衡。DolphinBench提出了一个直接通过任务完成度评估智能体长期记忆的基准，包含三个知识工人设，每人约50万token的历史消息，并验证了200个任务。该基准能够揭示记忆系统在准确率、成本和时间上的帕累托前沿，为智能体记忆系统设计提供了更全面的评价标准。",
+      "llm_tldr": "现有记忆基准多为对话问答格式，且只评价准确率，忽略了成本与时间权衡。DolphinBench提出了一个直接通过任务完成度评估智能体长期记忆的基准，包含三个知识工人设，每人约50万token的历史消息，并验证了200个任务。该基准能够揭示记忆系统在准确率、成本和时间上的帕累托前沿，为智能体记忆系统设计提供了更全面的评价标准。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "memory mechanisms in autonomous agents and agent memory architectures",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2609.22641v1",
+      "source": "arxiv",
+      "title": "ConsistWorld: Evidence Routing for Consistent Multi-Agent World Models",
+      "abstract": "Autoregressive video world models enable temporally coherent generation for a single observer. Extending them to multiple agents requires consistency across independently controlled views and temporal gaps under causal streaming. We present ConsistWorld, a multi-agent world model that generates camera-controlled video streams of a static scene from one shared image. We formulate consistency as routing evidence from committed multi-agent history and concurrently generated peer views to the tokens being generated. Pose Conditioned Memory Retrieval selects relevant historical observations from all agents, recovering evidence beyond the recent context window. Visibility-Gated Peer Sharing regulates current peer information according to estimated historical coverage and current-view overlap. Together, they determine which historical observations enter the context and where concurrent peer information contributes, supporting long-term recall and coordinated exploration. Both mechanisms use camera geometry and maintain a bounded active context for a fixed agent count and retrieval budget. Experiments on evidence sharing cases and video length and agent number generalizations show that ConsistWorld achieves a strong cross-time and cross-agent consistency while preserving competitive generation quality.",
+      "authors": [
+        "Qianxun Xu",
+        "Xianfang Zeng",
+        "Xinyao Liao",
+        "Wei Cheng",
+        "Gang Yu",
+        "Chi Zhang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-09-18T23:31:01+00:00",
+      "link": "https://arxiv.org/pdf/2609.22641v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Multi-agent world model with shared memory retrieval and peer sharing",
+      "llm_evidence_cn": "多代理世界模型，包含共享记忆检索和对等共享",
+      "llm_evidence": "多代理世界模型，包含共享记忆检索和对等共享",
+      "canonical_evidence": "多代理世界模型，包含共享记忆检索和对等共享",
+      "llm_tldr_en": "ConsistWorld generates consistent multi-agent video streams by routing evidence from shared historical memory and visibility-gated peer views.",
+      "llm_tldr_cn": "多代理视频生成需保持视图间一致性，现有世界模型仅支持单观察者。本文提出ConsistWorld，通过姿态条件记忆检索和可见性门控的对等共享，融合所有代理的历史信息与当前视角，生成静态场景下多摄像头一致视频流。该方法有效处理了跨视角和跨时刻的一致性，为多代理感知建模提供了新方案。",
+      "llm_tldr": "多代理视频生成需保持视图间一致性，现有世界模型仅支持单观察者。本文提出ConsistWorld，通过姿态条件记忆检索和可见性门控的对等共享，融合所有代理的历史信息与当前视角，生成静态场景下多摄像头一致视频流。该方法有效处理了跨视角和跨时刻的一致性，为多代理感知建模提供了新方案。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "shared memory and communication in multi-agent systems",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2609.22691v1",
+      "source": "arxiv",
+      "title": "Generative Embodied Multiple Behavior Control Systems for Human-like Agents",
+      "abstract": "An enduring and richly elaborated dichotomy in cognitive neuroscience is that of human behavior control mechanisms, divided into habitual versus goal-directed. While existing human-like agent frameworks primarily focus on modeling goal- directed behavior, habitual behavior has been largely overlooked, though it plays a crucial role in human daily life. In this paper, we address this gap by studying multiple behavior control systems that jointly model goal-directed and habitual behaviors. We propose a human behavior control mechanism-inspired framework which the Habitual Controller retrieves cue-triggered behaviors from personal- ized habit memory, while the Goal-directed Controller employs a context-aware world model to predict action consequences and estimate their values. The Arbiter dynamically balances the influence of both systems according to individual differ- ences and momentary internal states. To reconstruct diverse human-level behavior instructions in 3D environments, we further develop a keyframe-guided 3D mo- tion generation module. Through extensive evaluation methods, human studies, and ablations studies, experimental results demonstrate that human-likeness per- formance is significantly improved by our approach. The efficacy of our approach indicates the benefits of leveraging habitual behavior and multiple behavior con- trol system coordination for believable embodied human-like agents.",
+      "authors": [
+        "Chongyu Bao",
+        "Haokai Yang",
+        "Yuhan Wang",
+        "Zhaochong An",
+        "Kunpeng Liu",
+        "Xiaolan Liu"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-09-19T01:51:09+00:00",
+      "link": "https://arxiv.org/pdf/2609.22691v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Habitual controller retrieves cue-triggered behaviors from personalized habit memory, presenting memory-based behavior control",
+      "llm_evidence_cn": "习惯控制器从个性化习惯记忆检索行为，体现记忆驱动的行为控制",
+      "llm_evidence": "习惯控制器从个性化习惯记忆检索行为，体现记忆驱动的行为控制",
+      "canonical_evidence": "习惯控制器从个性化习惯记忆检索行为，体现记忆驱动的行为控制",
+      "llm_tldr_en": "Proposes a framework jointly modeling goal-directed and habitual behavior, where the Habitual Controller retrieves from personalized habit memory and the Goal-directed Controller uses a world model, enhancing human-like control.",
+      "llm_tldr_cn": "人类行为分为习惯性和目标导向两种，但现有类人代理只建模目标导向行为，忽略习惯的作用。本文提出多行为控制系统，习惯控制器从个性化习惯记忆中检索线索触发的行为，目标导向控制器利用上下文世界模型预测后果。联合模拟两类行为，使代理更接近人类行为机制，提升了行为多样性和适应性。",
+      "llm_tldr": "人类行为分为习惯性和目标导向两种，但现有类人代理只建模目标导向行为，忽略习惯的作用。本文提出多行为控制系统，习惯控制器从个性化习惯记忆中检索线索触发的行为，目标导向控制器利用上下文世界模型预测后果。联合模拟两类行为，使代理更接近人类行为机制，提升了行为多样性和适应性。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "memory mechanisms in autonomous agents and agent memory architectures",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2609.22684v1",
+      "source": "arxiv",
+      "title": "StateMem: Single-State Residual Memory with Adaptive Inference for Vision-Language-Action Policies",
+      "abstract": "Memory-dependent robotic manipulation often requires later actions to use information from earlier interactions. Existing vision-language-action (VLA) policies primarily rely on current observations, limiting historical information retention. Memory-augmented VLAs, such as MemoryVLA, address this limitation with external memory banks but require explicit storage and retrieval. To address these limitations, we propose StateMem, a single-state residual memory framework for VLA policies that uses prediction error to update a persistent memory token through low-rank residuals and to adaptively route cached prefixes. A training-free controller adjusts the routing threshold online, while fast correction compensates for stale prefix features during cache reuse. We evaluate StateMem on LIBERO, RoboMemArena, and real-world manipulation tasks. On LIBERO, StateMem achieves an average success rate of 97.6% and reduces the average VLM prefix refresh rate by 20.25% relative to full refresh. In the Occlusion category of RoboMemArena, StateMem achieves the best performance among single-VLA methods, reaching 21.8% Task Success Rate (TSR) and 44.3% Cumulative Success Rate (CSR). Across six real-world manipulation tasks, it achieves +21% in average success rate.",
+      "authors": [
+        "Wenzhuo Li",
+        "Qiongfeng Shi",
+        "Yi Zhou"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.LG"
+      ],
+      "published": "2026-09-19T01:29:45+00:00",
+      "link": "https://arxiv.org/pdf/2609.22684v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Memory-augmented VLA policy that stores a persistent memory token and adaptively retrieves past information for decision-making",
+      "llm_evidence_cn": "记忆增强的VLA策略，存储持久记忆token并自适应检索历史信息",
+      "llm_evidence": "记忆增强的VLA策略，存储持久记忆token并自适应检索历史信息",
+      "canonical_evidence": "记忆增强的VLA策略，存储持久记忆token并自适应检索历史信息",
+      "llm_tldr_en": "StateMem proposes a single-state residual memory for VLA policies, updating a persistent token via prediction error and low-rank residuals, with adaptive routing and online threshold control. It retains historical info without external memory banks, improving manipulation tasks that require memory.",
+      "llm_tldr_cn": "记忆依赖的机器人操作需要利用早前交互信息，但现有VLA策略多依赖当前观测，丢失历史。外部记忆库方法需要显式存储与检索。本文提出StateMem，用预测误差低秩残差更新单一持久记忆token，并自适应路由缓存前缀，训练无关控制器在线调整阈值。实验表明该方法在保留历史信息的同时避免了显式存储，提升记忆型操作任务表现。",
+      "llm_tldr": "记忆依赖的机器人操作需要利用早前交互信息，但现有VLA策略多依赖当前观测，丢失历史。外部记忆库方法需要显式存储与检索。本文提出StateMem，用预测误差低秩残差更新单一持久记忆token，并自适应路由缓存前缀，训练无关控制器在线调整阈值。实验表明该方法在保留历史信息的同时避免了显式存储，提升记忆型操作任务表现。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "memory-augmented agent models that store and retrieve experience",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2609.23121v1",
+      "source": "arxiv",
+      "title": "MM-ContextFold: Context Folding for Multimodal Agentic Retrieval",
+      "abstract": "Multimodal Agentic Retrieval (MAR) requires agents to solve complex information-seeking tasks by iteratively invoking external tools. Typical frameworks such as ReAct maintain raw multimodal inputs and the accumulating interaction history in a single, ever-growing context, leading to the context explosion problem. While existing methods alleviate this issue by compressing redundant text, effective strategies for managing token-intensive visual content remain largely underexplored. To address this gap, we first conduct a systematic empirical study of approximately 10,000 trajectories. The results show that as visual cues are progressively extracted through external tools and textualized into the context, raw images become increasingly redundant. Continued image retention is associated with higher output entropy and can even degrade task accuracy. Motivated by these findings, we propose MM-ContextFold, a training-free framework that loads raw images only when needed. It maintains a persistent, text-only main context for high-level planning and spawns ephemeral branch contexts for image-dependent subtasks. Within each branch, the agent loads the relevant images, completes the subtask, and folds the result back into the main context as a concise textual summary; the images and branch trace are then discarded. Experiments on seven MAR benchmarks across five backbone models show that MM-ContextFold improves average accuracy by 6.3 percentage points over ReAct while reducing the working context length by 27.5\\%.",
+      "authors": [
+        "Yang Tian",
+        "Fan Liu",
+        "Jingyuan Zhang",
+        "Zhenyang Li",
+        "Yupeng Hu",
+        "Liqiang Nie"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.IR",
+        "cs.MM"
+      ],
+      "published": "2026-09-19T16:45:21+00:00",
+      "link": "https://arxiv.org/pdf/2609.23121v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Manages growing context and reduces visual redundancy for memory-efficient retrieval in multimodal agentic systems",
+      "llm_evidence_cn": "多模态智能体检索中管理增长上下文，减少视觉冗余",
+      "llm_evidence": "多模态智能体检索中管理增长上下文，减少视觉冗余",
+      "canonical_evidence": "多模态智能体检索中管理增长上下文，减少视觉冗余",
+      "llm_tldr_en": "This paper addresses context explosion in multimodal agentic retrieval by systematically studying 10,000 trajectories and folding redundant visual cues into text. It proposes a method that compresses token-intensive visual content while preserving essential information for iterative tool-invoking agents.",
+      "llm_tldr_cn": "针对多模态智能体检索中上下文不断膨胀导致计算开销过大的问题，本文基于约一万条轨迹的系统研究，发现视觉线索被逐步文本化后原始图像变得冗余。据此提出上下文折叠方法，将冗余视觉内容进行压缩与折叠，在保留任务关键信息的同时显著降低token消耗，为提升记忆和检索效率提供了有效手段。",
+      "llm_tldr": "针对多模态智能体检索中上下文不断膨胀导致计算开销过大的问题，本文基于约一万条轨迹的系统研究，发现视觉线索被逐步文本化后原始图像变得冗余。据此提出上下文折叠方法，将冗余视觉内容进行压缩与折叠，在保留任务关键信息的同时显著降低token消耗，为提升记忆和检索效率提供了有效手段。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "memory retrieval mechanisms for agent decision making",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2609.24259v1",
+      "source": "arxiv",
+      "title": "MemCalib: Benchmarking and Optimizing Memory Use in LLM Agents",
+      "abstract": "The effectiveness of agent memory ultimately depends on whether the underlying LLM gives each memory in context an appropriate degree of influence over its response. Yet this capability has remained largely overlooked. To assess this capability, we introduce MemCalib, a benchmark grounded in realistic memory-system scenarios for evaluating memory use and advancing optimization algorithms. Results on the MemCalib test set reveal that frontier open- and closed-source models struggle to use memory appropriately. They frequently over-use or under-use memory rather than matching each proposition's actual use to its target level, leading to biased, low-quality responses. Experiments with common post-training algorithms, including group relative policy optimization and on-policy self-distillation, further reveal a clear directional skew: trained models improve in one direction while deteriorating in the other. We therefore propose MemCalib-RL, an ordered bidirectional counterfactual credit-assignment algorithm that separates over- and under-use signals and localizes their credit to response tokens through exact atom ablation. Results across model families and scales (Qwen3-8B, Ministral-3-8B-Instruct, and Qwen3.5-35B-A3B) show that MemCalib-RL achieves the best overall performance while better balancing over-use and under-use, with gains generalizing beyond MemCalib in external benchmark evaluation. Further experiments support its design choices and robustness and provide insight into its training dynamics.",
+      "authors": [
+        "Ruike Cao",
+        "Fanyu Zhao",
+        "Fugen Yao",
+        "Liang Dong",
+        "Jian Xu",
+        "Guanjun Jiang",
+        "Yifei Zhao",
+        "Han Zhang",
+        "Li Xiao"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-09-21T08:22:21+00:00",
+      "link": "https://arxiv.org/pdf/2609.24259v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "benchmark for memory use and optimization",
+      "llm_evidence_cn": "记忆使用与优化的基准测试",
+      "llm_evidence": "记忆使用与优化的基准测试",
+      "canonical_evidence": "记忆使用与优化的基准测试",
+      "llm_tldr_en": "MemCalib benchmarks whether LLM agents appropriately weight in-context memory, finding frontier models over- or under-use memory; tests post-training optimization.",
+      "llm_tldr_cn": "智能体记忆的有效性取决于LLM对上下文中各记忆的影响程度，但该能力常被忽视。MemCalib构建真实记忆场景基准，测试发现前沿模型频繁过度或不足使用记忆，导致响应偏差。实验还验证了GRPO等后训练算法的优化效果。",
+      "llm_tldr": "智能体记忆的有效性取决于LLM对上下文中各记忆的影响程度，但该能力常被忽视。MemCalib构建真实记忆场景基准，测试发现前沿模型频繁过度或不足使用记忆，导致响应偏差。实验还验证了GRPO等后训练算法的优化效果。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "Identify research on memory consolidation, forgetting, and memory management for continual learning agents.",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2609.24289v1",
+      "source": "arxiv",
+      "title": "TTSE: A Two-Track Online Self-Evolution Framework",
+      "abstract": "As Large Language Model (LLM) agents are applied in continuously interactive environments, driving the evolution of their own capabilities becomes a core problem for achieving long-term autonomy. Currently, environmental knowledge is typically treated as an external fixed input rather than as part of the agent's ongoing evolution. Reinforcement learning methods usually optimize policies through environmental interaction but tend to adapt only to fixed task distributions or single environments. This paper proposes TTSE (Two-Track Self-Evolution), a dual-track online self-evolution framework that separates evolving knowledge into FACT (environmental facts, whose reliability is continuously verified through interaction evidence) and TIP (task-conditioned implementation procedures). From a decision-theoretic perspective, we decompose the agent's excess risk into environment-representation regret and conditional-execution regret, characterize the conditions under which environment-conditioned policies strictly outperform condition-agnostic policies, and bound the downstream risk in terms of FACT identification error and cross-condition mismatch cost. In practice, TTSE's ablation experiments on GDPevo validate the advantage of dual-track evolution. On the classic agent task benchmarks ALFWorld and ScienceWorld, TTSE further demonstrates superior task adaptation. Moreover, TTSE is broadly compatible with existing skill self-evolution methods; combined with the Bayesian-Agent algorithm, a single-track ablation validates the dual-track advantage, substantially improving the aggregate score across the five major domains of SOPBench over three independent repetitions. Finally, on the real end-to-end task benchmark PinchBench, TTSE is integrated into a general agent framework via retrieval-based injection and stably outperforms the baseline across three independent runs.",
+      "authors": [
+        "Ruimin Pei",
+        "Yongkang Wu",
+        "Shangyi Zheng",
+        "Yaqing Zhang",
+        "Deyang Li",
+        "Jianjun Tao",
+        "Xinyu Zhang",
+        "Xiang Zhang"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-09-21T08:47:16+00:00",
+      "link": "https://arxiv.org/pdf/2609.24289v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Online self-evolution with knowledge management for continual learning agents",
+      "llm_evidence_cn": "持续学习代理的知识管理在线自我演化",
+      "llm_evidence": "持续学习代理的知识管理在线自我演化",
+      "canonical_evidence": "持续学习代理的知识管理在线自我演化",
+      "llm_tldr_en": "TTSE separates environmental facts (FACT) from task procedures (TIP) and evolves them through interaction evidence for long-term autonomy.",
+      "llm_tldr_cn": "LLM代理面对动态环境，环境知识常被视为固定输入，难以自我演化。本文提出双轨在线自演化框架TTSE，将知识分为经交互验证的环境事实FACT和任务条件化实现步骤TIP，分别进行可靠性验证和更新。实验表明该方法能帮助代理在持续交互中自适应提升，为持续学习代理的内存与知识管理提供了新机制。",
+      "llm_tldr": "LLM代理面对动态环境，环境知识常被视为固定输入，难以自我演化。本文提出双轨在线自演化框架TTSE，将知识分为经交互验证的环境事实FACT和任务条件化实现步骤TIP，分别进行可靠性验证和更新。实验表明该方法能帮助代理在持续交互中自适应提升，为持续学习代理的内存与知识管理提供了新机制。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "Identify research on memory consolidation, forgetting, and memory management for continual learning agents.",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2609.24663v1",
+      "source": "arxiv",
+      "title": "Beyond Endpoint Performance: Process-Level Evaluation of Self-Evolving Agents",
+      "abstract": "Self-evolving agents convert interaction feedback into persistent artifacts, such as memories or skills, which in turn guide subsequent decisions. As these artifacts are iteratively updated throughout an experience stream, the capabilities they support may evolve. Consequently, endpoint performance alone offers an incomplete view of self-evolution. Process-level evaluation is therefore essential to identify when a target capability emerges and whether later updates strengthen, preserve, or weaken it. Motivated by this, we propose \\textsc{EvoPathBench}, a benchmark that tracks individual capabilities during artifact-level self-evolution. EvoPathBench fixes the base model, tools, freezes evolving artifacts at successive checkpoints, and evaluates the target capability on held-out episodes. This benchmark evaluates agent self-evolution using public trading data and calibrated trajectories. It tests three capabilities: generalization to unseen tasks, retention after unrelated learning, and rule adaptation to new evidence. Experimental results show that gains on similar unseen tasks often weaken under distribution shift, retention losses are concentrated in a minority of evolution paths, and no method achieves reliable rule adaptation. Moreover, while self-evolution enables agents to generate candidate artifacts with substantial held-out gains, the selected updates consistently fall short of realizing this potential. Together, these findings establish capability-level process evaluation as a foundation for analyzing self-evolution, identifying candidate evaluation and selection as key targets for improvement.",
+      "authors": [
+        "Hongqiang Lin",
+        "Chao Liu",
+        "Xiaofan Bai",
+        "Xuan Jin",
+        "Yuhong Li",
+        "Nenggan Zheng",
+        "Xipeng Cao"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-09-21T14:28:06+00:00",
+      "link": "https://arxiv.org/pdf/2609.24663v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "evaluates self-evolving agents that convert feedback into memory artifacts, tracking capability evolution",
+      "llm_evidence_cn": "评估自进化代理，其将反馈转化为记忆工件，追踪能力演化",
+      "llm_evidence": "评估自进化代理，其将反馈转化为记忆工件，追踪能力演化",
+      "canonical_evidence": "评估自进化代理，其将反馈转化为记忆工件，追踪能力演化",
+      "llm_tldr_en": "This paper introduces EvoPathBench, a benchmark for process-level evaluation of self-evolving agents, tracking how capability emerges or weakens as agents update memory and skill artifacts, providing tools to study memory-driven evolution.",
+      "llm_tldr_cn": "该论文指出自进化代理将交互反馈转化为记忆或技能等持久工件，但终点性能无法反应能力演化过程，因此提出EvoPathBench基准。该基准固定基础模型和工具，冻结不同检查点的演化工件，并评估各能力的时间轨迹。通过该方法能识别能力出现时机以及后续更新是增强还是削弱该能力。实验展示了工件级自进化中能力的非单调变化，为代理记忆管理和评估提供了新工具。",
+      "llm_tldr": "该论文指出自进化代理将交互反馈转化为记忆或技能等持久工件，但终点性能无法反应能力演化过程，因此提出EvoPathBench基准。该基准固定基础模型和工具，冻结不同检查点的演化工件，并评估各能力的时间轨迹。通过该方法能识别能力出现时机以及后续更新是增强还是削弱该能力。实验展示了工件级自进化中能力的非单调变化，为代理记忆管理和评估提供了新工具。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "memory-augmented agent models that store and retrieve experience",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
