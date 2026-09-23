@@ -1,0 +1,105 @@
+{
+  "date": "20260923",
+  "date_label": "",
+  "generated_at": "2026-09-23 20:30:18 UTC",
+  "recommend_exists": true,
+  "run_count": 1,
+  "papers": [
+    {
+      "paper_id": "2609.25913v1",
+      "route": "202609/23/2609.25913v1-when-does-execution-provenance-help-agent-memory-retrieval",
+      "title": "When Does Execution Provenance Help Agent Memory Retrieval?",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "将智能体记忆检索建模为预算约束下的证据补全问题",
+      "first_seen_at": "2026-09-23 20:30:18 UTC",
+      "updated_at": "2026-09-23 20:30:18 UTC"
+    },
+    {
+      "paper_id": "2609.25563v1",
+      "route": "202609/23/2609.25563v1-akasicmem-governed-enterprise-memory-for-agents",
+      "title": "AkasicMEM: Governed Enterprise Memory for Agents",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "面向企业智能体的受治理记忆架构与共享持久记忆",
+      "first_seen_at": "2026-09-23 20:30:18 UTC",
+      "updated_at": "2026-09-23 20:30:18 UTC"
+    },
+    {
+      "paper_id": "2609.25853v1",
+      "route": "202609/23/2609.25853v1-memoryathena-adaptive-routing-over-latent-and-generated-memories",
+      "title": "MemoryAthena: Adaptive Routing over Latent and Generated Memories",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "记忆增强模型自适应选择检索记忆或生成记忆",
+      "first_seen_at": "2026-09-23 20:30:18 UTC",
+      "updated_at": "2026-09-23 20:30:18 UTC"
+    },
+    {
+      "paper_id": "2609.25991v1",
+      "route": "202609/23/2609.25991v1-knowledge-as-skill-a-structural-design-for-autonomous-knowledge-base-use-by-llm-agents",
+      "title": "Knowledge-as-Skill: A Structural Design for Autonomous Knowledge-Base Use by LLM Agents",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "智能体自主决定检索内容与检索时机",
+      "first_seen_at": "2026-09-23 20:30:18 UTC",
+      "updated_at": "2026-09-23 20:30:18 UTC"
+    },
+    {
+      "paper_id": "2609.24417v1",
+      "route": "202609/23/2609.24417v1-arm-attention-with-routed-memory-for-learnable-sparse-control",
+      "title": "ARM: Attention with Routed-Memory for Learnable Sparse Control",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "可微固定大小路由记忆与门控软更新，避免硬驱逐并减少信息丢失",
+      "first_seen_at": "2026-09-23 20:30:18 UTC",
+      "updated_at": "2026-09-23 20:30:18 UTC"
+    },
+    {
+      "paper_id": "2609.25146v1",
+      "route": "202609/23/2609.25146v1-brain-inspired-hierarchical-modularity-for-general-continual-learning",
+      "title": "Brain-Inspired Hierarchical Modularity for General Continual Learning",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "类脑层次化模块化管理冲突与兼容经验以支持持续学习",
+      "first_seen_at": "2026-09-23 20:30:18 UTC",
+      "updated_at": "2026-09-23 20:30:18 UTC"
+    }
+  ]
+}

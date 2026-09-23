@@ -48,17 +48,17 @@
 <section class="dpr-home-dashboard-card dpr-home-report-card">
   <div class="dpr-home-dashboard-header">
     <div>
-      <span class="dpr-home-dashboard-kicker">2026-09-22</span>
+      <span class="dpr-home-dashboard-kicker">2026-09-23</span>
       <h3 class="dpr-home-dashboard-title">今日汇总</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">共 14 篇</strong>
+    <strong class="dpr-home-dashboard-count">共 6 篇</strong>
   </div>
   <dl class="dpr-home-dashboard-stats">
     <div class="dpr-home-dashboard-stat"><dt>累计更新</dt><dd>1 次</dd></div>
-    <div class="dpr-home-dashboard-stat"><dt>精读</dt><dd>7</dd></div>
-    <div class="dpr-home-dashboard-stat"><dt>速读</dt><dd>7</dd></div>
+    <div class="dpr-home-dashboard-stat"><dt>精读</dt><dd>3</dd></div>
+    <div class="dpr-home-dashboard-stat"><dt>速读</dt><dd>3</dd></div>
   </dl>
-  <p class="dpr-home-dashboard-body">最近更新：2026-09-22 19:40:46 UTC<br>状态：成功</p>
+  <p class="dpr-home-dashboard-body">最近更新：2026-09-23 20:30:18 UTC<br>状态：成功</p>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-brief-card">
   <div class="dpr-home-dashboard-header">
@@ -69,7 +69,7 @@
     <strong class="dpr-home-dashboard-count">AI</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<p>今日精读7篇、速读7篇，重点聚焦LLM智能体的记忆表征与多智能体世界模型，整体质量高（最高9.0分）。最值得关注的是《PSD》和《Propose, Verify, Commit》两篇9.0分工作，分别从伪自蒸馏记忆表征和证据接地记忆机制提升长对话与多轮推理表现。建议普通读者优先精读这两篇高分论文，并参考《MemCalib》对记忆使用进行基准化优化。</p>
+<p>今日精读3篇、速读3篇，聚焦 agent 记忆检索与治理：执行溯源何时真正有用（9.0），AkasicMEM 给出企业级受控记忆方案（8.0）。最值得看的是「执行溯源的条件性价值」与「知识即技能」的结构化知识库用法，前者提醒别盲目堆溯源，后者指向让 agent 自主用知识库。普通读者可先读两篇精读，再按兴趣速览其余三篇，重点关注溯源机制在自身场景中是否真的提效。</p>
   </div>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-deep-card">
@@ -78,12 +78,12 @@
       <span class="dpr-home-dashboard-kicker">今日累计</span>
       <h3 class="dpr-home-dashboard-title">精读推荐</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">7 篇</strong>
+    <strong class="dpr-home-dashboard-count">3 篇</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="PSD: Pseudo Self-Distillation of Memory Representation Capabilities for LLM Agents">PSD: Pseudo Self-Distillation of Memory Representation Capabilities for LLM Agents</span></li><li><span class="dpr-home-dashboard-paper-title" title="Propose, Verify, Commit: Evidence-Grounded Memory for Long-Horizon Multi-Actor Conversations">Propose, Verify, Commit: Evidence-Grounded Memory for Long-Horizon Multi-Actor Conversations</span></li><li><span class="dpr-home-dashboard-paper-title" title="RPMem: Learning Long-Term Recurrent Parametric Memory Across Sessions for LLM Agents">RPMem: Learning Long-Term Recurrent Parametric Memory Across Sessions for LLM Agents</span></li></ul>
+<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="When Does Execution Provenance Help Agent Memory Retrieval?">When Does Execution Provenance Help Agent Memory Retrieval?</span></li><li><span class="dpr-home-dashboard-paper-title" title="AkasicMEM: Governed Enterprise Memory for Agents">AkasicMEM: Governed Enterprise Memory for Agents</span></li><li><span class="dpr-home-dashboard-paper-title" title="MemoryAthena: Adaptive Routing over Latent and Generated Memories">MemoryAthena: Adaptive Routing over Latent and Generated Memories</span></li></ul>
   </div>
-  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">agent-memory <strong>7</strong></span></div>
+  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">agent-memory <strong>3</strong></span></div>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-skim-card">
   <div class="dpr-home-dashboard-header">
@@ -91,12 +91,12 @@
       <span class="dpr-home-dashboard-kicker">今日累计</span>
       <h3 class="dpr-home-dashboard-title">速读推荐</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">7 篇</strong>
+    <strong class="dpr-home-dashboard-count">3 篇</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="ConsistWorld: Evidence Routing for Consistent Multi-Agent World Models">ConsistWorld: Evidence Routing for Consistent Multi-Agent World Models</span></li><li><span class="dpr-home-dashboard-paper-title" title="StateMem: Single-State Residual Memory with Adaptive Inference for Vision-Language-Action Policies">StateMem: Single-State Residual Memory with Adaptive Inference for Vision-Language-Action Policies</span></li><li><span class="dpr-home-dashboard-paper-title" title="MemCalib: Benchmarking and Optimizing Memory Use in LLM Agents">MemCalib: Benchmarking and Optimizing Memory Use in LLM Agents</span></li></ul>
+<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="Knowledge-as-Skill: A Structural Design for Autonomous Knowledge-Base Use by LLM Agents">Knowledge-as-Skill: A Structural Design for Autonomous Knowledge-Base Use by LLM Agents</span></li><li><span class="dpr-home-dashboard-paper-title" title="ARM: Attention with Routed-Memory for Learnable Sparse Control">ARM: Attention with Routed-Memory for Learnable Sparse Control</span></li><li><span class="dpr-home-dashboard-paper-title" title="Brain-Inspired Hierarchical Modularity for General Continual Learning">Brain-Inspired Hierarchical Modularity for General Continual Learning</span></li></ul>
   </div>
-  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">agent-memory <strong>7</strong></span></div>
+  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">agent-memory <strong>3</strong></span></div>
 </section>
 </div>
 

@@ -1,0 +1,262 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-09-23T20:20:43.789358+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 3,
+    "deep_cap": 6,
+    "deep_selected": 3,
+    "quick_candidates": 3,
+    "quick_skim_target": 11,
+    "quick_selected": 3
+  },
+  "deep_dive": [
+    {
+      "id": "2609.25913v1",
+      "source": "arxiv",
+      "title": "When Does Execution Provenance Help Agent Memory Retrieval?",
+      "abstract": "A language agent's execution history can exceed its context window, requiring its memory system to retrieve complete supporting evidence under a hard token budget. Evidence may span multiple execution events, yet conventional retrievers use fixed token windows and fixed-k metrics that reward individual fragments without showing whether the complete evidence set fits in context. Smaller windows reduce irrelevant text but scatter evidence across candidates, while flat-versus-graph comparisons can conflate candidate design with graph propagation. To address these limitations, we formulate agent-memory retrieval as budgeted evidence completion and score exact gold spans in shared source coordinates. We first construct source-aligned provenance units from tool arguments and outputs. We then apply a zero-initialized residual R-GCN to refine frozen dense-retrieval scores over typed provenance edges. We evaluate 2,000 span-grounded memory queries over 1,207 held-out execution-grounded ISETrace trajectories. With matched Dense-FT scoring, provenance units improve Full Support@2048 by 19.07 points over flat 512-token windows and remain 11.96 points above a per-metric oracle over four flat chunk sizes; the pattern also holds with cross-encoder scoring. Holding the candidates and seed scores fixed, graph propagation adds 4.55 points in Full Support@2048 (95% CI [2.98, 6.18]). This gain is concentrated when gold evidence spans multiple events; entity co-occurrence expansion produces no comparable benefit, and relation and topology controls confirm dependence on typed transformations and observed graph structure. Overall, source-aligned candidates address the dominant granularity trade-off, while graph-conditioned propagation adds a smaller, targeted benefit for distributed evidence.",
+      "authors": [
+        "Yiqi Wang",
+        "Jinqian Ju",
+        "Jiaqi Zhang",
+        "Zequn Sun",
+        "Yiqun Duan",
+        "Mingkai Zheng",
+        "Taotao Cai"
+      ],
+      "primary_category": "cs.MA",
+      "categories": [
+        "cs.MA"
+      ],
+      "published": "2026-09-22T09:20:51+00:00",
+      "link": "https://arxiv.org/pdf/2609.25913v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "formulates agent-memory retrieval as budgeted evidence completion under token budget",
+      "llm_evidence_cn": "将智能体记忆检索建模为预算约束下的证据补全问题",
+      "llm_evidence": "将智能体记忆检索建模为预算约束下的证据补全问题",
+      "canonical_evidence": "将智能体记忆检索建模为预算约束下的证据补全问题",
+      "llm_tldr_en": "Language agents whose execution history overflows the context window need memory retrieval that returns complete supporting evidence under a hard token budget. This paper reformulates agent-memory retrieval as budgeted evidence completion, builds source-aligned provenance units from tool arguments, and scores exact gold spans in shared source coordinates to avoid conflating candidate design with graph propagation.",
+      "llm_tldr_cn": "语言智能体的执行历史常超出上下文窗口，记忆系统必须在严格token预算下检索出完整的支撑证据，而传统检索器使用固定窗口与固定k值，只奖励零散片段且无法判断完整证据集能否放入上下文。本文把智能体记忆检索重新表述为带预算的证据补全任务，先从工具参数等构建与源对齐的溯源单元，再在共享源坐标中直接对精确金标准跨度打分。该设定将候选构造与图传播效果解耦，避免了扁平与图结构比较中的混淆。其贡献在于为记忆检索提供了更贴合上下文预算约束的评测范式与可复用的问题形式化。",
+      "llm_tldr": "语言智能体的执行历史常超出上下文窗口，记忆系统必须在严格token预算下检索出完整的支撑证据，而传统检索器使用固定窗口与固定k值，只奖励零散片段且无法判断完整证据集能否放入上下文。本文把智能体记忆检索重新表述为带预算的证据补全任务，先从工具参数等构建与源对齐的溯源单元，再在共享源坐标中直接对精确金标准跨度打分。该设定将候选构造与图传播效果解耦，避免了扁平与图结构比较中的混淆。其贡献在于为记忆检索提供了更贴合上下文预算约束的评测范式与可复用的问题形式化。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "memory retrieval mechanisms for agent decision making",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2609.25563v1",
+      "source": "arxiv",
+      "title": "AkasicMEM: Governed Enterprise Memory for Agents",
+      "abstract": "Agent memory enables enterprise agents to retain knowledge acquired during work and reuse it across tasks and agents, turning execution experience into persistent organizational knowledge. Realizing this potential requires both source--memory integration, through which enterprise sources and accumulated memory can be utilized together, and memory governance, through which shared memory remains subject to organizational policies throughout its lifecycle. These requirements interact when information from enterprise sources persists in memory. As this information is repeatedly derived and reused under changing principals and policies, source restrictions may be bypassed, resulting in information leakage. Preventing such leakage requires authorization continuity, under which source restrictions remain effective throughout source-to-memory and memory-to-memory derivation and reuse. Existing approaches address these concerns individually, but do not treat source--memory integration, memory governance, and authorization continuity as combined core design targets across the memory lifecycle. We define Governed Enterprise Memory as agent memory designed around this combined scope and present AkasicMEM as its realization. AkasicMEM realizes authorization continuity through transitive lineage, policy composition during memory formation, and policy re-evaluation during retrieval. It is built on GraphAI's AkasicDB, a unified vector--graph--relational database whose storage and execution substrate enables the underlying operations of these mechanisms to be jointly optimized and executed.",
+      "authors": [
+        "Jeongmin Bae",
+        "Yongjae Kim",
+        "Kyoung Hur",
+        "Donghyoung Han",
+        "Min-Soo Kim"
+      ],
+      "primary_category": "cs.DB",
+      "categories": [
+        "cs.DB",
+        "cs.AI"
+      ],
+      "published": "2026-09-22T01:53:18+00:00",
+      "link": "https://arxiv.org/pdf/2609.25563v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "governed enterprise agent memory architecture with shared persistent memory",
+      "llm_evidence_cn": "面向企业智能体的受治理记忆架构与共享持久记忆",
+      "llm_evidence": "面向企业智能体的受治理记忆架构与共享持久记忆",
+      "canonical_evidence": "面向企业智能体的受治理记忆架构与共享持久记忆",
+      "llm_tldr_en": "Enterprise agents need to retain and reuse work experience as persistent organizational knowledge. AkasicMEM proposes an agent memory architecture that integrates enterprise sources with accumulated memory while enforcing governance policies over the whole lifecycle, introducing authorization continuity to prevent leakage when information is repeatedly derived and reused under changing principals and policies.",
+      "llm_tldr_cn": "现有企业智能体在工作积累知识后难以在任务与智能体之间安全复用，且来源信息在记忆中反复派生复用时可能绕过来源限制造成泄露。本文提出AkasicMEM受治理的企业智能体记忆架构，将企业数据源与累积记忆统一整合，并在记忆全生命周期内施加组织策略约束。核心贡献是提出授权连续性机制，确保在主体与策略变化下共享记忆仍合规可追溯。该工作把执行经验转化为持久组织知识，同时兼顾共享复用与信息安全治理。",
+      "llm_tldr": "现有企业智能体在工作积累知识后难以在任务与智能体之间安全复用，且来源信息在记忆中反复派生复用时可能绕过来源限制造成泄露。本文提出AkasicMEM受治理的企业智能体记忆架构，将企业数据源与累积记忆统一整合，并在记忆全生命周期内施加组织策略约束。核心贡献是提出授权连续性机制，确保在主体与策略变化下共享记忆仍合规可追溯。该工作把执行经验转化为持久组织知识，同时兼顾共享复用与信息安全治理。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "memory mechanisms in autonomous agents and agent memory architectures",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2609.25853v1",
+      "source": "arxiv",
+      "title": "MemoryAthena: Adaptive Routing over Latent and Generated Memories",
+      "abstract": "Learned-memory methods store information in an explicit table and consume it through a separate reader, allowing addressing, storage, and reading to be modified independently. We study whether useful memory can also be generated rather than only retrieved. MemoryAthena uses three pathways: direct Engram retrieval (E), generation from retrieved Engram cues (GE), and generation from causal backbone states without consulting the memory table (GH). Generated memory is conditionally useful: it can complement E in one context but interfere with it in another. MemoryAthena therefore treats E as an anchor and learns when a generated representation should intervene. With the backbone, memory, generators, and readers frozen, a lightweight causal routing head is trained from counterfactual future-token likelihood advantages of GE and GH relative to E. At inference time, an admitted candidate modifies the E residual through bounded interpolation, while rejection recovers the direct pathway exactly. On question answering, MemoryAthena raises the five-task average from 37.65 to 39.28 over the direct pathway of the same checkpoint, while the six-task general-NLP average increases from 76.73 to 79.13. The complete memory-side system contains approximately 201M parameters, excluding the frozen backbone. Further analyses show complementary strengths among E, GE, and GH across tasks and inputs. These results support generated memory as a selective correction to direct retrieval and highlight routing when, which, and how strongly to intervene as the central challenge.",
+      "authors": [
+        "Mingyuan Li",
+        "Guangsheng Yu",
+        "Juyuan Zhang",
+        "Xu Wang",
+        "Zhibo Man",
+        "Haonan Zhang",
+        "Shaoxiong Ji"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL"
+      ],
+      "published": "2026-09-22T08:17:43+00:00",
+      "link": "https://arxiv.org/pdf/2609.25853v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "memory-augmented model deciding when retrieved versus generated memory should be used",
+      "llm_evidence_cn": "记忆增强模型自适应选择检索记忆或生成记忆",
+      "llm_evidence": "记忆增强模型自适应选择检索记忆或生成记忆",
+      "canonical_evidence": "记忆增强模型自适应选择检索记忆或生成记忆",
+      "llm_tldr_en": "Learned-memory systems retrieve from an explicit table via a separate reader but cannot generate novel useful memories. MemoryAthena adds three pathways, direct Engram retrieval, cue-conditioned generation, and backbone-only generation, then trains a lightweight causal routing head over frozen modules to decide when generated memory should intervene alongside retrieval.",
+      "llm_tldr_cn": "现有学习式记忆方法把信息存在显式记忆表中，再由独立读取器取出，存储与读取分离但只能检索、无法生成新记忆。本文提出MemoryAthena，设计直接Engram检索、基于检索线索的生成、以及不查表仅靠因果主干状态的生成三条通路。方法冻结主干、记忆表、生成器与读取器，仅训练轻量因果路由头，学习何时让生成表征介入。结果发现生成记忆具有条件性：某些情境能补充检索，另一些则产生干扰，说明按需路由比单一记忆来源更有效。该工作为智能体记忆中检索与生成的融合提供了新范式。",
+      "llm_tldr": "现有学习式记忆方法把信息存在显式记忆表中，再由独立读取器取出，存储与读取分离但只能检索、无法生成新记忆。本文提出MemoryAthena，设计直接Engram检索、基于检索线索的生成、以及不查表仅靠因果主干状态的生成三条通路。方法冻结主干、记忆表、生成器与读取器，仅训练轻量因果路由头，学习何时让生成表征介入。结果发现生成记忆具有条件性：某些情境能补充检索，另一些则产生干扰，说明按需路由比单一记忆来源更有效。该工作为智能体记忆中检索与生成的融合提供了新范式。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "memory-augmented agent models that store and retrieve experience",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2609.25991v1",
+      "source": "arxiv",
+      "title": "Knowledge-as-Skill: A Structural Design for Autonomous Knowledge-Base Use by LLM Agents",
+      "abstract": "Retrieval-augmented generation (RAG) gives large language models (LLMs) access to external knowledge, but its conventional retrieve-concatenate-generate pipeline makes retrieval decisions on behalf of the model. As tool use and agent loops become more reliable, an agent can decide whether to retrieve, what to inspect, and when to stop. This shift exposes a new bottleneck: the agent may not know what a knowledge base contains. Traditional knowledge bases expose documents as anonymous text chunks with limited information about scope, purpose, provenance, or relations.   We propose Knowledge-as-Skill, an organization scheme that makes a knowledge base discoverable, navigable, and self-descriptive. It has three layers: a discovery layer centered on SKILL.md; a navigation layer with one index.md per directory; and a knowledge layer containing documents with YAML frontmatter for topic, type, provenance, and lifecycle. The design follows the Open Knowledge Format (OKF) and the Skill protocol without modifying the agent framework. We also provide knowledge-as-skill, a pipeline for converting heterogeneous collections of PDFs, Word files, web exports, and notes into this structure.   In a preliminary evaluation on the WixQA enterprise customer-support benchmark, our setup obtains 0.889 Factuality and 0.816 Context Recall, compared with reported Corpus2Skill values of 0.767 and 0.708. It obtains slightly lower Faithfulness, lower Context Precision, and more interaction turns. Because the models, prompts, and knowledge-package construction differ, these results are directional cross-work evidence rather than a controlled comparison.",
+      "authors": [
+        "Jiangxu Wu"
+      ],
+      "primary_category": "cs.IR",
+      "categories": [
+        "cs.IR"
+      ],
+      "published": "2026-09-22T10:44:10+00:00",
+      "link": "https://arxiv.org/pdf/2609.25991v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "agent decides whether and what to retrieve from a self-descriptive knowledge base",
+      "llm_evidence_cn": "智能体自主决定检索内容与检索时机",
+      "llm_evidence": "智能体自主决定检索内容与检索时机",
+      "canonical_evidence": "智能体自主决定检索内容与检索时机",
+      "llm_tldr_en": "Conventional RAG makes retrieval decisions on behalf of the model and exposes knowledge bases as anonymous chunks. This paper proposes Knowledge-as-Skill, a three-layer organization scheme that makes a knowledge base discoverable, navigable and self-descriptive so that LLM agents can decide what to inspect and when to stop.",
+      "llm_tldr_cn": "传统RAG由流水线代替模型做检索决策，且知识库以匿名文本块暴露，智能体难以知晓其中内容与关系。该文提出Knowledge-as-Skill组织方案，通过发现层等三层结构使知识库可发现、可导航且自我描述。智能体据此可自行判断是否检索、检查什么以及何时停止。该工作为LLM智能体的外部知识与记忆检索提供了结构性支撑。",
+      "llm_tldr": "传统RAG由流水线代替模型做检索决策，且知识库以匿名文本块暴露，智能体难以知晓其中内容与关系。该文提出Knowledge-as-Skill组织方案，通过发现层等三层结构使知识库可发现、可导航且自我描述。智能体据此可自行判断是否检索、检查什么以及何时停止。该工作为LLM智能体的外部知识与记忆检索提供了结构性支撑。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "memory retrieval mechanisms for agent decision making",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2609.24417v1",
+      "source": "arxiv",
+      "title": "ARM: Attention with Routed-Memory for Learnable Sparse Control",
+      "abstract": "Despite advances in long-context inference, large language models (LLMs) remain fundamentally limited by the key-value (KV) caching mechanisms that are necessary for stable computation. Techniques such as selective token eviction and pruning have vastly mitigated these issues, but often discard core information to manage the growing cache. In this paper, we propose Attention with Routed Memory (ARM) a novel KV caching structure that introduces a fully differentiable, fixed-size memory system organized as a hierarchical router. Via a Gumbel-Softmax, ARM learns to select memory slots and perform sigmoid-gated updates that softly combine new and stored information, avoiding hard eviction and reducing information loss. By further training a policy to dynamically select varying amounts of memory at inference, ARM adapts its accesses for both simple contexts and inputs that require deeper reasoning, enabling more scalable and effective retrieval on both short- and long-contexts. Experimental results on standard commonsense and long-context reasoning benchmarks demonstrate that ARM achieves superior performance and efficiency compared to fixed KV-caching approaches, while remaining efficient and scalable in terms of both memory and generation latency.",
+      "authors": [
+        "Qiuhao Zeng",
+        "Jerry Huang",
+        "Peng Lu",
+        "Ruiyi Fang",
+        "Gezheng Xu",
+        "Zihao Jing",
+        "Yufei Cui",
+        "Charles Ling",
+        "Gang Niu",
+        "Boyu Wang"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-09-21T11:11:17+00:00",
+      "link": "https://arxiv.org/pdf/2609.24417v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "differentiable fixed-size routed-memory with sigmoid-gated soft updates avoids hard eviction and reduces information loss",
+      "llm_evidence_cn": "可微固定大小路由记忆与门控软更新，避免硬驱逐并减少信息丢失",
+      "llm_evidence": "可微固定大小路由记忆与门控软更新，避免硬驱逐并减少信息丢失",
+      "canonical_evidence": "可微固定大小路由记忆与门控软更新，避免硬驱逐并减少信息丢失",
+      "llm_tldr_en": "Long-context LLM inference suffers from ever-growing KV caches whose pruning discards core information. ARM instead builds a fully differentiable fixed-size routed-memory that selects slots via Gumbel-Softmax and applies sigmoid-gated soft updates merging new and stored states.",
+      "llm_tldr_cn": "长上下文推理中键值缓存持续膨胀，而选择性丢弃与剪枝往往损失核心信息。该文提出基于路由记忆的注意力结构，用Gumbel-Softmax从固定大小的分层记忆中挑选槽位，并以Sigmoid门控软更新融合新旧信息，从而避免硬驱逐。作者进一步训练策略动态控制记忆读写与稀疏访问。该方法把缓存管理转化为可学习的记忆管理机制，为长期记忆维护提供通用思路。",
+      "llm_tldr": "长上下文推理中键值缓存持续膨胀，而选择性丢弃与剪枝往往损失核心信息。该文提出基于路由记忆的注意力结构，用Gumbel-Softmax从固定大小的分层记忆中挑选槽位，并以Sigmoid门控软更新融合新旧信息，从而避免硬驱逐。作者进一步训练策略动态控制记忆读写与稀疏访问。该方法把缓存管理转化为可学习的记忆管理机制，为长期记忆维护提供通用思路。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "Identify research on memory consolidation, forgetting, and memory management for continual learning agents.",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2609.25146v1",
+      "source": "arxiv",
+      "title": "Brain-Inspired Hierarchical Modularity for General Continual Learning",
+      "abstract": "Continual learning, the ability to learn from sequential experience while retaining and adapting prior knowledge, is central to intelligent systems operating in changing environments. However, conventional continual learning is typically studied with offline task-wise training and clear task boundaries, leaving a substantial gap from general continual learning under online, uncertain, and evolving data streams. In this regime, intelligent systems must separate conflicting experience to reduce interference while integrating compatible experience to promote generalization. Inspired by the organization of the Drosophila learning and memory system, we identify a hierarchical modular principle that coordinates both functions through expert specialization and ensemble integration. We instantiate this principle as lightweight modular adaptation of pretrained foundation models, combining brain-inspired random expansion for expert routing and diversified modular integration across spatial and temporal scales. Across visual recognition, vision-language understanding, ego-exo video understanding, and embodied vision-language-action learning, our method consistently improves learning under online and uncertain data streams, with gains exceeding 50 percentage points over replay-free alternatives in embodied manipulation. These findings support hierarchical modularity as a biologically grounded path for learning from dynamic experience.",
+      "authors": [
+        "Hongwei Yan",
+        "Kanglei Zhou",
+        "Qi Cheng",
+        "Weiyi Dong",
+        "Chunyan Lan",
+        "Guanglong Sun",
+        "Jun Zhou",
+        "Qian Li",
+        "Yi Zhong",
+        "Liyuan Wang"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-09-21T07:07:06+00:00",
+      "link": "https://arxiv.org/pdf/2609.25146v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "brain-inspired hierarchical modularity managing conflicting vs compatible experience for continual learning",
+      "llm_evidence_cn": "类脑层次化模块化管理冲突与兼容经验以支持持续学习",
+      "llm_evidence": "类脑层次化模块化管理冲突与兼容经验以支持持续学习",
+      "canonical_evidence": "类脑层次化模块化管理冲突与兼容经验以支持持续学习",
+      "llm_tldr_en": "Continual learning usually assumes offline task-wise training with clear boundaries, failing on online evolving streams. Inspired by the Drosophila learning and memory system, this work proposes a hierarchical modular principle that separates conflicting experiences via expert specialization while integrating compatible ones to promote generalization.",
+      "llm_tldr_cn": "该文针对传统持续学习依赖离线按任务训练和明确任务边界、难以适应在线且不断演化数据流的问题展开研究。受果蝇学习与记忆系统组织方式启发，作者提出一种层次化模块化原则，通过专家特化在同一框架中协调冲突经验的分离与兼容经验的整合。摘要指出该机制能同时减少遗忘干扰并促进泛化能力。其贡献在于为在线环境下的通用持续学习提供类脑方案，对智能体长期记忆管理与知识保持具有借鉴意义。",
+      "llm_tldr": "该文针对传统持续学习依赖离线按任务训练和明确任务边界、难以适应在线且不断演化数据流的问题展开研究。受果蝇学习与记忆系统组织方式启发，作者提出一种层次化模块化原则，通过专家特化在同一框架中协调冲突经验的分离与兼容经验的整合。摘要指出该机制能同时减少遗忘干扰并促进泛化能力。其贡献在于为在线环境下的通用持续学习提供类脑方案，对智能体长期记忆管理与知识保持具有借鉴意义。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "Identify research on memory consolidation, forgetting, and memory management for continual learning agents.",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
