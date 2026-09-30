@@ -1,0 +1,977 @@
+NavProbe: Evidence-Grounded Reasoning with Active Memory
+Retrieval for Zero-Shot Navigation
+Jingyang Liu1, Sujia Yao1, Jiayuan Gu1, and Lan Xu1,†
+Abstract— Long-horizon navigation requires an agent to
+revise its intermediate objectives as evidence accumulates.
+Full visual histories are costly to process, while compact
+summaries may omit details needed to reconsider earlier
+decisions. We introduce NavProbe, a hierarchical zero-shot
+navigation agent that couples a dynamic subgoal agenda with
+active evidence retrieval. A compact index links summaries of
+visited places, transitions, and landmarks to their visual and
+geometric records. When the current context is insufficient, a
+task executive retrieves targeted evidence to generate, revise,
+or resolve subgoals. Reusable conclusions are used to update
+the index, and a skill policy converts the revised task state into
+parameterized navigation actions. NavProbe achieves 71.7% SR
+and 55.8% SPL on R2R-CE and 55.3% SR and 38.6% SPL
+on RxR-CE, outperforming strong zero-shot baselines. It also
+achieves 79.3% SR on HM3D-v2 ObjectNav, with qualitative
+real-robot demonstrations illustrating physical deployment.
+I. INTRODUCTION
+Pretrained vision-language models enable zero-shot navi-
+gation from route instructions or object goals [1], [2], [3], [4].
+Beyond selecting executable movements [5], an agent must
+continually assess which intermediate objectives remain rele-
+vant and what has already been accomplished. In vision-and-
+language navigation (VLN), a turn made before the intended
+landmark may be incorrectly marked complete. In object-
+goal navigation (ObjectNav), a misidentified room may lead
+the agent to pursue an unproductive search. Correcting either
+decision requires a revisable task state and evidence that may
+no longer be visible.
+Access to navigation history presents a fundamental chal-
+lenge for VLM reasoning. Retaining the full visual history
+preserves potentially useful evidence, but causes the context
+to accumulate redundant, stale, and currently irrelevant ob-
+servations. Such extraneous information can interfere with
+multimodal reasoning, as VLMs remain susceptible to con-
+textual distractions and may incorporate irrelevant visual
+cues as evidence [6]. Compact memories reduce this burden,
+but may discard visual details needed by later decisions or
+preserve earlier interpretations in place of the underlying
+evidence [7]. Retrieval provides a middle ground by selec-
+tively exposing historical observations when they become
+relevant, as explored by ReMEmbR [8] and AgenticNav [9].
+We focus on using such retrieved evidence to reconsider
+which objectives should be pursued, revised, or resolved
+during navigation.
+1The authors are with the School of Information Science and Technol-
+ogy, ShanghaiTech University, Shanghai 201210, China. {liujy2025,
+yaosj2024, gujy1, xulan1}@shanghaitech.edu.cn.
+†Corresponding author: Lan Xu.
+We introduce NavProbe, a hierarchical VLM agent that
+couples a dynamic subgoal agenda with graph-structured
+episodic memory. Instruction clauses initialize the agenda in
+VLN, while intermediate search objectives are constructed
+online in ObjectNav. The episodic memory stores visual
+and geometric records of visited places, transitions, and
+landmarks. Compact entity summaries index these records,
+providing routine context and access to original evidence
+when needed.
+NavProbe follows a formulate–probe–verify–act cycle. A
+task executive assesses the dynamic agenda using the cur-
+rent observation, task state, and memory index. Unresolved
+questions trigger targeted retrieval, whose conclusions can
+generate new subgoals, revise priorities, or reopen previously
+resolved objectives. Reusable conclusions are fed back to
+update entity knowledge. A skill policy combines the revised
+task state and retrieval conclusions with the current observa-
+tion to select a parameterized navigation action. Execution
+extends episodic memory for subsequent decisions.
+Our contributions are:
+• We introduce evidence-grounded task-state reasoning
+that uses active retrieval to generate, revise, and resolve
+navigation subgoals.
+• We develop graph-structured episodic memory with
+a compact index of entity knowledge linked to re-
+trievable visual and geometric records, together with
+consolidation of reusable retrieval-derived conclusions
+for subsequent decisions.
+• We evaluate NavProbe on R2R-CE and RxR-CE, where
+it achieves the highest SR among the compared zero-
+shot methods. Ablations and retrieval analysis examine
+the contributions of task-state memory, active retrieval,
+and knowledge consolidation, while ObjectNav and
+real-robot experiments assess the framework beyond the
+main VLN setting.
+II. RELATED WORK
+A. Zero-Shot VLN and Navigation Recovery
+Recent training-free VLN methods use pretrained vision-
+language models for high-level reasoning and naviga-
+tion decision-making. NavGPT [1] represents observations
+and navigation history in language, while DiscussNav [2]
+coordinates multiple model-based experts for instruction
+understanding, perception, and decision-making. Instruct-
+Nav [4] grounds language-conditioned reasoning through
+multi-source value maps. Other methods explicitly maintain
+the state of instruction execution. Open-Nav [10] incorpo-
+arXiv:2609.27526v1  [cs.RO]  23 Sep 2026
+
+
+rates progress estimation into its reasoning process, CA-
+Nav [11] models navigation as sequential satisfaction of
+sub-instruction constraints, and GC-VLN [12] represents
+instructions as graph-structured spatial constraints.
+Navigation recovery has also been studied as a way to
+improve robustness to errors during long-horizon execution.
+Earlier VLN methods use progress estimates or trajectory-
+level search to determine when and where to backtrack [13].
+More recent training-free systems incorporate recovery di-
+rectly into VLM-based navigation. SmartWay [14] com-
+bines history-aware reasoning with backtracking to the last
+state, while GC-VLN [12] performs backtracking over its
+constraint-based navigation tree. Uni-LaViRA [15] intro-
+duces Second Chance Backtrack, which selects a previously
+visited waypoint and uses the failed sub-trajectory to support
+the subsequent decision. These approaches provide different
+mechanisms for recovering from navigation errors. NavProbe
+instead focuses on how the historical evidence supporting
+such decisions is represented and selectively accessed during
+navigation.
+B. Navigation Memory and Evidence Retrieval
+Long-horizon navigation requires memory representations
+that preserve task-relevant observations and spatial infor-
+mation over extended execution. SpaceVLN [16] maintains
+waypoint and landmark memories for progress localiza-
+tion and spatial reasoning. ReMEmbR [8] associates visual
+observations with spatial and temporal information, and
+RAVEN [17] stores visual representations together with pose
+and time for semantic, spatial, and temporal retrieval.
+Memory representation alone does not determine what
+information enters the reasoning context. AgenticNav [9]
+combines a compact trajectory map with an on-demand recall
+tool for revisiting past visual observations. HAM-VLN [18]
+retains recent waypoints in context and retrieves older history
+using relevance, recency, salience, and topological expansion.
+STaR [19] uses task-conditioned aggregation to select mul-
+timodal memories, while CMMR-VLN [20] retrieves stored
+multimodal navigation evidence for long-horizon reasoning.
+NavProbe maintains compact, updatable entity knowledge as
+an index over multimodal records associated with visited
+places, executed transitions, and task-relevant landmarks.
+The agent can query specific entities and evidence fields
+when the underlying records are needed, while retrieval-
+derived conclusions can be consolidated into entity knowl-
+edge for subsequent decisions.
+III. METHOD
+A. NavProbe Overview
+Given a task goal g, expressed as a navigation instruction
+or an object target, NavProbe maintains intermediate ob-
+jectives and selects actions until termination. A hierarchical
+VLM agent operates through two role-specialized modules:
+a task executive for subgoal management and evidence
+retrieval, and a skill policy for action selection. The modules
+use separate prompts and contexts. Memory queries and
+task-state updates operate within a decision step; navigation
+actions connect the agent to the environment.
+The decision cycle follows formulate–probe–verify–act.
+At step t, the executive reads the current observation Ot,
+dynamic task state Tt, and compressed memory index It.
+It formulates relevant subgoals, assesses progress toward
+existing ones, and identifies questions that need further evi-
+dence. When needed, it queries historical records, interprets
+them and uses the conclusion to revise the agenda, repeating
+this reasoning loop without moving the robot. When no
+further retrieval is requested or the budget is exhausted, it
+passes the updated task state and evidence conclusions to
+the skill policy. The policy selects a navigation action using
+this output and the current observation. Execution extends
+episodic memory with new observations and trajectories,
+while consolidation preserves reusable evidence conclusions
+in the index.
+B. Hierarchical Navigation Memory
+NavProbe distinguishes three roles for memory: the dy-
+namic state of the task, persistent episodic records of nav-
+igation, and compact entity knowledge that indexes those
+records. The executive routinely reads the task state and
+index; historical images enter its context only when explicitly
+retrieved.
+1) Task State and Dynamic Subgoal Management: Task-
+state memory represents the agent’s current intermediate
+objectives and the outcomes of earlier decisions:
+Tt = (At, Ht),
+At = [g1,t, . . . , gKt,t],
+(1)
+where At is the subgoal agenda and Ht is execution history.
+Both the content and size Kt of the agenda can change
+during navigation. Each entry gi,t contains a natural-language
+objective, its execution status, and a set of verification
+predicates Ci,t. The executive can introduce new subgoals,
+refine their descriptions, reprioritize their pursuit, or remove
+objectives that are satisfied or no longer useful. Agenda
+updates remain grounded in the original task goal and any
+ordering constraints specified by the instruction.
+For VLN, explicit instruction clauses provide initial sub-
+goals that can be refined as the environment is observed.
+For ObjectNav, the target specifies the task goal, while the
+executive constructs intermediate search objectives online,
+such as exploring a likely room, inspecting a candidate
+region, or revisiting an earlier observation. Thus, a search
+objective can be completed without the overall task being
+complete: inspecting a countertop may establish that the
+target is absent and motivate searching elsewhere.
+A verification predicate pairs an evidence-checkable
+proposition with a confirmed or unconfirmed sta-
+tus. Predicates capture observations and relations relevant
+to pursuing or resolving a subgoal, such as whether the
+referenced landmark has been identified. These predicate
+sets are initially empty and can be extended or revised as
+evidence accumulates. Subgoal resolution is assessed against
+the full objective and available evidence. History records
+previously pursued subgoals and their outcomes, including
+
+
+Fig. 1.
+NavProbe’s formulate–probe–verify–act cycle. The task executive maintains a dynamic subgoal agenda using the current observation, task-state
+memory, and compact episodic-memory index. It retrieves historical evidence when needed to generate, revise, or resolve subgoals, and consolidates
+reusable conclusions into entity knowledge. The skill policy combines the updated task state and retrieval conclusions with the current observation to select
+a parameterized navigation action. Geometric routines execute the action, producing observations and trajectories for subsequent decisions.
+completion or abandonment, with execution summaries and
+spatial references such as the start and end topological nodes.
+It supports reconsideration of earlier decisions: contradictory
+evidence can return a previously resolved objective to the
+agenda.
+2) Graph-Structured Episodic Records:
+A topological
+graph Gt = (V P
+t , Et) organizes visited places and executed
+transitions, with task-relevant landmark entities V L
+t
+associ-
+ated with the navigation history. Place nodes store panoramic
+observations; transition edges record executed trajectories;
+and landmark records contain detections and estimated lo-
+cations. These visual and geometric records preserve the
+evidence behind earlier observations and actions. A separate
+occupancy map Mt records free, occupied, and unexplored
+regions for spatial reasoning and waypoint generation.
+3) Entity Knowledge and the Compressed Index: Each
+place, transition, or landmark entity e has compact textual
+knowledge KE
+e linked to its episodic records. This semantic
+layer is initialized from place observations, the reasoning
+accompanying executed transitions, or landmark detections,
+respectively. It is subsequently revised through evidence
+consolidation. The summaries and available evidence fields
+form the index
+It =
+
+(e, KE
+e , Ae) | e ∈V P
+t
+∪Et ∪V L
+t
+	
+,
+(2)
+where Ae identifies the retrievable fields and their record
+references. The index provides the executive with a com-
+pact interpretation of navigation history and pointers to the
+evidence needed to check that interpretation. Task state
+and entity knowledge serve complementary purposes: Tt
+records the current agenda and its execution history, while
+entity summaries retain reusable knowledge about places,
+transitions, and landmarks.
+C. Evidence-Grounded Task-State Updates
+1) Formulating Subgoals and Probing Memory: The task
+executive begins with (Ot, Tt, It) and considers which objec-
+tives to pursue, revise, or resolve. If a task-state decision re-
+quires further evidence, it formulates a query qr
+t in reasoning
+round r. Queries may concern whether a subgoal has been
+satisfied, whether a proposed search region remains relevant,
+or whether an earlier observation supports introducing a new
+objective. For example, the executive may check whether
+a turn occurred after the required landmark or whether a
+previously visited room warrants another inspection. The
+executive uses the index to select the relevant entities and
+evidence fields, then invokes the memory retrieval tool:
+Rr
+t = {(ej, Fj)}mr
+j=1,
+Dr
+t = Retrieve(Rr
+t),
+(3)
+where mr is the number of entity-field pairs selected in
+reasoning round r, ej ∈V P
+t ∪Et ∪V L
+t
+and Fj ⊆Aej. The
+query determines what to inspect and how to interpret it; the
+selected entity–field references specify the records returned
+by the tool. The batch Dr
+t contains the requested historical
+images and geometric records. Retrieval is triggered by an
+
+
+unresolved task-state question. When the initial context is
+sufficient, the executive updates the agenda and proceeds to
+action selection without retrieving historical records.
+2) Evidence Verification and Task-State Revision: The
+executive inspects Dr
+t and produces a textual conclusion cr
+t
+that states whether and how the evidence supports or contra-
+dicts qr
+t . The conclusion informs the generation, revision, or
+resolution of subgoals, updates to their verification predicates
+and execution history, and any further evidence request. For
+VLN, evidence that a turn preceded the required landmark
+can reopen the corresponding objective. For ObjectNav, a
+retrieved panorama showing kitchen fixtures near an over-
+looked doorway may support a new subgoal to revisit and
+inspect that region. Retrieval can therefore change which
+objectives the agent pursues as well as its assessment of
+progress toward them.
+Within each decision step, a temporary workspace retains
+the queries, selected record references, and evidence con-
+clusions. Raw retrieved records remain in the active context
+only during inspection; subsequent rounds use their conclu-
+sions and references, while the originals remain available
+in episodic memory. A cumulative bird’s-eye-view (BEV)
+representation preserves the spatial context of the inspected
+entities and trajectories for reasoning and action selection.
+The loop ends when the executive requests no further
+evidence or reaches the per-step budget Rmax. At the bud-
+get limit, the final batch is interpreted before the task-
+state updates are finalized, even if some questions remain
+unresolved. The executive’s output consists of the updated
+state bTt, a task-state assessment, retrieval conclusions, and
+cumulative BEV when available. The assessment explains
+which objectives remain relevant and how the evidence
+informs their pursuit. The revised task state is retained for
+subsequent navigation decisions.
+3) Memory Consolidation: After retrieval, reusable evi-
+dence conclusions are consolidated into the corresponding
+entity summaries. This operation, implemented by the En-
+tity Knowledge Manager (EKM), takes the textual query–
+reference–conclusion records and existing entity knowledge
+as input. The record references associate each conclusion
+with its source evidence and the entities to update. Con-
+solidation adds new information, revises existing entries, or
+removes claims contradicted by the inspected evidence, with-
+out reopening the retrieved images. The updated summaries
+enter It at subsequent decisions, allowing the executive to
+reuse established conclusions when managing the agenda.
+D. Act: Skill Selection and Geometric Execution
+The skill policy maps the current observation and the
+executive’s output Yt to a parameterized action:
+at = (dt, θt) = πskill(Ot, Yt).
+(4)
+Here, Yt contains bTt, the task-state assessment, evidence
+conclusions, and available spatial context described above.
+The updated agenda specifies the objectives currently under
+consideration, while execution history informs the choice of
+what to pursue next. The action type dt is GoToWaypoint,
+VerticalMove, Backtrack, or the terminal action
+Stop; θt contains its arguments, such as a waypoint label or
+a visited node. The policy receives textual conclusions from
+retrieved evidence together with the current observation.
+Geometric routines translate the selected action into low-
+level motion.
+1) Waypoint
+Grounding:
+For
+GoToWaypoint
+and
+VerticalMove, we follow HSGM’s visual waypoint for-
+mulation [3] and extend waypoint generation with Frontier–
+Skeleton Sampling (FSS). Given Mt, FSS samples frontier
+anchors along explored–unexplored boundaries and skeleton
+anchors on the medial axis of navigable free space. A
+collision-free path is computed toward each anchor, and a
+visible waypoint is selected along it subject to distance and
+occlusion constraints. Candidates receive consistent labels in
+the current RGB observation and BEV. The skill policy se-
+lects a label using the executive’s task state and evidence con-
+clusions, and the corresponding geometric waypoint is passed
+to the low-level navigation controller. For VerticalMove,
+the detected stair region is temporarily treated as traversable
+before applying FSS.
+2) Recovery, Termination, and Memory Updates:
+For
+Backtrack, the policy selects a visited place node for
+route recovery and subsequent replanning. For Stop, the
+robot retains its pose or performs final local positioning
+toward the expected destination before terminating. Executed
+movements contribute new observations and trajectories to
+episodic memory. These records, their entity summaries,
+and the retained task state provide the context for the next
+formulate–probe–verify–act cycle.
+IV. EXPERIMENTS
+A. Experimental Setup
+Environments and Datasets. We evaluate on R2R-CE [5]
+and RxR-CE [5], [28] for vision-and-language navigation,
+and HM3D-v2 [29] for object-goal navigation. The two
+VLN-CE benchmarks use Matterport3D environments in
+Habitat [30], [31]. R2R-CE contains relatively concise En-
+glish route instructions, whereas RxR-CE contains longer
+instructions with denser grounding to reference trajectories.
+Following Uni-LaViRA [15], we evaluate NavProbe on the
+same stratified 100-episode subset for each benchmark. Re-
+sults for prior methods are their originally reported values
+unless otherwise noted. Each NavProbe configuration is
+evaluated over three independent runs, and we report the
+mean across runs. These results refer to the evaluated subsets
+rather than the full benchmark splits.
+Evaluation Metrics. For R2R-CE, we report Navigation
+Error (NE), Oracle Success Rate (OSR), Success Rate (SR),
+and Success weighted by Path Length (SPL) [32]. NE
+is the final geodesic distance to the goal; OSR records
+whether the trajectory enters the goal region at any point;
+SR requires successful termination; and SPL additionally
+accounts for path efficiency. For RxR-CE, we report NE, SR,
+SPL, and normalized Dynamic Time Warping (nDTW) [33],
+which measures alignment with the reference trajectory. For
+HM3D-v2 ObjectNav, we report SR and SPL. The configured
+
+
+TABLE I
+MAIN RESULTS ON R2R-CE AND RXR-CE VAL-UNSEEN. BOLD AND UNDERLINED VALUES DENOTE THE BEST AND SECOND-BEST RESULTS,
+RESPECTIVELY, WITHIN THE ZERO-SHOT BLOCK. † DENOTES OUR RERUN OF UNI-LAVIRA USING GPT-5.5 ON THE R2R-CE SUBSET.
+Method
+VLN-CE R2R Val-Unseen
+VLN-CE RxR Val-Unseen
+NE↓
+OSR↑
+SR↑
+SPL↑
+NE↓
+SR↑
+SPL↑
+nDTW↑
+Supervised Learning (Training Method)
+StreamVLN [21]
+4.98
+64.2
+56.9
+51.9
+6.22
+52.9
+46.0
+61.9
+NavFoM [22]
+5.01
+64.9
+56.2
+51.2
+5.51
+57.4
+49.4
+60.2
+OmniNav [23]
+3.74
+74.6
+69.5
+66.1
+3.77
+73.6
+62.0
+–
+InternVLA-N1 [24]
+4.83
+63.3
+58.2
+54.0
+5.91
+53.5
+46.1
+65.3
+ABot-N0 [25]
+3.78
+70.8
+66.4
+63.9
+3.83
+69.3
+60.0
+–
+Zero-Shot (Training-Free)
+InstructNav [4]
+6.89
+47.0
+31.0
+24.0
+–
+–
+–
+–
+Open-Nav [10]
+6.70
+23.0
+19.0
+16.1
+–
+–
+–
+–
+CA-Nav [11]
+7.58
+48.0
+25.3
+10.8
+10.4
+19.0
+6.0
+13.5
+SmartWay [14]
+7.01
+51.0
+29.0
+22.5
+–
+–
+–
+–
+GC-VLN [12]
+7.30
+41.8
+33.6
+16.3
+8.80
+33.8
+13.8
+–
+HiMemVLN [26]
+6.65
+36.0
+30.0
+26.9
+–
+–
+–
+–
+Three-Step Nav [27]
+5.87
+39.0
+34.0
+29.1
+9.21
+22.0
+16.1
+45.7
+Uni-LaViRA [15]
+3.66
+73.7
+60.7
+47.7
+6.48
+51.3
+34.0
+53.7
+Uni-LaViRA (GPT-5.5)†
+4.02
+73.3
+61.7
+45.0
+–
+–
+–
+–
+NavProbe (Ours)
+3.45
+78.0
+71.7
+55.8
+5.39
+55.3
+38.6
+53.9
+success radii are 3.0 m for VLN-CE and 1.0 m for HM3D-v2
+ObjectNav. Lower NE and higher values of the other metrics
+indicate better performance.
+Implementation Details. All VLM reasoning calls use GPT-
+5.5 with role-specific prompts. Landmarks are detected using
+YOLO-World [34] with a confidence threshold of 0.6. Simu-
+lator RGB-D observations have a resolution of 960×540 and
+a 135◦horizontal field of view. The camera is mounted at a
+height of 1.2 m with a −30◦pitch, and images passed to the
+VLM are resized to fit within 640×360. At each navigation
+decision, the agent constructs a four-view panorama at rela-
+tive headings of 0◦, 90◦, 180◦, and 270◦. Metric waypoints
+selected through the navigation skills are executed using
+Habitat-Lab’s ShortestPathFollower [31]. Waypoint
+selection remains the responsibility of NavProbe. The per-
+decision retrieval budget is Rmax = 6. Each episode is
+limited to 40 navigation decisions and 500 simulator actions,
+with a forward step size of 0.25 m.
+B. Main Results
+VLN-CE Results. Table I compares NavProbe with recent
+navigation methods on R2R-CE and RxR-CE. We include
+representative trained methods for performance context and
+a broader set of zero-shot methods for direct comparison. On
+R2R-CE, NavProbe achieves 71.7% SR and 55.8% SPL, with
+an NE of 3.45 m and an OSR of 78.0%. Our Uni-LaViRA re-
+run with GPT-5.5 as the high-level reasoning model achieves
+61.7% SR and 45.0% SPL. NavProbe therefore exceeds this
+rerun by 10.0 percentage points in SR and 10.8 points in SPL.
+This comparison matches the high-level reasoning model, but
+does not isolate individual architectural components; their
+contributions are examined through the ablations below.
+On RxR-CE, NavProbe achieves 55.3% SR and 38.6%
+SPL, compared with Uni-LaViRA’s reported 51.3% SR and
+TABLE II
+MAIN RESULTS ON HM3D-V2 OBJECTNAV. BOLD AND UNDERLINED
+VALUES DENOTE THE BEST AND SECOND-BEST RESULTS,
+RESPECTIVELY.
+Method
+SR↑
+SPL↑
+VLFM [35]
+62.6
+31.0
+InstructNav [4]
+58.0
+20.9
+ApexNav [36]
+76.2
+38.0
+DSCD-Nav [37]
+73.0
+38.7
+ReMemNav [38]
+67.8
+36.6
+Uni-LaViRA [15]
+77.7
+46.1
+NavProbe (Ours)
+79.3
+43.8
+34.0% SPL. NE decreases from 6.48 m to 5.39 m, while
+nDTW is similar at 53.9 versus 53.7. The observed improve-
+ments are therefore primarily in successful termination, SPL,
+and final goal proximity, rather than a substantial change
+in trajectory alignment. Together, these results establish
+the end-to-end performance of the complete system on the
+evaluated VLN-CE subsets.
+ObjectNav Results. Table II extends the evaluation to
+object-goal navigation on HM3D-v2. NavProbe achieves
+79.3% SR, the highest listed value and 1.6 percentage points
+above Uni-LaViRA. Its SPL is 43.8%, compared with Uni-
+LaViRA’s 46.1%. Thus, NavProbe has the higher SR, while
+Uni-LaViRA retains the higher SPL.
+C. Ablation Studies
+Table
+III
+examines
+three
+complementary
+roles
+in
+NavProbe: maintaining an explicit execution state, accessing
+historical evidence, and retaining reusable conclusions for
+later decisions. The Full Graph variant additionally evaluates
+the choice of historical context supplied for reasoning.
+
+
+Fig. 2.
+Qualitative results of retrieval-supported recovery. (a) In VLN, retrieved transition evidence guides route reassessment, followed by successful
+navigation to the dining room. (b) In ObjectNav, retrieved landmark evidence prompts renewed search after a false TV detection, leading to successful
+termination near a real TV.
+Task-State Memory. In w/o Task-State Memory, the agent
+reasons from the instruction at each decision without carrying
+structured task-state memory across steps. SR decreases from
+71.7% to 63.3%, SPL decreases from 55.8% to 51.4%, and
+NE increases from 3.45 m to 3.94 m. The 8.4-point SR
+decrease supports maintaining an explicit execution state
+across decisions, rather than reconstructing progress from the
+instruction at every step. This ablation evaluates task-state
+memory as a whole, including subgoal statuses, verification
+predicates, and execution history.
+Memory Consolidation (EKM). In w/o EKM, evidence
+retrieval remains enabled, but retrieval conclusions are not
+consolidated into entity knowledge for subsequent decisions.
+Relative to full NavProbe, SR decreases from 71.7% to
+65.0% and SPL from 55.8% to 51.1%, while NE increases
+from 3.45 m to 4.20 m. This comparison supports the contri-
+bution of updating persistent entity summaries with retrieval-
+derived conclusions, beyond using those conclusions within
+the current decision.
+TABLE III
+ABLATION RESULTS ON R2R-CE.
+Variant
+NE ↓OSR ↑SR ↑SPL ↑
+NavProbe (Ours)
+3.45
+78.0
+71.7
+55.8
+w/o Task-State Memory
+3.94
+72.0
+63.3
+51.4
+w/o EKM
+4.20
+67.7
+65.0
+51.1
+w/o Retrieval & EKM
+4.65
+69.3
+57.3
+43.1
+Full Graph
+3.83
+70.3
+62.0
+48.8
+Active Evidence Retrieval. Disabling retrieval also disables
+EKM, which operates on retrieval conclusions; this variant
+is denoted w/o Retrieval & EKM. To evaluate retrieval sepa-
+rately from consolidation, we compare this variant with w/o
+EKM. With consolidation disabled in both variants, enabling
+retrieval raises SR from 57.3% to 65.0% and SPL from
+43.1% to 51.1%, while reducing NE from 4.65 m to 4.20 m.
+These differences support access to the underlying visual
+and geometric records beyond reasoning from compact entity
+knowledge alone. The comparison between full NavProbe
+and w/o Retrieval & EKM reflects the combined contribution
+of retrieval and consolidation, not retrieval in isolation.
+Selective Historical Context. Full Graph replaces selective
+entity–field retrieval with the corresponding full-graph his-
+tory in the reasoning context. This variant achieves 62.0%
+SR and 48.8% SPL, compared with 71.7% and 55.8% for
+NavProbe, and has an NE of 3.83 m rather than 3.45 m. The
+result favors query-directed evidence selection over the tested
+full-graph context configuration.
+D. Retrieval Analysis
+We analyze how NavProbe uses episodic evidence during
+the 600 VLN-CE episode executions: 100 episodes per
+benchmark, repeated three times on each of R2R-CE and
+RxR-CE. Statistics include both successful and unsuccessful
+executions. We pool decision- and query-level counts across
+the two benchmarks before computing frequencies, rather
+than averaging per-episode rates.
+Retrieval Usage. Of 4,554 navigation decisions, 2,127 in-
+voke retrieval (46.71%). The first decision in each execution
+has no prior navigation history; excluding these 600 deci-
+sions gives a retrieval rate of 53.79% over the remaining
+3,954 decisions. At decisions that invoke retrieval, the task
+
+
+Instruction: Walk forward. Find the robot dog. Continue walking and stop near the blue-gray armchair.
+Walk forward
+Find the robot dog
+Stop by the blue-gray armchair
+Stop at the vending machine
+Turn right at the corner and go forward
+Pass the black screen
+Start
+start
+Fig. 3.
+Real-world deployment of NavProbe on a Galaxea R1Pro. Each row shows key execution stages and corresponding onboard observations for a
+multi-stage navigation instruction.
+executive performs an average of 1.82 retrieval rounds.
+Historical evidence is therefore inspected at a subset of
+eligible decisions rather than automatically at every step.
+TABLE IV
+SEMANTIC DIMENSIONS OF 3,862 RETRIEVAL QUERIES POOLED ACROSS
+R2R-CE AND RXR-CE. LABELS ARE NON-EXCLUSIVE.
+Query dimension
+Queries
+Share
+Action execution
+2,643
+68.44%
+Spatial/route relation
+2,152
+55.72%
+Landmark/target identification
+1,122
+29.05%
+≥2 dimensions
+1,863
+48.24%
+Questions Addressed by Retrieval. We annotate each re-
+trieval query along three non-exclusive semantic dimensions:
+action execution, asking whether a required action was
+performed; landmark/target identification, asking whether an
+observed entity matches the intended landmark or goal; and
+spatial/route relation, asking whether a required spatial or
+route relation held.
+Across 3,862 queries, action execution appears in 68.44%,
+spatial/route relation in 55.72%, and landmark/target identifi-
+cation in 29.05% (Table IV). Furthermore, 48.24% of queries
+involve at least two dimensions. The generated questions
+thus frequently concern prior actions and route relations,
+often jointly with other aspects of instruction grounding.
+This pattern is consistent with using episodic memory to
+assess instruction execution, rather than only to recognize
+a destination. The annotations characterize what the task
+executive asks to check.
+E. Qualitative Results and Real-World Demonstrations
+Figure 2 shows retrieval-supported recovery in VLN and
+ObjectNav. In the VLN example, retrieved transition observa-
+tions leave dining-room entry unconfirmed, prompting route
+reassessment. The agent subsequently reaches the dining
+room and stops near the white chair. In the ObjectNav exam-
+ple, retrieved landmark observations invalidate an accepted
+TV detection, reopening the search. The agent then finds a
+real TV and terminates successfully.
+Real-World Navigation. To examine NavProbe’s practical-
+ity beyond simulation, we deploy it on a Galaxea R1Pro
+equipped with a ZED2 RGB-D camera and a MID-360 Li-
+DAR. Voxel-SLAM [39] provides pose estimation, Nav2 [40]
+executes the metric goals selected by NavProbe. Subsequent
+observations inform task-state assessment and replanning. As
+shown in Figure 3, NavProbe successfully executes multi-
+stage real-world navigation instructions, including identi-
+fying visual landmarks and performing the corresponding
+navigation actions.
+V. CONCLUSION
+We presented NavProbe, a hierarchical zero-shot VLN
+agent that grounds task-progress reasoning in selectively
+retrieved historical evidence. Compact entity knowledge pro-
+vides an index over a graph-structured multimodal episodic
+memory, while the original visual and geometric records
+remain available for inspection. The agent can use these
+records to reassess subtask conditions and completion states
+before selecting a navigation skill, and consolidate reusable
+conclusions into memory for subsequent decisions. Ex-
+periments on the evaluated R2R-CE and RxR-CE subsets
+demonstrate strong navigation performance, while ablations
+support the contributions of task-progress memory, evidence
+retrieval, and knowledge consolidation. Retrieval analysis
+and a qualitative execution example illustrate how historical
+observations support questions about instruction execution.
+ObjectNav results and real-robot trials provide additional
+evidence of the framework’s applicability beyond the main
+VLN-CE evaluation. Overall, the results support coupling
+compact navigation memory with on-demand evidence ac-
+cess for explicit task-progress reasoning.
+REFERENCES
+[1] G. Zhou, Y. Hong, and Q. Wu, “Navgpt: Explicit reasoning in
+vision-and-language navigation with large language models,” in AAAI
+Conference on Artificial Intelligence, vol. 38, no. 7, 2024, pp. 7641–
+7649.
+[2] Y. Long, X. Li, W. Cai, and H. Dong, “Discuss before moving:
+Visual language navigation via multi-expert discussions,” in IEEE
+International Conference on Robotics and Automation (ICRA), 2024,
+pp. 17 380–17 387.
+
+
+[3] K. Li et al., “Bridging the 2d-3d gap: A hierarchical semantic-
+geometric map for vision language navigation,” in IEEE/CVF Con-
+ference on Computer Vision and Pattern Recognition (CVPR), 2026,
+pp. 15 243–15 252.
+[4] Y. Long, W. Cai, H. Wang, G. Zhan, and H. Dong, “InstructNav:
+Zero-shot system for generic instruction navigation in unexplored en-
+vironment,” in Proceedings of the 8th Conference on Robot Learning,
+ser. Proceedings of Machine Learning Research, vol. 270, 2025, pp.
+2049–2060.
+[5] J. Krantz, E. Wijmans, A. Majumdar, D. Batra, and S. Lee, “Beyond
+the nav-graph: Vision-and-language navigation in continuous environ-
+ments,” in European Conference on Computer Vision (ECCV), 2020.
+[6] M. Liu, H. Chen, J. Wang, L. Wang, J. Sun, and W. Zhang, “Is your
+(reasoning) multimodal language model vulnerable toward distrac-
+tions?” Proceedings of the AAAI Conference on Artificial Intelligence,
+vol. 40, no. 38, pp. 32 087–32 095, 2026.
+[7] X.
+Ren
+et
+al.,
+“MemLens:
+Benchmarking
+multimodal
+long-
+term memory in large vision-language models,” arXiv preprint
+arXiv:2605.14906, 2026.
+[8] A. Anwar, J. Welsh, J. Biswas, S. Pouya, and Y. Chang, “Remembr:
+Building and reasoning over long-horizon spatio-temporal memory for
+robot navigation,” in IEEE International Conference on Robotics and
+Automation (ICRA), 2025.
+[9] Y. Li et al., “Agenticnav: Zero-shot vision-and-language navigation as
+a tool-calling harness,” arXiv preprint arXiv:2606.10577, 2026.
+[10] Y. Qiao et al., “Open-nav: Exploring zero-shot vision-and-language
+navigation in continuous environment with open-source llms,” in IEEE
+International Conference on Robotics and Automation (ICRA), 2025.
+[11] K. Chen et al., “Constraint-aware zero-shot vision-language navigation
+in continuous environments,” IEEE Transactions on Pattern Analysis
+and Machine Intelligence, vol. 47, no. 11, pp. 10 441–10 456, 2025.
+[12] H. Yin, H. Wei, X. Xu, W. Guo, J. Zhou, and J. Lu, “Gc-vln:
+Instruction as graph constraints for training-free vision-and-language
+navigation,” in Conference on Robot Learning (CoRL), 2025.
+[13] C.-Y. Ma, Z. Wu, G. AlRegib, C. Xiong, and Z. Kira, “The regretful
+agent: Heuristic-aided navigation through progress estimation,” in
+IEEE/CVF Conference on Computer Vision and Pattern Recognition
+(CVPR), 2019.
+[14] X. Shi et al., “Smartway: Enhanced waypoint prediction and back-
+tracking for zero-shot vision-and-language navigation,” in IEEE/RSJ
+International Conference on Intelligent Robots and Systems (IROS),
+2025, pp. 16 923–16 930.
+[15] H. Ding et al., “Uni-lavira: Language-vision-robot actions translation
+for unified embodied navigation,” arXiv preprint arXiv:2605.27582,
+2026.
+[16] Y. Deng et al., “Spacevln: A zero-shot vision-and-language navigation
+agent with online spatial cognitive memory and reasoning,” arXiv
+preprint arXiv:2606.08992, 2026.
+[17] Y. Hu et al., “Raven: Long-horizon reasoning & navigation with
+a visuo-spatio-temporal memory,” arXiv preprint arXiv:2606.25206,
+2026.
+[18] A. Liu et al., “Ham-vln: Harnessing hierarchical agentic mem-
+ory for zero-shot vision-and-language navigation,” arXiv preprint
+arXiv:2607.29600, 2026.
+[19] M. Yuan, H. Zhang, M. Mohammadi, R. Li, J. Shan, and S. L.
+Waslander, “STaR: Scalable task-conditioned retrieval for long-horizon
+multi-modal robot memory,” IEEE Robotics and Automation Letters,
+vol. 11, no. 5, pp. 5994–6001, 2026.
+[20] H. Li, X. Dong, H. Jiang, Y. Zhou, and X. Ma, “Cmmr-vln: Vision-
+and-language navigation via continual multimodal memory retrieval,”
+arXiv preprint arXiv:2603.07997, 2026.
+[21] M. Wei et al., “StreamVLN: Streaming vision-and-language navigation
+via slowfast context modeling,” in 2026 IEEE International Confer-
+ence on Robotics and Automation (ICRA), 2026.
+[22] J. Zhang et al., “Embodied navigation foundation model,” in Interna-
+tional Conference on Learning Representations (ICLR), 2026.
+[23] X. Xue et al., “Omninav: A unified framework for prospective explo-
+ration and visual-language navigation,” in International Conference on
+Learning Representations (ICLR), 2026.
+[24] M. Wei et al., “Ground slow, move fast: A dual-system foundation
+model for generalizable vision-language navigation,” in International
+Conference on Learning Representations (ICLR), 2026.
+[25] Z. Chu, S. Xie, X. Wu et al., “Abot-n0: Technical report on the vla
+foundation model for versatile embodied navigation,” arXiv preprint
+arXiv:2602.11598, 2026.
+[26] K. Lyu et al., “Himemvln: Enhancing reliability of open-source
+zero-shot vision-and-language navigation with hierarchical memory
+system,” arXiv preprint arXiv:2603.14807, 2026.
+[27] W. Zheng, Y. Ge, and L. Itti, “Three-step nav: A hierarchical
+global–local planner for zero-shot vision-and-language navigation,”
+in International Conference on Artificial Intelligence and Statistics
+(AISTATS), ser. Proceedings of Machine Learning Research, vol. 300,
+2026, pp. 4645–4653.
+[28] A. Ku, P. Anderson, R. Patel, E. Ie, and J. Baldridge, “Room-
+across-room: Multilingual vision-and-language navigation with dense
+spatiotemporal grounding,” in Conference on Empirical Methods in
+Natural Language Processing (EMNLP), 2020.
+[29] S. K. Ramakrishnan et al., “Habitat-matterport 3d dataset (hm3d):
+1000 large-scale 3d environments for embodied ai,” in Advances
+in Neural Information Processing Systems (NeurIPS), Datasets and
+Benchmarks Track, 2021.
+[30] A. Chang et al., “Matterport3d: Learning from rgb-d data in indoor
+environments,” in International Conference on 3D Vision (3DV), 2017.
+[31] M. Savva et al., “Habitat: A platform for embodied ai research,”
+in IEEE/CVF International Conference on Computer Vision (ICCV),
+2019.
+[32] P. Anderson et al., “On evaluation of embodied navigation agents,”
+arXiv preprint arXiv:1807.06757, 2018.
+[33] G. Ilharco, V. Jain, A. Ku, E. Ie, and J. Baldridge, “General evaluation
+for instruction conditioned navigation using dynamic time warping,”
+arXiv preprint arXiv:1907.05446, 2019.
+[34] T. Cheng, L. Song, Y. Ge, W. Liu, X. Wang, and Y. Shan, “Yolo-
+world: Real-time open-vocabulary object detection,” in IEEE/CVF
+Conference on Computer Vision and Pattern Recognition (CVPR),
+2024, pp. 16 901–16 911.
+[35] N. Yokoyama, S. Ha, D. Batra, J. Wang, and B. Bucher, “Vlfm: Vision-
+language frontier maps for zero-shot semantic navigation,” in IEEE
+International Conference on Robotics and Automation (ICRA), 2024.
+[36] M. Zhang et al., “Apexnav: An adaptive exploration strategy for
+zero-shot object navigation with target-centric semantic fusion,” IEEE
+Robotics and Automation Letters, vol. 10, no. 11, pp. 11 530–11 537,
+2025.
+[37] W. An et al., “Dscd-nav: Dual-stance cooperative debate for object
+navigation,” arXiv preprint arXiv:2601.21409, 2026.
+[38] F. Wu, W. Zuo, W. Yang, J. Xiao, Y. Liu, and X. Zeng, “Rememnav:
+Memory-based decision correction and target verification for zero-shot
+object navigation,” arXiv preprint arXiv:2603.26788, 2026.
+[39] Z. Liu et al., “Voxel-SLAM: A complete, accurate, and versatile light
+detection and ranging-inertial simultaneous localization and mapping
+system,” Advanced Intelligent Systems, vol. 8, no. 4, p. e202501081,
+2026.
+[40] S. Macenski, F. Mart´ın, R. White, and J. G. Clavero, “The marathon
+2: A navigation system,” in IEEE/RSJ International Conference on
+Intelligent Robots and Systems (IROS), 2020, pp. 2718–2725.

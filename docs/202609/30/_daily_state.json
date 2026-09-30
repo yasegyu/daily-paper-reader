@@ -1,0 +1,601 @@
+{
+  "date": "20260930",
+  "date_label": "",
+  "generated_at": "2026-09-30 19:59:47 UTC",
+  "recommend_exists": true,
+  "run_count": 1,
+  "papers": [
+    {
+      "paper_id": "2609.32049v1",
+      "route": "202609/30/2609.32049v1-engramrag-dynamic-usage-weighted-topology-and-synaptic-consolidation-for-multi-hop-agentic-memory",
+      "title": "EngramRAG: Dynamic Usage-Weighted Topology and Synaptic Consolidation for Multi-Hop Agentic Memory",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 10.0,
+      "evidence": "面向智能体记忆的突触巩固与使用加权拓扑",
+      "first_seen_at": "2026-09-30 19:59:47 UTC",
+      "updated_at": "2026-09-30 19:59:47 UTC"
+    },
+    {
+      "paper_id": "2609.27279v2",
+      "route": "202609/30/2609.27279v2-ensimem-entity-structured-indexing-for-long-term-agent-memory",
+      "title": "EnSIMem: Entity-Structured Indexing for Long-Term Agent Memory",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "实体结构化长期智能体记忆架构与情节索引检索",
+      "first_seen_at": "2026-09-30 19:59:47 UTC",
+      "updated_at": "2026-09-30 19:59:47 UTC"
+    },
+    {
+      "paper_id": "2609.27334v1",
+      "route": "202609/30/2609.27334v1-just-in-time-memory-learning-to-curate-task-adaptive-memory-for-llm-agents",
+      "title": "Just-in-Time Memory: Learning to Curate Task-Adaptive Memory for LLM Agents",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "为LLM智能体学习任务自适应的记忆策展",
+      "first_seen_at": "2026-09-30 19:59:47 UTC",
+      "updated_at": "2026-09-30 19:59:47 UTC"
+    },
+    {
+      "paper_id": "2609.28771v1",
+      "route": "202609/30/2609.28771v1-agent-memory-with-episodic-retrieval-for-financial-decision-making",
+      "title": "Agent Memory with Episodic Retrieval for Financial Decision-Making",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "情节记忆增强的多智能体框架，含记忆检索与更新",
+      "first_seen_at": "2026-09-30 19:59:47 UTC",
+      "updated_at": "2026-09-30 19:59:47 UTC"
+    },
+    {
+      "paper_id": "2609.29144v1",
+      "route": "202609/30/2609.29144v1-scope-before-you-persist-preventing-cross-family-interference-in-agent-memory",
+      "title": "Scope Before You Persist: Preventing Cross-Family Interference in Agent Memory",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "通过限定检索范围防止智能体记忆中的跨任务族干扰",
+      "first_seen_at": "2026-09-30 19:59:47 UTC",
+      "updated_at": "2026-09-30 19:59:47 UTC"
+    },
+    {
+      "paper_id": "2609.30558v1",
+      "route": "202609/30/2609.30558v1-probing-stability-plasticity-tradeoffs-in-agent-memory-through-cognitive-experimental-paradigms",
+      "title": "Probing Stability-Plasticity Tradeoffs in Agent Memory through Cognitive Experimental Paradigms",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "用认知实验范式诊断智能体记忆的稳定性-可塑性权衡与巩固",
+      "first_seen_at": "2026-09-30 19:59:47 UTC",
+      "updated_at": "2026-09-30 19:59:47 UTC"
+    },
+    {
+      "paper_id": "2609.31874v1",
+      "route": "202609/30/2609.31874v1-countermem-world-model-verified-counter-factual-memory-for-language-agents",
+      "title": "COUNTERMEM: World-Model Verified Counter-Factual Memory for Language Agents",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "语言智能体的反事实记忆构建",
+      "first_seen_at": "2026-09-30 19:59:47 UTC",
+      "updated_at": "2026-09-30 19:59:47 UTC"
+    },
+    {
+      "paper_id": "2609.32091v1",
+      "route": "202609/30/2609.32091v1-memory-as-middleware-for-self-improving-ai-agents",
+      "title": "Memory as Middleware for Self-Improving AI Agents",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "将智能体记忆作为可插拔中间件层",
+      "first_seen_at": "2026-09-30 19:59:47 UTC",
+      "updated_at": "2026-09-30 19:59:47 UTC"
+    },
+    {
+      "paper_id": "2609.32256v1",
+      "route": "202609/30/2609.32256v1-lam-efficient-lossy-agent-memory-framework-with-a-retrieval-score-error-bound",
+      "title": "LAM: Efficient Lossy Agent Memory Framework With A Retrieval-Score Error Bound",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "带检索分数误差界与压缩的有损智能体记忆框架",
+      "first_seen_at": "2026-09-30 19:59:47 UTC",
+      "updated_at": "2026-09-30 19:59:47 UTC"
+    },
+    {
+      "paper_id": "2609.32297v1",
+      "route": "202609/30/2609.32297v1-agentsensus-consensus-compressed-shared-memory-for-multi-agent-story-worlds",
+      "title": "Agentsensus: Consensus-Compressed Shared Memory for Multi-Agent Story Worlds",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "多智能体故事世界中的统一共享长期记忆，合并重复事件",
+      "first_seen_at": "2026-09-30 19:59:47 UTC",
+      "updated_at": "2026-09-30 19:59:47 UTC"
+    },
+    {
+      "paper_id": "2609.32511v1",
+      "route": "202609/30/2609.32511v1-learning-from-others-acting-for-you-cross-user-memory-sharing-for-llm-agents",
+      "title": "Learning from Others, Acting for You: Cross-User Memory Sharing for LLM Agents",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "面向LLM智能体的跨用户记忆共享架构",
+      "first_seen_at": "2026-09-30 19:59:47 UTC",
+      "updated_at": "2026-09-30 19:59:47 UTC"
+    },
+    {
+      "paper_id": "2609.32521v1",
+      "route": "202609/30/2609.32521v1-memagent-learning-to-manage-heterogeneous-memory-providers-for-llm-agents",
+      "title": "MemAgent: Learning to Manage Heterogeneous Memory Providers for LLM Agents",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "将智能体记忆重构为异构记忆提供者的路由问题",
+      "first_seen_at": "2026-09-30 19:59:47 UTC",
+      "updated_at": "2026-09-30 19:59:47 UTC"
+    },
+    {
+      "paper_id": "2609.32584v1",
+      "route": "202609/30/2609.32584v1-emir2-evolution-aware-memory-with-intent-guided-multi-round-retrieval",
+      "title": "EMIR$^2$: Evolution-Aware Memory with Intent-Guided Multi-Round Retrieval",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "面向LLM智能体的意图引导多轮记忆检索",
+      "first_seen_at": "2026-09-30 19:59:47 UTC",
+      "updated_at": "2026-09-30 19:59:47 UTC"
+    },
+    {
+      "paper_id": "2609.32590v1",
+      "route": "202609/30/2609.32590v1-retrieved-but-not-delivered-multimodal-memory-delivery-for-long-term-agents",
+      "title": "Retrieved but Not Delivered: Multimodal Memory Delivery for Long-Term Agents",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "长期智能体多模态记忆中检索到回答之间的投递阶段",
+      "first_seen_at": "2026-09-30 19:59:47 UTC",
+      "updated_at": "2026-09-30 19:59:47 UTC"
+    },
+    {
+      "paper_id": "2609.33013v1",
+      "route": "202609/30/2609.33013v1-the-epistemics-of-agent-memory-measuring-and-governing-the-consolidation-decision-in-long-horizon-llm-agents",
+      "title": "The Epistemics of Agent Memory: Measuring, and Governing, the Consolidation Decision in Long-Horizon LLM Agents",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "长周期LLM智能体记忆的巩固决策：保留、压缩、抽象或遗忘",
+      "first_seen_at": "2026-09-30 19:59:47 UTC",
+      "updated_at": "2026-09-30 19:59:47 UTC"
+    },
+    {
+      "paper_id": "2609.33226v1",
+      "route": "202609/30/2609.33226v1-beyond-memory-construction-rethinking-memory-access-for-llm-based-conversational-agents",
+      "title": "Beyond Memory Construction: Rethinking Memory Access for LLM-based Conversational Agents",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "面向LLM对话智能体的记忆访问与检索",
+      "first_seen_at": "2026-09-30 19:59:47 UTC",
+      "updated_at": "2026-09-30 19:59:47 UTC"
+    },
+    {
+      "paper_id": "2609.33244v1",
+      "route": "202609/30/2609.33244v1-activemem-dynamic-latent-memory-trees-for-long-horizon-agents",
+      "title": "ActiveMem: Dynamic Latent Memory Trees for Long-Horizon Agents",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "层次化记忆框架将智能体经验组织为潜在执行树",
+      "first_seen_at": "2026-09-30 19:59:47 UTC",
+      "updated_at": "2026-09-30 19:59:47 UTC"
+    },
+    {
+      "paper_id": "2609.33517v1",
+      "route": "202609/30/2609.33517v1-trace-governing-memory-validity-in-evolving-multi-agent-systems",
+      "title": "TRACE: Governing Memory Validity in Evolving Multi-Agent Systems",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "演化多智能体系统中共享持久记忆的有效性与准入门控",
+      "first_seen_at": "2026-09-30 19:59:47 UTC",
+      "updated_at": "2026-09-30 19:59:47 UTC"
+    },
+    {
+      "paper_id": "2609.34242v1",
+      "route": "202609/30/2609.34242v1-stashbird-efficient-speaker-indexed-memory-for-conversational-agents",
+      "title": "Stashbird: Efficient Speaker-Indexed Memory for Conversational Agents",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "面向对话智能体的说话人索引情节记忆",
+      "first_seen_at": "2026-09-30 19:59:47 UTC",
+      "updated_at": "2026-09-30 19:59:47 UTC"
+    },
+    {
+      "paper_id": "2609.34372v1",
+      "route": "202609/30/2609.34372v1-persmem-internalizing-personality-into-dual-pathway-memory-for-llm-agents",
+      "title": "PersMem: Internalizing Personality into Dual-Pathway Memory for LLM Agents",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "面向LLM智能体的人格化记忆处理与检索",
+      "first_seen_at": "2026-09-30 19:59:47 UTC",
+      "updated_at": "2026-09-30 19:59:47 UTC"
+    },
+    {
+      "paper_id": "2609.34385v1",
+      "route": "202609/30/2609.34385v1-just-in-time-agent-memory-with-runtime-agentic-research",
+      "title": "Just-In-Time Agent Memory with Runtime Agentic Research",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "面向查询的运行时记忆构建，迭代检索与检视证据",
+      "first_seen_at": "2026-09-30 19:59:47 UTC",
+      "updated_at": "2026-09-30 19:59:47 UTC"
+    },
+    {
+      "paper_id": "2609.34422v1",
+      "route": "202609/30/2609.34422v1-coding-agent-memory-post-training-unlocking-the-memory-potential-of-pre-trained-file-operations-for-long-horizon-tasks-via-reinforcement-learning",
+      "title": "Coding Agent Memory Post-training: Unlocking the Memory Potential of Pre-trained File Operations for Long-Horizon Tasks via Reinforcement Learning",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "用强化学习将记忆控制纳入智能体策略并复用预训练文件操作",
+      "first_seen_at": "2026-09-30 19:59:47 UTC",
+      "updated_at": "2026-09-30 19:59:47 UTC"
+    },
+    {
+      "paper_id": "2609.34438v1",
+      "route": "202609/30/2609.34438v1-remember-by-asking-retrieval-induced-memory-evolution-for-llm-agents",
+      "title": "Remember by Asking: Retrieval-Induced Memory Evolution for LLM Agents",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "面向LLM智能体的检索诱发记忆形成与演化",
+      "first_seen_at": "2026-09-30 19:59:47 UTC",
+      "updated_at": "2026-09-30 19:59:47 UTC"
+    },
+    {
+      "paper_id": "2609.34545v1",
+      "route": "202609/30/2609.34545v1-remember-before-youre-asked-memdream-for-self-probing-memory-evolution",
+      "title": "Remember Before You're Asked: MemDream for Self-Probing Memory Evolution",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "面向LLM智能体的自探测记忆巩固与修复",
+      "first_seen_at": "2026-09-30 19:59:47 UTC",
+      "updated_at": "2026-09-30 19:59:47 UTC"
+    },
+    {
+      "paper_id": "2609.34565v1",
+      "route": "202609/30/2609.34565v1-flowstate-execution-state-as-memory-for-long-horizon-llm-agents",
+      "title": "FlowState: Execution State as Memory for Long-Horizon LLM Agents",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "以执行状态作为可复用记忆的长时程智能体",
+      "first_seen_at": "2026-09-30 19:59:47 UTC",
+      "updated_at": "2026-09-30 19:59:47 UTC"
+    },
+    {
+      "paper_id": "2609.34633v1",
+      "route": "202609/30/2609.34633v1-genmem-generative-symbolic-memory-for-self-evolving-harness",
+      "title": "GenMem: Generative Symbolic Memory for Self-Evolving Harness",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "支持检索复用与修订的生成式符号长期记忆，服务自演化智能体",
+      "first_seen_at": "2026-09-30 19:59:47 UTC",
+      "updated_at": "2026-09-30 19:59:47 UTC"
+    },
+    {
+      "paper_id": "2609.27067v1",
+      "route": "202609/30/2609.27067v1-chipmem-verification-grounded-memory-for-eda-agents",
+      "title": "ChipMEM: Verification-Grounded Memory for EDA Agents",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "面向智能体的验证锚定记忆层，蒸馏跨任务程序性技能",
+      "first_seen_at": "2026-09-30 19:59:47 UTC",
+      "updated_at": "2026-09-30 19:59:47 UTC"
+    },
+    {
+      "paper_id": "2609.27286v1",
+      "route": "202609/30/2609.27286v1-memory-control-signals-emerge-before-action-in-long-horizon-agents",
+      "title": "Memory Control Signals Emerge Before Action in Long Horizon Agents",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "智能体行动前隐藏状态已编码压缩与回忆需求",
+      "first_seen_at": "2026-09-30 19:59:47 UTC",
+      "updated_at": "2026-09-30 19:59:47 UTC"
+    },
+    {
+      "paper_id": "2609.27298v1",
+      "route": "202609/30/2609.27298v1-statecomp-learning-when-to-compress-history-in-long-horizon-agents",
+      "title": "StateComp: Learning When to Compress History in Long Horizon Agents",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "按智能体状态判断何时压缩历史记忆",
+      "first_seen_at": "2026-09-30 19:59:47 UTC",
+      "updated_at": "2026-09-30 19:59:47 UTC"
+    },
+    {
+      "paper_id": "2609.27526v1",
+      "route": "202609/30/2609.27526v1-navprobe-evidence-grounded-reasoning-with-active-memory-retrieval-for-zero-shot-navigation",
+      "title": "NavProbe: Evidence-Grounded Reasoning with Active Memory Retrieval for Zero-Shot Navigation",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "主动记忆检索引导导航智能体的子目标修正",
+      "first_seen_at": "2026-09-30 19:59:47 UTC",
+      "updated_at": "2026-09-30 19:59:47 UTC"
+    },
+    {
+      "paper_id": "2609.28003v1",
+      "route": "202609/30/2609.28003v1-learning-from-failures-heterogeneous-graph-memory-for-small-language-model-tool-using-agents",
+      "title": "Learning from Failures: Heterogeneous Graph Memory for Small Language Model Tool-Using Agents",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "为小模型工具使用智能体存储失败经验的异构图记忆",
+      "first_seen_at": "2026-09-30 19:59:47 UTC",
+      "updated_at": "2026-09-30 19:59:47 UTC"
+    },
+    {
+      "paper_id": "2609.29875v1",
+      "route": "202609/30/2609.29875v1-when-can-agents-forget-their-reasoning-iclr-for-long-horizon-agent-context-compression",
+      "title": "When Can Agents Forget Their Reasoning? ICLR for Long-Horizon Agent Context Compression",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "学习长程智能体何时可遗忘推理历史",
+      "first_seen_at": "2026-09-30 19:59:47 UTC",
+      "updated_at": "2026-09-30 19:59:47 UTC"
+    },
+    {
+      "paper_id": "2609.28236v1",
+      "route": "202609/30/2609.28236v1-embodiedmemory-bench-benchmarking-embodied-memory-for-long-horizon-embodied-tasks",
+      "title": "EmbodiedMemory-Bench: Benchmarking Embodied Memory for Long-Horizon Embodied Tasks",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "评估长时程具身交互中智能体记忆能力的基准",
+      "first_seen_at": "2026-09-30 19:59:47 UTC",
+      "updated_at": "2026-09-30 19:59:47 UTC"
+    },
+    {
+      "paper_id": "2609.30650v1",
+      "route": "202609/30/2609.30650v1-causal-retention-in-interactive-agents-interface-factorization-and-selective-adaptation",
+      "title": "Causal Retention in Interactive Agents: Interface Factorization and Selective Adaptation",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "交互式智能体中干预机制的因果保持与选择性适应",
+      "first_seen_at": "2026-09-30 19:59:47 UTC",
+      "updated_at": "2026-09-30 19:59:47 UTC"
+    },
+    {
+      "paper_id": "2609.32339v1",
+      "route": "202609/30/2609.32339v1-enabling-timely-guidance-before-skill-retrieval-retaining-helpful-warm-tips-in-agent-context",
+      "title": "Enabling Timely Guidance before Skill Retrieval: Retaining Helpful Warm Tips in Agent Context",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "维护注入智能体上下文的有预算技能关键点池",
+      "first_seen_at": "2026-09-30 19:59:47 UTC",
+      "updated_at": "2026-09-30 19:59:47 UTC"
+    },
+    {
+      "paper_id": "2609.32852v1",
+      "route": "202609/30/2609.32852v1-arsm-auto-regressive-state-machine-for-agentic-reasoning-compression",
+      "title": "ARSM: Auto-Regressive State Machine for Agentic Reasoning Compression",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "免训练的结构化压缩以缓解长时程智能体的记忆瓶颈",
+      "first_seen_at": "2026-09-30 19:59:47 UTC",
+      "updated_at": "2026-09-30 19:59:47 UTC"
+    },
+    {
+      "paper_id": "2609.30939v1",
+      "route": "202609/30/2609.30939v1-macbt-a-multi-agent-cognitive-behavioral-therapy-decision-support-system-with-longitudinal-memory",
+      "title": "MACBT: A Multi-Agent Cognitive Behavioral Therapy Decision Support System with Longitudinal Memory",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "多智能体系统配纵向记忆模块",
+      "first_seen_at": "2026-09-30 19:59:47 UTC",
+      "updated_at": "2026-09-30 19:59:47 UTC"
+    }
+  ]
+}

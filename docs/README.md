@@ -48,17 +48,17 @@
 <section class="dpr-home-dashboard-card dpr-home-report-card">
   <div class="dpr-home-dashboard-header">
     <div>
-      <span class="dpr-home-dashboard-kicker">2026-09-23</span>
+      <span class="dpr-home-dashboard-kicker">2026-09-30</span>
       <h3 class="dpr-home-dashboard-title">今日汇总</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">共 6 篇</strong>
+    <strong class="dpr-home-dashboard-count">共 37 篇</strong>
   </div>
   <dl class="dpr-home-dashboard-stats">
     <div class="dpr-home-dashboard-stat"><dt>累计更新</dt><dd>1 次</dd></div>
-    <div class="dpr-home-dashboard-stat"><dt>精读</dt><dd>3</dd></div>
-    <div class="dpr-home-dashboard-stat"><dt>速读</dt><dd>3</dd></div>
+    <div class="dpr-home-dashboard-stat"><dt>精读</dt><dd>26</dd></div>
+    <div class="dpr-home-dashboard-stat"><dt>速读</dt><dd>11</dd></div>
   </dl>
-  <p class="dpr-home-dashboard-body">最近更新：2026-09-23 20:30:18 UTC<br>状态：成功</p>
+  <p class="dpr-home-dashboard-body">最近更新：2026-09-30 19:59:47 UTC<br>状态：成功</p>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-brief-card">
   <div class="dpr-home-dashboard-header">
@@ -69,7 +69,7 @@
     <strong class="dpr-home-dashboard-count">AI</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<p>今日精读3篇、速读3篇，聚焦 agent 记忆检索与治理：执行溯源何时真正有用（9.0），AkasicMEM 给出企业级受控记忆方案（8.0）。最值得看的是「执行溯源的条件性价值」与「知识即技能」的结构化知识库用法，前者提醒别盲目堆溯源，后者指向让 agent 自主用知识库。普通读者可先读两篇精读，再按兴趣速览其余三篇，重点关注溯源机制在自身场景中是否真的提效。</p>
+<p>今日扫完37篇Agent记忆相关论文，精读26篇、速读11篇，EngramRAG以10分领跑。最值得看的是多跳Agent记忆的动态加权拓扑与突触巩固机制，以及实体结构化索引对长期记忆的支撑。建议普通读者先读这两篇精读，再顺带扫速读里的记忆压缩与控制信号两篇。</p>
   </div>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-deep-card">
@@ -78,12 +78,12 @@
       <span class="dpr-home-dashboard-kicker">今日累计</span>
       <h3 class="dpr-home-dashboard-title">精读推荐</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">3 篇</strong>
+    <strong class="dpr-home-dashboard-count">26 篇</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="When Does Execution Provenance Help Agent Memory Retrieval?">When Does Execution Provenance Help Agent Memory Retrieval?</span></li><li><span class="dpr-home-dashboard-paper-title" title="AkasicMEM: Governed Enterprise Memory for Agents">AkasicMEM: Governed Enterprise Memory for Agents</span></li><li><span class="dpr-home-dashboard-paper-title" title="MemoryAthena: Adaptive Routing over Latent and Generated Memories">MemoryAthena: Adaptive Routing over Latent and Generated Memories</span></li></ul>
+<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="EngramRAG: Dynamic Usage-Weighted Topology and Synaptic Consolidation for Multi-Hop Agentic Memory">EngramRAG: Dynamic Usage-Weighted Topology and Synaptic Consolidation for Multi-Hop Agentic Memory</span></li><li><span class="dpr-home-dashboard-paper-title" title="EnSIMem: Entity-Structured Indexing for Long-Term Agent Memory">EnSIMem: Entity-Structured Indexing for Long-Term Agent Memory</span></li><li><span class="dpr-home-dashboard-paper-title" title="Just-in-Time Memory: Learning to Curate Task-Adaptive Memory for LLM Agents">Just-in-Time Memory: Learning to Curate Task-Adaptive Memory for LLM Agents</span></li></ul>
   </div>
-  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">agent-memory <strong>3</strong></span></div>
+  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">agent-memory <strong>26</strong></span></div>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-skim-card">
   <div class="dpr-home-dashboard-header">
@@ -91,12 +91,12 @@
       <span class="dpr-home-dashboard-kicker">今日累计</span>
       <h3 class="dpr-home-dashboard-title">速读推荐</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">3 篇</strong>
+    <strong class="dpr-home-dashboard-count">11 篇</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="Knowledge-as-Skill: A Structural Design for Autonomous Knowledge-Base Use by LLM Agents">Knowledge-as-Skill: A Structural Design for Autonomous Knowledge-Base Use by LLM Agents</span></li><li><span class="dpr-home-dashboard-paper-title" title="ARM: Attention with Routed-Memory for Learnable Sparse Control">ARM: Attention with Routed-Memory for Learnable Sparse Control</span></li><li><span class="dpr-home-dashboard-paper-title" title="Brain-Inspired Hierarchical Modularity for General Continual Learning">Brain-Inspired Hierarchical Modularity for General Continual Learning</span></li></ul>
+<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="ChipMEM: Verification-Grounded Memory for EDA Agents">ChipMEM: Verification-Grounded Memory for EDA Agents</span></li><li><span class="dpr-home-dashboard-paper-title" title="Memory Control Signals Emerge Before Action in Long Horizon Agents">Memory Control Signals Emerge Before Action in Long Horizon Agents</span></li><li><span class="dpr-home-dashboard-paper-title" title="StateComp: Learning When to Compress History in Long Horizon Agents">StateComp: Learning When to Compress History in Long Horizon Agents</span></li></ul>
   </div>
-  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">agent-memory <strong>3</strong></span></div>
+  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">agent-memory <strong>11</strong></span></div>
 </section>
 </div>
 

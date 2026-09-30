@@ -1,0 +1,2215 @@
+Causal Retention in Interactive Agents: Interface
+Factorization and Selective Adaptation
+Shengjun Zhang1,2
+sj.zhang@hubu.edu.cn
+Tingyi Liu3
+tingyiL@whu.edu.cn
+Dong Xie4,∗
+xiedong04@baidu.com
+Yunlong Dong5
+yunlongdong@outlook.com
+Xiang Wang1,2,∗
+wangxiang.whu@whu.edu.cn
+Cheng Zeng1,2
+zc@hubu.edu.cn
+1School of Artificial Intelligence, Hubei University
+2Key Laboratory of Intelligent Sensing System and Security (Hubei University), Ministry of Education
+3School of Economics and Management, Wuhan University
+4Baidu Inc.
+5Independent Researcher
+∗Correspondence: xiedong04@baidu.com; wangxiang.whu@whu.edu.cn
+Abstract
+Task performance need not determine which intervention mechanism an agent retains. We
+study causal retention: whether a frozen learned state answers a mechanism-probe map
+fixed independently of training, including action, context, direct target, value, and delay.
+For finite structural causal model classes, the optimal probe error is a Bayes decision risk. It
+vanishes exactly when every learning-interface fiber lies within one probe-answer fiber; any
+state obtained by post-processing that interface inherits the same lower bound. A posterior-
+coverage theorem characterizes budgeted retesting, while an exact edit decomposition shows
+that the shifted set is the unique support of an error-free target update. Causal Core
+implements these conditions through evidence-gated writing, readout filtering, temporal
+credit, hidden-context setup, and local diagnostic updates. Experiments cover finite causal
+systems, continuous simulators, an official TD-MPC2 world model, and Qwen2.5-7B-Instruct.
+A frozen Qwen last-layer probe reaches 0.958 balanced accuracy on source mechanisms
+but 0.583 on changed delays; the gated mechanism state reaches 1.000 and accepts only
+0.056 of synchronized-readout candidates. In TD-MPC2, five target states per actuator
+recover effect-sign accuracy from 0.057 to 0.948 without degrading stable responses. Causal
+retention is therefore distinct from task sufficiency and source-domain decodability.
+Keywords:
+causal retention, interactive agents, mechanism memory, causal adaptation,
+structural causal models
+1 Introduction and Related Work
+Training objectives identify equivalence classes of environments, not complete intervention
+mechanisms. Two interactive systems may induce the same reward process, preferred action,
+or one-step prediction target while disagreeing about the direct target of an action, its
+active context, or its delay. A state that is sufficient for the training task can therefore be
+insufficient for an intervention query that the objective never had to answer.
+©2026 Shengjun Zhang, Tingyi Liu, Dong Xie, Yunlong Dong, Xiang Wang, and Cheng Zeng.
+License: CC-BY 4.0, see https://creativecommons.org/licenses/by/4.0/.
+arXiv:2609.30650v1  [cs.LG]  25 Sep 2026
+
+
+Zhang, Liu, Xie, Dong, Wang, and Zeng
+The ability of a frozen learned state to answer such queries is called causal retention.
+The evaluator fixes the probe semantics independently of the learned state, freezes that
+state after source learning, and then asks which action changes which target, under which
+context, to what value, and after what delay. Under a local mechanism shift, the same state
+must identify the changed entry without overwriting invariant ones. This is a property of
+what learning retained, not only of the behavior it produced.
+Several causal-learning traditions address neighboring but different estimands. Structural
+causal models define interventions and counterfactuals (Pearl, 2009; Peters et al., 2017).
+Treatment-effect methods estimate average, conditional, or individual effects on a designated
+outcome (Rubin, 1974; Imbens and Rubin, 2015; Chernozhukov et al., 2018; Wager and Athey,
+2018; K¨unzel et al., 2019; Nie and Wager, 2021; Shalit et al., 2017). Causal discovery instead
+estimates a graph or an interventional equivalence class (Spirtes et al., 2000; Chickering,
+2002; Hauser and B¨uhlmann, 2012; Shimizu et al., 2006; Zheng et al., 2018). A correct
+outcome effect or graph can remain silent about the action-indexed value, delay, and context
+that must be edited after transfer.
+Invariant prediction seeks predictors stable across environments (Peters et al., 2016;
+Arjovsky et al., 2019). Causal representation learning instead studies recovery of latent
+causal variables or graphs from indirect observations (Locatello et al., 2019; Sch¨olkopf et al.,
+2021; Gamella et al., 2025; Varici et al., 2025). Intervention extrapolation uses an identifiable
+representation to predict the effect of unseen actions on an outcome (Saengkyongam et al.,
+2024). Causal retention fixes the downstream answer map and asks whether a completed
+learning process preserved it. It neither requires recovery of the latent SCM nor reduces the
+answer to one designated outcome.
+Reinforcement learning, world models, and language agents optimize return, transition
+prediction, or action quality (Sutton and Barto, 2018; Ha and Schmidhuber, 2018; Hafner
+et al., 2025; Hansen et al., 2024; Yao et al., 2023). Causal reinforcement learning and
+data-fusion methods improve decisions under interventions (Bareinboim and Pearl, 2016;
+Zhang et al., 2021), while ranking-style dynamics losses such as Hybrid2 supervise which
+intervention should be preferred (Zou et al., 2024). These objectives can be useful and
+exactly optimized without requiring the frozen state to expose every coordinate of the
+mechanism needed by a later probe. The distinction studied here is therefore between an
+objective’s behavioral sufficiency and a learned state’s causal sufficiency.
+Concurrent work on Explicit Symbolic Behavioral Models uses executable “mechanism
+memory,” adaptive questions, and active world-model branches to train editable symbolic
+policies (Shindo et al., 2026). There, mechanism memory predicts symbolic events and
+rewards and is optimized jointly with policy-specific questions. Here, the probe map and its
+direct-target semantics are fixed independently of the learner, scoring occurs after the state is
+frozen, and the main object is the smallest probe error permitted by a given learning interface.
+The two formulations therefore use similar language for different statistical questions.
+One realization of causal retention is a frozen, queryable mechanism memory with entries
+of the form
+θ = (a, c, y, v, δ),
+where a is an action, c a context predicate, y the direct target, v the effect value, and δ
+the delay. After learning, the memory is frozen and queried on held-out mechanism probes.
+2
+
+
+Causal Retention in Interactive Agents
+a Interface collapse
+b Causal retention
+task-equivalent SCMs
+probe-distinct SCMs
+W0, W1
+same TI
+task-sufficient state S
+dtask(S)
+same output
+reward / rank
+fixed probe
+W0, W1
+probe z
+same frozen state
+d(S, z)
+answer omitted
+U0̸ = U1
+intervention-refined interface
+selective adaptation
+intervention
+pairs
+EVIDENCE GATE
+target
+delay
+readout
+retained answer map
+a
+c
+y
+v
+δ
+local shift
+shift
+signal
+a
+c
+y
+retest
+local update
+shifted entry
+Figure 1: Interface collapse and causal retention. A task interface can merge probe-distinct
+SCMs. A refined interface retains the answer map and supports selective adaptation.
+Equal reward laws, rankings, graphs, or action choices may still induce different probe
+answers.
+For finite structural causal model (SCM) classes, the optimal population probe error
+is an explicit Bayes risk. It is zero exactly when the interface quotient refines the probe
+quotient, is monotone under refinement, and lower-bounds every decoder of a post-processed
+state. The same construction with a metric loss covers continuous intervention responses. A
+posterior-coverage identity characterizes restricted target-domain retesting, and an exact
+edit decomposition characterizes selective adaptation. Standard concentration and testing
+inequalities are used only for finite-sample rates.
+Causal Core is the corresponding evidence-gated memory layer, with target admis-
+sion, readout filtering, temporal credit, hidden-context setup, diagnostic localization, and
+entrywise updating. Experiments compare policy, ranking, conditional-discovery, tuple,
+latent-world-model, neural-probe, transfer, language-model proposal, readout-unsafe, and
+ungated baselines. Continuous responses are scored over held-out state, action-direction,
+and horizon distributions. An official pretrained TD-MPC2 checkpoint supplies a public
+implicit-world-model comparison. Frozen Qwen hidden states are evaluated with linear and
+nonlinear decoders under externally fixed probe semantics.
+2 Problem Formulation
+Let an interactive structural causal model (SCM) be
+Xt+1 = F(Xt, Ht, At, εt+1),
+Ot = ψ(Xt, Ht, ηt),
+with physical state Xt ∈X, optional latent context Ht ∈H, action At ∈A, and observation
+Ot. Write Ξt = (Xt, Ht) ∈X×H for the full evaluator state; the learner need not observe Ht.
+A protocol Π maps histories to actions and induces a trajectory law P Π
+M for each SCM M.
+For an action intervention at time t, write P do(At=a),Π
+M
+for the law obtained by replacing
+the protocol action with a at t and leaving the remaining rollout policy fixed. A context
+predicate is a map c : X × H →{0, 1}. From the equations of M, the evaluator fixes a
+3
+
+
+Zhang, Liu, Xie, Dong, Wang, and Zeng
+structural index
+σM(ξ, a) ∈
+ C × Y × {0, . . . , D}
+
+∪{⊥}.
+When non-null, σM(ξ, a) = (c, y, δ) records the active context class, the variable directly
+acted on by the mechanism, and its first structural response delay. A deterministic de-
+scendant or sensor readout is not a direct target. In finite worlds σM is read from the
+structural assignment; in continuous simulators it is defined by the paired-pulse functional
+in Appendix B.4.
+For z = (ξ, a) and r = (c, y, v, δ), define
+pM(r | z) := 1{σM(ξ, a) = (c, y, δ)}Pdo(At=a),Π
+M
+{Xy
+t+δ = v | Ξt = ξ}.
+Let R be the finite set of candidate quadruples (c, y, v, δ). If σM(ξ, a) = ⊥, set GM(z) = ∅;
+otherwise define
+GM(z) = arg max
+r∈R
+pM(r | z),
+restricted to a probe class on which the maximizer is unique. In deterministic SCMs a
+tuple θ = (a, c, y, v, δ) is correct exactly when pM((c, y, v, δ) | z) = 1. In stochastic SCMs
+uniqueness is enforced by a margin κ > 0:
+pM(r⋆| z) −max
+r̸=r⋆pM(r | z) ≥κ.
+2.1 Mechanism Space
+Let
+Θ = A × C × Y × V × {0, . . . , D}.
+A mechanism memory is a finite set µ ⊂Θ. For a query z = (ξ, a), define
+Tµ(ξ, a) = {(c, y, v, δ) : (a, c, y, v, δ) ∈µ, c(ξ) = 1}.
+Two answers are equivalent, written Tµ(ξ, a) ≡Tµ′(ξ, a), when they agree on the active
+context, direct target, value, and delay classes fixed by the evaluator. Exact tuple evaluation
+uses ordinary set equality.
+The constructive and empirical results use a representable mechanism schema: for every
+evaluated SCM M, there is a finite ground-truth memory µ⋆
+M ⊂Θ such that Tµ⋆
+M (z) = GM(z)
+for Q-almost every probe z. The lower bounds are stated directly for GM and do not require
+such a representation.
+2.2 Mechanism Risk
+For probe distribution Q and ground-truth memory µ⋆= µ⋆
+M, the exact mechanism risk is
+RQ(bµ, µ⋆) = P(ξ,a)∼Q
+
+Tbµ(ξ, a)̸ ≡Tµ⋆(ξ, a)
+
+.
+Graph error, reward regret, top-action accuracy, and prediction error are not substitutes for
+RQ: each marginalizes at least one coordinate of (a, c, y, v, δ).
+4
+
+
+Causal Retention in Interactive Agents
+Coordinate risks localize the source of an error. Let K = {ctx, tar, val, del} and let
+πkTµ(ξ, a) be the projection of the answer set onto coordinate k. Define
+Rk
+Q(bµ, µ⋆) = PQ
+
+πkTbµ(ξ, a)̸ = πkTµ⋆(ξ, a)
+
+.
+When equivalence means equality of all four projections,
+max
+k∈K Rk
+Q ≤RQ ≤
+X
+k∈K
+Rk
+Q.
+Thus the exact risk is the main target, while coordinate risks diagnose which part of the
+mechanism failed. Two additional operational risks are
+Rfp = PQ[Tbµ(ξ, a)̸ = ∅, Tµ⋆(ξ, a) = ∅],
+Rfn = PQ[Tbµ(ξ, a) = ∅, Tµ⋆(ξ, a)̸ = ∅].
+They distinguish spurious mechanisms from missed mechanisms.
+The fixed-memory protocol is essential. Exploration may use rewards, observations,
+auxiliary descriptions, or rankings; evaluation fixes bµ and queries only the answer map
+Tbµ. Thus a behaviorally competent learner receives no credit unless its stored mechanism
+answers the probe: write bTi = Tbµ(ξi, ai) and T ⋆
+i = Tµ⋆(ξi, ai). Then
+bµ 7→{Tbµ(ξi, ai)}m
+i=1,
+score = 1 −1
+m
+m
+X
+i=1
+ℓi,
+ℓi = 1{ bTi̸ ≡T ⋆
+i }.
+2.3 Selective Adaptation
+Let µs = {θs
+j}n
+j=1 be a source memory. A schema map ϕ = (ϕA, ϕC, ϕY ) induces mapped
+entries
+ϕ(θs
+j) = (ϕA(as
+j), ϕC(cs
+j), ϕY (ys
+j), vs
+j, δs
+j).
+The target memory is µt = {θt
+j}n
+j=1. Define the stable and shifted index sets
+S = {j : θt
+j = ϕ(θs
+j)},
+B = [n] \ S.
+For an adapted memory bµt,
+Ladapt = 1
+n
+n
+X
+j=1
+1{bθt
+j̸ = θt
+j},
+Lstab = 1
+|S|
+X
+j∈S
+1{bθt
+j̸ = θt
+j},
+and Lshift is defined analogously over B; an empty-set loss is defined as zero. Selective
+adaptation requires Lstab = Lshift = 0 under a small target budget. For exploration and
+sampling randomness conditional on a fixed source-target pair, define
+Radapt = E[Ladapt | µs, µt],
+Rstab = E[Lstab | µs, µt],
+5
+
+
+Zhang, Liu, Xie, Dong, Wang, and Zeng
+Rshift = E[Lshift | µs, µt].
+The expectation decomposes as
+Radapt = |S|
+n Rstab + |B|
+n Rshift.
+The operational failure probability is
+Rop = P(Lstab > 0 ∨Lshift > 0),
+because a single missed shifted mechanism can be invisible in average loss when |B| ≪n.
+Two limiting cases illustrate the requirement. Pure transfer keeps bµt = ϕ(µs) and
+therefore fails on B. Broad re-learning may fix B but can corrupt S. The desired operation
+is an entrywise map
+bθt
+j =
+(
+ϕ(θs
+j),
+j ∈S,
+θt
+j,
+j ∈B,
+with evidence deciding membership in B.
+2.4 Standing Conditions
+Each lower bound uses only the assumptions in its statement. The constructive guarantees
+for Causal Core use the following grouped conditions.
+(C1) The source and target memories contain n aligned keys. The evaluator’s probe distribu-
+tion Q is fixed independently of target-domain samples. The schema map ϕ is supplied
+or estimated from a disjoint alignment sample; its error is represented by the event
+Fϕ rather than assumed away. Target-coordinate values and visible context predicates
+in the memory schema are measurable from the learner’s observation history. Latent
+predicates are never supplied to the learner and are handled only through assigned setup
+and control regimes.
+(C2) A gate is estimated from independent, bounded outcomes collected under paired action
+and reference interventions at the same pre-intervention context.
+Equivalently, an
+observational implementation must satisfy consistency, conditional exchangeability, and
+positivity and use the corresponding propensity correction. An adaptive randomized
+policy may use the logged inverse-propensity contrast in Lemma 11. The finite agents
+execute interventions and are scored descriptively; the continuous and simulator protocols
+use explicit paired pulses.
+(C3) Every finite decision used by a gate is separated from its threshold. Write γg > 0 for
+target, context, readout, and temporal margins, ∆= p −q > 0 for diagnostic separation,
+and ηj > 0 for the excess loss of a wrong local-update candidate. The correct local
+candidate belongs to the finite class Nj.
+(C4) Metric-valued probe answers lie in a compact space and use a bounded, continuous
+distortion. The probe distribution is fixed before fitting. A discrete implementation may
+additionally fix a measurable partition; its paired contrast routine fails with probability
+at most βM.
+Conditions C2–C3 are sufficient, not necessary. When they fail, the quotient and decision
+lower bounds still apply, but the finite-sample upper bounds need not.
+6
+
+
+Causal Retention in Interactive Agents
+2.5 Population Interfaces
+An interface I induces a population descriptor τI,Π(M) = P I,Π
+M : the data law generated by
+the protocol. Examples include reward trajectories, observations, rankings, prediction errors,
+diagnostic signals, or mechanism probes. For probe class Z with answer map GM(z), write
+M0 ∼I,Π M1 ⇐⇒P I,Π
+M0 = P I,Π
+M1 ,
+M0 ∼Z M1 ⇐⇒GM0(z) = GM1(z)
+∀z ∈Z.
+The relevant condition is whether ∼I,Π refines ∼Z for mechanism probes. If not, the interface
+is too coarse. For the finite analysis, fix full-support distributions ν on M and Q on Z. Let
+W ∼ν,
+Z ∼Q,
+TI = τI,Π(W),
+U = GW (Z),
+where Z is independent of W. The causal-retention risk of the interface is the probe Bayes
+risk
+Bν,Q(I, Π) = E
+
+1 −max
+u∈U P(U = u | TI, Z)
+
+.
+(1)
+It will equal the smallest error of any decoder that sees the complete population interface.
+For U = (U1, . . . , Ud), define Bj by replacing U with Uj in Eq. (1). These risks depend on
+the interface and the fixed probe map rather than on a chosen decoder. The population
+minimax interface risk is
+R(I, Z) = inf
+bG
+sup
+M∈M
+1{ bG(τI,Π(M))̸ = GM}.
+Theorem 2 gives the exact operational condition: R(I, Z) = 0 only when the interface
+separates all probe-distinct SCMs.
+For a compact metric answer space (U, ρ), define the expected and worst-case metric
+risks
+Bρ
+ν,Q(I, Π) = inf
+g Eρ
+ U, g(TI, Z)
+
+,
+Rρ(I, Z) = inf
+g
+sup
+M∈M, z∈Z
+ρ
+ GM(z), g(τI,Π(M), z)
+
+.
+(2)
+For Hamming loss, Bρ = B. The metric version therefore changes the loss geometry, not
+the semantics of retention.
+2.6 Exact Causal Retention
+A possibly random learned state S has exact causal retention for Z on M if there exists a
+single decoder d such that
+PM{d(S, z) = GM(z) for every z ∈Z} = 1
+∀M ∈M.
+The probe class and its answer semantics are fixed independently of the learned state.
+This makes causal retention independent of the internal implementation: a memory table,
+recurrent state, or external module qualifies only to the extent that it supports the same
+decoder after learning has stopped.
+7
+
+
+Zhang, Liu, Xie, Dong, Wang, and Zeng
+For ranking interfaces, the observed object is a distribution over ordered pairs
+Drank = {(i, j) : UM(i) > UM(j)},
+where UM(i) is the intervention utility. For reward interfaces it is a trajectory marginal
+of P
+t rt. For graph interfaces it is an edge set. For diagnostic adaptation it is instead an
+indexed surprise channel {Xj,r}j,r tied to transferred memory entries. If two SCMs have
+the same interface law but different probe answers, no estimator using that interface can
+guarantee zero mechanism risk.
+3 Causal Core
+Causal Core maintains mechanism memory independently of the policy optimizer. Its state
+consists of a candidate set Ct, readout set Rt, temporal buffer Bt, diagnostic surprise vector
+St, and memory µt. It writes (a, c, y, v, δ) only when intervention evidence supports every
+coordinate. For a candidate θ = (a, c, y, v, δ), define its memory key κ(θ) = (a, c, y, δ). Let
+a0 be the reference intervention for a. For a learner-visible context predicate c, let
+D1
+t (a, c, δ) = {s : s + δ ≤t, As = a, c(Ξs) = 1},
+D0
+t (a, c, δ) = {s : s + δ ≤t, As = a0, c(Ξs) = 1}.
+Write nu
+t = |Du
+t | and Y θ
+s = 1{Xy
+s+δ = v}. A candidate does not mature until n0
+t , n1
+t > 0. Its
+paired empirical frequencies are
+bpu
+t (θ) = 1
+nu
+t
+X
+s∈Du
+t (a,c,δ)
+Y θ
+s ,
+u ∈{0, 1}.
+(3)
+Under Condition C2, their difference estimates the interventional contrast between do(a)
+and do(a0) rather than an unadjusted action association. The target gate is
+b∆t(θ) = bp1
+t (θ) −bp0
+t (θ),
+Γtar
+t (θ) = 1{n0
+t n1
+t > 0, b∆t(θ) ≥λt}.
+(4)
+The full write gate is
+Gt(θ) =
+Y
+g∈{tar,time,readout,ctx}
+Γg
+t (θ),
+Cadm
+t
+= {θ ∈Ct : Gt(θ) = 1}.
+(5)
+The memory transition is the key-preserving operator
+W(µ, θ) = {θ′ ∈µ : κ(θ′)̸ = κ(θ)} ∪{θ}.
+(6)
+If several candidates mature at the same time, they are applied in decreasing b∆t with a
+fixed lexicographic tie-breaker. Thus the memory contains at most one value for each action-
+context-target-delay key. Admission is determined by the four gates; planner design does
+not enter the definition of mechanism memory. For a latent context, the sets in Eq. (3) are
+instead indexed by the learner-known assignment to the setup or control regime; membership
+never uses c(Ξs) itself. The resulting context gate is defined in Section 3.4.
+8
+
+
+Causal Retention in Interactive Agents
+Remark 1 Ground-truth mechanism labels are not supplied during training. Supervision is
+created by controlled interventions whose contrasts identify a target, context, value, or delay
+coordinate. One-step predictive self-supervision uses ot+1 as the target given (ot, at); here
+the retained target is the intervention-specific tuple (a, c, y, v, δ) queried after learning.
+3.1 Readout Filtering
+If Y and R are synchronized, the two SCMs
+a →Y, R := Y
+and
+a →R, Y := R
+can produce the same observations. Causal Core therefore excludes readout candidates from
+direct-target writing unless an intervention separates them. Formally, for a candidate target
+u, define the direct-target set
+Ydir
+t
+= {u ∈Y : u /∈Rt or Sept(u) = 1},
+Sept(u) = 1{∃b : P(Xu
+t+1 | do(b))̸ = P(Xr(u)
+t+1 | do(b))},
+where r(u) denotes the synchronized readout paired with u when known. For formula
+readouts, the finite implementation uses, for each candidate coordinate u, a class Fu of
+formulas whose inputs exclude u. It computes
+bAt(f, u) = 1
+mt
+mt
+X
+r=1
+1{f(Xr) = Xu
+r },
+u ∈Rt ⇐⇒max
+f∈Fu
+bAt(f, u) ≥cro.
+Proposition 12 controls both directions of this decision under a finite-class margin. A
+variable classified as a readout can re-enter the direct-target set only through a separating
+intervention. The readout gate is
+Γreadout
+t
+(a, c, y, v, δ) = 1{y ∈Ydir
+t }.
+3.2 Temporal Credit
+For delayed effects, Causal Core tests stability of the lag:
+bδ(a, c, y, v) ∈arg max
+0≤δ≤D
+b∆t(a, c, y, v, δ).
+An entry is written only if the selected lag beats competing recent actions by a margin. The
+analyzed margin form is
+b∆t(a, c, y, v, δ) −
+max
+(a′,v′,δ′)̸=(a,v,δ)
+b∆t(a′, c, y, v′, δ′) ≥γtime,
+where every contrast uses only matured paired trials from Eq. (3). This prevents a waiting
+action or a post-effect observation from being written as the cause.
+9
+
+
+Zhang, Liu, Xie, Dong, Wang, and Zeng
+3.3 Diagnostic Adaptation
+After transfer, mechanism j produces binary surprise samples Xj,r ∈{0, 1}. Causal Core
+computes
+Xj(m) = 1
+m
+m
+X
+r=1
+Xj,r
+and retests entries above a threshold. The edit is local: bθt
+j may change only for selected j.
+For τ = (p + q)/2,
+bBm = {j : Xj(m) ≥τ}.
+(7)
+bθt
+j =
+(
+ϕ(θs
+j),
+j /∈bBm,
+eθj,
+j ∈bBm.
+(8)
+For a selected entry, the identifying retest gives an independent local sample Dre
+j
+=
+{(Zj,r, Uj,r)}rj
+r=1, where Uj,r is the observed response statistic specified by the interven-
+tion protocol, and a finite candidate class Nj. Let gθ be the probe-answer map predicted by
+candidate θ. Define
+bLj(θ) = 1
+rj
+rj
+X
+r=1
+1{gθ(Zj,r)̸ = Uj,r},
+eθj ∈arg min
+θ∈Nj
+bLj(θ).
+(9)
+The corresponding local edit is
+Uj(µ, eθj) = {θℓ∈µ : ℓ̸ = j} ∪{eθj}.
+(10)
+All entries outside bBm are held fixed. Under Eq. (10), stable corruption can occur only
+through the set-selection event bBm̸ = B.
+3.4 Hidden-Context Setup
+A hidden gate is not written from passive frequency alone. The module actively searches
+setup actions that increase eligibility, then tests a visible-separator class G. A hidden label
+survives only when a controlled setup regime and its matched control have separated success
+rates and no visible separator explains the pattern. For candidate i, let Ei be latent eligibility
+and Zi success. The learner observes the assigned regime, not Ei. It seeks a setup policy
+πset
+i
+and a matched control π0
+i such that
+Pπset
+i (Ei = 1) ≥1 −ϵset,
+Pπ0
+i (Ei = 1) ≤ϵ0,
+Eπset
+i Zi −Eπ0
+i Zi ≥2γ.
+With mset
+i , m0
+i > 0 outcomes assigned to the two regimes, the context gate uses
+bdi =
+1
+mset
+i
+X
+r∈Dset
+i
+Zi,r −1
+m0
+i
+X
+r∈D0
+i
+Zi,r,
+Γctx
+i
+= 1{bdi ≥γ, bgi = ∅},
+where bgi is a visible separator found in G. The label is retained only when the contrast
+passes and no visible predicate explains it. Lemma 10 controls the contrast error, while
+10
+
+
+Causal Retention in Interactive Agents
+Algorithm 1 Causal Core memory update and adaptation
+1: Initialize µ, readout set R, buffer B, scores dj = 0.
+2: for each interaction step t do
+3:
+Observe ot, execute at, and observe the next response.
+4:
+Update R using readout formulas and separating interventions.
+5:
+Add candidate effects to B with action, context, target, value, and delay fields.
+6:
+for each buffered candidate (a, c, y, v, δ) whose delay has matured do
+7:
+if (a, c, y, v, δ) ∈Cadm
+t
+from Eq. (5) then
+8:
+Update µ by Eq. (6).
+9:
+end if
+10:
+end for
+11:
+For transferred entries, accumulate diagnostic surprise dj ←dj + Xj,t.
+12: end for
+13: Select shifted candidates by Eq. (7) or top-s diagnostic scores.
+14: for each selected mechanism index j do
+15:
+Retest entry j and compute eθj by Eq. (9).
+16:
+Update µ by Eq. (10).
+17: end for
+18: return fixed memory µ.
+Proposition 13 converts repeated setup reachability into action cost when setup completion
+is observable. If passive access gives P(Ei = 1) = qi, then even an oracle that marks eligible
+trials needs m/qi attempts on average to collect m eligible outcomes.
+4 Theoretical Results
+The results connect interface fibers, frozen-state probe error, and the number of target-
+domain retests. Theorem 2 gives an exact factorization criterion and the optimal probe risk.
+Corollary 3 gives the finite-sample two-model bound. Theorem 4 gives the exact posterior
+coverage of budgeted retesting, while Propositions 5 and 6 give constructive rates under
+the stated margins. Theorem 7 identifies the unique support of an exact target update and
+composes the finite-sample events. Theorem 8 gives the metric-valued extension. The core
+results follow by conditional decision minimization, fiber factorization, and an exact edit
+identity. Standard testing inequalities enter only the finite-sample corollaries. Auxiliary
+separations and consequences appear in Appendix A. Let M0 ∼I,Π M1 denote equality of
+the interface law under protocol Π, and let M0 ∼Z M1 denote equality of all fixed probe
+answers on Z. All logarithms are natural.
+Theorem 2 Let M and Z be finite, let ν and Q have full support, and use the variables in
+Eq. (1). Then the following statements hold.
+(i) The probe Bayes risk has the exact representation
+Bν,Q(I, Π) = inf
+g P{g(TI, Z)̸ = U}.
+The infimum is attained by a deterministic decoder.
+11
+
+
+Zhang, Liu, Xie, Dong, Wang, and Zeng
+(ii) Bν,Q(I, Π) = 0 if and only if
+M0 ∼I,Π M1 =⇒M0 ∼Z M1
+∀M0, M1 ∈M.
+Hence a zero-risk population decoder exists exactly when the interface quotient refines
+the probe quotient.
+(iii) If two interface-equivalent models disagree on a set of probes of Q-mass ρ, every population
+decoder has worst-case mechanism risk at least ρ/2.
+(iv) Let DN be a training transcript whose conditional law given W depends on W only
+through TI, and let S be any randomized function of DN. Every frozen-state decoder
+satisfies
+P{d(S, Z)̸ = U} ≥Bν,Q(I, Π).
+(v) If T1 = h(T2), then B(T2) ≤B(T1). For a vector answer,
+max
+j∈[d] Bj ≤Bν,Q(I, Π) ≤
+d
+X
+j=1
+Bj.
+(11)
+Proof
+Write T = TI. Conditional on (T, Z) = (t, z), a decoder returning u has error
+1 −P(U = u | t, z). Pointwise minimization over u, followed by expectation over (T, Z),
+proves (i).
+The risk in (i) is zero exactly when every conditional distribution P(U | T = t, Z = z) is
+a point mass. Full support of ν and Q turns this into a pointwise statement. Thus, whenever
+τI,Π(M0) = τI,Π(M1),
+GM0(z) = g(τI,Π(M0), z) = g(τI,Π(M1), z) = GM1(z)
+for every z ∈Z. This proves the forward implication in (ii). Conversely, suppose the quotient
+implication holds. Every interface class C = {M : τI,Π(M) = t} has a unique probe map gC,
+so define g(t, z) = gC(z). Then U = g(T, Z) and the Bayes risk is zero.
+For (iii), let A = {z : GM0(z)̸ = GM1(z)} with Q(A) = ρ. Under the common interface
+descriptor, any randomized decoder has the same output law in the two models. Pointwise
+on A,
+1{ bG(z)̸ = GM0(z)} + 1{ bG(z)̸ = GM1(z)} ≥1.
+Expectation over decoder randomness and z ∼Q gives
+RQ( bG, M0) + RQ( bG, M1) ≥ρ,
+and hence maxi RQ( bG, Mi) ≥ρ/2.
+For (iv), the transcript condition makes S a randomized garbling of T. Composing
+d(S, Z) with the garbling kernel produces a randomized decoder from (T, Z). Randomization
+cannot improve the pointwise minimum in (i), proving the bound.
+For (v), every decoder based on T1 = h(T2) is also a decoder based on T2, so the latter
+infimum is no larger. Any joint decoder induces a decoder for coordinate j; therefore its
+vector error is at least Bj, proving the lower bound in Eq. (11). Conversely, concatenate the
+12
+
+
+Causal Retention in Interactive Agents
+coordinatewise Bayes decoders. Its vector error is contained in the union of their coordinate
+errors, and the union bound proves the upper inequality.
+For a uniform two-model fiber and a point-mass probe on which the answers differ, the
+probe Bayes risk is 1/2. A probe-revealing interface has risk zero.
+With finite samples, total variation controls the residual indistinguishability of two
+probe-distinct models.
+Corollary 3 Let P N
+0
+and P N
+1
+be the N-sample transcript laws of two SCMs whose probe
+answers differ on a set of Q-mass ρ. Then every estimator obeys
+max
+i∈{0,1} RQ( bG, Mi) ≥ρ
+2
+ 1 −∥P N
+0 −P N
+1 ∥TV
+
+.
+If the samples are conditionally independent with one-sample laws P0, P1 and d =
+min{KL(P0∥P1), KL(P1∥P0)}, then
+max
+i
+RQ( bG, Mi) ≥ρ
+2
+"
+1 −
+r
+Nd
+2
+#
++
+.
+Proof Fix a probe z on which the answers g0(z) and g1(z) differ. Let Ai(z) = { bG(z) = gi(z)}.
+The events A0(z) and A1(z) are disjoint, hence
+P N
+0 (A0(z)c) + P N
+1 (A1(z)c) ≥P N
+0 (A1(z)) + P N
+1 (A1(z)c)
+= 1 −{P N
+1 (A1(z)) −P N
+0 (A1(z))}
+≥1 −∥P N
+0 −P N
+1 ∥TV.
+Integrating over the disagreement set and dividing the sum of the two risks by two proves
+the first inequality. For product laws, KL(P N
+0 ∥P N
+1 ) = NKL(P0∥P1). Pinsker’s inequality
+(Tsybakov, 2009), applied in the better of the two directions, gives ∥P N
+0 −P N
+1 ∥TV ≤
+p
+Nd/2;
+truncation at zero gives the second display.
+The proof is decision-theoretic: it does not pass through entropy, mutual information, or
+a decoder-class restriction.
+Risk decompositions, standard-target lower bounds, and explicit two-world constructions
+for ranking, readout, and hidden-context interfaces appear in Appendix A.
+Theorem 4 Let Bs = {b ⊆[n] : |b| = s}, let B ∈Bs, and let Z be any pre-retest diagnostic
+signal. For s ≤k < n, define
+Γk(z) =
+max
+L⊆[n]: |L|≤k
+X
+b∈Bs: b⊆L
+P(B = b | Z = z).
+(12)
+Then the largest probability that a Z-measurable retest list contains every shifted entry is
+sup
+L: |L(Z)|≤k
+P{B ⊆L(Z)} = EΓk(Z).
+(13)
+13
+
+
+Zhang, Liu, Xie, Dong, Wang, and Zeng
+Internal randomization cannot increase this value. Zero omission is possible if and only if,
+for almost every z,
+
+[
+{b : P(B = b | Z = z) > 0}
+ ≤k.
+(14)
+If B is uniform on Bs and independent of Z, the optimal coverage is exactly
+ k
+s
+
+/
+ n
+s
+
+. Finally,
+if Z1 = h(Z2), then EΓk(Z1) ≤EΓk(Z2).
+Proof For a deterministic list L(z), conditional coverage is
+P{B ⊆L(z) | Z = z} =
+X
+b⊆L(z)
+P(B = b | Z = z).
+Maximizing this finite sum separately for every z gives Eq. (12); averaging gives Eq. (13). A
+randomized rule is a mixture of deterministic lists, so its conditional coverage is a convex
+combination of values no larger than Γk(z).
+The equality Γk(z) = 1 holds precisely when one list of size at most k contains every
+b with positive posterior mass.
+Such a list exists precisely when the union of those
+posterior-support sets has size at most k, proving Eq. (14). Under the uniform independent
+law, a list of size ℓcontains exactly
+ ℓ
+s
+
+of the
+ n
+s
+
+possible shifted sets. This is maximized at
+ℓ= k. Finally, every list rule based on Z1 = h(Z2) is also available to a rule based on Z2;
+taking suprema in Eq. (13) proves monotonicity.
+Proposition 5 For each transferred entry j
+∈[n], suppose the diagnostic samples
+Xj,1, . . . , Xj,m ∈[0, 1] are independent. Suppose also that EXj,r ≥p for shifted entries
+j ∈B and EXj,r ≤q for stable entries j /∈B, with ∆= p −q > 0. Let τ = (p + q)/2 and
+Xj = 1
+m
+m
+X
+r=1
+Xj,r,
+bB = {j : Xj ≥τ}.
+If m ≥2∆−2 log(n/δ), then P( bB = B) ≥1 −δ. Moreover, in the symmetric one-shift
+Bernoulli family with p = 1/2 + ∆/2, q = 1/2 −∆/2, and 0 < ∆≤1/2, every estimator
+with localization error at most ε requires
+m ≥(1 −ε) log n −log 2
+8∆2
+.
+Thus the ∆−2 log n scaling is necessary and sufficient up to constants.
+Proof For j ∈B,
+P{Xj < τ} ≤exp{−2m(p −τ)2} = exp{−m∆2/2}.
+For j /∈B,
+P{Xj ≥τ} ≤exp{−2m(τ −q)2} = exp{−m∆2/2}.
+These two applications of Hoeffding’s inequality (Hoeffding, 1963), followed by a union
+bound over the n entries, give P( bB̸ = B) ≤n exp{−m∆2/2} ≤δ. This is the selection
+14
+
+
+Causal Retention in Interactive Agents
+guarantee used by Eq. (7); the top-s variant is proved in Appendix A.6. The matching
+lower-bound calculation is given in Appendix A.5.
+Theorem 4 characterizes every retest list of size k without reducing the diagnostic signal
+to a scalar information budget. In contrast, Proposition 5 recovers the shifted set with
+m = O(∆−2 log(n/δ)) diagnostic samples per entry.
+Proposition 6 Fix a selected entry j and a finite candidate class Nj. Let θ⋆
+j be the target-
+domain mechanism and define the population retest loss
+Lj(θ) = E 1{gθ(Zj)̸ = Uj},
+θ ∈Nj.
+Suppose θ⋆
+j ∈Nj and Lj(θ) −Lj(θ⋆
+j) ≥ηj > 0 for every θ̸ = θ⋆
+j, and suppose the rj retest
+pairs are independent and identically distributed. If the retest sample size is
+rj ≥2
+η2
+j
+log |Nj|
+δj
+,
+then the empirical minimizer in Eq. (9) satisfies P(eθj = θ⋆
+j) ≥1 −δj.
+Proof For a wrong candidate θ, set
+Dθ = 1{gθ(Zj)̸ = Uj} −1{gθ⋆
+j (Zj)̸ = Uj}.
+Then Dθ ∈[−1, 1] and EDθ = Lj(θ) −Lj(θ⋆
+j) ≥ηj. If bLj(θ) ≤bLj(θ⋆
+j), then the empirical
+mean Dθ is nonpositive. For Aθ = {bLj(θ) ≤bLj(θ⋆
+j)}, Hoeffding’s inequality (Hoeffding,
+1963) gives
+P(Aθ) ≤P{Dθ −EDθ ≤−ηj} ≤e−rjη2
+j /2.
+A union bound over Nj \ {θ⋆
+j} yields P(eθj̸ = θ⋆
+j) ≤|Nj|e−rjη2
+j /2 ≤δj.
+Theorem 7 Fix an aligned source-target pair satisfying Condition C1. Write mj = ϕ(θs
+j)
+and B = {j : mj̸ = θt
+j}, with S = [n] \ B. For any selected set D ⊆[n] and local estimates
+{eθj : j ∈D}, let
+bθt
+j(D) =
+(
+mj,
+j /∈D,
+eθj,
+j ∈D.
+Then
+nLadapt = |B \ D| +
+X
+j∈D
+1{eθj̸ = θt
+j},
+(15)
+|S|Lstab =
+X
+j∈D∩S
+1{eθj̸ = mj},
+(16)
+|B|Lshift = |B \ D| +
+X
+j∈D∩B
+1{eθj̸ = θt
+j}.
+(17)
+15
+
+
+Zhang, Liu, Xie, Dong, Wang, and Zeng
+Consequently the adapted memory is exact if and only if B ⊆D and eθj = θt
+j for every j ∈D.
+Moreover, for any exact target memory ¯θ = θt,
+{j : ¯θj̸ = mj} = B;
+(18)
+thus B is the unique realized edit support of an exact update relative to the mapped source
+memory.
+Let Fsrc be the event that the frozen source memory has a missing entry or a wrong target,
+context, value, or delay, including a target error caused by readout contamination. Let Fϕ be
+schema-map failure, Fdiag = { bB̸ = B}, and Fupd be failure of any local retest on B. If their
+probabilities are bounded by δsrc, δϕ, δdiag, and δupd, then the update in Eq. (8) satisfies
+P(Ladapt > 0) ≤δsrc + δϕ + δdiag + δupd.
+On the complement of these events, Lstab = Lshift = Ladapt = 0. For every realization,
+ELadapt = |S|
+n ELstab + |B|
+n ELshift.
+Proof For j /∈D, the update retains mj, and therefore
+1{bθt
+j(D)̸ = θt
+j} = 1{j ∈B}.
+For j ∈D, the same error indicator is 1{eθj̸ = θt
+j}. Summing the first identity over j /∈D
+and the second over j ∈D proves Eq. (15). On S, mj = θt
+j; on B, mj̸ = θt
+j. Splitting the
+two sums accordingly proves Eqs. (16) and (17).
+Every term on the right of Eq. (15) is nonnegative. It vanishes precisely when B \D = ∅
+and every selected estimate equals its target value, giving the stated necessary and sufficient
+condition. If ¯θ = θt, then ¯θj̸ = mj holds precisely when θt
+j̸ = mj, which is the definition of
+j ∈B. This proves Eq. (18).
+Now let E = (Fsrc ∪Fϕ ∪Fdiag ∪Fupd)c. On E, the mapped source entries are correct,
+D = bB = B, and eθj = θt
+j for every selected j. The exact condition just proved gives
+Ladapt = 0. Therefore
+{Ladapt > 0} ⊆Fsrc ∪Fϕ ∪Fdiag ∪Fupd,
+and the probability bound follows by the union bound. The decomposition of the mean loss
+follows from partitioning the exact coordinate errors:
+Ladapt = 1
+n
+X
+j∈S
+1{bθt
+j̸ = θt
+j} + 1
+n
+X
+j∈B
+1{bθt
+j̸ = θt
+j}
+= |S|
+n Lstab + |B|
+n Lshift.
+Taking expectation gives the displayed identity. Appendix A.7 gives the coordinate-level
+loss expansion and decomposes Fsrc into its target, context, readout, and temporal gates.
+Substitution of the target-contrast, readout, hidden-setup, temporal, diagnostic, schema,
+and local-update bounds into Theorem 7 is given in Appendix A.7. The corresponding top-s
+diagnostic result appears in Appendix A.6; its selected empirical means recover the shifted
+set under the same ∆−2 log(n/δ) scaling.
+16
+
+
+Causal Retention in Interactive Agents
+Theorem 8 Let M and Z be finite, let ν and Q have full support, and let (U, ρ) be a
+compact metric space with continuous ρ. Use Eq. (2) and write V = (TI, Z). Then:
+(i) The expected metric risk has the pointwise representation
+Bρ
+ν,Q(I, Π) = E
+
+min
+a∈U E{ρ(U, a) | V }
+
+,
+and a deterministic decoder attains the minimum.
+(ii) Bρ
+ν,Q = 0 and Rρ = 0 if and only if every interface fiber has one probe answer map;
+equivalently, M0 ∼I,Π M1 implies M0 ∼Z M1.
+(iii) If DN and S satisfy the transcript condition in Theorem 2, every frozen-state decoder
+obeys
+Eρ{U, d(S, Z)} ≥Bρ
+ν,Q(I, Π).
+If T1 = h(T2), then Bρ(T2) ≤Bρ(T1) and Rρ(T2) ≤Rρ(T1).
+(iv) If two interface-equivalent models M0, M1 have answer maps G0, G1, every possibly
+randomized decoder of their common interface satisfies
+max
+i∈{0,1} EZ∼Qρ{ bG(Z), Gi(Z)} ≥1
+2EZ∼Qρ{G0(Z), G1(Z)}.
+In particular, separation by at least 2ε on a set of Q-mass q forces worst-case metric
+risk at least qε.
+Proof Condition on V = v. A deterministic answer a has conditional loss E{ρ(U, a) | V = v}.
+Compactness and continuity give a minimizer; pointwise minimization and averaging prove
+(i). Randomization only averages these conditional losses and cannot improve their minimum.
+The risk in (i) is zero exactly when U is constant conditional on every (TI, Z) value
+with positive probability. Full support and the metric property turn this into equality of the
+complete probe maps inside each interface fiber. The same condition is plainly necessary
+and sufficient for zero worst-case risk, proving (ii).
+For (iii), composing a decoder of S with the random kernel from TI to S gives a
+randomized decoder of the population interface. Part (i) lower-bounds its loss. If T1 =
+h(T2), every decoder based on T1 is available from T2; taking the two infima proves both
+monotonicity statements.
+For (iv), interface equivalence makes the output law of bG(z) the same under M0 and M1.
+The triangle inequality gives, pointwise in z and in decoder randomness,
+ρ{G0(z), G1(z)} ≤ρ{G0(z), bG(z)} + ρ{ bG(z), G1(z)}.
+Expectation over Z and decoder randomness shows that the sum of the two risks is at least
+EQρ{G0(Z), G1(Z)}. Their maximum is at least half this quantity, which proves Eq. ((iv)).
+The final statement follows by integrating the assumed separation over its probe set.
+17
+
+
+Zhang, Liu, Xie, Dong, Wang, and Zeng
+5 Experiments
+The evaluation covers finite SCM families, readout and hidden-context variants, few-shot
+renamed adaptation, metric-valued control responses, language-model hidden states, and
+language-model proposal policies. Every learned state is frozen before the mechanism probes
+are scored. Exact protocols, seeds, and auxiliary tables are in Appendices B.1–B.5.
+Proposition 9 supplies exact indistinguishable model pairs. The empirical runs measure
+the corresponding fixed-probe failures and the finite-sample behavior of the constructive
+rules. Renamed transfer uses shifted-set localization and entrywise retesting. Continuous
+responses are integrated over held-out state, action-direction, and horizon distributions;
+language-model results use a separately fixed probe map.
+Held-out state-action probes query target, value, delay, context, and stable preservation.
+Reward and top-action accuracy are not terms in the score. For probe set P,
+MechAcc =
+1
+|P|
+X
+(ξ,a)∈P
+1{Tbµ(ξ, a) ≡Tµ⋆(ξ, a)}.
+(19)
+Thus bRmech = 1 −MechAcc estimates RQ. The coordinate estimates are
+bRk =
+1
+|P|
+X
+(ξ,a)∈P
+1{πkTbµ(ξ, a)̸ = πkTµ⋆(ξ, a)},
+(20)
+with false-write risks obtained by replacing the indicator by the corresponding empty-set
+event. Few-shot renamed adaptation reports
+AdaptScore = 1{Lstab = 0, Lshift = 0},
+(21)
+so a method must both preserve stable entries and correct shifted ones. The coordinate risks
+are empirical counterparts of Bj; they identify which answer coordinate remains unresolved
+in the frozen state.
+The finite discovery and language-model tables additionally report the direct target
+projection
+E(µ) = {(a, y) : ∃(c, v, δ), (a, c, y, v, δ) ∈µ},
+(22)
+using set precision, recall, and F1 against E(µ⋆). This projected F1 is accompanied by
+context recall and false-write counts; it is not presented as the exact tuple accuracy in
+Eq. (19). The reported false-edge count is |E(bµ) \ E(µ⋆)|; readout false edges are the subset
+whose target coordinate is a designated deterministic proxy.
+5.1 Protocols and Baselines
+The suite contains finite worlds, readout and hidden-context variants, continuous paired
+interventions, and language-model proposal policies. Baselines match the available interface:
+passive and reward learners, ranking loss, conditional discovery, latent world models, tuple
+and neural probes, the official TD-MPC2 world model, ungated proposals, and transfer
+ablations. All are evaluated after freezing, using Eqs. (19)–(22) or the metric loss in Eq. (2).
+18
+
+
+Causal Retention in Interactive Agents
+0.0
+0.2
+0.4
+0.6
+0.8
+target-edge F1
+passive
+reward
+conditional
+tuple
+world model
+transition
+Causal Core
+0.00
+0.33
+0.76
+0.79
+0.32
+0.48
+0.79
+a
+Coarse interfaces
+0
+20
+40
+60
+80
+100
+count
+ungated Qwen
+causal prompt
+Qwen + gate
+92
+82
+2
+37
+32
+b
+Write validity
+false edges
+readout false edges
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+AdaptScore
+ranking, renamed
+core, renamed
+ranking, readout
+core, readout
+0.00
+1.00
+0.00
+1.00
+c
+Selective adaptation
+0.0
+0.2
+0.4
+0.6
+0.8
+target-edge F1
+causal prompt
+LLM + context
+LLM + control
+context planner
+control planner
+0.16
+0.68
+0.73
+0.68
+0.70
+d
+Proposal policies
+Figure 2: Fixed-probe target and adaptation outcomes.
+5.2 Coarse Interfaces
+The complex noisy-hidden family realizes positive probe Bayes risk under Theorem 2. Passive
+correlation gives target-edge F1 0.000, while a reward-optimized learner has target-edge F1
+0.326. A ranking-loss predictor receives supervised intervention-order labels; nevertheless, in
+the noisy-hidden ranking task it has target-edge F1 0.000 even though Causal Core reaches
+0.764. Stronger trajectory-matched baselines control for output format. On the expanded
+matched run, a thresholded conditional-discovery baseline has target-edge F1 0.64, and its
+readout-oracle variant reaches 0.76 but still writes hidden labels with false-positive count
+1.50. The readout-oracle tuple writer has target-edge F1 0.79 but 6.19 hidden-label false
+positives. A latent world model reaches next-bit accuracy 0.905 yet has target-edge F1 0.24;
+with a readout oracle it reaches 0.32 and writes 39.88 hidden-label false positives. Causal
+Core has target-edge F1 0.79 with zero readout and hidden-label false positives. High task
+or predictive performance therefore coexists with poor fixed-probe recovery.
+Under the uniform prior, each exact two-world separation in Proposition 9 has probe
+Bayes risk 1/2 and is decoder-independent. The neural rows support a narrower empirical
+statement: high transition accuracy does not make the mechanism answer recoverable by
+the specified frozen-state decoders, including readout-oracle variants. The hidden-state
+19
+
+
+Zhang, Liu, Xie, Dong, Wang, and Zeng
+experiment below adds linear and nonlinear decoders of a public language model rather than
+inferring omission from its generated answer alone.
+5.3 Write Validity and Local Adaptation
+Indiscriminate writing raises recall at the cost of validity. The ungated Qwen explorer writes
+92.3 false entries and 37.0 readout false positives; the context-search and control-planner
+gates reduce these counts to 6.0/0.0 and 2.0/0.0, respectively. In renamed and semantic-
+readout adaptation, non-diagnostic and readout-unsafe baselines have AdaptScore 0, while
+Causal Core has AdaptScore 1.00. The evaluation uses the diagnostic selection and local
+update in Eqs. (7)–(10), whose finite-sample guarantees are Propositions 5 and 6.
+5.4 Hidden Contexts and Continuous Responses
+Hidden gates test the setup part of the interface. Active setup improves hidden recall from
+0.125 after 80 interactions to 0.625 after 160 interactions at zero hidden false positives in the
+four-family horizon sweep. Rare eligibility events leave some hidden contexts outside the
+observed quotient. In a continuous metric SCM, global linear regression reaches F1 0.667
+because it writes a deterministic readout and extends a context-specific effect to the wrong
+cell; metric Causal Core has F1 1.000 with no readout false positives.
+We next evaluate the official 5.2M-parameter TD-MPC2 checkpoint (Hansen et al., 2024)
+on cheetah-run, walker-walk, and reacher-easy. For saved state x, unit action direction u,
+and horizon h ∈{1, 2, 4}, the evaluator records the continuous response
+∆h(x, u) = Oh(x, +ϵu) −Oh(x, −ϵu)
+2ϵ
+,
+ϵ = 0.25.
+(23)
+Linear and two-layer nonlinear decoders receive the frozen source latent state, latent inter-
+vention difference, u, and h. Thus a failure is not tied to a linear readout. The nonlinear
+decoder has source NRMSE 0.629 and effect-sign accuracy 0.919 over nine task-seed runs.
+At transfer, one actuator changes sign and its index varies across runs. The frozen
+model’s shifted-actuator sign accuracy falls to 0.057. A global probe-head update using the
+target pairs raises it to 0.694 but increases stable-response NRMSE from 0.673 to 1.460. The
+selective update compares the two actuator hypotheses on five target states per actuator,
+localizes the shift in all nine runs, and reaches sign accuracy 0.948. Its random-direction
+NRMSE is 0.630, equal to the oracle actuator map within reported precision, while its stable-
+response NRMSE remains 0.673. Appendix B.4 gives per-task results, decoder training, and
+diagnostic-margin sensitivity.
+5.5 Language-Model States and Proposal Policies
+A frozen-state experiment tests whether mechanism answers are retained inside Qwen2.5-
+7B-Instruct (Yang et al., 2024), rather than judging generated explanations alone. Logistic
+probes are fit at five layers on 12 procedural families and then frozen for six disjoint families.
+A two-layer decoder and an RBF decoder test nonlinear accessibility at the final layer.
+Action and state names are independently replaced by neutral tokens in every family and
+condition.
+20
+
+
+Causal Retention in Interactive Agents
+random
+stable
+shifted axis
+0.0
+0.5
+1.0
+1.5
+2.0
+normalized response error
+Continuous intervention response
+frozen
+global
+selective
+oracle
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+effect-sign accuracy
+Shifted actuator
+TD-MPC2 frozen
+global probe-head update
+selective mechanism update
+oracle actuator map
+Figure 3: Distributional TD-MPC2 responses under one actuator remapping.
+source
+renamed shift
+unseen readout
+0.5
+0.6
+0.7
+0.8
+0.9
+1.0
+balanced accuracy
+Frozen mechanism probes
+query only
+Qwen logits
+linear hidden
+nonlinear hidden
+paired evidence
+gated state
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+rate
+query only
+Qwen logits
+linear hidden
+nonlinear hidden
+paired evidence
+gated state
+Mechanism shift and readout
+shifted delay BA
+readout FPR
+Figure 4: Qwen hidden-state retention on held-out mechanism families.
+The final-layer linear decoder reaches balanced accuracy 0.958 on source mechanisms and
+0.847 after renaming, but 0.583 on the changed-delay subset. The nonlinear RBF decoder
+obtains 0.944, 0.875, and 0.250, respectively. Thus the source result cannot be dismissed as
+complete absence of mechanism information, while that information does not support the
+held-out changed delay. A paired-evidence rule recovers every changed delay but accepts
+0.944 of synchronized readouts. Applying the admissible-write gate preserves changed-delay
+accuracy 1.000 and lowers readout FPR to 0.056. Table 5 gives all controls.
+In the proposal-policy experiment, the same Qwen model chooses legal interventions and
+the evidence gate processes the resulting transitions. Causal prompting alone has target-edge
+F1 0.163 and 32.0 readout false positives. Gating raises target-edge F1 to 0.678–0.727 and
+eliminates readout false positives. Table 6 gives the full breakdown.
+Figure 2 localizes four distinct errors in the frozen answer map: ranking loses target
+identity, ungated writing loses validity, source dynamics loses the shifted sign, and prompting
+loses readout control.
+These errors persist under relabeling, hidden gates, or readout
+corruption even when the corresponding task objective remains useful.
+21
+
+
+Zhang, Liu, Xie, Dong, Wang, and Zeng
+5.6 Reproducibility
+Code for generating the SCM families, running the baselines, reproducing the MuJoCo and
+language-model experiments, and rebuilding every figure is available at https://github.
+com/ShengjunZhang/mechanism-memory. The source-data tables and raw result files are
+included with the submission. Appendix B gives the random seeds, budgets, model variants,
+probe definitions, and implementation details used in the reported results.
+6 Conclusion
+Causal retention asks whether a frozen learned state preserves an interventional answer map
+beyond what task success requires. Probe Bayes risk, posterior retest coverage, and the
+exact edit decomposition connect interface identification to selective adaptation without
+assuming a particular decoder. Finite SCMs, continuous control, a pretrained world model,
+and frozen Qwen states expose target, context, value, and delay errors despite useful task or
+source-decoding performance. The continuous results concern a fixed distribution of state,
+intervention, and horizon queries rather than recovery of an unrestricted latent SCM.
+Appendix A. Auxiliary Theoretical Results
+The finite constructions below establish the interface separations and the extensions used by
+the selective-adaptation analysis. All logarithms are natural.
+A.1 Coarse Behavioral and Predictive Interfaces
+Proposition 9 There are finite deterministic structural causal model classes in which
+reward, optimal-policy, intervention-ranking, graph, synchronized-readout, and passive hidden-
+context interfaces are strictly coarser than the exact mechanism-probe interface. For each
+interface, a point-mass probe distribution has minimax mechanism risk at least 1/2.
+Proof Each construction consists of two models with the same coarse interface and different
+answers to one mechanism probe. The lower bound then follows from Theorem 2 with ρ = 1.
+For reward and optimal-policy interfaces, let U, Y ∈{0, 1} and let a be the only nontrivial
+action. In M0, a directly sets Y ←1 and leaves U unchanged. In M1, a directly sets U ←1
+and the structural equation is Y ←U. Initialize U = Y = 0 and let reward be Y . Every
+policy induces the same reward sequence in the two models, and the optimal value and
+optimal-policy set agree. The direct target of a is Y in M0 and U in M1.
+For intervention ranking, add a null action b with utility zero. In both models above, a
+yields utility one and b yields utility zero. Hence every pairwise ranking label is identical,
+while the direct target of the preferred action still differs.
+For a graph interface, use the same graph A →Y in both models and let do(A = 1) set
+Y ←1 in M0 and Y ←0 in M1 from a common baseline Y = 1/2. The graph is identical,
+whereas the value coordinate of the mechanism answer differs. A delay or context coordinate
+can be varied in the same way without changing the graph.
+For a synchronized-readout interface, let R be an observed proxy. In M0, a directly sets
+Y ←1 and R ←Y ; in M1, a directly sets R ←1 and Y ←R. Both produce the observed
+pair (Y, R) = (1, 1) after a, but the direct target is Y in M0 and R in M1.
+22
+
+
+Causal Retention in Interactive Agents
+For passive hidden-context observation, fix p ∈(0, 1). In M0, action a sets Y ←1 with
+probability p independently on each trial. In M1, a latent H ∼Bernoulli(p) is drawn before
+each trial and a deterministically sets Y ←1 if and only if H = 1. The passive law of (a, Y )
+is Bernoulli with parameter p in both models, while only M1 has a hidden eligibility context.
+These pairs establish all claimed strict coarsenings.
+The proposition does not assert that reward, graph estimation, or ranking is uninformative.
+It states that these population objects need not determine all coordinates of the mechanism
+answer. Additional intervention contrasts can refine the interface and remove a particular
+ambiguity.
+A.2 Finite-Sample Contrast Gates
+The constructive results use paired intervention contrasts rather than raw action correlations.
+The following calculation supplies the common finite-sample term for the target, context,
+and temporal gates.
+Lemma 10 For u ∈{0, 1}, let Y u
+1 , . . . , Y u
+nu be independent random variables in [0, 1] with
+means pu. Define
+b∆= 1
+n1
+n1
+X
+r=1
+Y 1
+r −1
+n0
+n0
+X
+r=1
+Y 0
+r ,
+∆= p1 −p0.
+Then, for every x > 0,
+P{|b∆−∆| ≥x} ≤2 exp
+
+−
+2x2
+n−1
+1
++ n−1
+0
+
+.
+If a gate accepts when b∆≥λ and every population contrast is at least λ + γ or at most
+λ −γ, the probability of any error among K candidates is at most
+2K exp
+
+−
+2γ2
+n−1
+1
++ n−1
+0
+
+.
+For a balanced design n0 = n1 = m, this becomes 2Ke−mγ2.
+Proof Center all observations and write
+b∆−∆=
+n1
+X
+r=1
+Y 1
+r −p1
+n1
+−
+n0
+X
+r=1
+Y 0
+r −p0
+n0
+.
+Each summand in the first sum has an interval of possible values of length 1/n1, and each
+summand in the second has interval length 1/n0. Hence the sum of squared interval lengths
+is
+n1
+ 1
+n1
+2
++ n0
+ 1
+n0
+2
+= 1
+n1
++ 1
+n0
+.
+Hoeffding’s inequality (Hoeffding, 1963) gives the stated exponential bound for each tail;
+adding the two tails proves the first display. A population contrast on either side of the
+23
+
+
+Zhang, Liu, Xie, Dong, Wang, and Zeng
+threshold can be misclassified only if |b∆−∆| ≥γ. Applying the first bound and then a
+union bound over K candidates proves the remaining claims.
+The independent-pair calculation extends to adaptive interaction when action probabili-
+ties are logged.
+Lemma 11 Let (Ft)N
+t=0 be the interaction filtration. At round t, let Yt(1), Yt(0) ∈[0, 1] be
+potential responses and suppose
+At ⊥⊥(Yt(1), Yt(0)) | Ft−1,
+et = P(At = 1 | Ft−1) ∈[ϵ, 1 −ϵ]
+almost surely for some 0 < ϵ ≤1/2. Observe Yt = AtYt(1) + (1 −At)Yt(0) and define
+b∆N = 1
+N
+N
+X
+t=1
+AtYt
+et
+−(1 −At)Yt
+1 −et
+
+,
+∆N = 1
+N
+N
+X
+t=1
+E[Yt(1) −Yt(0) | Ft−1].
+Then, for every x > 0,
+P{|b∆N −∆N| ≥x} ≤2 exp{−Nϵ2x2/2}.
+Consequently, K adaptive gates whose average contrasts are separated from their thresholds
+by γ have joint error probability at most 2K exp{−Nϵ2γ2/2}.
+Proof Set
+Vt = AtYt
+et
+−(1 −At)Yt
+1 −et
+,
+dt = E[Yt(1) −Yt(0) | Ft−1].
+Consistency and sequential randomization imply
+E[Vt | Ft−1] = E[AtYt(1) | Ft−1]
+et
+−E[(1 −At)Yt(0) | Ft−1]
+1 −et
+= E[Yt(1) | Ft−1] −E[Yt(0) | Ft−1] = dt.
+Thus Dt = Vt−dt is a martingale difference. Conditional on Ft−1, Vt lies between −1/(1−et)
+and 1/et; subtracting dt does not change the interval width, and
+1
+et
++
+1
+1 −et
+≤2
+ϵ .
+Hoeffding’s conditional lemma therefore gives
+E[eλDt | Ft−1] ≤exp{λ2/(2ϵ2)}.
+Iterating conditional expectation yields
+E exp
+(
+λ
+N
+X
+t=1
+Dt
+)
+≤exp{Nλ2/(2ϵ2)}.
+24
+
+
+Causal Retention in Interactive Agents
+For λ > 0, Markov’s inequality gives
+P
+( N
+X
+t=1
+Dt ≥Nx
+)
+≤exp{−λNx + Nλ2/(2ϵ2)}.
+The minimizing value is λ = ϵ2x, which gives exp{−Nϵ2x2/2}. Applying the same argument
+to −Dt and adding the tails proves the first claim. The gate bound follows by setting x = γ
+and taking a union bound over K candidates.
+Proposition 12 Let F be a finite class of candidate readout formulas and let A(f) =
+P{f(X) = R}. From m independent observations define bAm(f) = m−1 Pm
+r=1 1{f(Xr) = Rr}.
+The rule declares R a formula readout when maxf∈F bAm(f) ≥c.
+If some f⋆satisfies
+A(f⋆) ≥c+γ, its false-negative probability is at most e−2mγ2. If every f satisfies A(f) ≤c−γ,
+the false-positive probability is at most |F|e−2mγ2.
+Proof In the first case, a false negative implies bAm(f⋆) < c. Therefore
+P{false negative} ≤P{ bAm(f⋆) −A(f⋆) ≤−γ}
+≤e−2mγ2.
+In the second case, a false positive implies that at least one f ∈F satisfies bAm(f)−A(f) ≥γ.
+Hoeffding’s inequality gives probability at most e−2mγ2 for each fixed f; a union bound over
+F proves the result.
+A.3 Hidden-Context Acquisition
+The no-signal bound is exact for a uniformly hidden label. If B ∼Unif({0, 1}m) and
+I(B; S) = 0, then B remains uniform conditional on S. Consequently every deterministic or
+randomized decoder bB based on S satisfies
+EdH( bB, B) = m/2,
+P{ bB = B} = 2−m.
+Active setup changes the rate at which informative eligible outcomes arrive.
+Proposition 13 Fix a hidden-gated candidate. Suppose a setup policy reaches an eligible
+state within at most h actions with probability at least β, independently across reset attempts.
+To collect m eligible process outcomes with probability at least 1 −δ, it is sufficient to run
+N ≥8
+β
+
+m + log 1
+δ
+
+setup attempts, for total action cost at most N(h + 1). Passive access is the same calculation
+with the ambient eligibility probability q in place of β; its expected number of attempts is
+m/q.
+25
+
+
+Zhang, Liu, Xie, Dong, Wang, and Zeng
+Proof Let KN be the number of successful setup attempts. It stochastically dominates a
+Binomial(N, β) variable with mean ν = Nβ. The stated condition implies
+ν ≥8
+
+m + log 1
+δ
+
+,
+m ≤ν/2.
+The multiplicative Chernoff lower-tail inequality (Boucheron et al., 2013) therefore gives
+P(KN < m) ≤P(KN ≤ν/2) ≤e−ν/8
+≤e−m−log(1/δ) = e−mδ ≤δ.
+Each successful attempt contributes one process outcome and uses at most h + 1 actions.
+Under passive access, eligible arrivals are Bernoulli with parameter q, so the waiting time
+for m arrivals is negative binomial with expectation m/q; the same Chernoff calculation
+gives the high-probability 1/q factor.
+A.4 Randomized Lists and Adaptive Stopping
+Let R be internal randomness independent of (B, Z). Conditional on Z = z, the coverage of
+L(z, R) is a convex combination of the coverage values of deterministic lists and is therefore
+at most Γk(z). An adaptive procedure that stops after retesting at most k distinct entries
+induces the list of all entries it examined. If its final memory is exact, this list must contain
+every shifted entry unless an untested entry was supplied by an external oracle. Hence its
+success probability is at most EΓk(Z) as well. Adaptive ordering can reduce the number
+of tests on favorable paths, but cannot increase the coverage permitted by a hard cap of k
+distinct entries.
+A.5 Diagnostic Localization Lower Bound
+Consider the symmetric one-shift family in Proposition 5. Let J be uniform on [n]. Condi-
+tional on J = j, the m samples at coordinate j are Bernoulli(1/2 + ∆/2) and those at every
+other coordinate are Bernoulli(1/2 −∆/2). Denote the joint law by Pj.
+For u = (1 + ∆)/2 and v = (1 −∆)/2,
+kl(u, v) = ∆log 1 + ∆
+1 −∆.
+When 0 < ∆≤1/2,
+log 1 + ∆
+1 −∆= log(1 + ∆) −log(1 −∆) ≤∆+
+∆
+1 −∆≤3∆,
+so both directed Bernoulli divergences are at most 4∆2. For j̸ = k, Pj and Pk differ only at
+coordinates j and k; product additivity therefore gives
+KL(Pj∥Pk) ≤8m∆2.
+26
+
+
+Causal Retention in Interactive Agents
+If P◦= n−1 Pn
+k=1 Pk, convexity in the second argument yields
+I(J; X) = 1
+n
+n
+X
+j=1
+KL(Pj∥P◦)
+≤1
+n2
+n
+X
+j,k=1
+KL(Pj∥Pk) ≤8m∆2.
+Fano’s inequality (Cover and Thomas, 2006) now implies
+P( bJ̸ = J) ≥1 −8m∆2 + log 2
+log n
+.
+Requiring this error to be at most ε and rearranging proves
+m ≥(1 −ε) log n −log 2
+8∆2
+.
+A.6 Top-s Diagnostic Selection
+Suppose |B| = s, shifted entries have means at least p, stable entries have means at most
+q < p, and ∆= p −q. Let bBs contain the s largest empirical means. If
+min
+j∈B Xj > p + q
+2
+and
+max
+j /∈B Xj < p + q
+2
+,
+then bBs = B. Hoeffding’s inequality and a union bound give
+P{ bBs̸ = B} ≤n exp(−m∆2/2).
+Consequently m ≥2∆−2 log(n/δ) is sufficient for exact top-s recovery with probability at
+least 1 −δ.
+A.7 Coordinate Loss and End-to-End Sample Composition
+Let ej,k indicate an error in coordinate k ∈{ctx, tar, val, del} of entry j. Exact entry error
+satisfies
+max
+k
+ej,k ≤1{bθt
+j̸ = θt
+j} ≤
+X
+k
+ej,k.
+Summing first over S and B and then dividing by n yields
+Ladapt = |S|
+n Lstab + |B|
+n Lshift,
+and bounds each term by its coordinate losses. Let Ftar, Fctx, Fro, Ftime, and Fhid denote,
+respectively, a target-contrast error, a visible context error, a readout-classification error, a
+delay error, and a hidden setup or hidden-label error in the source memory. Then
+Fsrc ⊆Ftar ∪Fctx ∪Fro ∪Ftime ∪Fhid.
+27
+
+
+Zhang, Liu, Xie, Dong, Wang, and Zeng
+Diagnostic selection controls whether the appropriate target entry is tested; local retesting
+controls its replacement coordinates. This is the component factorization used by Theorem 7.
+For balanced paired designs, Lemma 10 gives
+P(Ftar) ≤2Ktare−mtarγ2
+tar,
+P(Fctx) ≤2Kctxe−mctxγ2
+ctx,
+P(Ftime) ≤2Ktimee−mtimeγ2
+time.
+Proposition 12 and the hidden-label threshold test give the following bounds, where Fmax is
+the largest readout formula-class size:
+P(Fro) ≤Kro(Fmax + 1)e−2mroγ2
+ro,
+P(Fhid) ≤δset + 2Khide−mhidγ2
+hid,
+where Proposition 13 supplies an attempted-action budget for δset. Diagnostic localization
+and local retesting obey
+P(Fdiag) ≤ne−mdiag∆2/2,
+P(Fupd) ≤
+X
+j∈B
+|Nj|e−rjη2
+j /2.
+For example, the sufficient allocations
+mg ≥γ−2
+g
+log 2Kg
+δg
+,
+g ∈{tar, ctx, time},
+mro ≥
+1
+2γ2ro
+log Kro(Fmax + 1)
+δro
+,
+mhid ≥
+1
+γ2
+hid
+log 2Khid
+δlabel
+,
+mdiag ≥2
+∆2 log
+n
+δdiag
+,
+rj ≥2
+η2
+j
+log |B| |Nj|
+δupd
+make the corresponding terms no larger than their assigned failure budgets. Set
+δsrc = δtar + δctx + δro + δtime + δhid,
+δhid = δset + δlabel.
+If δsrc + δϕ + δdiag + δupd ≤δ, substitution into Theorem 7 yields P(Ladapt > 0) ≤δ.
+Appendix B. Experimental Protocols and Results
+B.1 Fixed-Memory Evaluation
+During interaction, each method may use its allowed internal state to choose actions.
+Learning then stops. The evaluator queries only the frozen answer map Tbµ on held-out
+probes and compares it with the SCM answer GM. Ground-truth mechanisms are used
+28
+
+
+Causal Retention in Interactive Agents
+Method
+Target F1
+FP Readout FP Hidden recall Hidden FP
+Causal Core context search
+0.793
+1.063
+0.000
+0.458
+0.000
+Conditional discovery, tuned
+0.640
+8.438
+6.813
+0.417
+3.250
+Conditional discovery, readout
+oracle
+0.763
+1.938
+0.000
+0.417
+1.500
+Tuple lift, tuned
+0.650
+8.000
+7.438
+0.479
+10.875
+Tuple lift, readout oracle
+0.789
+1.313
+0.000
+0.500
+6.188
+Latent world model, tuned
+0.239 48.688
+16.250
+0.250
+46.750
+Latent world model, readout
+oracle
+0.319 43.563
+0.000
+0.250
+39.875
+Transition probe, tuned
+0.396 38.625
+13.250
+0.313
+28.063
+Transition probe, readout oracle
+0.479 25.375
+0.000
+0.313
+21.188
+Table 1: Matched finite-SCM baselines.
+to construct probes and scores after the run; they are never supplied to the writer during
+interaction.
+Exact mechanism accuracy uses tuple matches. The finite discovery and language tables
+report target-edge precision, recall, and F1 from Eq. (22), while context, value, delay, and
+readout coordinates are probed separately. The FP column counts |E(bµ) \ E(µ⋆)|. Readout
+false positives are the subset whose direct-target field is a designated sensor or deterministic
+proxy. Hidden recall counts true hidden-gated mechanisms whose context type is retained.
+AdaptScore equals one only when all shifted entries are corrected and all stable entries are
+preserved.
+B.2 Baselines
+The reward learner stores effects associated with high-return actions. Passive correlation
+stores observed changes without action contrasts. Conditional discovery thresholds con-
+ditional transition differences; its readout-oracle variant removes known readouts before
+scoring. Tuple lift converts discovered dependencies into the full output schema, and its
+oracle variant receives the same readout information. The latent world model and neural
+transition probe fit source transitions and are decoded only after their states are frozen.
+TD-MPC2 uses the released MT30 checkpoint; linear and nonlinear response decoders are
+fitted to source intervention pairs and frozen before the actuator remapping. Its global and
+selective updates receive identical target pairs. The ranking predictor minimizes pairwise
+intervention-ranking loss. Ungated writers admit every proposed tuple; gated variants use
+the same proposals but apply Eqs. (5) and (6). These controls separate objective and
+interface effects from output-format effects.
+All rows in Table 1 receive the same trajectories. The latent world model attains next-bit
+accuracy 0.905 (and 0.907 with the readout oracle), so its probe error is not explained by
+failed source prediction. Treating each generated SCM family as the independent unit, the
+mean target-edge F1 and family-clustered 95% t intervals are 0.793 [0.749, 0.837] for Causal
+Core, 0.640 [0.606, 0.673] for conditional discovery, 0.789 [0.740, 0.839] for oracle tuple lift,
+0.239 [0.185, 0.292] for latent modeling, and 0.396 [0.387, 0.404] for the transition probe. The
+29
+
+
+Zhang, Liu, Xie, Dong, Wang, and Zeng
+Task
+Ranking signal
+Ranking predictor
+Causal Core
+Noisy-hidden ranking
+Source rank
+0.521
+Target F1 0.000;
+hidden 0.000
+Target F1 0.764;
+hidden 0.672
+Renamed adaptation
+Source/target
+rank 0.865/0.500
+AdaptScore 0.000
+AdaptScore 1.000
+Semantic-readout adaptation
+Source/target
+rank 0.756/0.428
+AdaptScore 0.000
+AdaptScore 1.000
+Table 2: Ranking and selective-adaptation results.
+Method
+Precision
+Recall
+F1
+FP
+Readout FP
+Context error
+Random correlation
+0.252
+1.000
+0.402
+17.85
+5.95
+0.00
+Global linear regression
+0.500
+1.000
+0.667
+6.00
+4.00
+2.00
+Metric Causal Core
+1.000
+1.000
+1.000
+0.00
+0.00
+0.00
+Table 3: Continuous metric-cell results.
+intervals are descriptive across the eight generated families; the exact family-seed values are
+in the source-data archive.
+B.3 Continuous Metric Cells
+The continuous SCM has two physical state coordinates, a two-dimensional action, a
+deterministic pressure readout, and a context-specific vent effect. The evaluator fixes metric
+cells before training. A pulse is correct only when its direct target, sign, and context cell
+match the reference answer.
+For noise levels 0.02, 0.05, 0.10, 0.15, metric Causal Core retains F1 1.000. The corre-
+sponding random-correlation F1 scores are 0.402, 0.321, 0.265, 0.252; global linear scores are
+0.667, 0.667, 0.667, 0.695.
+B.4 Distributional World-Model Probes
+The public TD-MPC2 MT30 checkpoint contains 5,241,066 parameters and is evaluated
+without weight updates. Its SHA-256 digest, checkpoint metadata, and all per-run outputs
+are included with the source data. The tasks are cheetah-run, walker-walk, and reacher-
+easy, with three state-sampling seeds per task. States are collected under the checkpoint
+policy with Gaussian action noise. The evaluator draws unit action directions and horizons
+h ∈{1, 2, 4}, then branches the MuJoCo physics state to compute Eq. (23). Each source
+decoder receives 900 training queries; source and target evaluation use 240 held-out queries
+each.
+The linear decoder is ridge regression. The nonlinear decoder has two 256-unit GELU
+layers, uses a disjoint 15% validation split, and stops after 24 epochs without improvement.
+Both receive the encoded state, the difference of positive and negative latent rollouts, the
+30
+
+
+Causal Retention in Interactive Agents
+Task
+Source NRMSE Frozen sign Global sign Selective sign Localized
+Cheetah run
+0.701
+0.028
+0.794
+0.975
+3/3
+Walker walk
+0.841
+0.142
+0.786
+0.869
+3/3
+Reacher easy
+0.343
+0.003
+0.500
+1.000
+3/3
+Mean
+0.629
+0.057
+0.694
+0.948
+9/9
+Table 4: Distributional intervention responses.
+action direction, and the horizon. The normalized response error is
+NRMSE =
+ P
+i ∥b∆i −∆i∥2
+2
+P
+i ∥∆i∥2
+2
+!1/2
+.
+Effect-sign accuracy evaluates the sign at the largest-magnitude coordinate of the true
+response.
+For seed s, actuator (s−1) mod da changes sign. Adaptation uses five states per actuator.
+The selective update compares positive and negative actuator hypotheses and changes an
+entry only when the alternative halves its paired loss. The global update fits an unrestricted
+residual probe head to the same target pairs. Thresholds from 0.45 through 0.90 all localize
+the same single actuator in every run.
+On random target directions, NRMSE is 1.138 for the frozen model, 1.548 for the global
+update, and 0.630 for the selective update. On directions that exclude the shifted actuator,
+the corresponding stable-response errors are 0.673, 1.460, and 0.673. The selective update
+therefore matches the oracle actuator map at the reported precision without changing stable
+responses. The fixed finite query support together with a bounded truncation of Euclidean
+loss instantiates Eq. (2); untruncated NRMSE is reported to expose large errors. The
+experiment does not infer an unrestricted latent SCM.
+B.5 Language-Model States and Proposal Policies
+The hidden-state experiment presents Qwen2.5-7B-Instruct with a controlled intervention
+record followed by a binary direct-target or delay probe. Twelve procedural families supply
+504 balanced training probes; six disjoint families supply 360 balanced test probes. Each
+family and condition receives a fresh random permutation of neutral action and state tokens,
+so a decoder cannot identify a mechanism from a recurring name. Every record contains
+two controlled repetitions per action. Prompt length is 697 tokens on average and 812 at
+maximum, with no truncation.
+The language model is frozen. At the answer position, hidden vectors are extracted from
+layers 0, 7, 14, 21, and 28. A logistic decoder is fit at each layer, and a two-layer multilayer
+perceptron and an RBF support-vector decoder are fit to the last layer. The controls are
+query-only TF–IDF, the model’s calibrated Yes/No logit margin, and a paired-evidence rule.
+The gated mechanism state admits a candidate only when the controlled pair supports its
+lag and unrelated interventions do not support the same target. All decoders and thresholds
+are frozen before evaluation on the six test families. Balanced accuracy is reported for
+31
+
+
+Zhang, Liu, Xie, Dong, Wang, and Zeng
+State or decoder
+Source BA
+Renamed BA
+Shifted-delay BA
+Readout FPR
+Query-only TF–IDF
+0.736
+0.611
+0.000
+0.611
+Qwen Yes/No logits
+0.653
+0.583
+0.417
+0.000
+Qwen last-layer linear
+0.958
+0.847
+0.583
+0.000
+Qwen last-layer RBF
+0.944
+0.875
+0.250
+0.111
+Paired evidence
+1.000
+1.000
+1.000
+0.944
+Gated mechanism state
+1.000
+1.000
+1.000
+0.056
+Table 5: Frozen language-model state probes.
+Agent
+Precision Recall Target F1
+FP Readout FP Hidden recall
+Ungated Qwen explorer
+0.127
+0.430
+0.196 92.3
+37.0
+0.00
+Qwen with causal prompt
+0.109
+0.323
+0.163 82.3
+32.0
+0.00
+Qwen + context-search gate
+0.767
+0.613
+0.678
+6.0
+0.0
+0.17
+Qwen + control-planner gate
+0.901
+0.613
+0.727
+2.0
+0.0
+0.08
+Pure context-search planner
+0.823
+0.581
+0.680
+4.0
+0.0
+0.17
+Pure control planner
+0.790
+0.634
+0.697
+5.7
+0.0
+0.17
+Table 6: Language-model proposal policies.
+mixed-label probes; readout FPR is the acceptance rate on synchronized-readout candidates.
+Standard errors in Figure 4 use the six test families as clusters.
+The source score of the last-layer linear decoder shows that substantial mechanism
+information is present in the frozen hidden state. Its shifted-delay score of 0.583, together
+with the RBF decoder’s score of 0.250, shows that source decodability does not yield a stable
+answer under a held-out mechanism change. Paired evidence recovers the changed delay
+but accepts 94.4% of synchronized readouts. The gate retains its perfect shifted-delay score
+while reducing that false-positive rate to 5.6%.
+Qwen2.5-7B-Instruct is used only to propose the next legal intervention from the current
+transcript. Runs use deterministic decoding, 100 interaction steps, and three seeds. The
+action is executed in the same complex noisy-hidden family used by the non-language
+comparison. Explanations and reward predictions receive no probe credit. Invalid outputs
+are mapped by the same deterministic action parser in every language condition.
+The causal prompt does not remove readout contamination. The gated variants use the
+same language model as a proposal source but apply the evidence gate after observing the
+transition. Their advantage therefore comes from the memory update, not from treating
+generated explanations as causal labels.
+B.6 Candidate Budgets and Implementation
+Candidate schedules cap computation but do not enter the probe metric. Small, default,
+and wide schedules yield the same target-edge F1 at 80 and 160 steps (0.698 and 0.763),
+zero readout false positives, and hidden recall rising from 0.125 to 0.625. All thresholds,
+target budgets, metric cells, saved MuJoCo states, language prompts, and parsers are fixed
+before held-out scoring; malformed language proposals count as failures.
+Finite-SCM actions are interventions.
+The writer estimates Eq. (4) from action-
+conditioned lift and repeated context visits. Because these trajectories are adaptive, the iid
+32
+
+
+Causal Retention in Interactive Agents
+bounds in Appendix A.2 are not reported as confidence intervals for the empirical tables.
+Lemma 11 covers randomized adaptive logging; the continuous protocols use the paired
+design directly. Candidate caps determine which contrasts are attempted, not how frozen
+probes are scored. Numerical tables and raw JSON files are included as source data.
+References
+M. Arjovsky, L. Bottou, I. Gulrajani, and D. Lopez-Paz. Invariant risk minimization. arXiv
+preprint arXiv:1907.02893, 2019.
+E. Bareinboim and J. Pearl. Causal inference and the data-fusion problem. Proceedings of
+the National Academy of Sciences, 113(27):7345–7352, 2016.
+S. Boucheron, G. Lugosi, and P. Massart. Concentration Inequalities: A Nonasymptotic
+Theory of Independence. Oxford University Press, 2013.
+V. Chernozhukov, D. Chetverikov, M. Demirer, E. Duflo, C. Hansen, W. Newey, and
+J. Robins. Double/debiased machine learning for treatment and structural parameters.
+The Econometrics Journal, 21(1):C1–C68, 2018.
+D. M. Chickering. Optimal structure identification with greedy search. Journal of Machine
+Learning Research, 3:507–554, 2002.
+T. M. Cover and J. A. Thomas. Elements of Information Theory. Wiley-Interscience, 2
+edition, 2006.
+J. L. Gamella, S. Bing, and J. Runge. Sanity checking causal representation learning on a
+simple real-world system. In Proceedings of the 42nd International Conference on Machine
+Learning, 2025.
+D. Ha and J. Schmidhuber. World models. arXiv preprint arXiv:1803.10122, 2018.
+D. Hafner, J. Pasukonis, J. Ba, and T. Lillicrap. Mastering diverse control tasks through
+world models. Nature, 2025.
+N. Hansen, H. Su, and X. Wang. TD-MPC2: Scalable, robust world models for continuous
+control. In International Conference on Learning Representations, 2024.
+A. Hauser and P. B¨uhlmann. Characterization and greedy learning of interventional markov
+equivalence classes of directed acyclic graphs. Journal of Machine Learning Research, 13:
+2409–2464, 2012.
+W. Hoeffding. Probability inequalities for sums of bounded random variables. Journal of
+the American Statistical Association, 58(301):13–30, 1963.
+G. W. Imbens and D. B. Rubin. Causal Inference in Statistics, Social, and Biomedical
+Sciences. Cambridge University Press, 2015.
+S. R. K¨unzel, J. S. Sekhon, P. J. Bickel, and B. Yu. Metalearners for estimating heterogeneous
+treatment effects using machine learning. Proceedings of the National Academy of Sciences,
+116(10):4156–4165, 2019.
+F. Locatello, S. Bauer, M. Lucic, S. Gelly, B. Sch¨olkopf, and O. Bachem. Challenging common
+assumptions in the unsupervised learning of disentangled representations. Proceedings of
+Machine Learning Research, 97:4114–4124, 2019.
+X. Nie and S. Wager. Quasi-oracle estimation of heterogeneous treatment effects. Biometrika,
+108(2):299–319, 2021.
+J. Pearl. Causality: Models, Reasoning, and Inference. Cambridge University Press, 2
+edition, 2009.
+33
+
+
+Zhang, Liu, Xie, Dong, Wang, and Zeng
+J. Peters, P. B¨uhlmann, and N. Meinshausen. Causal inference by using invariant prediction:
+Identification and confidence intervals. Journal of the Royal Statistical Society: Series B,
+78(5):947–1012, 2016.
+J. Peters, D. Janzing, and B. Sch¨olkopf. Elements of Causal Inference: Foundations and
+Learning Algorithms. MIT Press, 2017.
+D. B. Rubin. Estimating causal effects of treatments in randomized and nonrandomized
+studies. Journal of Educational Psychology, 66(5):688–701, 1974.
+S. Saengkyongam, E. Rosenfeld, P. Ravikumar, N. Pfister, and J. Peters.
+Identifying
+representations for intervention extrapolation. In International Conference on Learning
+Representations, 2024.
+B. Sch¨olkopf, F. Locatello, S. Bauer, N. R. Ke, N. Kalchbrenner, A. Goyal, and Y. Bengio.
+Toward causal representation learning. Proceedings of the IEEE, 109(5):612–634, 2021.
+U. Shalit, F. D. Johansson, and D. Sontag. Estimating individual treatment effect: General-
+ization bounds and algorithms. Proceedings of Machine Learning Research, 70:3076–3085,
+2017.
+S. Shimizu, P. O. Hoyer, A. Hyv¨arinen, and A. Kerminen. A linear non-gaussian acyclic
+model for causal discovery. Journal of Machine Learning Research, 7:2003–2030, 2006.
+H. Shindo, Y. Deng, T. Cao, Q. Delfosse, C. Tauchmann, J. Bl¨uml, G. Sudhakaran, and
+K. Kersting. Learning explicit behavioral models with adaptive questions and world-model
+probes. arXiv preprint arXiv:2606.07127, 2026.
+P. Spirtes, C. N. Glymour, and R. Scheines. Causation, Prediction, and Search. MIT Press,
+2 edition, 2000.
+R. S. Sutton and A. G. Barto. Reinforcement Learning: An Introduction. MIT Press, 2
+edition, 2018.
+A. B. Tsybakov. Introduction to Nonparametric Estimation. Springer, 2009.
+B. Varici, E. Acart¨urk, K. Shanmugam, A. Kumar, and A. Tajer. Score-based causal
+representation learning: Linear and general transformations. Journal of Machine Learning
+Research, 26(112):1–90, 2025.
+S. Wager and S. Athey. Estimation and inference of heterogeneous treatment effects using
+random forests. Journal of the American Statistical Association, 113(523):1228–1242,
+2018.
+A. Yang, B. Yang, B. Hui, B. Zheng, B. Yu, C. Zhou, C. Li, C. Li, D. Liu, F. Huang, et al.
+Qwen2 technical report. arXiv preprint arXiv:2407.10671, 2024.
+S. Yao, J. Zhao, D. Yu, N. Du, I. Shafran, K. Narasimhan, and Y. Cao. ReAct: Syner-
+gizing reasoning and acting in language models. International Conference on Learning
+Representations, 2023.
+A. Zhang, C. Lyle, S. Sodhani, A. Filos, M. Kwiatkowska, J. Pineau, Y. Gal, and D. Precup.
+A survey on causal reinforcement learning. arXiv preprint arXiv:2002.05209, 2021.
+X. Zheng, B. Aragam, P. K. Ravikumar, and E. P. Xing. DAGs with NO TEARS: Continuous
+optimization for structure learning. Advances in Neural Information Processing Systems,
+31, 2018.
+B. J. Zou, M. E. Levine, D. P. Zaharieva, R. Johari, and E. B. Fox. Hybrid2 neural ODE
+causal modeling and an application to glycemic response. In Proceedings of the 41st
+International Conference on Machine Learning, volume 235 of Proceedings of Machine
+Learning Research, 2024.
+34

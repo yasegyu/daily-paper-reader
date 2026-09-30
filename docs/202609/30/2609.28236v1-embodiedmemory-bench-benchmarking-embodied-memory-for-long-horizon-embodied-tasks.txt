@@ -1,0 +1,2669 @@
+OmniAI Group of ZJU ACES Lab
+OmniAI Group of ZJU ACES Lab
+Zhejiang University
+EmbodiedMemory-Bench: Benchmarking
+Embodied Memory for Long-Horizon
+Embodied Tasks
+Lizhou Liang1, Xinyu Zhong2, Miao Pan1, Xiaohe Zhou1, Xuanyu Liu1, Qinfeng Li1, Peng Li3,
+Jintao Chen1, Xuhong Zhang1, Wenqi Zhang1
+1Zhejiang University 2Central South University 3Institute of Software, Chinese Academy of Sciences
+Long-horizon embodied interaction requires agents to retain and continually update information
+about the environment as they observe, act, and encounter change. Yet current agents struggle to
+maintain such memory reliably. Our analysis traces this limitation to four key deficiencies: weak
+fine-grained visual memory, unreliable dynamic world-state tracking, failing to record world state
+revealed by interaction outcomes, and limited generalization from prior experience. However, existing
+benchmarks do not directly assess these memory capabilities during long-horizon embodied interaction.
+To address this gap, we introduce EmbodiedMemory-Bench (EMem-Bench), comprising 2,554
+interactive episodes across four task families. EMem-Bench requires agents to build and update
+memory from interaction history, then use it to complete a later task by acting in the environment.
+We further present Embodied-Memorizer (EMem), an external memory system that organizes
+embodied experience into spatial, event, and scene memories. We also train EMem-8B, an 8B
+policy that manages and uses these memories. We evaluate a diverse range of open-source and
+proprietary MLLMs and representative multimodal memory systems. Results show that current
+models remain weak and uneven across the four challenges. Under matched backbones, EMem
+achieves the best overall performance among the evaluated memory systems and improves both
+open-source and proprietary models, while EMem-8B further improves over its backbone. Project page:
+https://zju-omniai.github.io/EmbodiedMemoryBench/.
+1
+Introduction
+Recent rapid advances in language models have empowered LLM agents to autonomously complete complex,
+long-horizon tasks in digital environments, often spanning hours or even days, such as developing large-scale
+software from scratch or conducting online research and writing reports. A key capability underlying this
+progress is long-term memory, which involves retaining interaction histories, retrieving past information, and
+reusing experience across tasks.
+When agents step out of text-centric digital environments into the real 3D physical world, however, the
+demands on memory become substantially more complex. Text-centric memory primarily retains linguistic
+information, while multimodal memory extends this to images and videos. As illustrated in Figure 1, embodied
+memory must further preserve the causal connections between observations, actions, and feedback: actions
+change the environment, and their outcomes reveal world states and constraints that may not be directly
+visible. These interactions unfold over long horizons in environments subject to disturbance and change (Zhang
+et al., 2025). Embodied agents must therefore process cross-modal, lengthy, and noisy interaction histories,
+extracting useful context and organizing it into concise memory that supports reasoning and subsequent
+physical interaction.
+arXiv:2609.28236v1  [cs.CV]  23 Sep 2026
+
+
+Text Memory
+Multimodal Memory
+Embodied Memory
+Textual Interaction Trajectory
+Single modality, limited information
+Videos / Images
+Text
+Videos / Images
+···
+Two modalities, shorter trajectories
+Videos / Images
+Action
+Feedback
+···
+Physical-world interaction trajectories: multimodal, causal, detailed, and redundant.
+Task Instruction
+Task Instruction
+Task Instruction
+Figure 1 Comparison of text-centric, multimodal, and embodied memory. Embodied memory connects visual obser-
+vations, actions, and feedback into causal interaction histories that support subsequent tasks in a changing physical
+world.
+Likewise, embodied memory is an indispensable capability for long-horizon interaction in the physical world:
+an embodied agent that cannot remember where objects were observed, how the environment has changed,
+or what actions it has previously taken is inevitably reduced to short-sighted behavior driven by immediate
+perception.
+Move the cube to the black table; move the lemon to the left counter.
+2
+Lemon ignored
+3
+Search Lemon
+4
+Search Lemon
+5
+Search Lemon
+Fail to capture the lemon during Passive Observation (35%)
+Slice a heated potato with a knife and place it in the garbage can.
+Fail to perform Dynamic Tracking of the potato’s state (18%)
+Carefully load all cans onto the black table.
+Fail to estimate grasp state from Interaction Feedback (31%)
+Slice a tomato, heat it in the microwave, and place it in the sink.
+Fail to Generalize Experience: Put down Object →Knife (7%)
+1
+Move Cube
+1
+Heat
+2
+Slice
+3
+Place
+4
+Retrieve
+5
+Heat again
+1
+Assume holding
+2
+Navigate
+3
+Place failed
+4
+Navigate ×9
+5
+Place failed ×9
+FS
+Few-shot: Put down
+knife →Pick tomato
+1
+Knife retained
+2
+Knife heated
+3
+Tomato unheated 
+4
+Repair failed
+Figure 2 Primary errors in 100 failed EmbodiedBench
+trajectories from Gemini-3-Flash and Qwen3-VL-32B
+on EB-ALF and EB-Hab. The four embodied-memory
+categories account for 91% of failures. Percentages
+in parentheses indicate the proportion of failures at-
+tributed to each error category.
+Recent embodied benchmarks (Yang et al., 2025a) show
+that even the most advanced MLLMs struggle with long-
+horizon embodied tasks. To investigate this limitation
+in depth, we manually inspect 100 failed trajectories
+of Gemini-3-Flash and Qwen3-VL-32B on Embodied-
+Bench’s EB-ALF and EB-Hab. As shown in Figure 2,
+most failures fall into four categories: forgetting fine-
+grained visual cues (35%), overlooking changes in the
+environment (18%), failing to record world state re-
+vealed by interaction outcomes (31%), and failing to
+generalize from prior experience (7%). For long-horizon
+tasks, these four types of failures are so frequent and per-
+vasive (about 91% in total) that even advanced MLLMs
+and embodied models are not immune to them. This four
+typical failures correspond to four essential embodied-
+memory capabilities in long-horizon interaction: (1) Fine-
+grained visual memory. Although future tasks are not
+known in advance, an embodied agent must remember
+the appearances and locations of the objects it has seen,
+as any of them may be needed later. (2) Dynamic world-
+state tracking. In real-world environments, the states
+of objects may be altered by humans or other robots,
+so the agent must continually record the latest state of
+each object. (3) Recording world state revealed by in-
+teraction outcomes. Failed grasps, locked cabinets, and
+unusable receptacles reveal state unavailable to vision;
+this state must likewise be remembered and constrain
+later actions. (4) Experience generalization memory.
+Successes and failures from earlier tasks, together with
+
+
+physical regularities observed along the way, must also be retained and transferred to new tasks.
+In this paper, we introduce EmbodiedMemory-Bench (EMem-Bench), which contains 2,554 carefully designed
+episodes. Each episode consists of a temporally ordered history of multimodal interactions with the environment
+H = {oh
+1, . . . , oh
+N}, a target task T , and a feasible action space A. The embodied agent must comprehend
+the given history H, implicitly or explicitly extract the information required by T , and then interact with
+the environment step by step, generating its own interaction trajectory (oe
+1:t) until the task is completed:
+at ∼π(· | H, T , oe
+1:t, a1:t−1).
+We design each episode by varying the interaction history (H) and the target task (T ). All tasks are organized
+into four sub-task families: Passive Observation tests fine-grained visual memory in object-dense views;
+Dynamic Tracking tests whether the agent remembers changes in object states within the environment;
+Interaction Failure tests whether world state revealed by interaction outcomes is recorded; and Experience
+Generalization tests whether regularities learned from recurring experiences transfer to new task scenarios.
+Figure 3 illustrates the four task families.
+EMem-Bench differs from current general embodied benchmarks, which either adopt single-turn question-
+answering task or instruct the agent to explore the environment and execute a given task without any provided
+context. In contrast, our memory-centric benchmark focuses on an embodied agent’s ability to exploit memory:
+given offline interaction trajectories, the agent must consolidate them into memory, reason over it, and
+translate it into effective actions in the environment. Table 1 summarizes this comparison.
+Using EMem-Bench, we evaluate 16 leading open-source and proprietary MLLMs together with representative
+multimodal memory systems. The strongest proprietary model, Gemini-3-Flash, reaches only 64.2% average
+SR, while all but one of the evaluated open-source models score below 45%. Among 400 sampled failures,
+61.3% begin when the model acts on a memory contradicted by its interaction history. These results show
+that even strong models cannot consistently maintain an accurate memory of the environment they interact
+with, and that open-source models exhibit large differences across the four task families.
+In addition, we introduce a simple yet effective embodied memory system, Embodied-Memorizer (EMem),
+as a baseline, which organizes multimodal experience through scene, spatial, and event memories, together
+with an 8B policy trained to write, retrieve, and use these memories. Without task-specific training, EMem
+improves average SR by 16.4 points on the open-source Mistral-Small-3.1-24B and by 23.6 points on the
+proprietary GPT-5.4-mini; the trained EMem-8B policy improves over Qwen3-VL-8B by 20.6 points. Our
+contributions are as follows:
+• We identify four typical errors in embodied interaction: forgetting fine-grained visual cues, overlooking
+environmental changes, failing to record world state revealed by interaction outcomes, and failing to
+generalize from prior experience—revealing that current MLLMs lack embodied memory required for
+long-horizon tasks.
+• We introduce EMem-Bench, a memory-centric benchmark with 2,554 episodes across four task families.
+Agents must extract information from a given multimodal interaction history, construct the relevant
+memory, and interact with the environment for task completion.
+• We systematically evaluate 16 open-source and proprietary MLLMs together with representative mul-
+timodal memory systems, revealing persistent limitations across the four memory types. We further
+present an embodied memory system that organizes interaction trajectories into scene, spatial, and
+event memories and improves both open-source and proprietary models.
+2
+Related Work
+Embodied-agent benchmarks. EmbodiedBench evaluates vision-driven agents across action levels. FindingDory
+and LMEE-Bench use visual history for navigation (Yadav et al., 2025; Wang et al., 2026a); SpaMEM tests
+spatial-state revision (Liao et al., 2026); and WorldLines evaluates state question answering and planning over
+multi-day traces (Zhang et al., 2026). These benchmarks introduce memory within individual tasks, whereas
+EMem-Bench evaluates embodied memory jointly across interactive episodes.
+Agent memory. LoCoMo and LongMemEval evaluate memory over multi-session histories (Maharana et al.,
+
+
+Passive
+Observation
+Dynamic
+Tracking
+Experience
+Generalization
+Interaction
+Failure
+Embodied
+Memory-
+Bench
+Go to
+bedroom
+Navigate to desk
+Navigate to bed
+Navigate to coffee table
+Navigate to chair
+Fail: The model goes to the chair because it 
+does not remember that the laptop was 
+previously observed on the coffee table.
+Navigate to
+TV stand
+Open bottom drawer
+Open top drawer
+Cue 1
+Focus: 
+Fine-grained visual
+memory needed
+Input history trajectory
+Instruction: Pick up the laptop
+•••
+•••
+Visual mem
+Noise
+Noise
+Model output action trajectory
+Go to
+living room
+Go to
+living room
+Input history trajectory
+Book on desk
+Noise
+Focus: 
+Update world 
+state
+•••
+•••
+Noise
+Book in box
+Book on bed
+Instruction: Find the book and bring it to the table
+Model output action trajectory
+Go to
+bedroom
+Noise
+Noise
+Input history trajectory
+Navigate to
+TV stand
+Instruction: Put keychain into a drawer
+Model output action trajectory
+Focus: 
+Record state 
+revealed through 
+interaction
+Bottom 
+drawer openable
+Action Fail: 
+Top drawer locked
+•••
+•••
+Pickup 
+fork
+Put fork in drawer
+Put fork on table
+Pickup 
+fork
+Instruction: Please store this fork in a proper place
+Model output action trajectory
+Focus: 
+Learn reusable
+experience
+Input history trajectory
+Cue 2
+Noise
+Put knife 
+on stove
+Put knife 
+in drawer
+Put spoon 
+in cabinet
+Put spoon
+in drawer
+Success: The model goes to the 
+coffee table because it remembers 
+the earlier visual memory.
+Fail: The model goes to the bed because it 
+relies on an outdated world state and fails 
+to remember that the book was later moved 
+to the desk.
+Success: The model goes to the 
+desk because it updates the 
+book's latest location.
+Fail: The model tries to open the top drawer again 
+because it does not record the earlier feedback 
+indicating that the top drawer is locked.
+Success: The model opens the bottom 
+drawer because it remembers the earlier 
+failure and selects the feasible alternative.
+Fail: The model puts the fork on the table 
+because it does not generalize the earlier 
+correct pattern.
+Success: The model puts the fork in the 
+drawer because it transfers the learned rule 
+from prior corrections.
+Figure 3 Overview of EMem-Bench. Representative examples cover fine-grained visual memory, dynamic world-state
+tracking, recording world state through interaction, and experience generalization.
+Benchmark
+Scenario
+Vis.
+Dyn.
+Int.
+Exp.
+MemoryAgentBench
+LLM Agent
+–
+–
+–
+Y
+Evo-Memory
+LLM Agent
+–
+–
+–
+Y
+WorldMemArena
+Multimodal
+Y
+Y
+–
+Y
+EmbodiedBench
+Embodied
+–
+–
+–
+–
+FindingDory
+Embodied
+Y
+–
+–
+–
+LMEE-Bench
+Embodied
+Y
+–
+–
+–
+SpaMEM
+Embodied
+Y
+Y
+–
+–
+WorldLines
+Embodied
+–
+Y
+–
+–
+EMem-Bench
+Embodied
+Y
+Y
+Y
+Y
+Table 1 Comparison with existing benchmarks. Vis., Dyn., Int., and Exp. denote visual memory, dynamic tracking,
+interaction-derived state, and experience generalization, respectively. Y marks explicit evaluation.
+2024; Wu et al., 2025). MemoryAgentBench studies retrieval and test-time learning (Hu et al., 2026);
+Evo-Memory studies experience reuse (Wei et al., 2026); and WorldMemArena evaluates memory writing,
+maintenance, retrieval, and use (Liu et al., 2026a). Unlike EMem-Bench, these benchmarks do not require
+remembered information to guide subsequent embodied interaction. Additional related work is discussed in
+Appendix A.
+3
+EMem-Bench
+3.1
+Task Definition
+EMem-Bench evaluates whether embodied agents can maintain a world state over long-term interaction. Each
+episode is defined by a temporally ordered history of multimodal interactions H = {oh
+1, . . . , oh
+N}, a target task
+T , and a feasible action space A. The history contains memory evidence needed for the target task. After
+receiving T , the model must retrieve the relevant evidence from H and use it to complete the task through
+continued interaction with the environment. At execution step t, the model selects an action according to
+at ∼π(· | H, T , oe
+1:t, a1:t−1) ,
+at ∈A,
+(1)
+where oe
+1:t denotes the observations received during task execution. An episode is successful when the resulting
+interaction trajectory reaches an environment state that satisfies T . The benchmark is organized into four
+
+
+task families.
+Simulator state 
+Object locations
+{     ,     ,     ,... }
+Receptacle states
+{    open,      closed,... }
+Held objects
+{ none }
+Available actions
+{move,open,pick,place,...}
+PDDL 
+distractor
+planning
+Planned distractor sequences 
+Seq 1
+Seq 2
+Seq K
+•••
+Pre-cue 
+distractors 
+Post-cue 
+distractors
+3
+Inject Distractor Trajectories
+4 Validate Episode
+Layer 1: Environment validity
+Accessibility Visibility Affordances
+Layer 2: Trajectory replay
+Cue & Distractor
+replay
+State changes & 
+Feedback confirmed
+Layer 3: Evidence & 
+Trace Evidence
+Leakage 
+Layer 4: Oracle replay &
+Duplicate 
+check
+Oracle action sequence
+Manual review
+1
+Select Rooms
+AI2-THOR
+Combine scenes
++ Preserve State 
+Memory
+✓connectivity
+✓navigability
+✓visibility
+ProcTHOR
+Select a Cue Room
+Cue Room
+2
+Construct Memory Cue
+Passive Observation
+Target appears 
+incidentally during  
+another task.
+Dynamic Tracking
+State Change
+eg:
+Interaction Failure
+Experience Generalization
+Scene Info
+Claude-
+4.6-Sonnet
+•household rule
+•correction task
+•held-out task
+Try 
+alternative
+Fail!
+↔
+Distractor Trajectory
+Memory Cue
+Leakage 
+Duplicate check
+1
+2
+3
+4
+1,036
+1,052
+263
+203
+Passive Observation
+Dynamic Tracking
+Interaction Failure
+Exp Generalization
+Task Family Distribution 
+audit
+audit
+Figure 4 Construction pipeline of EMem-Bench. Each episode combines a grounded scene, a task-specific memory cue,
+and distractor trajectories, followed by automated validation and manual review.
+3.2
+Task Families
+The four task families primarily differ in how H and T are constructed: H determines what type of information
+must be remembered, while T determines how that information must be used during later interaction.
+Passive Observation. This family evaluates whether an agent can build fine-grained visual memory in an
+object-dense scene. The interaction history contains a task trajectory in an object-dense scene, during which
+the later target object appears. The subsequent task asks the agent to find that object. In Figure 3, the laptop
+appears among several objects on the coffee table; navigating to the chair instead shows that the agent failed
+to retain its location.
+Dynamic Tracking. This family evaluates whether an agent can keep its world state current as object locations
+and states change over time. The interaction history records an object before and after its location or state
+changes. The subsequent task requires the agent to act on the latest state rather than an outdated observation.
+In Figure 3, the book moves from the bed through the box to the desk amid distractor observations; returning
+to the bed shows that the agent failed to update the world state stored in memory.
+Interaction Failure. This family evaluates whether an agent can retain world state revealed by interaction
+outcomes. The interaction history contains an attempted physical action and its failure feedback, which reveals
+a visually inaccessible state such as a locked drawer or blocked receptacle. The subsequent task presents
+several possible interaction targets and requires the agent to avoid the one shown to be unusable and choose a
+viable alternative. In Figure 3, a failed attempt reveals that the top drawer is locked; trying it again instead
+of the usable bottom drawer shows that the agent failed to record the locked state revealed by the interaction.
+Experience Generalization. This family evaluates whether an agent can transfer a regularity learned from
+past events to a new object. The interaction history contains several cases involving different objects, each
+showing an initially incorrect action and a correction. The subsequent task introduces a new object from the
+same category that did not appear in the histories and requires the agent to apply their shared regularity. In
+Figure 3, corrections place a knife and a spoon in a drawer before the agent encounters a fork; placing the
+fork on the table shows that the shared placement regularity did not transfer to the new object.
+3.3
+Interaction-History Construction
+We construct the interaction history provided to the model in four stages: selecting a multi-room environment,
+creating a task-relevant memory cue, inserting distractor trajectories, and validating the resulting trajectory.
+Figure 4 summarizes how this model input is constructed.
+
+
+Selecting rooms. AI2-THOR (Kolve et al., 2022) scenes contain only a single room, so we compose scenes
+of different room types into a virtual home and extend the action space with LeaveRoom, EnterRoom, and
+MoveToRoom. The state of room is restored when the agent re-enters it. ProcTHOR (Deitke et al., 2022)
+already provides multi-room homes; we filter them for room connectivity, navigable space, object visibility,
+and executable interactions. From each retained environment, we designate a cue room that supports the
+required memory relation and use the remaining connected rooms for unrelated activity and the later target
+task.
+Constructing the memory cue. We define a memory cue as an interaction trajectory containing the information
+that the agent must remember to complete the target task. We construct a different memory cue for each task
+family. For Passive Observation, we select an object that is visible in the agent’s current view, then use it as
+the memory cue for a later retrieval task. For Dynamic Tracking, we select an object, change its location
+or state in the simulator, and make the later task depend on the updated state. For Interaction Failure, we
+execute a failed action whose feedback reveals an object state, and make the later task depend on that state.
+For Experience Generalization, Claude-4.6-Sonnet (Anthropic, 2026) receives structured scene information
+and outputs a structured experience containing an underlying regularity, several correction cases, and a target
+task. We then ground the generated experience in concrete scene objects and execute the resulting interaction
+trajectory in the simulator.
+Injecting distractor trajectories. A PDDL planner (Aeronautiques et al., 1998) generates unrelated trajectories
+before and after the memory cue based on the current scene and agent state. These trajectories vary where
+the cue appears in the episode and place other rooms and tasks between the cue and the target task. We
+discard any trajectory that touches critical objects, reveals the answer, changes the state required by the
+target task, or cannot be executed.
+Validating and reviewing each episode. Automated checks ensure that the scene is navigable, the required
+interactions can be executed, and the target task can be completed. They also verify that the decisive evidence
+appears in the earlier experience without being revealed in the distractor trajectories. We then manually
+inspect every candidate that passes these checks and remove episodes with ambiguous instructions, implausible
+trajectories, or cues that do not uniquely support the intended action. This process rejected 143 episodes; all
+2,554 retained episodes pass both automated execution checks and manual screening.
+3.4
+Benchmark Statistics and Evaluation
+10-19
+20-29
+30-39
+40-49
+50-59
+60-69
+70-79
+80-89
+90-99
+100-109
+110-119
+120-129
+130-139
+140-149
+150+
+0
+300
+600
+a. Interaction-history length (steps)
+Passive Obs.
+Dynamic Tracking
+Interaction Failure
+Experience Gen.
+0-9
+10-19
+20-29
+30-39
+40-49
+50-59
+60-69
+70-79
+80-89
+90+
+0
+300
+600
+b. Cue-to-target-task gap (steps)
+Figure 5 Distributions of interaction-history length
+and cue-to-target-task distance.
+EMem-Bench contains 2,554 episodes: 1,036 Passive Ob-
+servation, 1,052 Dynamic Tracking, 263 Interaction Fail-
+ure, and 203 Experience Generalization. Across all four
+families, the benchmark spans 1,118 scenes, 125 visible
+object types, 83 target types, and 33 receptacle types.
+Figure 5 shows the interaction-history length and task
+composition together with cue-to-target-task distance.
+Visible-object density at the cue and room/scene tran-
+sitions are reported in the appendix.
+Evaluation metrics. Predicted action sequences are ex-
+ecuted in the simulator, and an episode is successful
+only when the resulting environment reaches the target
+terminal state. We report success rate (SR) for each
+task family and use their equally weighted mean as the
+overall score, preventing the two larger families from
+dominating the evaluation. Full benchmark statistics are
+provided in the appendix.
+We additionally report Error Recurrence Rate (ERR).
+
+
+For task family f with Nf episodes,
+ERRf =
+1
+Nf
+Nf
+X
+i=1
+min
+
+1,
+Ei
+max(1, Ki)
+
+.
+(2)
+where Ei counts distinct error recurrences in episode i and Ki denotes its memory-dependent decision points.
+ERR is triggered by actions that use stale locations, repeat known failed interactions, or violate learned
+regularities.
+4
+Our Method: Embodied-Memorizer
+EMem is an external memory system that continually organizes and updates world state during embodied
+interaction. Figure 6 provides an overview of the EMem architecture.
+4.1
+Three Complementary Memories
+Spatial memory. Spatial memory maintains an entity graph that tracks the locations and states of objects.
+New observations and feedback update the corresponding records so that the graph reflects the latest known
+state of each object. For example, when a book is moved from the bed to the desk, spatial memory replaces
+the outdated relation to the bed and returns the desk as the book’s current location.
+Event memory. Event memory preserves actions, environment feedback, and human corrections in temporal
+order. It can also summarize a pattern across several corrections and retrieve that pattern when the agent
+encounters a related new object. For example, when the agent tries to open the top drawer and learns that it
+is locked, event memory preserves the attempt and its outcome so that the agent can avoid repeating the
+same action later.
+Scene memory. Scene memory associates objects and interactions with their scenes, preventing confusion
+between same-named entities in different rooms. For example, when mugs appear in both the kitchen and the
+bedroom, scene memory binds each mug and its interactions to the corresponding room, allowing the correct
+instance to be retrieved.
+4.2
+Operating the Memory Loop
+Scene Memory
+PLACE & SCOPE
+Spatial Memory
+LATEST WORLD STATE
+Property update
+Update
+property change
+attribute
+closed
+open
+open
+Event Memory
+CAUSAL EXPERIENCE
+Temporal event
+Reusable experience
+SCENE EXAMPLE
+Spoon in Drawer
+cabinet.attr
+the Spoon is visible inside the drawer……
+Image path
+scene_memory_spoon_in_drawer.png
+Object index to spatial memory
+Spoon, Drawer, Countertop……
+location
+Query 
+scene
+Remember 
+scene
+Image caption
+inside
+on
+near
+Entity graph
+State
+"visible": true
+Memory Link
+"event": 
+Spoon placement
+"scene":
+Spoon visible
+Action
+Place Spoon on Cabinet
+outcome
+Action failed
+correction
+Flatware is typically 
+stored in kitchen drawers
+Consolidate
+summary
+In this household,
+flatware should be stored 
+in a kitchen drawer……
+Generalized rule
+"applies_to": "Flatware”
+"preferred_storage": 
+"Drawer"
+“room”: ”Kitchen”
+Figure 6 EMem architecture. Scene memory stores
+visual context, spatial memory maintains current ob-
+ject states, and event memory records interactions
+and reusable experience.
+EMem provides write and query interfaces for each mem-
+ory. During interaction, the model stores visual obser-
+vations, environmental changes, action outcomes, and
+corrections. For a target task, it queries one or more
+memories and combines the returned information with
+the current observation to generate a complete action
+sequence. Execution produces the next observation and
+feedback, allowing memory to be updated as interac-
+tion continues. The complete tool interface and retrieval
+procedure are provided in Appendix B.
+We use supervised fine-tuning to teach three decisions:
+what to write from the current observation, which memo-
+ries to query for the target task, and how to generate an
+action sequence from the retrieved information. Training
+trajectories are generated from the ProcTHOR train-
+ing split, with a teacher model providing supervision.
+Fine-tuning Qwen3-VL-8B produces EMem-8B; data
+construction and full training details are provided in
+Appendix B.
+
+
+5
+Experiments
+5.1
+Experimental Setup
+Baselines. Our general-purpose open-source baselines include Qwen3-VL (Bai et al., 2025), InternVL3 (Zhu
+et al., 2025), Ovis2 (Lu et al., 2025), Qwen3.6 (Qwen Team, 2026), and Mistral-Small-3.1 (Mistral AI,
+2025). The embodied MLLMs include RynnBrain (Dang et al., 2026), Cambrian-S (Yang et al., 2025b),
+RoboBrain2.5 (Tan et al., 2026), MiMo-Embodied (Hao et al., 2026), and the Robotics-ER 1.5 (Gemini
+Robotics Team et al., 2025). Our general-purpose proprietary baselines include GPT-5.4 and GPT-5.4-
+mini (Singh et al., 2026), Gemini-2.5-Pro (Comanici et al., 2025), and Gemini-3-Flash (Google, 2025). To fit
+episodes within the context, the full_context condition retains the complete trajectory in text form and
+only the final visual observation. For the memory-system comparison, we fix GPT-5.4-mini as the backbone
+and evaluate MIRIX (Wang and Chen, 2025), MemVerse (Liu et al., 2026b), TeleMem (Chen et al., 2026),
+MMA (Lu et al., 2026), and EMem.
+5.2
+Main Results
+Model / system
+Average
+Passive
+Dynamic
+Interaction
+Exp. Gen.
+SR↑
+ERR↓
+SR↑
+ERR↓
+SR↑
+ERR↓
+SR↑
+ERR↓
+SR↑
+ERR↓
+Open-source MLLMs
+Qwen3-VL-4B-Ins
+30.1
+37.4
+46.4
+36.0
+37.3
+45.4
+20.9
+22.8
+15.8
+45.3
+Qwen3-VL-8B-Ins
+25.4
+41.1
+41.4
+45.0
+26.6
+58.9
+11.8
+22.1
+21.7
+38.4
+Qwen3-VL-32B-Ins
+43.9
+38.3
+47.1
+39.5
+20.3
+70.6
+45.3
+24.7
+63.1
+18.2
+InternVL3-8B
+15.5
+48.8
+20.5
+62.4
+31.8
+55.9
+5.3
+10.3
+4.4
+66.5
+InternVL3-38B
+31.8
+47.4
+47.9
+33.7
+17.0
+64.5
+29.3
+29.3
+33.0
+62.1
+Ovis2-16B
+29.0
+48.0
+44.5
+43.8
+22.7
+74.2
+30.0
+36.1
+18.7
+37.9
+Qwen3.6-27B
+58.2
+25.1
+61.0
+19.8
+49.5
+39.1
+54.4
+17.9
+68.0
+23.7
+Mistral-Small-3.1-24B
+40.9
+35.8
+58.5
+28.6
+25.7
+67.9
+11.8
+30.8
+67.5
+15.8
+Embodied MLLMs
+RynnBrain-8B
+3.6
+37.5
+5.3
+38.9
+4.0
+46.6
+2.7
+28.1
+2.5
+36.5
+Cambrian-S-7B
+0.8
+61.4
+0.8
+83.3
+0.9
+67.2
+1.1
+36.5
+0.5
+58.6
+RoboBrain2.5-8B-NV
+20.0
+42.3
+34.1
+57.4
+29.4
+68.4
+16.4
+25.1
+0.0
+18.2
+MiMo-Embodied-7B
+38.8
+30.8
+50.2
+21.5
+35.6
+43.4
+22.8
+23.2
+46.8
+35.0
+Robotics-ER 1.5∗
+52.4
+25.2
+60.2
+19.4
+47.6
+39.1
+44.4
+18.5
+57.1
+23.8
+EMem with open-source backbones
+Qwen3-VL-8B-Ins
+36.2
+(+10.8)
+28.3
+(-12.8)
+44.1
+(+2.7)
+39.0
+(-6.0)
+57.1
+(+30.5)
+26.2
+(-32.7)
+16.0
+(+4.2)
+17.5
+(-4.6)
+27.6
+(+5.9)
+30.5
+(-7.9)
+Qwen3-VL-32B-Ins
+58.0
+(+14.1)
+13.9
+(-24.4)
+68.9
+(+21.8)
+18.8
+(-20.7)
+55.6
+(+35.3)
+24.2
+(-46.4)
+47.9
+(+2.6)
+3.0
+(-21.7)
+59.6
+(-3.5)
+9.4
+(-8.8)
+Mistral-Small-3.1-24B
+57.3
+(+16.4)
+12.4
+(-23.4)
+52.1
+(-6.4)
+17.4
+(-11.2)
+53.0
+(+27.3)
+15.4
+(-52.5)
+54.8
+(+43.0)
+3.8
+(-27.0)
+69.5
+(+2.0)
+12.8
+(-3.0)
+EMem-8B
+46.0
+(+20.6)
+23.5
+(-17.6)
+55.0
+(+13.6)
+30.6
+(-14.4)
+66.9
+(+40.3)
+21.1
+(-37.8)
+23.6
+(+11.8)
+15.2
+(-6.9)
+38.4
+(+16.7)
+27.1
+(-11.3)
+Proprietary MLLMs
+GPT-5.4-mini
+35.3
+38.8
+55.1
+32.3
+25.8
+63.6
+19.0
+17.5
+41.4
+41.9
+GPT-5.4
+56.8
+27.1
+60.4
+21.9
+46.7
+42.5
+51.0
+20.2
+69.0
+23.7
+Gemini-2.5-Pro
+60.8
+22.4
+63.5
+19.4
+51.6
+38.6
+55.1
+16.4
+72.9
+15.3
+Gemini-3-Flash
+64.2
+21.3
+67.0
+18.5
+53.9
+34.9
+60.5
+14.1
+75.4
+17.7
+Multimodal memory systems with GPT-5.4-mini
+full_context
+35.3
+38.8
+55.1
+32.3
+25.8
+63.6
+19.0
+17.5
+41.4
+41.9
+MIRIX
+28.2
+46.7
+49.2
+39.7
+20.0
+77.9
+11.0
+20.5
+32.5
+48.8
+MemVerse
+28.9
+45.1
+49.6
+39.6
+18.1
+70.1
+14.5
+24.0
+33.5
+46.8
+TeleMem
+37.8
+35.7
+49.9
+30.3
+72.0
+17.2
+4.2
+37.3
+25.1
+58.1
+MMA
+23.4
+47.2
+43.8
+38.7
+15.5
+76.1
+10.3
+22.8
+24.1
+51.2
+EMem
+58.9
+(+23.6)
+24.3
+(-14.5)
+71.2
+(+16.1)
+18.2
+(-14.1)
+58.1
+(+32.3)
+35.0
+(-28.6)
+44.1
+(+25.1)
+17.1
+(-0.4)
+62.1
+(+20.7)
+27.1
+(-14.8)
+Table 2 Full results on EMem-Bench (%). Average denotes the mean across the four task families. Parenthesized gray
+values show absolute changes from the corresponding full-context backbone. Underlining marks the best result within
+each setting, and bold marks the best result overall. Robotics-ER 1.5∗is evaluated on a 10% subset because of API
+service instability.
+
+
+Overall performance. As shown in Table 2, current models still struggle on EMem-Bench: Gemini-3-Flash,
+the strongest full-context model, reaches only 64.2% average SR. Most models exhibit markedly uneven
+profiles across the four task families; for example, Qwen3-VL-32B obtains 20.3% SR on Dynamic Tracking but
+63.1% on Experience Generalization. Stronger models, in contrast, perform well across all four families rather
+than excelling on only one, indicating that these abilities form complementary components of long-horizon
+embodied interaction.
+Embodied reasoning models. Specialization for embodied or spatial reasoning does not consistently translate
+into effective memory use over long-horizon interaction. RynnBrain-8B and RoboBrain2.5-8B-NV obtain
+only 3.6% and 20.0% average SR, both below the Qwen3-VL-8B-Instruct at 25.4%. Cambrian-S-7B reaches
+only 0.8%. MiMo-Embodied-7B reaches 38.8%, and Robotics-ER 1.5 reaches 52.4%, yet neither surpasses
+the strongest general-purpose open model. These results indicate that specialization for spatial perception,
+embodied grounding, or robot planning alone does not equip a model to preserve, revise, and act on world
+state throughout extended interaction.
+Effectiveness of EMem. EMem achieves the best overall result, reaching 58.9% average SR, 21.1 points
+above the strongest alternative, TeleMem, while reducing ERR by 11.4 points. Its gains are not limited to one
+backbone: EMem improves average SR by 10.8, 14.1, and 16.4 points on the three open-source backbones,
+respectively, and by 23.6 points on the proprietary GPT-5.4-mini. Training Qwen3-VL-8B to write, retrieve,
+and use the memories provides a further 9.8-point gain over applying EMem to the frozen backbone, showing
+that learning the memory loop further strengthens the model’s use of external memory.
+5.3
+Does More Visual History Help?
+Can EMem-Bench be solved by simply appending more historical observations to the model context? We test
+this with GPT-5.4-mini on a fixed 800-episode subset, with 200 episodes per task family. Both conditions
+retain the complete textual history and the current RGB observation. The expanded condition additionally
+supplies as many historical RGB observations as the remaining context budget permits, preserving their
+temporal order. The target tasks and action budget remain unchanged.
+Input setting
+Avg SR (%)
+Input tokens
+s/step
+Standard full_context
+36.6
+41,770
+4.1
++ maximum historical RGB
+26.2
+206,489
+39.1
+Table 3 Expanding historical visual context on the same 800 episodes with GPT-5.4-mini. Average SR equally weights
+the four task families. Input tokens are per-episode means; model-step latency excludes simulator rendering.
+Table 3 shows that appending historical images reduces average SR from 36.6% to 26.2%, a paired decrease
+of 10.4 points, while increasing input tokens by 4.9× and model-step latency by 9.5×. Performance declines
+in every history-length quartile. These results demonstrate that EMem-Bench cannot be solved by simply
+enlarging the raw multimodal context. Effective memory requires recovering and using task-relevant evidence
+across a long interaction history; simply accumulating more observations does not resolve this challenge.
+Appendix D.2 provides the image-selection procedure and detailed task-family results.
+5.4
+Ablation Study
+Table 4 uses GPT-5.4-mini as the fixed backbone and disables one memory at a time while keeping the other
+two active.
+Setting
+Avg
+Passive
+Dynamic
+Interaction
+Exp. Gen.
+Full system
+58.9
+71.2
+58.1
+44.1
+62.1
+w/o spatial
+47.9
+59.1
+46.1
+36.1
+50.3
+w/o event
+46.9
+60.1
+54.6
+27.4
+45.3
+w/o scene
+47.3
+51.7
+49.5
+31.9
+56.2
+Table 4 Ablation of the three memories in EMem.
+
+
+Removing any memory reduces average SR, showing that all three contribute substantially to the full system.
+The task-wise drops reveal distinct roles: Dynamic Tracking depends most on spatial memory; Interaction
+Failure and Experience Generalization depend most on event memory; and Passive Observation depends most
+on scene memory.
+5.5
+Cross-Benchmark Generalization
+The EB-ALF suite of EmbodiedBench tests transfer to general embodied execution; MMMU-Pro (Yue et al.,
+2025) evaluates general multimodal understanding; BLINK (Fu et al., 2024) tests fine-grained visual perception;
+and HallusionBench (Guan et al., 2024) evaluates robustness to visual illusion and language hallucination.
+Model
+EB-ALF
+MMMU-Pro
+BLINK
+HallusionBench
+Qwen3-VL-8B
+18.3
+44.6
+55.6
+66.1
+EMem-8B
+23.3
+45.1
+56.9
+65.8
+Table 5 Cross-benchmark generalization results.
+Table 5 compares the base Qwen3-VL-8B with EMem-8B across all four benchmarks. EMem-8B improves
+average SR on EB-ALF by 5.0 points and macro accuracy on BLINK by 1.3 points. It also gains 0.5 points on
+MMMU-Pro, while remaining comparable on HallusionBench with a 0.4-point decrease. These results show
+that memory-operation training transfers most strongly to interactive embodied execution, also improves
+fine-grained visual perception, and preserves general multimodal perception and reasoning.
+5.6
+Failure Analysis
+0%
+25%
+50%
+75%
+100%
+Overall
+Passive
+Dynamic
+Interaction
+Experience
+Memory-use Error
+Contextual Reasoning Error
+Action Error
+Figure 7 Error distribution of GPT-5.4-mini failures.
+We analyze 400 failed GPT-5.4-mini episodes under the
+full-context setting, sampling 100 from each task family.
+A memory-use error occurs when the agent’s behavior
+conflicts with earlier evidence, such as relying on an
+outdated location or disregarding a learned correction.
+A contextual reasoning error occurs when the relevant
+history is available but but the agent fails to interpret or
+use it. For example, the agent may see that a KeyChain
+and a CreditCard were corrected to the same location
+but fail to infer that the same rule applies to a Watch.
+An action error occurs when the target object and re-
+lation are correct but the action sequence goes wrong.
+For example, the agent may select correct object and
+receptacle but fail to open the receptacle before placing the object.
+Figure 7 reveals distinct failure patterns across task families. Memory-use errors dominate Passive Observation,
+Dynamic Tracking, and Experience Generalization. Their concentration in Dynamic Tracking is revealing:
+the difficulty is not retaining more history, but replacing outdated state with the latest evidence. Interaction
+Failure shows a different pattern. Most failures arise from contextual reasoning, indicating that avoiding a
+previously failed interaction does not necessarily lead to a revised decision. Action errors remain uncommon
+across all four families, suggesting that the primary bottleneck lies before action generation. Overall, current
+agents struggle both to maintain the right state from experience and to reason over that state in the current
+task.
+6
+Conclusion
+We introduce EMem-Bench, which evaluates fine-grained visual memory, dynamic world-state tracking,
+recording world state through interaction, and experience generalization through four executable task families.
+We further present Embodied-Memorizer, which organizes multimodal experience through spatial, event, and
+scene memory and trains an agent to write, retrieve, and use these memories during interaction. Experiments
+show that current MLLMs still struggle to maintain and reuse world state over long-term interaction, while
+EMem improves memory-guided behavior.
+
+
+References
+Constructions Aeronautiques, Adele Howe, Craig Knoblock, ISI Drew McDermott, Ashwin Ram, Manuela Veloso,
+Daniel Weld, David Wilkins Sri, Anthony Barrett, Dave Christianson, and 1 others. 1998. Pddl—the planning
+domain definition language. Technical Report, Tech. Rep.
+Anthropic. 2026. Introducing sonnet 4.6. Anthropic News.
+Shuai Bai, Yuxuan Cai, Ruizhe Chen, Keqin Chen, Xionghui Chen, Zesen Cheng, Lianghao Deng, Wei Ding, Chang
+Gao, Chunjiang Ge, Wenbin Ge, Zhifang Guo, Qidong Huang, Jie Huang, Fei Huang, and 1 others. 2025. Qwen3-vl
+technical report. Preprint, arXiv:2511.21631.
+Yuanchen Bei, Tianxin Wei, Xuying Ning, Yanjun Zhao, Zhining Liu, Xiao Lin, Yada Zhu, Hendrik Hamann, Jingrui
+He, and Hanghang Tong. 2026. Mem-gallery: Benchmarking multimodal long-term conversational memory for mllm
+agents. Preprint, arXiv:2601.03515.
+Zikui Cai, Kaushal Janga, Tan Dat Dao, Seungjae Lee, Shivin Dass, Mingyo Seo, Kaiyu Yue, Mintong Kang,
+Nandhu Pillai, Monte Hoover, Aadi Palnitkar, Ruchit Rawal, Ruijie Zheng, Bo Li, Yuke Zhu, and 1 others. 2026.
+Beyond episodic evaluation: Memory architectural bottlenecks in sequential embodied question answering. Preprint,
+arXiv:2607.21571.
+Chunliang Chen, Ming Guan, Xiao Lin, Jiaxu Li, Luxi Lin, Qiyi Wang, Xiangyu Chen, Jixiang Luo, Changzhi Sun,
+Dell Zhang, and Xuelong Li. 2026. Telemem: Building long-term and multimodal memory for agentic ai. Preprint,
+arXiv:2601.06037.
+Taijing Chen, Sateesh Kumar, Junhong Xu, Georgios Pavlakos, Joydeep Biswas, and Roberto Martín-Martín. 2025.
+Searching in space and time: Unified memory-action loops for open-world object retrieval. Preprint, arXiv:2511.14004.
+Benjamin A. Christie, Yinlong Dai, Mohammad Bararjanianbahnamiri, Simon Stepputtis, and Dylan P. Losey. 2026.
+From local corrections to generalized skills: Improving neuro-symbolic policies with memo. Preprint, arXiv:2603.04560.
+Gheorghe Comanici, Eric Bieber, Mike Schaekermann, Ice Pasupat, Noveen Sachdeva, Inderjit Dhillon, Marcel Blistein,
+Ori Ram, Dan Zhang, Evan Rosen, Luke Marris, Sam Petulla, Colin Gaffney, Asaf Aharoni, Nathan Lintz, and
+1 others. 2025. Gemini 2.5: Pushing the frontier with advanced reasoning, multimodality, long context, and next
+generation agentic capabilities. Preprint, arXiv:2507.06261.
+Yinpei Dai, Hongze Fu, Jayjun Lee, Yuejiang Liu, Haoran Zhang, Jianing Yang, Chelsea Finn, Nima Fazeli, and
+Joyce Chai. 2026. Robomme: Benchmarking and understanding memory for robotic generalist policies. Preprint,
+arXiv:2603.04639.
+Ronghao Dang, Jiayan Guo, Bohan Hou, Sicong Leng, Kehan Li, Xin Li, Jiangpin Liu, Yunxuan Mao, Zhikai Wang,
+Yuqian Yuan, Minghao Zhu, Xiao Lin, Yang Bai, Qian Jiang, Yaxi Zhao, and 1 others. 2026. Rynnbrain: Open
+embodied foundation models. Preprint, arXiv:2602.14979.
+Matt Deitke, Eli VanderBilt, Alvaro Herrasti, Luca Weihs, Jordi Salvador, Kiana Ehsani, Winson Han, Eric Kolve, Ali
+Farhadi, Aniruddha Kembhavi, and Roozbeh Mottaghi. 2022. Procthor: Large-scale embodied ai using procedural
+generation. Preprint, arXiv:2206.06994.
+Xin Ding, Xinrui Wang, Yifan Yang, Hao Wu, Shiqi Jiang, Qianxi Zhang, Liang Mi, Hanxin Zhu, Kun Li, Yunxin Liu,
+Zhibo Chen, and Ting Cao. 2026. Memcompiler: Compile, don’t inject – state-conditioned memory for embodied
+agents. Preprint, arXiv:2605.07594.
+Xingyu Fu, Yushi Hu, Bangzheng Li, Yu Feng, Haoyu Wang, Xudong Lin, Dan Roth, Noah A. Smith, Wei-Chiu
+Ma, and Ranjay Krishna. 2024. Blink: Multimodal large language models can see but not perceive. Preprint,
+arXiv:2404.12390.
+Gemini Robotics Team and 1 others. 2025. Gemini robotics 1.5: Pushing the frontier of generalist robots with advanced
+embodied reasoning, thinking, and motion transfer. Preprint, arXiv:2510.03342.
+Google. 2025. Gemini 3 flash: Frontier intelligence built for speed. The Keyword.
+Tianrui Guan, Fuxiao Liu, Xiyang Wu, Ruiqi Xian, Zongxia Li, Xiaoyu Liu, Xijun Wang, Lichang Chen, Furong
+Huang, Yaser Yacoob, Dinesh Manocha, and Tianyi Zhou. 2024. Hallusionbench: An advanced diagnostic suite for
+entangled language hallucination and visual illusion in large vision-language models. Preprint, arXiv:2310.14566.
+Gunshi Gupta, Karmesh Yadav, Zsolt Kira, Yarin Gal, and Rahaf Aljundi. 2025. Memo: Training memory-efficient
+embodied agents with reinforcement learning. Preprint, arXiv:2510.19732.
+Xiaoshuai Hao, Lei Zhou, Zhijian Huang, Zhiwen Hou, Yingbo Tang, Lingfeng Zhang, Guang Li, Zheng Lu, Shuhuai Ren,
+Xianhui Meng, Yuchen Zhang, Jing Wu, Jinghui Lu, Chenxu Dang, Jiayi Guan, and 1 others. 2026. Mimo-embodied:
+X-embodied foundation model technical report. Preprint, arXiv:2511.16518.
+
+
+Edward J. Hu, Yelong Shen, Phillip Wallis, Zeyuan Allen-Zhu, Yuanzhi Li, Shean Wang, Lu Wang, and Weizhu Chen.
+2021. Lora: Low-rank adaptation of large language models. Preprint, arXiv:2106.09685.
+Wenbo Hu, Yining Hong, Yanjun Wang, Leison Gao, Zibu Wei, Xingcheng Yao, Nanyun Peng, Yonatan Bitton,
+Idan Szpektor, and Kai-Wei Chang. 2025. 3dllm-mem: Long-term spatial-temporal memory for embodied 3d large
+language model. Preprint, arXiv:2505.22657.
+Yuanzhe Hu, Yu Wang, and Julian McAuley. 2026. Evaluating memory in llm agents via incremental multi-turn
+interactions. Preprint, arXiv:2507.05257.
+Mukul Khanna, Ram Ramrakhya, Gunjan Chhablani, Sriram Yenamandra, Theophile Gervet, Matthew Chang,
+Zsolt Kira, Devendra Singh Chaplot, Dhruv Batra, and Roozbeh Mottaghi. 2024. Goat-bench: A benchmark for
+multi-modal lifelong navigation. Preprint, arXiv:2404.06609.
+Eric Kolve, Roozbeh Mottaghi, Winson Han, Eli VanderBilt, Luca Weihs, Alvaro Herrasti, Matt Deitke, Kiana Ehsani,
+Daniel Gordon, Yuke Zhu, Aniruddha Kembhavi, Abhinav Gupta, and Ali Farhadi. 2022. Ai2-thor: An interactive
+3d environment for visual ai. Preprint, arXiv:1712.05474.
+Ryosuke Korekata, Quanting Xie, Yonatan Bisk, and Komei Sugiura. 2025. Affordance rag: Hierarchical multimodal
+retrieval with affordance-aware embodied memory for mobile manipulation. Preprint, arXiv:2512.18987.
+Huashuo Lei, Wenxuan Song, Huarui Zhang, Jieyuan Pei, Jiayi Chen, Haodong Yan, Han Zhao, Pengxiang Ding,
+Zhipeng Zhang, Lida Huang, Donglin Wang, Yan Wang, and Haoang Li. 2026. Robomemarena: A comprehensive
+and challenging robotic memory benchmark. Preprint, arXiv:2605.10921.
+Ji Li, Bo Wang, Jing Xia, Mingyi Li, and Shiyan Hu. 2026. Himm: Human-inspired long-term memory modeling for
+embodied exploration and question answering. Preprint, arXiv:2602.15513.
+Chih-Ting Liao, Xi Xiao, Chunlei Meng, Zhangquan Chen, Yitong Qiao, Weilin Zhou, Tianyang Wang, Xu Zheng, and
+Xin Cao. 2026. Spamem: Benchmarking dynamic spatial reasoning via perception-memory integration in embodied
+environments. Preprint, arXiv:2604.22409.
+Jingli Lin, Chenming Zhu, Runsen Xu, Xiaohan Mao, Xihui Liu, Tai Wang, and Jiangmiao Pang. 2025. Ost-bench:
+Evaluating the capabilities of mllms in online spatio-temporal scene understanding. Preprint, arXiv:2507.07984.
+Chengzhi Liu, Yuzhe Yang, Sophia Xiao Pu, Yepeng Liu, Lin Long, Yichen Guo, Nuo Chen, Zhaotian Weng, Elena
+Kochkina, Simerjot Kaur, Charese Smiley, Xiaomo Liu, James Zou, Sheng Liu, Yuheng Bu, and 1 others. 2026a.
+Worldmemarena: Evaluating multimodal agent memory through action-world interaction. Preprint, arXiv:2605.29341.
+Junming Liu, Yifei Sun, Weihua Cheng, Haodong Lei, Yirong Chen, Licheng Wen, Xuemeng Yang, Daocheng Fu,
+Pinlong Cai, Nianchen Deng, Yi Yu, Shuyue Hu, Botian Shi, and Ding Wang. 2026b. Memverse: Multimodal memory
+for lifelong learning agents. Preprint, arXiv:2512.03627.
+Shiyin Lu, Yang Li, Yu Xia, Yuwei Hu, Shanshan Zhao, Yanqing Ma, Zhichao Wei, Yinglun Li, Lunhao Duan, Jianshan
+Zhao, Yuxuan Han, Haijun Li, Wanying Chen, Junke Tang, Chengkun Hou, and 1 others. 2025. Ovis2.5 technical
+report. Preprint, arXiv:2508.11737.
+Yihao Lu, Wanru Cheng, Zeyu Zhang, and Hao Tang. 2026.
+Mma: Multimodal memory agent.
+Preprint,
+arXiv:2602.16493.
+Adyasha Maharana, Dong-Ho Lee, Sergey Tulyakov, Mohit Bansal, Francesco Barbieri, and Yuwei Fang. 2024.
+Evaluating very long-term conversational memory of llm agents. Preprint, arXiv:2402.17753.
+Arjun Majumdar, Anurag Ajay, Xiaohan Zhang, Pranav Putta, Sriram Yenamandra, Mikael Henaff, Sneha Silwal, Paul
+Mcvay, Oleksandr Maksymets, Sergio Arnaud, Karmesh Yadav, Qiyang Li, Ben Newman, Mohit Sharma, Vincent
+Berges, Shiqi Zhang, Pulkit Agrawal, Yonatan Bisk, Dhruv Batra, and 5 others. 2024. Openeqa: Embodied question
+answering in the era of foundation models. In Proceedings of the IEEE/CVF Conference on Computer Vision and
+Pattern Recognition (CVPR), pages 16488–16498.
+Karttikeya Mangalam, Raiymbek Akshulakov, and Jitendra Malik. 2023. Egoschema: A diagnostic benchmark for very
+long-form video language understanding. Preprint, arXiv:2308.09126.
+Mistral AI. 2025. Mistral small 3.1. Mistral AI News.
+OpenBMB. 2026. MiniCPM-V: A GPT-4V level MLLM on your phone. GitHub repository.
+Qwen Team. 2026. Qwen3.6-27B. Qwen Blog.
+A. Haroon Rasheed and Maria Kabtoul. 2026. emem: A hybrid spatio-temporal memory system for embodied agents.
+Preprint, arXiv:2606.03374.
+Soumil Rathi. 2026. Benchmarking robot memory under interference. Preprint, arXiv:2606.22338.
+
+
+Hao Shi, Bin Xie, Yingfei Liu, Lin Sun, Fengrong Liu, Tiancai Wang, Erjin Zhou, Haoqiang Fan, Xiangyu Zhang,
+and Gao Huang. 2026. Memoryvla: Perceptual-cognitive memory in vision-language-action models for robotic
+manipulation. Preprint, arXiv:2508.19236.
+Aaditya Singh, Adam Fry, Adam Perelman, Adam Tart, Adi Ganesh, Ahmed El-Kishky, Aidan McLaughlin, Aiden Low,
+AJ Ostrow, Akhila Ananthram, Akshay Nathan, Alan Luo, Alec Helyar, Aleksander Madry, Aleksandr Efremov,
+and 1 others. 2026. Openai gpt-5 system card. Preprint, arXiv:2601.03267.
+Huajie Tan, Enshen Zhou, Zhiyu Li, Yijie Xu, Yuheng Ji, Xiansheng Chen, Cheng Chi, Pengwei Wang, Huizhu Jia,
+Yulong Ao, Mingyu Cao, Sixiang Chen, Zhe Li, Mengzhen Liu, Zixiao Wang, and 1 others. 2026. Robobrain 2.5:
+Depth in sight, time in mind. Preprint, arXiv:2601.14352.
+Gemma Team, Sherif El Abd, Vaibhav Aggarwal, Robin Algayres, Alek Andreev, Olivier Bachem, Ian Ballantyne,
+Cormac Brick, Victor Cărbune, Michelle Casbon, Mayank Chaturvedi, Aditya Chawla, Victor Cotruta, Alice Coucke,
+Phil Culliton, and 1 others. 2026a. Gemma 4 technical report. Preprint, arXiv:2607.02770.
+V Team, Wenyi Hong, Wenmeng Yu, Xiaotao Gu, Guo Wang, Guobing Gan, Haomiao Tang, Jiale Cheng, Ji Qi,
+Junhui Ji, Lihang Pan, Shuaiqi Duan, Weihan Wang, Yan Wang, Yean Cheng, and 1 others. 2026b. Glm-4.5v
+and glm-4.1v-thinking: Towards versatile multimodal reasoning with scalable reinforcement learning. Preprint,
+arXiv:2507.01006.
+Marcel Torne, Karl Pertsch, Homer Walke, Kyle Vedder, Suraj Nair, Brian Ichter, Allen Z. Ren, Haohuan Wang,
+Jiaming Tang, Kyle Stachowicz, Karan Dhabalia, Michael Equi, Quan Vuong, Jost Tobias Springenberg, Sergey
+Levine, and 1 others. 2026. Mem: Multi-scale embodied memory for vision language action models. Preprint,
+arXiv:2603.03596.
+Sen Wang, Bangwei Liu, Zhenkun Gao, Lizhuang Ma, Xuhong Wang, Yuan Xie, and Xin Tan. 2026a. Explore
+with long-term memory: A benchmark and multimodal llm-based reinforcement learning framework for embodied
+exploration. Preprint, arXiv:2601.10744.
+Yu Wang and Xi Chen. 2025. Mirix: Multi-agent memory system for llm-based agents. Preprint, arXiv:2507.07957.
+Ziyang Wang, Yue Zhang, Shoubin Yu, Ce Zhang, Zengqi Zhao, Jaehong Yoon, Hyunji Lee, Gedas Bertasius, and
+Mohit Bansal. 2026b. Egomemreason: A memory-driven reasoning benchmark for long-horizon egocentric video
+understanding. Preprint, arXiv:2605.09874.
+Tianxin Wei, Noveen Sachdeva, Benjamin Coleman, Zhankui He, Yuanchen Bei, Xuying Ning, Mengting Ai, Yunzhe Li,
+Jingrui He, Ed H. Chi, Chi Wang, Shuo Chen, Fernando Pereira, Wang-Cheng Kang, and Derek Zhiyuan Cheng. 2026.
+Evo-memory: Benchmarking llm agent test-time learning with self-evolving memory. Preprint, arXiv:2511.20857.
+Di Wu, Hongwei Wang, Wenhao Yu, Yuwei Zhang, Kai-Wei Chang, and Dong Yu. 2025. Longmemeval: Benchmarking
+chat assistants on long-term interactive memory. Preprint, arXiv:2410.10813.
+Karmesh Yadav, Yusuf Ali, Gunshi Gupta, Yarin Gal, and Zsolt Kira. 2025. Findingdory: A benchmark to evaluate
+memory in embodied agents. Preprint, arXiv:2506.15635.
+Rui Yang, Hanyang Chen, Junyu Zhang, Mark Zhao, Cheng Qian, Kangrui Wang, Qineng Wang, Teja Venkat Koripella,
+Marziyeh Movahedi, Manling Li, Heng Ji, Huan Zhang, and Tong Zhang. 2025a. Embodiedbench: Comprehensive
+benchmarking multi-modal large language models for vision-driven embodied agents. Preprint, arXiv:2502.09560.
+Shusheng Yang, Jihan Yang, Pinzhi Huang, Ellis Brown, Zihao Yang, Yue Yu, Shengbang Tong, Zihan Zheng, Yifan
+Xu, Muhan Wang, Daohan Lu, Rob Fergus, Yann LeCun, Li Fei-Fei, and Saining Xie. 2025b. Cambrian-s: Towards
+spatial supersensing in video. Preprint, arXiv:2511.04670.
+Mingfeng Yuan, Hao Zhang, Mahan Mohammadi, Runhao Li, Jinjun Shan, and Steven L. Waslander. 2026. Star:
+Scalable task-conditioned retrieval for long-horizon multimodal robot memory. Preprint, arXiv:2602.09255.
+Xiang Yue, Tianyu Zheng, Yuansheng Ni, Yubo Wang, Kai Zhang, Shengbang Tong, Yuxuan Sun, Botao Yu, Ge Zhang,
+Huan Sun, Yu Su, Wenhu Chen, and Graham Neubig. 2025. Mmmu-pro: A more robust multi-discipline multimodal
+understanding benchmark. Preprint, arXiv:2409.02813.
+Wenqi Zhang, Mengna Wang, Gangao Liu, Xu Huixin, Yiwei Jiang, Yongliang Shen, Guiyang Hou, Zhe Zheng, Hang
+Zhang, Xin Li, Weiming Lu, Peng Li, and Yueting Zhuang. 2025. Embodied-reasoner: Synergizing visual search,
+reasoning, and action for embodied interactive tasks. Preprint, arXiv:2503.21696.
+Yehang Zhang, Jianchong Su, Haojian Huang, Yifan Chang, Tianhao Zhou, Xinli Xu, Yingjie Xu, Yinchuan Li, Zexi
+Li, and Ying-Cong Chen. 2026. Worldlines: Benchmarking and modeling long-horizon stateful embodied agents.
+Preprint, arXiv:2606.18847.
+Jinguo Zhu, Weiyun Wang, Zhe Chen, Zhaoyang Liu, Shenglong Ye, Lixin Gu, Hao Tian, Yuchen Duan, Weijie Su, Jie
+
+
+Shao, Zhangwei Gao, Erfei Cui, Xuehui Wang, Yue Cao, Yangzhou Liu, and 1 others. 2025. Internvl3: Exploring
+advanced training and test-time recipes for open-source multimodal models. Preprint, arXiv:2504.10479.
+Filippo Ziliotto, Jelin Raphael Akkara, Alessandro Daniele, Lamberto Ballan, Luciano Serafini, and Tommaso Campari.
+2025. Personal: Towards a comprehensive benchmark for personalized embodied agents. Preprint, arXiv:2509.19843.
+
+
+Appendix
+A
+Extended Related Work
+History-aware embodied benchmarks. Recent embodied benchmarks increasingly incorporate historical
+observations, prior interactions, or stateful trajectories into specific task settings. STARBench couples
+temporal recall with spatial action in open-world object retrieval (Chen et al., 2025). RoboMME evaluates
+temporal, spatial, object, and procedural memory in long-horizon manipulation, while RoboMemArena
+extends robotic evaluation to longer trajectories, composed subtasks, and paired real-world tasks (Dai et al.,
+2026; Lei et al., 2026). RoboMME-Interference further measures how retrieval degrades as unrelated sessions
+accumulate between a relevant demonstration and the query (Rathi, 2026). eMEM-Bench organizes ProcTHOR
+probes around source monitoring, interference, and context-dependent retrieval (Rasheed and Kabtoul, 2026).
+Sequential embodied question answering also shows that carrying an occupancy map or unstructured history
+across questions does not preserve the visual-semantic state needed for later decisions (Cai et al., 2026).
+Together with FindingDory, LMEE-Bench, SpaMEM, WorldLines, and WorldMemArena (Yadav et al., 2025;
+Wang et al., 2026a; Liao et al., 2026; Zhang et al., 2026; Liu et al., 2026a), these benchmarks test historical
+information within navigation, manipulation, question answering, or state reconstruction. EMem-Bench instead
+organizes complementary memory demands within a single interactive evaluation.
+Related long-horizon settings. 3DMem-Bench combines embodied tasks, question answering, and captioning
+to study long-term spatial-temporal reasoning, while 3DLLM-Mem selectively fuses features from past
+observations for reasoning and action (Hu et al., 2025). GOAT-Bench studies lifelong navigation through
+sequences of category, language, and image goals and analyzes the role of scene representations across
+successive targets (Khanna et al., 2024). OST-Bench evaluates online spatio-temporal understanding from
+observations gathered during active exploration, including how performance changes as the exploration horizon
+grows (Lin et al., 2025). PersONAL evaluates navigation and object grounding from user-specific object–owner
+associations (Ziliotto et al., 2025). Together, these benchmarks introduce long-range dependence through
+spatial-temporal reasoning, lifelong navigation, scene understanding, or personalized grounding. EMem-Bench
+adopts a different organizing view: whether information acquired during interaction is maintained, updated,
+and reused when later environment actions depend on it, with separate executable task families for fine-grained
+visual recall, dynamic state revision, interaction-revealed state, and experience transfer.
+Long-horizon multimodal memory evaluation. Long-form visual and conversational benchmarks expose
+memory operations that are difficult to study through a single embodied rollout. EgoMemReason evaluates
+entity-state evolution, temporally separated events, and recurring behavior patterns over week-long egocentric
+video (Wang et al., 2026b). Mem-Gallery studies multimodal memory extraction, reasoning, and knowledge
+management across multi-session conversations (Bei et al., 2026). Together with EgoSchema, OpenEQA,
+LoCoMo, and LongMemEval (Mangalam et al., 2023; Majumdar et al., 2024; Maharana et al., 2024; Wu et al.,
+2025), these works provide controlled tests of long-range evidence integration. Their outputs are primarily
+answers or reconstructed knowledge, whereas embodied execution additionally requires retrieved evidence to
+determine actions and change the environment correctly.
+Memory architectures for embodied control. Recent methods differ in what they store and how memory
+enters the control loop. Memo learns when to summarize and retrieve history for long-horizon embodied
+policies (Gupta et al., 2025). MemoryVLA combines working memory with a bank of perceptual detail
+and semantic content, while MEM represents short-range history with video and long-range task progress
+with language (Shi et al., 2026; Torne et al., 2026). STaR builds task-agnostic multimodal memory and
+retrieves a compact task-conditioned subset; HIMM separates episodic recall from reusable semantic rules for
+exploration and question answering (Yuan et al., 2026; Li et al., 2026). MemCompiler conditions memory
+selection on the agent’s current execution state, addressing the mismatch between static retrieved context
+and a changing task state (Ding et al., 2026). Affordance RAG further grounds retrieved visual memory
+in executable mobile-manipulation choices (Korekata et al., 2025). These systems motivate structured and
+selective memory, while EMem focuses on maintaining scene, spatial, and event records that jointly support
+the four challenges measured by EMem-Bench.
+
+
+Learning from interaction outcomes. Interaction creates information that is absent from passive observation.
+Memory-augmented manipulation methods use previous successes, failures, and corrections to adapt later
+decisions. In particular, MEMO aggregates local language corrections and successful executions into reusable
+guidance and skill templates for new tasks (Christie et al., 2026). This direction is closely related to the
+Interaction Failure and Experience Generalization families in EMem-Bench: the former tests whether an
+outcome updates the represented world state, and the latter tests whether recurring corrections yield a rule
+that transfers to an unseen object.
+B
+Embodied-Memorizer Details
+This section expands the three-memory design in Section 4 and describes the implementation used in our
+experiments. EMem is deliberately modular: a policy decides what to write, what to retrieve, and how to act,
+while the memory backend performs deterministic record updates and searches. All memory is episode-local
+and is initialized empty for each trajectory.
+B.1
+Memory Representation
+At interaction step t, EMem maintains
+Mt = (Gt, Et, Ct),
+(3)
+where Gt, Et, and Ct denote Spatial, Event, and Scene Memory, respectively. Each record contains an identifier,
+a write step, a scene scope, and links to the model-visible observation or interaction from which it was written.
+These shared fields let the three stores refer to the same experience without introducing a separate memory
+type.
+Spatial Memory. Gt is a scene-scoped entity graph. A node stores an entity name and type, its observable
+properties, and references to related event and scene records. Edges store relations such as in, on, held_by,
+and seen_in. Scene scope is part of the entity key, so similarly named objects in different rooms remain
+separate.
+Spatial Memory represents the latest known state rather than an unedited history of state descriptions.
+Relations are grouped into families that cannot hold simultaneously. For example, in, on, and held_by belong
+to the physical-location family. If a new record supports a relation r for entity v, EMem updates that family
+as
+Rt(v) =
+ Rt−1(v) \ F(r)
+
+∪{r},
+(4)
+where F(r) is the set of active relations that conflict with r. Other relation families and compatible properties
+are preserved. Thus, observing a book on a desk replaces an earlier location on a bed without deleting
+unrelated information about the book.
+Event Memory. Et is an append-only sequence of action outcomes. A raw event stores the action, success flag,
+environment feedback, a short summary, its scene scope, and supporting identifiers. Both successful and failed
+interactions are retained. Consequently, feedback such as a locked drawer remains available even when that
+state was not visually observable.
+Event Memory also stores a compact aggregate when several related corrections express the same regularity.
+The aggregate consists of a short natural-language rule and the identifiers of the raw events that support
+it. We form an aggregate after at least two related correction events; an explicit persistent failure can be
+retained after one event. Aggregation is part of Event Memory, rather than a separate “experience” store, and
+query_event can request either raw events or aggregate rules. This matches the design in the main paper:
+reusable experience is a summary over interaction events.
+Scene Memory. Ct stores selected visual snapshots. Each record contains a model-generated caption, the
+entities identified by the model in that image, the scene scope, and a reference to the original RGB observation.
+The image reference is attached by the harness, so the model does not construct file paths. A practical
+admission gate suppresses near-duplicate snapshots while retaining views that add visual content, newly
+observed entities, or useful instance context. The entity list is extracted from the current RGB observation; it
+is not a simulator-provided inventory of all objects in the environment. Scene Memory therefore preserves
+visual detail, while Spatial Memory maintains the corresponding structured state.
+
+
+Tool
+Operation
+Store
+Principal fields or returned content
+update_object
+Write/update
+Spatial
+Entity name and type, scene scope, relations, and observ-
+able properties
+remember_event
+Append
+Event
+Action, outcome, feedback, and concise event summary
+remember_scene
+Append
+Scene
+Caption, entities identified in the current image, and
+harness-bound image reference
+query_spatial
+Retrieve
+Spatial
+Current entity properties and relations with supporting
+record identifiers
+query_event
+Retrieve
+Event
+Raw action outcomes or evidence-backed aggregate rules
+query_scene
+Retrieve
+Scene
+Relevant captions, scene scopes, entity indices, and linked
+images
+Table 6 Model-visible EMem interface. Write and query operations align directly with the three memories described in
+the main paper.
+Table 6 lists the complete model-visible memory interface. The tools are generic across instructions and task
+families; there is no task-family-specific memory or query operation.
+B.2
+Writing Memory from Interaction History
+EMem ingests an interaction history chronologically. At history step i, the writer receives only the current
+model-visible RGB observation oh
+i , the preceding action ah
+i−1 and feedback f h
+i−1 when available, the scene
+scope, and the three write-tool schemas. The future target instruction is not available during this stage. The
+update is
+Mi = Apply
+ Mi−1, Wθ(oh
+i , ah
+i−1, f h
+i−1)
+
+,
+(5)
+where Wθ is the model policy and Apply executes only schema-valid write calls. The policy may call any subset
+of update_object, remember_event, and remember_scene. The backend then performs the corresponding
+relation replacement, event append/consolidation, or scene admission operation. Record identifiers link an
+event or scene to the entities created from the same model-visible evidence.
+The same write path is used after task-time actions. Once an action is executed, its new observation and
+environment feedback are passed to the writer, allowing later decisions to use the resulting state instead of a
+stale pre-action record.
+B.3
+Task-Conditioned Retrieval and Execution
+When the target instruction becomes available, the policy enters a memory phase. It selects one or more
+of query_spatial, query_event, and query_scene according to the information needed by the instruction.
+Query arguments specify a natural-language information need and, where applicable, scene scope, temporal
+policy, event granularity, and a maximum number of records. The query must not presuppose its answer.
+Experience Generalization uses the same query_event interface as any other instruction and does not invoke
+a benchmark-specific tool.
+Each query searches its associated store with the same deterministic pipeline. EMem first applies available
+structured constraints, including memory type, scene scope, entity name, relation, action, or event granularity.
+It then prioritizes exact structured matches, followed by lexical matches over record text. Semantic similarity
+is used only as a fallback when the earlier stages do not fill the requested record budget. The primary selected
+set is capped at 12 records; returned records also carry identifiers for their direct support when available. For
+a spatial query with the latest policy, newer records are preferred; persistent event feedback and aggregate
+rules are not discarded merely because they are old.
+The retrieved records are inserted into the action context together with the instruction, current RGB
+observation, and current legal-action list. The policy then emits one ordered action_sequence. Before
+execution, every primitive is checked against the refreshed legal actions and its target must be grounded
+by the current interface or retrieved records. The environment executes accepted actions in order. A failed
+or unavailable action, or a sufficiently large change in the memory-backed state, interrupts the remaining
+sequence and starts a new memory–action turn. Algorithm 1 summarizes this procedure.
+The runtime settings are fixed across benchmark families: the primitive-action budget is 8, the primary
+
+
+Algorithm 1 EMem write–retrieve–act loop
+Input: history H; target task T ; action budget B
+Output: executed trajectory A
+1: Initialize M0 ←∅
+2: for each step (oh
+i , ah
+i−1, f h
+i−1) in H do
+3:
+Ui ←Wθ(oh
+i , ah
+i−1, f h
+i−1)
+4:
+Apply schema-valid calls in Ui to Mi−1
+5: end for
+6: A ←[ ]
+7: while the task is unfinished and |A| < B do
+8:
+Observe current RGB ot and legal actions At
+9:
+Qt ←SelectQueries(T , ot)
+10:
+Rt ←Retrieve(Mt, Qt)
+11:
+Pt ←Plan(T , ot, At, Rt)
+12:
+for each action a in the ordered plan Pt do
+13:
+if a /∈At then
+14:
+break and begin a new memory–action turn
+15:
+end if
+16:
+(ot+1, ft) ←Execute(a); append a to A
+17:
+Update Mt from (ot+1, a, ft)
+18:
+if ft is a failure or the represented state changes materially then
+19:
+break and begin a new memory–action turn
+20:
+end if
+21:
+end for
+22: end while
+23: return A
+retrieval budget is at most 12 records per call, near-duplicate scenes use a cosine-similarity threshold of 0.995,
+and evaluation uses deterministic decoding. These values are not selected using benchmark-family labels.
+B.4
+Prompt Templates
+Figures 8 and 9 show the prompts used for context ingestion and task execution. Bracketed fields are populated
+at runtime with model-visible observations, legal actions, declared tool schemas, or the results of executed
+memory calls. The controller validates the returned JSON against the active phase: write tools are available
+only during ingestion, memory queries only during the memory phase, and robot actions only after retrieval.
+B.5
+Training Procedure
+Teacher trajectories. We construct a household-interaction curriculum on the ProcTHOR training split.
+The sampled tasks cover navigation, object search, state inspection, manipulation, and correction-bearing
+interactions. A teacher model completes them through the same RGB observation, memory-tool, and action
+interfaces used at inference. Every trajectory begins with empty memory. During history ingestion, the teacher
+processes one chronological step at a time without receiving the later target task, and its valid write calls are
+executed before the next step. After the target is presented, the teacher queries memory and generates an
+ordered action sequence from the returned records. Training and evaluation use disjoint scenes and trajectories.
+Supervision format. Each retained trajectory is serialized into three turn types: context-write turns (C),
+target-task memory turns (M), and action turns (A). A C target selects durable information supported by the
+current observation or feedback and writes it through Table 6. An M target selects one or more of the three
+generic query tools. The following A target receives the executed query results and produces the grounded
+action sequence. Examples contain only the transcript prefix available at that point. Parent trajectories are
+assigned to a split before prefix expansion, ensuring that all turns from one trajectory remain in the same split.
+Schema validation removes outputs with an invalid phase, undeclared tool, missing argument, or malformed
+action sequence.
+
+
+Context-ingestion prompt template.
+[SYSTEM]
+You are an expert embodied-memory agent controlling a household robot.
+A valid interaction cycle has two ordered stages:
+1. context_ingestion: process model-visible observations and call EMem update tools;
+2. task_execution: query relevant memories before producing an action_sequence.
+Never put action_sequence in context_ingestion. Never use retrieval tools while ingesting context.
+Earlier experience must enter a later task through executed memory writes, not as an unstructured transcript.
+[USER]
+CONTEXT INGESTION STEP. This is one step of embodied experience.
+Read only this step and store durable information that may be useful later.
+Current observation:
+<OBSERVATION_JSON_AND_IMAGE>
+Previous action and environment feedback:
+<ACTION_AND_FEEDBACK>
+Available update tools:
+- update_object(name, node_type, relations, properties)
+- remember_event(action, success, feedback, note)
+- remember_scene(caption, visible_objects)
+Rules:
+1. Do not assume any future instruction or requested entity at this stage.
+2. Write observable object locations and states with update_object.
+3. Preserve exact targets and durable feedback, including locked or invalid interactions.
+4. Record meaningful action outcomes with remember_event.
+5. Save a scene when it supplies useful visual context or instance disambiguation.
+6. Use update tools only. Retrieval tools and robot actions are forbidden.
+7. Return one JSON object and no text outside it.
+Return:
+{
+"phase": "context_ingestion",
+"reasoning": {
+"state": "Concise current world state.",
+"memory_update": "Durable records to add or revise.",
+"memory_retrieval": "Not allowed during context ingestion."
+},
+"tool_calls": [
+{"tool": "<UPDATE_TOOL>", "args": {<SCHEMA_VALID_ARGUMENTS>}}
+]
+}
+Figure 8 Prompt used to convert one prior interaction step into structured EMem writes.
+Split
+Traj.
+Turns
+C
+M
+A
+Train
+77
+7,264
+2,464
+2,400
+2,400
+Validation
+8
+797
+735
+31
+31
+Held-out
+8
+791
+731
+30
+30
+Total
+93
+8,852
+3,930
+2,461
+2,461
+Table 7 Memory-operation training corpus. C/M/A denote context-write, target-task memory, and action turns.
+Corpus and optimization. The resulting corpus contains 8,852 supervision turns: 3,930 context-write turns
+and 2,461 paired examples for each of the memory and action phases. Table 7 reports the trajectory-level
+splits. All accepted assistant responses are optimized using the standard next-token objective.
+We fine-tune Qwen3-VL-8B with LoRA (Hu et al., 2021) for one epoch and 1,816 optimization steps. We use
+rank 4, alpha 8, zero dropout, a learning rate of 10−4, batch size 1, gradient accumulation 4, and a maximum
+sequence length of 8,192 tokens. The system messages, phase labels, tool schemas, JSON output format, and
+deterministic decoding used to collect supervision are retained at inference.
+
+
+Task-time retrieval and action prompt template.
+[SYSTEM]
+You are an expert embodied-memory agent controlling a household robot.
+Each task turn has a MEMORY PHASE followed by an ACTION PHASE.
+Do not emit robot actions before the selected memory tool results are returned.
+[USER -- MEMORY PHASE]
+Earlier interaction context has entered EMem through executed update-tool calls.
+Target instruction: <TARGET_TASK>
+Current observation and legal action schema: <TASK_OBSERVATION>
+First decompose the instruction into:
+- entity and scene anchors;
+- required relation, state, affordance, or procedure;
+- temporal policy: latest, persistent, episodic, or trend-sensitive;
+- evidence granularity: fact, raw_event, aggregate_rule, or visual_scene;
+- scope, provenance, and evidence-coverage constraints.
+Select the smallest sufficient set from the three general memory queries:
+- query_spatial(query, temporal_policy, max_records)
+- query_event(query, granularity, temporal_policy, max_records)
+- query_scene(query, scope, max_records)
+Set max_records from entity ambiguity, view uncertainty, and required evidence coverage.
+The query must express an information need without presupposing its result.
+Do not call update tools, action_sequence, robot actions, or undeclared tool aliases.
+Return:
+{
+"phase": "memory",
+"reasoning": {
+"state": "What is known from the current observation.",
+"memory_update": "No updates in this phase.",
+"memory_retrieval": "Evidence required before acting."
+},
+"tool_calls": [
+{"tool": "<QUERY_TOOL>", "args": {<SCHEMA_VALID_QUERY_ARGUMENTS>}}
+]
+}
+[TOOL]
+Embodied-Memorizer result(s):
+<RETRIEVED_RECORDS_WITH_SUPPORTING_EVIDENCE>
+[USER -- ACTION PHASE]
+Return exactly one action_sequence grounded in the current observation, legal actions, or retrieved memory.
+Emit the shortest complete plan within the remaining budget, including all navigation and manipulation prerequisites.
+Prefer the most recent well-supported state, and preserve causal ordering among navigation, opening, pickup, and placement.
+Never repeat an interaction whose durable failure condition still holds.
+Do not call memory tools in the action phase.
+Return:
+{
+"phase": "action",
+"reasoning": {
+"memory_evidence": "Evidence used by the plan.",
+"planning": "Complete memory-grounded plan.",
+"sequence_check": "Ordered actions and action count."
+},
+"tool_calls": [
+{"tool_name": "action_sequence", "arguments": {"actions": [
+{"action_type": "<TYPE>", "target_label": "<LABEL>", "target_type": "<OBJECT_TYPE>"}
+]}}
+]
+}
+Figure 9 Prompt used to retrieve task-relevant memory and produce an executable action sequence.
+
+
+C
+Benchmark Details
+This section specifies the evaluation interface used by the full_context baselines in Table 2 and expands
+the benchmark summary in Section 3 using the canonical Full-2554 release. We first describe exactly how
+the interaction history, current observation, and legal action space are exposed to a model, then report
+model-output trajectory lengths, benchmark composition and difficulty, object coverage, release audit results,
+and aggregation sensitivity. EMem-Bench contains 2,554 episodes across 1,118 globally unique scenes, 125
+visible object types, 83 target object types, and 33 receptacle types. All family-level scene and category counts
+below are computed within that family and may overlap across families; they therefore should not be summed
+to recover the global unions.
+C.1
+Full-Context Evaluation Protocol
+The full_context condition directly provides the episode’s original interaction history as model-visible
+textual records. For each context step, the record retains the semantic action type, target label and type, a
+sanitized natural-language action, success flag, environment feedback, and any model-visible observation note.
+Session names, descriptions, and temporal order are preserved.
+Let episode i contain Si history sessions, with session j denoted by Hi,j and containing Ni,j steps. The history
+supplied in the full-context condition is
+CFC
+i
+=
+Si
+M
+j=1
+San(Hi,j[1 : min(K, Ni,j)]) ,
+K = 80,
+(6)
+where San performs the field filtering above and L preserves session and step order. The 80-step limit applies
+separately to each session. The longest session in the canonical release has 78 steps, so Equation 6 retains the
+complete textual history for every Full-2554 episode.
+At target-task step t, the actual multimodal request is
+xFC
+i,t =
+ Ti, CFC
+i
+, Ie
+i,t, A(si,t),
+R(8)
+i,t−1
+
+,
+(7)
+where Ie
+i,t is the current 500 × 500 RGB observation and A(si,t) is the complete legal action list at the current
+state. R(8)
+i,t−1 retains the last eight model–environment turns, including prior actions, success flags, sanitized
+feedback, and compact model responses. Because evaluation permits at most eight target-task steps, this
+recent record contains the complete execution trajectory generated so far.
+The reported full-context runs use deterministic decoding and request one next primitive action per model
+call. Writing the raw model response as yi,t, the execution interface is
+yi,t = Mθ(xFC
+i,t ),
+eai,t = Parse(yi,t),
+ai,t = Bind(eai,t, A(si,t)) ,
+(8)
+(si,t+1, oe
+i,t+1, fi,t) = F(si,t, ai,t).
+(9)
+Parse extracts a structured action, while Bind resolves its action identifier or semantic target fields against the
+current legal action space. The evaluator records an unavailable or invalid action as a failed attempt. After
+every valid transition it refreshes the image and legal actions before the next request. Execution terminates
+when the simulator state satisfies Ti, the model emits a termination action, or the eight-step budget is
+exhausted.
+C.2
+Operational Definition of Error Recurrence Rate
+ERR measures whether an agent reenacts a mistake that the preceding interaction history makes avoidable. It
+is computed automatically from the bound action trace and frozen probe annotations. Each released probe
+specifies the memory-dependent relation and, where applicable, one or more exact error triggers used by the
+evaluator.
+
+
+Let the executed trace for episode i be Ai = (ai,1, . . . , ai,Li). After semantic targets have been rebound to
+the current legal action space, the evaluator compares every successfully executed action with the probe
+specification. For Passive Observation, ERR is triggered when the agent, before reaching the remembered
+object location, successfully navigates to a different semantic receptacle type that is inconsistent with the
+frozen target-location annotation. For Dynamic Tracking, it is triggered when the agent, before reaching
+the latest post-update location, successfully navigates to a different-type superseded or otherwise incorrect
+location. Both families accept physical-parent aliases such as Sink for SinkBasin; a same-type alternative is
+left unpenalized because it may reflect instance grounding rather than recurrence of a memory error.
+For Interaction Failure, ERR is triggered when the agent successfully repeats the exact action–target pair
+identified by the earlier failed interaction, such as opening the same known unusable container. For Experience
+Generalization, it is triggered when the agent successfully places the carried target object at a receptacle
+inconsistent with the frozen owner-habit rule and its executable target aliases. Together, these four deterministic
+rules identify recurrence of the family-specific avoidable error from simulator-bound semantic actions and
+frozen episode annotations.
+For every matched action, the evaluator records
+e = ⟨t, type(at), target(at), penalty(e), description(e)⟩.
+(10)
+Events with the same five fields are deduplicated, preventing two equivalent detector paths from counting the
+same action twice. Repeating the same known mistake at a later executed step is a new recurrence because its
+step index differs. Let Ei be the resulting set and Ei = |Ei|. Let Qi be the probe’s declared memory-integration
+requirements. The implementation uses
+Ki = max(1, |Qi|),
+ERRi = min
+
+1, Ei
+Ki
+
+.
+(11)
+Every Full-2554 episode contains one primary memory-dependent decision: the L2 probes encode it through
+their probe type and frozen target or interaction trigger, while each Experience Generalization probe contains
+one explicit integration requirement. Consequently, Ki = 1 throughout the canonical release and ERRi is the
+indicator that at least one qualifying recurrence occurred. Multiple repetitions remain visible in the released
+triggered_err list but cannot make one episode contribute more than one to the family mean. Thus the
+reported family score is equivalently
+ERRf = |{i ∈f : triggered_erri̸ = ∅}|
+Nf
+,
+(12)
+and Average ERR is the arithmetic mean of the four family ERR values, matching the equal-family aggregation
+used for SR.
+The evaluator assigns malformed, unavailable, or simulator-failed actions to the invalid-action or RAR tallies
+and performs ERR matching on the bound action trace. A qualifying trigger is required for ERRi = 1;
+terminal failure alone leaves ERRi = 0, while an agent may trigger ERR, recover, and still complete the task.
+For example, navigating first to a Book’s superseded Box location in Dynamic Tracking yields Ei = 1 and
+ERRi = 1, whereas navigating directly to its latest Desk location yields zero. Reopening the same known
+unusable Drawer at two different steps yields Ei = 2 but still ERRi = 1 after clipping. These rules keep ERR
+complementary to terminal-state SR: SR asks whether the final environment state is correct, while ERR asks
+whether the executed path reenacts an error that the episode history should have prevented.
+C.3
+Model Output Trajectory Length
+For model m on episode i, we define its output trajectory and length as
+τ (m)
+i
+=
+
+a(m)
+i,1 , . . . , a(m)
+i,L(m)
+i
+
+,
+L(m)
+i
+=
+τ (m)
+i
+ = actual_steps
+= |model_actions| .
+(13)
+
+
+All episodes
+Mean by task family
+Model
+Mean
+Median
+P90
+Std.
+Passive
+Dynamic
+Interaction
+Exp. Gen.
+Qwen3-VL-4B-Ins
+5.57
+8
+8
+2.71
+5.37
+5.20
+6.96
+6.68
+Qwen3-VL-8B-Ins
+5.63
+8
+8
+2.73
+5.21
+5.40
+7.52
+6.54
+Qwen3-VL-32B-Ins
+5.21
+5
+8
+2.53
+4.35
+6.02
+5.81
+4.65
+InternVL3-8B
+6.77
+8
+8
+2.33
+6.88
+6.22
+7.78
+7.67
+InternVL3-38B
+5.32
+5
+8
+2.53
+4.80
+6.06
+5.79
+3.60
+Ovis2-16B
+6.04
+8
+8
+2.57
+5.37
+6.32
+6.92
+6.92
+Qwen3.6-27B
+4.58
+4
+8
+2.54
+4.39
+4.28
+6.48
+4.65
+Mistral-Small-3.1-24B
+5.28
+5
+8
+2.62
+4.21
+5.88
+7.62
+4.68
+GPT-5.4-mini
+5.12
+5
+8
+2.64
+4.23
+5.29
+7.48
+5.73
+GPT-5.4
+3.96
+3
+8
+2.26
+3.62
+3.69
+6.19
+4.24
+Gemini-2.5-Pro
+3.18
+2
+7
+1.89
+3.17
+2.35
+5.94
+3.97
+Gemini-3-Flash
+3.07
+2
+6
+1.77
+3.07
+2.28
+5.46
+4.11
+Table 8 Recorded output-trajectory length for full-context MLLMs. Overall statistics use all 2,554 episodes per model;
+family columns report means. P90 is the empirical 90th percentile, Std. is the population standard deviation, and the
+maximum is eight for every model.
+Task family
+Episodes
+AI2-THOR
+ProcTHOR
+Scenes
+Rooms
+Targets
+Recept.
+Passive Observation
+1,036
+111
+925
+1,109
+4
+52
+20
+Dynamic Tracking
+1,052
+109
+943
+1,116
+4
+54
+20
+Interaction Failure
+263
+96
+167
+423
+4
+18
+5
+Experience Generalization
+203
+36
+167
+746
+4
+47
+22
+Global union
+2,554
+352
+2,202
+1,118
+4
+83
+33
+Table 9
+Composition of EMem-Bench. AI2-THOR and ProcTHOR assign each episode by the simulator of its
+target-task scene. Scenes, room types, target object types, and receptacle types are unique within each row; the
+global-union row deduplicates overlaps across task families.
+Task family
+Sessions
+History steps
+Cue gap
+Transitions
+Visible at cue
+Mean / median / 90th percentile
+Mean
+Passive Observation
+2.0 / 2 / 2
+76.5 / 81.5 / 98
+49.8 / 56 / 68
+2.0 / 2 / 2
+11.0
+Dynamic Tracking
+2.0 / 2 / 2
+78.2 / 83 / 100
+46.4 / 52 / 75
+2.0 / 2 / 2
+9.1
+Interaction Failure
+2.0 / 2 / 2
+71.7 / 78 / 90
+47.7 / 55 / 64
+2.0 / 2 / 2
+6.2
+Experience Generalization
+4.5 / 4 / 5
+112.5 / 111 / 136
+52.2 / 53 / 62
+4.5 / 4 / 5
+9.9
+Table 10 Interaction-history difficulty by task family. Cue gap counts context steps after the final decisive evidence
+and before the target task. Transitions count adjacent scene changes across the context sessions and target scene.
+Visible at cue is the mean number of visible objects at the decisive evidence step.
+Thus L(m)
+i
+counts primitive action attempts recorded by the evaluator, including an invalid attempt or explicit
+termination action when present. We audit all 30,648 rollouts from the 12 general-purpose full-context MLLMs
+that completed the final 2,554-episode leaderboard. Every rollout satisfies the equality in Equation 13; all use
+the shared full-context configuration specified above.
+Table 8 shows that mean trajectory length ranges from 3.07 actions for Gemini-3-Flash to 6.77 for InternVL3-8B.
+Ten of the 12 models reach the eight-step budget at the 90th percentile. Averaging each family equally across
+models gives 4.56 actions for Passive Observation, 4.92 for Dynamic Tracking, 6.66 for Interaction Failure, and
+5.29 for Experience Generalization. The corresponding strict-oracle trajectories average 3.00, 3.00, 6.00, and
+4.22 actions, respectively, so the longer Interaction Failure trajectories partly reflect its six-action execution
+structure rather than only model inefficiency. These lengths are descriptive rather than a performance ranking:
+successful completion can shorten a trajectory, but an incorrect early termination can do so as well, while
+repeated failed attempts can saturate the budget.
+
+
+Target object
+Target receptacle
+Task family
+Types
+Top-1 (share)
+Top-5
+Types
+Top-1 (share)
+Top-5
+Passive Observation
+52
+Book (11.0%)
+32.3%
+20
+Dresser (27.2%)
+77.0%
+Dynamic Tracking
+54
+Book (9.6%)
+32.0%
+20
+CounterTop (24.0%)
+66.0%
+Interaction Failure
+18
+KeyChain (30.8%)
+82.5%
+5
+Safe (33.8%)
+100.0%
+Experience Generalization
+47
+Candle (5.9%)
+25.6%
+22
+Dresser (15.8%)
+55.2%
+Table 11 Category coverage and concentration within each task family. Top-1 and Top-5 are shares of family episodes
+accounted for by the most frequent one or five values in the indicated scope.
+C.4
+Composition and Interaction-History Difficulty
+0-2
+3-5
+6-8
+9-11
+12-14
+15-17
+18-20
+21-23
+24-26
+27-29
+30+
+0
+400
+800
+Visible-object density at cue
+Passive Obs.
+Dynamic Tracking
+Interaction Failure
+Experience Gen.
+0
+1
+2
+3
+4
+5
+0
+1,200
+2,400
+Room/scene transitions
+Episodes
+Figure 10 Auxiliary benchmark distributions. Top:
+visible-object density at the decisive cue. Bottom:
+room/scene transitions across the interaction history.
+Bars stack episode counts from the four task families.
+Table 9 details the composition of each task family. Pas-
+sive Observation and Dynamic Tracking are the two
+largest families and together account for 81.8% of the
+episodes. Interaction Failure and Experience General-
+ization are smaller controlled sets, but still span 423
+and 746 scenes, respectively. By target-scene source, the
+benchmark contains 352 AI2-THOR episodes and 2,202
+ProcTHOR episodes.
+The benchmark’s memory demand combines target-task
+execution with a long interaction history. Table 10 quan-
+tifies interaction-history difficulty, and Figure 10 reports
+visible-object density at the decisive cue and room/scene
+transitions. Experience Generalization is structurally the
+longest family, with a median of 111 interaction steps
+and four to five room/scene transitions. The other fami-
+lies have median histories of 78–83 steps and exactly two
+transitions, yet their median cue-to-target gaps remain
+comparably long at 52–56 steps. The cue itself is also visu-
+ally nontrivial: Passive Observation contains 11.0 visible
+objects on average at the decisive cue, consistent with
+its fine-grained visual-memory focus. Interaction Failure
+has fewer visible objects because its decisive state is
+revealed by action feedback rather than appearance. To-
+gether with the main-paper results and the cue-removal
+controls in Section D, these statistics show that successful tasks require recovering decisive evidence across
+long, changing, and visually cluttered interaction histories.
+C.5
+Object Coverage and Distribution Concentration
+Table 11 summarizes category breadth and concentration, complementing the global unions in Table 9.
+Target-object concentration is low in Passive Observation, Dynamic Tracking, and Experience Generalization:
+their most frequent target accounts for only 11.0%, 9.6%, and 5.9% of family episodes. Interaction Failure is
+intentionally narrower, with 18 target types and five receptacle types, so its top-five shares are correspondingly
+higher. Receptacle distributions are more concentrated than target-object distributions because each task
+family admits only receptacles that support its executable terminal action. Overall, EMem-Bench covers a
+broad and nontrivially distributed set of objects and scenes while retaining the controlled object–receptacle
+support required by each task family.
+C.6
+Release Audit and Executability
+We audit every retained episode before release. All 2,554 episodes belong to the canonical manifest, contain
+recoverable decisive evidence, execute successfully under the benchmark’s strict-oracle action contract, and
+reach the intended terminal task state. These automatic checks are paired with the six-dimensional manual
+review below, which covers evidence sufficiency, instruction clarity, answer or target leakage, trajectory
+plausibility, cue–probe alignment, and terminal-judgment correctness. Together, the construction and review
+
+
+pipeline rejected 143 candidates before retaining the final 2,554 episodes.
+Human Review Protocol and Audit Interface
+Figure 11 EMem-Bench human-audit interface on a canonical Dynamic Tracking episode. The left queue locates an
+episode in the frozen manifest and the session map preserves context/noise boundaries. The center aligns the target
+and terminal condition with an enlarged observation, action–feedback pair, and the complete 75-step timeline; the
+highlighted step records the Book’s move from its old Box location to the Desk. The right panel records criterion-level
+verdicts, cited evidence steps, notes, and the release decision. The Simulator validation mode uses the same
+workspace to issue benchmark-legal actions and inspect live task progress and terminal-state judgments.
+Review unit and evidence traversal. A panel of five domain experts performed manual screening at the
+candidate-episode level after the schema, duplication, cue-recovery, and strict-oracle gates and before admission
+to the frozen manifest. The reviewer first compared the probe instruction and simulator-defined terminal
+condition, and then traversed the complete context trajectory in chronological order. Figure 11 shows the
+benchmark-specific interface used to make long trajectories tractable. Its session map preserves scene and
+session boundaries; the global timeline retains every step and distinguishes context, distractor, and decisive-
+evidence steps; and the enlarged view aligns the RGB observation with the executed action, simulator feedback,
+visible-object list, agent pose, and held object. A construction-metadata highlight anchors the review to
+the task-defining cue. Reviewers cited global step indices to ground each concern or acceptance decision in
+recoverable evidence.
+Manual acceptance criteria. The manual review considered the six dimensions shown in the right panel of
+Figure 11. Evidence sufficiency checked that the decisive object, state change, interaction outcome, or repeated
+household correction was recoverable from the recorded observation–action–feedback chain. Instruction clarity
+checked that the target task and its intended completion state were identifiable. No answer or target leakage
+checked that the later instruction and distractor content preserved dependence on the remembered location,
+outcome, or generalized rule established by the trajectory. Trajectory plausibility checked the consistency
+of scene transitions, executed actions, environment feedback, held-object state, and relevant object-state
+changes. Cue–probe alignment checked that the probe depended on the object instance, updated state, failed
+interaction, or experience pattern established by the earlier cue. Finally, terminal-judgment correctness checked
+the evaluator’s transition from the pending state to the intended completion state. Candidates with a material
+issue were corrected and rechecked or removed. This construction-and-screening process rejected 143 candidates
+
+
+and retained the 2,554 episodes reported in the main paper.
+Interactive executability and completion audit. The second interface mode initializes the candidate’s probe
+through the same EmbodiedMemorizerEnv, legal-action generator, action executor, and EpisodeEvaluator
+used for benchmark evaluation. It presents the actions legal in the current simulator state, refreshes the RGB
+observation and object/agent state after every transition, and displays the evaluator’s task progress and
+task_completed value. The reviewer can replay the declared oracle path, inspect every action result, and
+reset a suspicious case to test an alternative legal path. This interactive audit establishes task executability
+and verifies the evaluator’s transition from pending progress to the intended terminal state.
+C.7
+Task-Family Sensitivity
+Passive
+Dynamic
+Interaction
+Experience
+Passive
+Dynamic
+Interaction
+Experience
+1.00
+0.57
+0.77
+0.94
+0.57
+1.00
+0.52
+0.52
+0.77
+0.52
+1.00
+0.77
+0.94
+0.52
+0.77
+1.00
+Task-family ranking correlation
+0.5
+0.6
+0.7
+0.8
+0.9
+1.0
+Spearman ρ
+Figure 12 Spearman correlations between model SR
+rankings across task families, computed from the 12
+full-context MLLMs that completed all 2,554 episodes.
+Figure 12 compares the task-family SR rankings of the
+12 open-source and proprietary full-context MLLMs that
+completed all 2,554 episodes. Pairwise correlations range
+from 0.52 to 0.94. Passive Observation and Experience
+Generalization are most aligned, whereas Dynamic Track-
+ing has only 0.52 correlation with Interaction Failure
+and Experience Generalization. The positive but nonuni-
+form correlations match the main result: overall model
+strength transfers across families, but models retain un-
+even profiles because the families exercise different uses
+of memory.
+C.8
+Case Studies
+Figures 13 and 14 provide paired success and failure
+examples from GPT-5.4-mini under the full_context
+protocol. Each background panel samples the underlying
+interaction trajectory in chronological order while retain-
+ing every task-defining cue; each rollout panel shows the
+complete target-task action trace used in the compari-
+son. The background RGB frames visualize the recorded
+history for the reader.
+Passive Observation. Figure 13 (top) isolates whether fine-grained visual evidence survives a long, distracting
+history. In the success case, the ButterKnife is incidentally visible among many countertop objects, and the
+model later navigates to that remembered location and retrieves it. In the failure case, the history similarly
+makes the CellPhone recoverable on the dresser, but the model repeatedly searches the bed and terminates
+without the target. The comparison isolates the later policy’s use of recoverable historical evidence.
+Dynamic Tracking. Figure 13 (bottom) contrasts use of the latest state with retention of a superseded state.
+In the success case, the history moves the RemoteControl from a drawer to an armchair, and the model
+retrieves it from the armchair. In the failure case, the CreditCard moves from the coffee table to the side table,
+yet the model repeatedly returns to the coffee table and stops. This pair realizes the main-paper distinction
+between merely retaining an earlier observation and replacing it with a later world-state update.
+Interaction Failure. Figure 14 (top) shows how a constraint revealed by interaction feedback affects a later
+choice. Both histories report a locked cabinet. The success case avoids the known unusable instance, opens a
+different cabinet, and places the Cloth inside it. The failure case instead returns to the same known locked
+cabinet; its opening attempt fails while the cabinet remains closed, preventing placement of the SoapBottle.
+Successful transfer associates the earlier feedback with the identity of the later interaction target.
+Experience Generalization. Figure 14 (bottom) grounds each pair of corrections and its probe in one physical
+scene and one shared target surface. In the success case, corrections place a CellPhone and a Laptop on
+the same desk; the model transfers this recurring household convention to a new CD. In the failure case,
+corrections instead establish the same side table for a Watch and a KeyChain, but the model places the
+
+
+Backbone
+History condition
+Avg
+Passive
+Observation
+Dynamic
+Tracking
+Interaction
+Failure
+Experience
+Generalization
+Qwen3-VL-8B
+Correct history
+23.8
+37.5
+23.5
+12.5
+21.5
+Current only
+10.8
+8.5
+8.5
+18.0
+8.0
+Cue removed
+12.6
+8.5
+23.0
+12.5
+6.5
+Minimal oracle
+58.2
+64.0
+61.5
+25.0
+82.5
+GPT-5.4-mini
+Correct history
+36.6
+58.0
+28.5
+19.0
+41.0
+Current only
+11.0
+8.0
+11.5
+19.0
+5.5
+Cue removed
+15.2
+11.0
+15.0
+20.5
+14.5
+Minimal oracle
+69.1
+85.0
+85.5
+48.0
+58.0
+Table 12 History interventions for Qwen3-VL-8B and GPT-5.4-mini. All four conditions use the same 800 episodes,
+with 200 episodes from each task family. Entries are SR percentages. We compute ∆cue directly from the paired Correct
+history and Cue removed outcomes and report its bootstrap 95% confidence interval in the text.
+novel CreditCard on the dining table four times. The contrast tests induction of a reusable rule from multiple
+corrected experiences.
+D
+Additional Experimental Results
+We conduct two controlled experiments that complement the broad comparison in Table 2. They test whether
+success changes causally with episode evidence and whether adding historical images to the main-paper
+full_context setting affects task success. Both experiments use the same fixed episode identifiers released
+with the evaluation ledger. Average SR is the arithmetic mean of the four family SRs, as in the main paper.
+We report episode-paired bootstrap 95% confidence intervals from 10,000 resamples; paired differences always
+reuse the same resampled episode identifiers.
+D.1
+Causal Dependence on Interaction History
+We draw a fixed 800-episode subset from the canonical manifest, with 200 episodes per task family and
+balanced sampling over cue-to-task distance quartiles. Qwen3-VL-8B and GPT-5.4-mini are evaluated on
+the same episodes under four history conditions. Correct history uses the standard full_context protocol.
+Current only retains the instruction and current observation but removes all preceding sessions. Cue removed
+preserves the session boundaries and distractors while replacing the decisive evidence record with a length-
+and type-matched neutral record that does not determine the target relation. Minimal oracle removes the
+remaining history and supplies only the shortest structured proposition sufficient to identify the intended
+terminal relation.
+Table 12 reports overall and family-level SR under these four interventions. We define the paired cue effect as
+∆cue = SRcorrect −SRcue-removed.
+The paired Correct-history minus Cue-removed macro-SR difference was 11.1 points for Qwen3-VL-8B (95%
+CI [8.1, 14.1]) and 21.4 points for GPT-5.4-mini (95% CI [17.8, 25.0]). Across cue-distance quartiles, the
+corresponding paired differences were Q1: 14.5, Q2: 10.5, Q3: 5.5, Q4: 14.0 points for Qwen3-VL-8B and Q1:
+25.0, Q2: 18.0, Q3: 21.0, Q4: 21.5 points for GPT-5.4-mini. Taken together, these interventions establish the
+central validity claim of EMem-Bench: benchmark success genuinely requires memory of preceding interactions.
+With the target task and current environment state held fixed, removing the earlier sessions or only the
+decisive historical evidence sharply reduces macro SR; the tasks therefore cannot be solved from the current
+observation, generic scene priors, or ordinary embodied competence alone. The positive cue effect in every
+distance quartile confirms that this requirement extends to temporally remote evidence. Minimal oracle reaches
+58.2 and 69.1 macro SR for Qwen3-VL-8B and GPT-5.4-mini, exceeding Current only by 47.4 and 58.1 points,
+respectively. It also exceeds Correct history by 34.4 and 32.5 points. These gaps show that both models can
+act much more effectively once the task-relevant past relation is recovered, separating the memory-retrieval
+challenge from downstream execution. Memory is therefore necessary information for solving EMem-Bench
+tasks.
+
+
+Figure 13 Passive Observation and Dynamic Tracking cases. The Passive Observation pair contrasts retrieval from
+an incidental sighting with repeated search at an incorrect location. The Dynamic Tracking pair contrasts use of the
+latest object location with repeated reliance on a superseded state. Colored borders identify the task-defining historical
+cues and consequential rollout actions.
+
+
+Figure 14 Interaction Failure and Experience Generalization cases. The Interaction Failure pair contrasts avoiding
+a cabinet known to be locked with returning to that same unusable instance. The Experience Generalization pair
+contrasts transferring two same-surface corrections to a novel object with repeatedly violating the learned convention.
+Each generalization case remains within one physical scene and one shared target surface.
+
+
+Input setting
+Avg
+Passive
+Observation
+Dynamic
+Tracking
+Interaction
+Failure
+Experience
+Generalization
+Input tok.
+s/step
+Main-paper full_context
+36.6
+58.0
+28.5
+19.0
+41.0
+41,770
+4.1
+Main-paper full_context
++ maximum historical RGB
+26.2
+40.0
+21.0
+20.0
+24.0
+206,489
+39.1
+Table 13 Main-paper versus maximum-history-image full_context settings for GPT-5.4-mini on the same 800-episode
+main-selector subset used by the four history controls in Table 12. Both conditions contain the complete sanitized text
+history and the current RGB observation at every target-task step; the second condition additionally includes as many
+historical RGB observations as the remaining model context permits. Average and task-family SRs are percentages.
+Input tokens are per-episode means, and wall-clock latency per model step excludes simulator rendering. We report
+the episode-paired macro-SR change and its bootstrap 95% confidence interval in the text.
+D.2
+Historical Visual Inputs in Full Context
+This section expands the context-extension experiment in Section 5.3; Table 13 reports the detailed task-
+family results. We compare the main-paper full_context setting against a maximum-history-image variant.
+GPT-5.4-mini is evaluated on the same fixed 800 episodes used in the causal controls. The main-paper setting
+uses the complete sanitized text history and current 500 × 500 RGB observation defined in Section C. The
+maximum-history-image setting preserves this input unchanged and fills the remaining model context with
+as many historical 500 × 500 RGB observations as the provider’s input limit permits after reserving a fixed
+output budget.
+When the complete visual history exceeds the provider limit, a deterministic sampler allocates frames uniformly
+across sessions and each session’s timeline, then restores them to temporal order. The resulting treatment
+augments the main-paper input with the maximum historical RGB sequence admitted by the model context.
+Image-token counts are computed with the model’s image processor.
+Adding the maximum available historical RGB sequence changed macro SR by -10.4 points (95% CI [-14.4,
+-6.5]). The treatment admitted archived frames for all 800 episodes. The paired SR changes across history-length
+quartiles were Q1: -11.5, Q2: -8.5, Q3: -9.0, Q4: -12.5 points. Taken together, these results establish a broader
+conclusion: EMem-Bench cannot be solved by simply enlarging the raw multimodal context. Maximizing
+historical visual input reduced rather than improved macro SR, while increasing mean input from 41,770 to
+206,489 tokens per episode and mean model-step latency from 4.1 to 39.1 seconds. The negative change in every
+history-length quartile shows that the degradation is systematic across history lengths. Additional observations
+are therefore insufficient for effective memory. Success requires precise retrieval of task-relevant evidence
+and suppression of irrelevant history; indiscriminate context accumulation instead dilutes the decisive signal.
+EMem-Bench consequently distinguishes long-term memory retrieval capability from mere context-window
+scaling.
+E
+Limitations
+A limitation of this work is that EMem-Bench and the cross-benchmark evaluations are conducted primarily in
+simulation. Simulation allows us to control the earlier evidence, reproduce complete interactions, and score the
+resulting environment transitions while reducing the cost and safety risks of physical experiments. However, it
+does not capture sensor noise, actuation error, open-world changes, or ambiguous human feedback encountered
+in real deployments. The reported results therefore do not establish long-term memory performance on physical
+robots. Future work will extend the evaluation to longer time horizons and more realistic environments,
+including standardized real-robot test suites that preserve reproducibility while remaining practical and safe.
