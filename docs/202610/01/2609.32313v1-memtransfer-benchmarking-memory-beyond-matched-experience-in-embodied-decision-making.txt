@@ -1,0 +1,408 @@
+Title: MemTransfer: Benchmarking Memory Beyond Matched Experience in Embodied Decision-Making
+
+URL Source: https://arxiv.org/pdf/2609.32313v1
+
+Published Time: Tue, 29 Sep 2026 00:44:25 GMT
+
+Number of Pages: 9
+
+Markdown Content:
+# MemTransfer: Benchmarking Memory Beyond Matched Experience in Embodied Decision-Making 
+
+Haiming Tang 1∗, Xianjie Dai 2∗, Gujie Shao 1, Zuyi Guo 2,Jingguang Li 2, Kailang Ma 2, Yihong Tang 3, Heye Huang 2† 1National University of Singapore 
+
+> 2
+
+Korea Advanced Institute of Science and Technology 
+
+> 3
+
+McGill University 
+
+Abstract — Memory lets an embodied agent reuse past expe-rience, yet retaining useful information does not ensure that the agent can apply it when conditions change. We present MemTransfer, a benchmark comparing six memory represen-tations, a working-memory baseline and five representations of past experience, under a shared frozen vision-language-model policy. It comprises 100 navigation cases across ten task types in a simulated warehouse, with expert demonstrations supplying the history. Three comparisons vary the starting pose, route availability, and amount and task relevance of history. With one demonstration per task, Full-context and Episodic memory reach 95.3% and 100.0% success at the original demonstration start, but lose 48–49 percentage points at a new test start. Summary changes little between these two test starts, yet with four demonstrations per task it retains a smaller fraction of its unchanged-route success after blocking (39.3%) than Working memory (44.8%) or the two trajectory memories (56–58%). At the new test start, increasing from one to four relevant demonstrations raises Episodic success by 14.3 percentage points, while the other evaluated representations gain no more than 1.3 percentage points. Replacing half of the relevant histories with other-task experience lowers success for both trajectory memories. These results show that robustness to one kind of mismatch does not imply robustness to another, motivating evaluation of both stored information and its use at decision time. 
+
+I. INTRODUCTION A robot working repeatedly in the same warehouse can use experience from earlier tasks to guide later ones. If it has already found an object, that experience may save it from searching again [1]. A memory representation determines what information is kept from the earlier task and how the policy receives it when deciding what to do next. The next task may begin elsewhere in the warehouse, requiring the robot to use its experience from a new starting point. Even a familiar route can become unusable if an aisle is blocked. Over time, the robot will also accumulate histories collected for different goals, raising the question of which experience is useful for the task at hand. Success when repeating a task under the original condi-tions does not tell us how well memory will help in these situations. Different representations may respond differently  
+
+> *Equal contribution.
+> †Corresponding author:
+
+heye.huang@kaist.ac.kr .This work was conducted as part of the MIT-UF-NEU Joint Summer Research Camp 2026. 
+
+to the same change: preserving useful information does not necessarily make it easy to apply in a new episode. We therefore compare six memory representations under a common policy, asking how their benefits depend on the experience available and the conditions in which it is used. Three research questions guide the comparison. 
+
+RQ1 — Generalization. How does a mismatch in starting position or orientation between past experience and the current episode affect the performance of different memory representations? 
+
+RQ2 — Adaptation. How do different memory represen-tations support task completion and recovery when an envi-ronmental change makes past experience partially outdated? 
+
+RQ3 — Using multiple histories. How do the amount and task relevance of past experience affect the performance of different memory representations? To study these questions, we introduce MemTransfer, a collection of 100 navigation task cases across ten task types in a simulated warehouse. Expert trajectories provide the historical experience from which memory is constructed. We compare a working-memory baseline and five representations of past experience using the same frozen Vision-Language-Model (VLM) policy and interaction interface. The results show that Full-context and Episodic memory can achieve high success when the test start matches the demonstration, yet decline substantially at a new start. Sum-mary changes less across start poses, but this stability does not carry over to blocked routes: it retains a smaller fraction of its unchanged-route success than Working memory, Full-context or Episodic. Additional relevant histories benefit Episodic memory, while replacing relevant histories with other-task experience reduces success for both Episodic and Full-context. These findings highlight the importance of testing how memory is reused across conditions. In summary, our main contributions are as follows:  
+
+> •
+
+We present a controlled benchmark with 100 navigation cases across ten task types and paired expert trajectories, designed to study memory reuse under changes in start pose, route availability, and prior experience.  
+
+> •
+
+We establish a unified evaluation protocol for six mem-ory representations and controlled comparisons of mem-ory generalization, adaptation, and multi-history use.  
+
+> •
+
+We demonstrate that memory representations exhibit arXiv:2609.32313v1 [cs.RO] 26 Sep 2026 Replay a demonstration: action sequence and keyframes. 
+
+> Full-Context Memory VLM-based Navigation Agent
+> Recall moment: pasts view and actions
+> Episodic Memory
+> Compressed experience: item locations, outcomes.
+> Summary Memory
+> Abstract experience: knowledge with no specific places.
+> Semantic Memory
+> Combine descriptions and rules: place and procedure.
+> Hybrid Memory
+
+History Rollout Environment Cross-Episode Memory Bank Observation Action Cross-Episode Memory Working Memory Record Selection Adaptation Generalization  
+
+> The route I remember starts somewhere else... The route I remember is blocked...
+> Starting point Current location Target location Most useful route Endpoint of another route Another route
+> Which route should I use...
+
+Fig. 1: Three questions about reusing past experience. Left: a new starting pose (RQ1), a blocked route (RQ2), and multiple histories including experience from other tasks (RQ3). Right: a shared policy and working-memory window, with five representations of past experience. distinct trade-offs: trajectory-based memories excel un-der matched conditions but degrade under mismatch, while abstracted memories transfer more consistently but remain sensitive to outdated experience. II. RELATED WORK 
+
+Embodied benchmarks. Simulation suites such as Habi-tat [2], Gibson [3], ALFRED [4] and BEHAVIOR [5] made embodied evaluation standard, and EmbodiedBench [6] and OmniNavBench [7] widen the range of skills and robot bodies. All share one assumption: every trial is a fresh episode, with the environment reset and no history kept across runs. Three lines of work let memory persist: it-erative VLN evaluates agents over tours of up to 100 instructions in one scene and finds that only map-building agents profit [8], GOAT-Bench evaluates lifelong navigation to sequences of goals [1], and MultiON tests map memory within an episode [9]. However, none of these methods controls the relation between the earlier trajectories and the tested episode. 
+
+Memory representations. Seen through what reaches the policy at decision time, existing designs fall into a few classes. A window over recent steps is the working memory of language agents [10] and the keyframe buffer of RoboMemArena [11]. Summaries and knowledge dis-tilled from experience appear in the running summaries and stored procedures of generative agents [12], [13]. Re-trieval of the past moment that matches the present runs from semi-parametric topological memory [14] and scene memory transformers [15] to the buffer-plus-store designs of VLM 2 [16] and 3DLLM-Mem [17], and to ReMEmbR [18] and Embodied-RAG [19], which query hours of traversal. Providing a recorded trajectory as Full-context memory supplies in-context guidance. We compare these five memory representations and their Summary–Semantic combination, Hybrid, each realised as a prompt the same frozen VLM can read. Metric and topological maps [20]–[22] are the one family we do not include as a representation: they need a map builder and a planner outside the policy, so a comparison through one fixed prompt cannot separate the memory from that machinery. This exclusion is limited to explicit map structures, while both Summary and Semantic retain spatial and navigational knowledge. 
+
+Memory benchmarks. LongBench [23] tests recall from a long context; MemoryAgentBench [24] and EgoMem-Reason [25] test multi-session retrieval, test-time learning and reasoning over egocentric video. Closer to robotics, FindingDory [26] navigates from a day of the agent’s own interaction in Habitat, and WorldLines [27] tracks changing household states over multi-day traces. MemTransfer complements these benchmarks by vary-ing the relation between past experience and the current episode: mismatched starts, outdated routes, and changes in the amount and task relevance of history. III. THE M EM TRANSFER BENCHMARK MemTransfer uses warehouse navigation to study how a fixed policy uses past experience. We pair each task with expert demonstrations and test episodes, varying the starting pose (RQ1), route availability (RQ2), and the amount and relevance of history (RQ3). Figure 2 shows the environment and the shared interface used to compare memory represen-tations. 
+
+A. Environment and Tasks 
+
+Scene. We use an industrial warehouse built in NVIDIA Isaac Sim 4.5, covering approximately 16 m ×30 m (Fig. 2B). Six rack blocks form two banks connected by a cross-aisle, with three parallel corridors in each bank and two additional Store Layout Q1 · Generalization 
+
+> Does memory still help when it was recorded from a different starting pose?
+
+Q2 · Adaptation 
+
+> Does memory still help when the route it recorded is now blocked?
+
+Q3 · Selection 
+
+> Does memory still help when most of what it holds belongs to other tasks?
+
+C · Support & Memory 
+
+Full-Context Memory 
+
+Episodic Memory 
+
+Semantic Memory 
+
+> Condition | Rule | Consequence | Support | Contra. 11 structured records; only one covers single-target search
+
+Hybrid Memory 
+
+> Hyberid = Summary ⊕ Semantic Two documents are physically concatenated, not rewritten
+
+Summary Memory 
+
+> "Tomato Soup Can: (-6,-1) reach (-4,-1)" One document: coordinates + task outcomes
+
+Working Memory 
+
+Raw Experience: Images + Actions Distilled Experience: Text only  
+
+> STATIC STATIC STATIC STATIC PER STEP PER STEP
+> Support 1 Identical Support 3 Near-Start Shift Support 4 Far-Start Shift Support 2 180 °Heading Reversal
+
+Encode Evaluate 
+
+> Generalization
+> Adaptation
+> Selection
+
+B · Environment A · VLM-based Navigation Agent 
+
+Controllable Factors 
+
+Start Pose 
+
+> position + heading
+
+Target Instance 
+
+> which object to find
+
+Route Condition 
+
+> clear <-> blocked
+
+... ... ... ... ... 
+
+> Intern-S2-Preview-397B
+> Frozen VLM Policy
+
+Action             
+
+> ML MR MF MB TL TR TB
+> Multimodal Context
+> MF MR TL ⋯
+> recent 6 views & actions
+> Start Turn End MF MF MR MF ... MF
+> “now”
+> “matched” retrieve
+
+Input Output Action Observation  
+
+> System Prompt
+> Agent Role & Action Space & Output Format
+> Task
+> "Find any instance of Tomato Soup Can."
+> Current Observation
+> "you are at (-5, 16) facing North"
+> Working Memory Recent 6 views & actions Cross-Episode Memory
+> MF MB
+
+Record Memory Fig. 2: Overview. (A) The shared VLM policy receives the task, observation, pose, action feedback, recent interactions and historical memory. (B) Warehouse layout, start poses, target instances and route obstructions. (C) Demonstration starting poses and the six memory representations, with examples of their contents and input sizes. Section III-B defines the comparisons used for each RQ. racks at the north and south ends. The layout provides alternative routes between locations, allowing us to block a familiar passage while keeping the task solvable in RQ2. Items in the same category are grouped in neighbouring bays, so a previously observed location can provide a useful cue for later search. 
+
+Interface. The floor is divided into 1 m cells, and the agent faces one of four cardinal directions. The policy receives the task instruction, its absolute position and heading, an egocentric RGB image, and action feedback. The camera is 1 .2 m above the floor with a 90 ◦ field of view. The environment supplies neither a map nor an object-location list; knowledge of object locations comes from observations or memory. The agent can move one cell forward, backward, left or right without changing heading, or turn left, right or around. Racks and walls are not traversable: a blocked move leaves the agent in place, returns feedback, and consumes one step. An item is reached from the cell directly in front of its rack face. Episodes end at task completion or the step limit Tmax . All representations use this interface; the memory information supplied to the policy is specified in Sec. III-C. 
+
+Tasks. We define 10 navigation task types and instantiate 10 cases of each, for 100 cases in total (Table I). Each case specifies the target items or category and an original starting position and heading. The tasks cover basic search ,
+
+multi-object search , and loops that return to the current TABLE I: Navigation tasks used in the three RQs. 
+
+Type Task and route Task requirement 
+
+Basic search 
+
+1 Single object search, O → A Reach one instance of A
+
+2 Category object search, O → C Reach one item in CMulti-object search 
+
+3 Exhaustive single object search, 
+
+O → A1 → · · · → Ak
+
+Visit every instance of A
+
+4 Exhaustive category search, 
+
+O → C1 → · · · → Cm
+
+Visit every item in C
+
+5 Unordered search, O → { A, B} Visit both target items 6 Ordered search, O → A → B Visit A before BLoop 
+
+7 Search with return, O → A → O Return to the episode origin 8 Exhaustive search with return, 
+
+O → { Ak } → O
+
+Visit all, then return 9 Origin–A–B–A, O → Ai → B → Ai Return to the same A
+
+10 Origin–A–B–origin, O → A → B → O Visit A, then B, then return Each type has 10 cases. O: episode origin; A, B: target object types; C: category. Subscripts identify instances; braces indicate visits without a prescribed order. 
+
+episode’s origin or revisit the same object instance. Past experience may provide target locations and route guidance, while the agent must also track progress in the current episode. The three RQs use these same task cases with the conditions defined in Sec. III-B; Sec. IV-F further examines how memory benefits vary across task groups. B. Evaluation Design 
+
+For each of the 100 task cases, we collect four successful demonstrations: one from the original start , one from the same position with the opposite heading, and two from nearby and distant starts. We also prepare a test episode from an initial pose different from those of the four demonstrations for that case, together with a copy in which a route is blocked. The four demonstrations are used to construct memory; the two test reference trajectories are excluded from memory construction. Table III distinguishes the test start , route condition ,and number of demonstrations per task . One demonstration means the original trajectory; four demonstrations add the other three starting poses. These counts describe the avail-able experience per task, not the number of trajectories in every memory: text representations consolidate the selected demonstrations across all 100 task cases. We use these settings in three comparisons. 
+
+RQ1: Generalization across start poses. First, we build memory from the original demonstration and compare the agent’s performance from the original start and the new start 
+
+(Table III). Second, we keep the test episode at the original start and change which single demonstration builds memory: original start, opposite heading , nearby start , or distant start 
+
+(Table IV). The first comparison changes the test start; the second changes the start of the remembered experience. Both use the unchanged warehouse. 
+
+RQ2: Acting with outdated memory. We keep the new test start and the four demonstrations fixed, then block a passage shared by the test reference route and at least one demonstration. An alternative route remains available in every case. Comparing the unchanged and blocked route conditions examines task completion and recovery when part of the stored route information becomes outdated (Tables III and V). 
+
+RQ3: Using multiple histories. With the new test start and warehouse unchanged, we first compare one versus four demonstrations per task to examine the benefit of additional relevant experience (Table III). We then keep four demon-strations but replace two with histories from other tasks with different target requirements (Fig. 3). These histories either share no poses with the test reference route ( irrelevant ), or share poses and are selected for potentially conflicting continuations (confusable ); a pose includes position and heading. Replacement removes relevant experience as well as adding other tasks’ histories. 
+
+Trajectory construction. All 600 reference trajectories are near-optimal planner solutions on the ground-truth map, verified by replay. The opposite-heading demonstration turns 180 ◦ at the original cell. Nearby starts move 2–4 cells along the same aisle, retain the heading, and share at least half the original route’s edges. Distant starts move at least six cells to another aisle, turn 90 ◦, and share at most half its edges. The new test start keeps the target out of the first view and has a reference length within 0 .75–1 .35 of the original demonstration length. 
+
+C. Memory Representations 
+
+We compare a working-memory baseline with five rep-resentations of past demonstrations under the same frozen VLM policy, Intern-S2-Preview-397B [28]. Table II summa-rizes what each stores and supplies at decision time. We distinguish memory construction from access [13], [18], [19]: 
+
+Mr = Br(Dr),
+
+mr,t = Ar(Mr, xt ),
+
+at ∼ πθ (· | xt ,Wt , mr,t ),
+
+(1) where Br builds memory Mr from the demonstrations Dr
+
+specified by the evaluation condition (Sec. III-B), and Ar
+
+selects the information mr,t supplied at step t. The current input xt contains the task, image ot , pose and action feedback. All configurations share the recent-interaction window Wt ;the baseline has no historical memory, Mr = mr,t = ∅.
+
+Storage and use during testing. The stored memory Mr
+
+and policy parameters θ remain fixed, while Wt updates as the episode proceeds. Full-context, Summary, Semantic and Hybrid supply fixed historical content at each step. Episodic memory instead retrieves a local segment using the current view. RQ2 therefore measures task completion and recovery with fixed historical memory. Full-context keyframes cover the start, sub-goal com-pletions, end and moments before turns, supplemented by evenly sampled frames. Image budgets and window lengths are given in Sec. IV-A. 
+
+Episodic retrieval. Let I index the stored demonstration frames ou, φ be the ViT-B/16 encoder, and d the matcher’s embedding distance. Retrieval matches the current view to a stored frame and returns its continuation: 
+
+ut ∈ arg min 
+
+> u∈I
+
+d(φ (ot ), φ (ou)) ,
+
+mepi ,t = Segment Hepi (Depi , ut ). (2) The segment includes the matched view and up to Hepi 
+
+subsequent expert actions with their resulting views, stopping at the end of the demonstration. Ties are broken by task stage and elapsed steps. The VLM uses this context to choose its next action. IV. EXPERIMENTS We examine start-pose generalization (RQ1), outdated memory (RQ2), and multiple histories (RQ3). Tables III–V and Fig. 3 summarize the main evaluated conditions. Results are then reported by task group, followed by key design choices and limitations. 
+
+A. Experimental Setup 
+
+We use the same frozen Intern-S2-Preview-397B at tem-perature 0, with a 30-token answer budget and reasoning disabled. Episodes end upon task completion or after Tmax =
+
+200 steps, with at most 50 images per prompt. Working memory keeps h = 6 steps. Full-context memory uses up to 40 reference images, while Episodic memory returns Hepi = 6actions and their resulting views, for at most 7 reference images. These settings remain fixed unless otherwise stated. TABLE II: Construction and use of the six memory representations. Each historical representation supplements the working-memory window used by the baseline.                      
+
+> Representation Memory organization Construction Decision-time access
+> Working memory Ordered recent interactions Keep the last hsteps Entire recent window Full-context Chronological actions and keyframes Retain actions; select keyframes All retained actions and keyframes Summary Object locations, landmarks and routes Sequential summarization Entire summary document Semantic Generalized spatial and navigation knowledge Extract, consolidate and refine knowledge from demonstrations Entire knowledge document Hybrid Summary and Semantic documents Concatenate the two documents Both documents Episodic Frames linked to expert continuations Encode frames; retain trajectories View-matched local continuation
+
+Each configuration is evaluated on the same 100 cases. Results for the new test start, blocked routes, changes to the demonstration start, and mixed histories use three runs; the original-start design-choice ablations use five. Summary and Semantic documents are constructed once from the selected demonstrations across all 100 cases and remain unchanged during testing. Hybrid coverage is described in Sec. V. 
+
+B. Evaluation Metrics 
+
+For each run of N = 100 cases, let si = 1 if case i visits all required standpoints, respects any prescribed order, and ends at the required location within Tmax ; otherwise si = 0. Let pi be the executed step count and li the reference expert length for the test episode. Success Rate (SR) is expressed as a percentage; failures contribute zero to Success weighted by Path Length (SPL). We report SR = 100 
+
+N
+
+> N
+
+# ∑
+
+> i=1
+
+si,
+
+SPL = 1
+
+N
+
+> N
+
+# ∑
+
+> i=1
+
+si
+
+li
+
+max (pi, li) .
+
+(3) For RQ2, let Sr,0 and Sr,1 denote the reported mean SR for representation r under the unchanged and blocked route conditions, and let w denote Working memory alone. Table V reports the baseline-relative change ∆r and retention Rr:
+
+∆r = ( Sr,1 − Sr,0) − (Sw,1 − Sw,0),
+
+Rr = Sr,1/Sr,0. (4) A negative ∆r indicates a larger SR drop than the working-memory baseline, in percentage points. Retention is the fraction of unchanged-route SR retained after blocking. For blocked episodes, let bi = 1 if the agent attempts to enter a newly blocked cell at least once, and 0 otherwise. Follow rate F and recovery rate C are 
+
+F = 100 
+
+N
+
+> N
+
+# ∑
+
+> i=1
+
+bi, C = 100 ∑Ni=1 bisi
+
+∑Ni=1 bi
+
+. (5) Both are percentages; recovery measures success among episodes that attempted a blocked cell. SR, SPL, follow and recovery are computed per run; reported ± values indicate standard deviations across runs. We also report images per request and total prompt-plus-completion tokens per 100 cases. Table III reports SR, SPL and inference cost for the six representations under the tested conditions. The comparison between original and new test starts addresses RQ1, the com-parison between unchanged and blocked routes addresses RQ2, and the comparison of one versus four demonstrations per task addresses RQ3. The following sections interpret these results alongside the corresponding auxiliary tables. 
+
+C. RQ1: Generalization Across Start Poses 
+
+Scene descriptions remain useful from a new start. 
+
+Summary is less sensitive to changes in the test start than Full-context and Episodic memory (Table III). Its descrip-tions of item locations, landmarks, passages and routes can remain useful when the agent starts elsewhere: changing the starting pose does not change the scene itself. The agent still has to work out how to reach its goals, but it need not follow a demonstration from the beginning. Summary also has a lower original-start SR, which leaves less room for a decline. Summary still outperforms Working memory, but its advantage narrows by 5 .8 percentage points as the baseline gains 7 .1 points at the new test start; nearly constant SR therefore does not mean an unchanged benefit from memory. Semantic memory provides general spatial and navigation knowledge, such as approaching targets through accessible aisles or choosing detours, but does not consistently improve on Working memory. 
+
+Historical actions need to fit the current episode. 
+
+Full-context and Episodic memory supply expert actions, either as retained trajectory records or a retrieved local continuation. Their high original-start SR is consistent with the value of this guidance when the current episode matches the demonstration. The action-versus-image comparison in Sec. IV-G supports this interpretation for Episodic memory. Reusing these actions from a different start requires relating the current state to the stored trajectory and finding where to join or how to adjust its route. This may help explain their greater sensitivity to start changes. The mismatch also affects successful execution: with opposite-heading and nearby-start demonstrations, SPL falls proportionally more than SR (Table IV), indicating lower average path efficiency among the episodes that succeed. 
+
+Access strategy affects how well trajectory memory transfers. Episodic memory retains higher SR and SPL than Full-context memory with opposite-heading and nearby-start demonstrations, suggesting an advantage from match-TABLE III: Memory performance across the three RQs.                                                                                                                                            
+
+> Test start Original New New New
+> Route condition Unchanged Unchanged Unchanged Blocked
+> Demonstrations per task 1144
+> Representation Img Mtok SR ↑SPL ↑SR ↑SPL ↑SR ↑SPL ↑SR ↑SPL ↑
+> Working memory 734 15 .2±3.00.023 22 .3±2.90.051 22 .3±2.90.051 10 .0±2.60.025 Full-context 47 96 / 138 95 .3±0.60.792 46 .7±2.50.157 48 .0±2.60.167 28 .0±3.50.067 Summary 7163 / 588 43 .0±2.70.136 44 .3±3.80.149 44 .0±2.60.173 17 .3±3.10.042 Semantic 780 / 233 15 .0±2.50.050 19 .7±3.50.063 17 .0±1.70.061 4.3±1.50.007 Hybrid 7216 / — 39 .0±3.00.128 38 .0±1.00.125 ————Episodic 14 43 / 35 100 .0±0.00.849 51 .7±3.50.217 66 .0±1.00.295 37 .0±3.00.106
+> Settings follow Sec. III-B. Each run uses 100 cases. SR [%]: mean ±std; SPL: mean. Working memory uses no demonstrations; its new-start baseline is shared. Img :images per request. Mtok : million prompt +completion tokens per 100 new-start cases, with 1 / 4 demonstrations per task. The original-start column is a replay reference: the test episode starts from the pose its demonstration was recorded from. Unreported Hybrid settings: Sec. V.
+
+TABLE IV: RQ1: Changing starting pose. 
+
+> Test: original start; memory: one demonstration per task
+
+Representation 
+
+Original start Opposite heading Nearby start Distant start 
+
+Full-context 95 .3 ± 0.6 83 .0 ± 3.0 77 .7 ± 3.1 33 .7 ± 4.70.792 0.487 0.487 0.076 Episodic 100 .0 ± 0.0 96 .3 ± 3.1 90 .0 ± 1.7 43 .0 ± 2.6
+
+0.849 0.701 0.605 0.117 Summary 43 .0 ± 2.7 51 .7 ± 5.1 46 .7 ± 1.5 45 .7 ± 4.5
+
+0.136 0.186 0.149 0.168 
+
+Semantic 15 .0 ± 2.5 10 .0 ± 3.0 24 .0 ± 2.6 25 .0 ± 5.30.050 0.035 0.056 0.049 Hybrid 39 .0 ± 3.0 40 .3 ± 3.2 45 .3 ± 3.8 45 .3 ± 0.60.128 0.158 0.132 0.158   
+
+> Test start fixed at the original pose; columns vary the demonstration used for memory. SR [%]: mean ±std; SPL below: mean. Original-start results repeat Table III; others use three runs. Semantic also varies in document length, limiting attribution to start pose alone.
+
+ing the current view to a local continuation rather than leaving the policy to select from the full trajectory. This benefit weakens for distant-start demonstrations, showing that local retrieval alone does not guarantee successful reuse across larger pose mismatch. The same distinction appears when more experience is available: at the new test start, increasing from one to four demonstrations changes SR only modestly for Full-context, Summary, and Semantic memory, but improves Episodic memory by 14 .3 percentage points (Table III). Hybrid does not exceed Summary in any reported comparison, indicating that simply concatenating Summary and Semantic memory provides no additional SR gain. These results suggest that preserving historical information is not sufficient; how that information is accessed and matched to the current episode also matters. We examine the effect of additional and mixed histories further in RQ3. 
+
+D. RQ2: Acting with Outdated Memory 
+
+Route changes with varied prior experience. We use four demonstrations per task, aiming to give the agent more varied experience to draw on when a route becomes blocked. Within our evaluation budget, we prioritize this setting over an additional single-demonstration comparison. The unchanged and blocked route conditions use the same demonstration set and new test start. SR falls for every evaluated configuration, including Working memory (Ta-ble III). Blocking thus makes navigation harder even without historical memory; for the other configurations, it also leaves TABLE V: RQ2: Responses to a blocked route. 
+
+Representation ∆ reten. Follow [%] Recovery [%] 
+
+Working memory 0 0.45 64 .7 ± 3.1 11 .8 ± 4.8Full-context −7.7 0.58 71 .0 ± 1.0 30 .5 ± 2.9
+
+Summary −14 .3 0.39 80 .3 ± 0.6 15 .3 ± 3.8
+
+Semantic −0.3 0.25 59 .0 ± 2.0 6.3 ± 2.7Hybrid — — — —Episodic −16 .7 0.56 63 .3 ± 2.1 29 .6 ± 4.7   
+
+> New test start and four demonstrations per task, as in the unchanged-route reference (Table III). ∆: SR change minus the working-memory change; retention: blocked/unchanged SR. Follow: percentage of episodes attempting a blocked cell; recovery: success among those episodes. Follow and recovery: mean ±std over three runs (Sec. IV-B).
+
+part of their route guidance outdated. Table V examines these outcomes through baseline-relative change, retention, obstacle encounters and subsequent task completion. 
+
+Start-pose tolerance does not imply tolerance to out-dated routes. Summary connects RQ1 and RQ2: changing the start leaves its scene descriptions valid, whereas blocking a passage invalidates part of its route knowledge. Item locations and landmarks may still be useful, but reaching them can require a different path. Summary’s high follow rate and low conditional recovery suggest that the ability to reuse scene descriptions across starts does not extend equally to completing tasks after a route change. These measures capture encounters and eventual completion, rather than repeated attempts or the policy’s interpretation of feedback. 
+
+Useful action guidance does not guarantee recovery. 
+
+Full-context and Episodic memory retain more of their unchanged-route success than Summary and still outper-form Working memory after blocking. Historical trajectories therefore remain useful in this setting despite containing an invalid route segment. Yet their conditional recovery rates are both around 30%: Episodic memory’s higher overall blocked-route SR does not establish better recovery than Full-context memory. Their remaining advantage in task completion should be distinguished from the ability to adapt an ongoing plan after encountering an obstruction. Semantic memory’s small baseline-relative change also needs care: its low absolute success and retention provide little evidence of robustness to the route change. The results motivate separating still-valid target and loca-tion knowledge from outdated route information, then using feedback to revise the latter. This is a direction for improving adaptation; the present protocol evaluates decisions with all relevant irrelevant confusable 020 40 60 80 100 Success rate (%)       
+
+> 48.0 38.3 42.7 66.0 48.7 49.3
+> Full-context Episodic Fig. 3: RQ3: Success under mixed histories. New start, unchanged route, and four demonstrations per task; mixed conditions replace two with other-task histories (Sec. III-B). Mean SR ±std over three 100-case runs.
+
+fixed historical memory and does not test selective memory updating. 
+
+E. RQ3: Using Multiple Histories 
+
+Making use of additional experience. Increasing from one to four relevant demonstrations per task improves Episodic SR by 14 .3 percentage points, while the other representations show only small changes (Table III). As in RQ1, Episodic retrieves a local continuation for the current view; additional demonstrations expand its candidate pool without increasing the number of segments supplied per decision. Full-context shares a fixed image budget across more trajectories; Summary and Semantic supply larger documents without selecting content for the current state. With four demonstrations per task, Summary uses fewer images per request than Episodic (7 versus 14) but more inference tokens per 100 cases (588M versus 35M), without a mean SR gain over one demonstration. RQ1 and RQ3 suggest that the usefulness of experience depends on both its content and how the policy accesses it at decision time. 
+
+Mixing histories from different tasks. We next keep four demonstrations per task but replace two with histories from other tasks with different target requirements. We compare histories with no shared poses along the reference route for the new test start ( irrelevant ) against histories that share poses and are selected for potentially conflicting continu-ations ( confusable ). Both replacements reduce success for Episodic and Full-context memory (Fig. 3). Performance therefore depends on the composition of the demonstration set even when its size is fixed. Because replacement removes relevant experience as well as introducing other tasks’ his-tories, the observed decrease cannot be attributed entirely to interference. 
+
+Retrieval is only one step in using memory. Episodic retrieval selects other tasks’ histories more often in the confusable condition (66 .9%, two runs) than in the irrelevant condition (45 .5±1.5%, three runs), yet mean SR is not lower. One possible explanation is that a trajectory collected for a different goal can still contain useful local navigation; the policy also receives the current instruction and observation when deciding how to use a retrieved segment. A history’s task of origin therefore need not determine the value of every TABLE VI: Task completion across navigation require-ments.                                 
+
+> Representation Basic Multi-object Loop T9
+> Working memory 53 / 30 22 / 9 10 / 1 0 / 0 Full-context 85 / 72 60 / 28 18 / 7 17 / 3 Summary 72 / 35 55 / 25 19 / 1 20 / 0 Semantic 38 / 10 18 / 4 8 / 1 0 / 3 Episodic 93 /67 78 /45 22 /11 93 /23
+> New test start and four demonstrations per task. Each cell shows mean SR [%] over three runs for unchanged / blocked routes. Groups follow Table I: basic search (T1–T2), multi-object search (T3–T6), and return-to-origin loops (T7, T8, T10). T9, which revisits the same object instance, is shown separately.
+
+part of it. The logs establish which history was retrieved, but do not establish its effect on the subsequent action. Their different trajectory lengths limit interpretation. Similar mean SR does not establish equivalent performance or show that either replacement is harmless. 
+
+F. Task Requirements and Memory Benefits 
+
+Table VI shows that memory benefits depend strongly on task requirements. Full-context, Summary and Episodic out-perform Working memory on basic and multi-object search under both unchanged and blocked routes, whereas Semantic remains below Working memory in both task groups un-der both route conditions. Historical scene and trajectory information therefore helps locate targets and complete visits across multiple locations, although the benefit varies by representation. Return tasks expose a different limitation. T7, T8 and T10 require the agent to revisit the current episode’s origin after completing intermediate goals, and all representations achieve relatively low success, suggesting that historical experience alone does not reliably support this form of return. T9 instead requires revisiting the same object instance after visiting another object. Here, Episodic memory shows a clear advantage, consistent with the value of retrieving local historical actions and views for instance-specific revisiting. This advantage decreases when the route is blocked but remains the strongest among the evaluated representations. The task-level scores do not isolate instance identification from failures at other execution stages. The contrast between T9 and the return-to-origin tasks helps clarify what the stored trajectories support. Under un-changed routes, Episodic memory reaches 93% on T9, versus at most 20% for the other evaluated representations. On T7, T8 and T10, it reaches 22% against Working memory’s 10%, its smallest advantage across the four task groups under this condition. T9 revisits a target instance also visited in the demonstrations, whereas the return tasks require reaching the current episode’s own origin. This pattern suggests that view-matched retrieval is more useful for revisiting demonstrated targets than for returning to an episode-specific starting location. 
+
+G. Design Choices 
+
+Common policy and settings. Fixing the backbone, decoding settings and interaction interface lets us compare memory representations under a common decision policy. We fix Working memory at h = 6, where SR peaks at 15 .2% in five-run original-start ablations, compared with 0 .8% without memory and 11 .8% at h = 20. Episodic retrieval achieves 100% with retrieved actions and 49 .0 ± 3.8% with images alone. We use Hepi = 6 with actions and resulting views, and cap Full-context reference images at 40. These settings remain fixed across the three RQs. 
+
+Original-start reference. The first view matches an in-dexed expert frame. This is a favorable reference for reusing demonstrated routes; the RQ conditions test whether memory remains useful beyond it. The original-start prompt also states that the demonstration starts at the agent’s current pose; removing this hint changed Full-context SR by two percentage points in a one-run-per-condition check. V. L IMITATIONS 
+
+Our study prioritizes controlled comparison over breadth, using one frozen VLM backbone, six representative mem-ory formulations, and a standardized warehouse environ-ment to isolate how memory affects embodied decision-making. The current evaluation focuses on navigation within a shared scene, with controlled variations in start pose, route availability, and the amount and relevance of prior experience. Future work could extend the framework to additional backbones, memory architectures, environments, and task domains, as well as larger and continually growing memory banks with more diverse or conflicting histories. Hybrid’s four-demonstration settings were not evaluated due to serving constraints. The historical memories considered here also remain fixed during execution; incorporating on-line verification, updating, and selective forgetting would enable agents to better handle outdated experience. Beyond navigation, the same evaluation principle can be applied to manipulation and other embodied tasks, providing a broader basis for studying how memory representation, composition, and access influence embodied decision-making. VI. CONCLUSION We presented MemTransfer to compare six memory rep-resentations through three research questions about reusing past experience. Within the tested setting, high success at the original start can be accompanied by large declines when conditions change. Summary’s smaller variation across starts does not extend to outdated routes: it retains less of its unchanged-route success than Working memory and the two trajectory representations. Additional relevant demon-strations benefit Episodic memory, whereas replacing rele-vant demonstrations with other-task histories reduces success for both Episodic and Full-context. These differences show why the conditions in which memory is used need to be considered when assessing its value. These observations motivate closer attention to how an agent determines which parts of its experience apply to the current task. Selecting useful historical guidance and distinguishing valid knowledge from outdated route infor-mation are promising directions for improving memory use. Extending the comparison beyond one policy and warehouse would help establish which observations carry over to other embodied settings. ACKNOWLEDGMENTS 
+
+The authors used generative AI tools during manuscript preparation to assist with generating and revising selected text and figures, as well as code generation and debugging. This work was supported by the National Research Foun-dation of Korea (NRF) grant funded by the Korean gov-ernment (MSIT) under the project “Development of Risk-Enhanced Continual Learning for Embodied Intelligence in Long-Tail Environments” (Grant No. RS-2026-25595451) and by the Korea Institute of Science and Technology In-formation (KISTI) R&D program through the joint research project “Development of the Next-Generation Integrated Wired/Wireless Communication Gateway (X-Gateway).” REFERENCES [1] M. Khanna, et al. , “GOAT-Bench: A benchmark for multi-modal lifelong navigation,” in Proc. IEEE/CVF Conf. Comput. Vis. Pattern Recognit. (CVPR) , 2024. [2] M. Savva, et al. , “Habitat: A platform for embodied AI research,” in                                                                                    
+
+> Proc. IEEE/CVF Int. Conf. Comput. Vis. (ICCV) , 2019, pp. 9338–9346. [3] F. Xia, et al. , “Gibson Env: Real-world perception for embodied agents,” in Proc. IEEE/CVF Conf. Comput. Vis. Pattern Recognit. (CVPR) , 2018, pp. 9068–9079. [4] M. Shridhar, et al. , “ALFRED: A benchmark for interpreting grounded instructions for everyday tasks,” in Proc. IEEE/CVF Conf. Comput. Vis. Pattern Recognit. (CVPR) , 2020, pp. 10 737–10 746. [5] S. Srivastava, et al. , “BEHAVIOR: Benchmark for everyday household activities in virtual, interactive, and ecological environments,” in Proc. Conf. Robot Learn. (CoRL) , 2022. [6] R. Yang, et al. ,“EmbodiedBench: Comprehensive benchmarking multi-modal large language models for vision-driven embodied agents,” in Proc. Int. Conf. Mach. Learn. (ICML) , 2025. [7] S. Sun, et al. , “Beyond isolation: A unified benchmark for general-purpose navigation,” in Proc. Robot.: Sci. Syst. (RSS) , 2026. [8] J. Krantz, et al. , “Iterative vision-and-language navigation,” in Proc. IEEE/CVF Conf. Comput. Vis. Pattern Recognit. (CVPR) , 2023. [9] S. Wani, et al. , “MultiON: Benchmarking semantic map memory using multi-object navigation,” in Adv. Neural Inf. Process. Syst. (NeurIPS) ,2020. [10] C. Packer, et al. , “MemGPT: Towards LLMs as operating systems,”
+> arXiv preprint arXiv:2310.08560 , 2023. [11] H. Lei, et al. , “RoboMemArena: A comprehensive and challenging robotic memory benchmark,” arXiv preprint arXiv:2605.10921 , 2026. [12] J. S. Park, et al. , “Generative agents: Interactive simulacra of human behavior,” in Proc. ACM Symp. User Interface Softw. Technol. (UIST) ,2023, pp. 1–22. [13] T. Wei, et al. ,“Evo-Memory: Benchmarking LLM agent test-time learning with self-evolving memory,” arXiv preprint arXiv:2511.20857 , 2025. [14] N. Savinov, A. Dosovitskiy, and V. Koltun, “Semi-parametric topo-logical memory for navigation,” in Proc. Int. Conf. Learn. Represent. (ICLR) , 2018. [15] K. Fang, et al. , “Scene memory transformer for embodied agents in long-horizon tasks,” in Proc. IEEE/CVF Conf. Comput. Vis. Pattern Recognit. (CVPR) , 2019. [16] Z. Liu, et al. , “Vision-language memory for spatial reasoning,” in Proc. Eur. Conf. Comput. Vis. (ECCV) , 2026, pp. 297–316. [17] W. Hu, et al. , “3DLLM-Mem: Long-term spatial-temporal memory for embodied 3D large language model,” in Adv. Neural Inf. Process. Syst. (NeurIPS) , 2025. [18] A. Anwar, et al. , “ReMEmbR: Building and reasoning over long-horizon spatio-temporal memory for robot navigation,” in Proc. IEEE Int. Conf. Robot. Autom. (ICRA) , 2025. [19] Q. Xie, et al. ,“Embodied-RAG: General non-parametric em-bodied memory for retrieval and generation,” arXiv preprint arXiv:2409.18313 , 2024.
+
+[20] Q. Gu, et al. , “ConceptGraphs: Open-vocabulary 3D scene graphs for perception and planning,” in Proc. IEEE Int. Conf. Robot. Autom. (ICRA) , 2024. [21] D. S. Chaplot, et al. , “Neural topological SLAM for visual navigation,” in Proc. IEEE/CVF Conf. Comput. Vis. Pattern Recognit. (CVPR) ,2020. [22] P. Liu, et al. , “DynaMem: Online dynamic spatio-semantic memory for open world mobile manipulation,” in Proc. IEEE Int. Conf. Robot. Autom. (ICRA) , 2025. [23] Y. Bai, et al. , “LongBench: A bilingual, multitask benchmark for long context understanding,” in Proc. Annu. Meeting Assoc. Comput. Linguistics (ACL) , 2024. [24] Y. Hu, Y. Wang, and J. McAuley, “Evaluating memory in LLM agents via incremental multi-turn interactions,” in Proc. Int. Conf. Learn. Represent. (ICLR) , 2026. [25] Z. Wang, et al. , “EgoMemReason: A memory-driven reasoning bench-mark for long-horizon egocentric video understanding,” in Proc. Conf. Lang. Model. (COLM) , 2026. [26] K. Yadav, et al. , “FindingDory: A benchmark to evaluate memory in embodied agents,” in Proc. Eur. Conf. Comput. Vis. (ECCV) , 2026. [27] Y. Zhang, et al. , “WorldLines: Benchmarking and modeling long-horizon stateful embodied agents,” arXiv preprint arXiv:2606.18847 ,2026. [28] L. Bai, et al. , “Intern-S2-Preview: Scientific agentic foundation model,” arXiv preprint arXiv:2608.13505 , 2026.

@@ -1,0 +1,265 @@
+{
+  "date": "20261001",
+  "date_label": "",
+  "generated_at": "2026-10-01 19:31:30 UTC",
+  "recommend_exists": true,
+  "run_count": 1,
+  "papers": [
+    {
+      "paper_id": "2609.30797v1",
+      "route": "202610/01/2609.30797v1-hasmem-hard-origin-adaptively-softened-memory-for-long-term-llm-agents",
+      "title": "HasMem: Hard-Origin Adaptively Softened Memory for Long-Term LLM Agents",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "面向长期LLM智能体的自适应记忆调整与读出",
+      "first_seen_at": "2026-10-01 19:31:30 UTC",
+      "updated_at": "2026-10-01 19:31:30 UTC"
+    },
+    {
+      "paper_id": "2609.32313v1",
+      "route": "202610/01/2609.32313v1-memtransfer-benchmarking-memory-beyond-matched-experience-in-embodied-decision-making",
+      "title": "MemTransfer: Benchmarking Memory Beyond Matched Experience in Embodied Decision-Making",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "比较具身决策中多种记忆表征的基准",
+      "first_seen_at": "2026-10-01 19:31:30 UTC",
+      "updated_at": "2026-10-01 19:31:30 UTC"
+    },
+    {
+      "paper_id": "2609.32522v1",
+      "route": "202610/01/2609.32522v1-beyond-dyadic-memory-interaction-aware-multimodal-memory-with-adaptive-agentic-retrieval-for-multi-party-spoken-conversations",
+      "title": "Beyond Dyadic Memory: Interaction-Aware Multimodal Memory with Adaptive Agentic Retrieval for Multi-Party Spoken Conversations",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "面向多方对话的交互感知多模态长期记忆与智能体式检索",
+      "first_seen_at": "2026-10-01 19:31:30 UTC",
+      "updated_at": "2026-10-01 19:31:30 UTC"
+    },
+    {
+      "paper_id": "2609.32574v1",
+      "route": "202610/01/2609.32574v1-cue-mem-benchmarking-long-term-user-memory-via-implicit-cues-in-multimodal-conversations",
+      "title": "CUE-Mem: Benchmarking Long-Term User Memory via Implicit Cues in Multimodal Conversations",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "面向多模态交互智能体的长期用户记忆基准",
+      "first_seen_at": "2026-10-01 19:31:30 UTC",
+      "updated_at": "2026-10-01 19:31:30 UTC"
+    },
+    {
+      "paper_id": "2609.33717v1",
+      "route": "202610/01/2609.33717v1-self-designed-evaluators-and-warm-memory-for-long-horizon-agents",
+      "title": "Self-Designed Evaluators and Warm Memory for Long-Horizon Agents",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "对智能体经验进行类型化结果追踪的记忆",
+      "first_seen_at": "2026-10-01 19:31:30 UTC",
+      "updated_at": "2026-10-01 19:31:30 UTC"
+    },
+    {
+      "paper_id": "2609.34677v1",
+      "route": "202610/01/2609.34677v1-learning-what-to-recall-adaptive-multi-cue-episodic-memory-for-world-models",
+      "title": "Learning What to Recall: Adaptive Multi-Cue Episodic Memory for World Models",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "面向世界模型的自适应多线索情节记忆召回",
+      "first_seen_at": "2026-10-01 19:31:30 UTC",
+      "updated_at": "2026-10-01 19:31:30 UTC"
+    },
+    {
+      "paper_id": "2609.35540v1",
+      "route": "202610/01/2609.35540v1-continuous-context-management",
+      "title": "Continuous Context Management",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "面向长程LLM智能体的逐轮压缩与记忆更新",
+      "first_seen_at": "2026-10-01 19:31:30 UTC",
+      "updated_at": "2026-10-01 19:31:30 UTC"
+    },
+    {
+      "paper_id": "2609.32391v1",
+      "route": "202610/01/2609.32391v1-sclate-a-substrate-for-continual-learning-agent-training-and-evaluation",
+      "title": "SCLATE: a Substrate for Continual-Learning Agent Training and Evaluation",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "面向持续学习智能体的执行基底，含记忆巩固事件",
+      "first_seen_at": "2026-10-01 19:31:30 UTC",
+      "updated_at": "2026-10-01 19:31:30 UTC"
+    },
+    {
+      "paper_id": "2609.32687v1",
+      "route": "202610/01/2609.32687v1-dude-wheres-my-state-execution-information-requirements-for-stateful-agents",
+      "title": "Dude, Where's My State? Execution Information Requirements for Stateful Agents",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "面向有状态长时程智能体的信息保留与恢复要求",
+      "first_seen_at": "2026-10-01 19:31:30 UTC",
+      "updated_at": "2026-10-01 19:31:30 UTC"
+    },
+    {
+      "paper_id": "2609.32862v1",
+      "route": "202610/01/2609.32862v1-robofoundry-system-as-policy-evolution-for-self-learning-embodied-agents",
+      "title": "RoboFoundry: System-as-Policy Evolution for Self-Learning Embodied Agents",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "自学习具身智能体中的记忆管理",
+      "first_seen_at": "2026-10-01 19:31:30 UTC",
+      "updated_at": "2026-10-01 19:31:30 UTC"
+    },
+    {
+      "paper_id": "2609.33379v1",
+      "route": "202610/01/2609.33379v1-nlpg-natural-language-policy-gradients-for-self-evolving-language-agents",
+      "title": "NLPG: Natural-Language Policy Gradients for Self-Evolving Language Agents",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "复用智能体过程性改进的外部策略记忆",
+      "first_seen_at": "2026-10-01 19:31:30 UTC",
+      "updated_at": "2026-10-01 19:31:30 UTC"
+    },
+    {
+      "paper_id": "2609.34988v1",
+      "route": "202610/01/2609.34988v1-the-right-lesson-at-the-right-step-deriving-control-updates-for-self-evolving-agents",
+      "title": "The Right Lesson at the Right Step: Deriving Control Updates for Self-Evolving Agents",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "将过往经验作为控制更新进行局部复用的智能体方法",
+      "first_seen_at": "2026-10-01 19:31:30 UTC",
+      "updated_at": "2026-10-01 19:31:30 UTC"
+    },
+    {
+      "paper_id": "2609.35233v1",
+      "route": "202610/01/2609.35233v1-ep-mem-elastic-privacy-memory-for-social-relationship-aware-llm-agents",
+      "title": "EP-Mem: Elastic Privacy Memory for Social Relationship-Aware LLM Agents",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "面向LLM智能体的弹性隐私记忆架构与令牌级记忆策略",
+      "first_seen_at": "2026-10-01 19:31:30 UTC",
+      "updated_at": "2026-10-01 19:31:30 UTC"
+    },
+    {
+      "paper_id": "2609.35551v1",
+      "route": "202610/01/2609.35551v1-bare-mem-bayesian-reliability-memory-for-robust-and-adaptive-agent-consultation",
+      "title": "BaRe-Mem: Bayesian Reliability Memory for Robust and Adaptive Agent Consultation",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "面向多智能体咨询的在线贝叶斯可靠性记忆",
+      "first_seen_at": "2026-10-01 19:31:30 UTC",
+      "updated_at": "2026-10-01 19:31:30 UTC"
+    },
+    {
+      "paper_id": "2609.33623v1",
+      "route": "202610/01/2609.33623v1-characterizing-memory-misalignment-in-human-llm-interaction-from-user-perspectives",
+      "title": "Characterizing Memory Misalignment in Human-LLM Interaction From User Perspectives",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "刻画LLM智能体记忆在摄取、存储与检索阶段的错位类型",
+      "first_seen_at": "2026-10-01 19:31:30 UTC",
+      "updated_at": "2026-10-01 19:31:30 UTC"
+    },
+    {
+      "paper_id": "2609.34132v1",
+      "route": "202610/01/2609.34132v1-from-attack-success-to-attack-severity-counterfactual-memory-attacks-on-llm-agents",
+      "title": "From Attack Success to Attack Severity: Counterfactual Memory Attacks on LLM Agents",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "利用LLM智能体持久记忆的反事实记忆攻击",
+      "first_seen_at": "2026-10-01 19:31:30 UTC",
+      "updated_at": "2026-10-01 19:31:30 UTC"
+    }
+  ]
+}

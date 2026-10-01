@@ -1,0 +1,2990 @@
+Title: From Attack Success to Attack Severity: Counterfactual Memory Attacks on LLM Agents
+
+URL Source: https://arxiv.org/pdf/2609.34132v1
+
+Published Time: Tue, 29 Sep 2026 02:59:15 GMT
+
+Number of Pages: 34
+
+Markdown Content:
+Preprint 
+
+# FROM ATTACK SUCCESS TO ATTACK SEVERITY : C OUN -
+
+## TERFACTUAL MEMORY ATTACKS ON LLM A GENTS 
+
+Mingxi Zou 1,2 Langzhang Liang 1,2 Zhuo Wang 2
+
+Yiyang Zhao 1,2 Lizhen Qu 3,∗ Zenglin Xu 1,2,∗
+
+> 1
+
+Shanghai Academy of AI for Science (SAIS) 
+
+> 2
+
+Fudan University 3Monash University 
+
+mxzou24@m.fudan.edu.cn 
+
+> ∗
+
+Co-corresponding authors 
+
+ABSTRACT 
+
+As LLM agents increasingly rely on persistent memory for long-horizon and personalized behavior, they can retain and reuse information across interactions, but this also creates a lasting channel through which malicious memory writes can influence future behavior. Persistent-memory attacks are typically evaluated by whether they succeed, yet successful attacks can leave persistent states with substantially different downstream consequences. We study this severity as a distinct attack-design objective and formalize it with counterfactual memory regret 
+
+(CMR), the paired increase in expected downstream loss relative to clean memory. We introduce MemHarm , which predeclares a finite class of sparse, grounded semantic edits, evaluates candidates through the normal agent memory interface using offline paired-loss feedback, and certifies resolved selections within that class. Compared with attack-success optimization, CMR-guided selection produces substantially larger downstream loss while retaining most of the success-rate gain. Across two agent benchmarks and diverse memory designs, MemHarm attains the highest CMR point estimates among the evaluated general attacks on identical support. Factor-removal interventions link this harm to the selected semantic factor, and native-agent deployments verify the write-to-fresh-process attack path. 
+
+1 INTRODUCTION 
+
+Persistent memory lets LLM agents carry information beyond a single interaction and condition later behavior on earlier experience. Memory streams and tiered stores provide continuity across long-running interactions (Park et al., 2023; Packer et al., 2023). Verbal reflections can improve later trials (Shinn et al., 2023), while reusable skill libraries support open-ended adaptation (Wang et al., 2023). This same persistence creates a security boundary: state written now can continue to influence the agent after the insertion turn (Chen et al., 2024; Dong et al., 2025). Prior attacks establish the feasibility of persistent-memory compromise through poisoned records and ordinary agent interactions (Chen et al., 2024; Dong et al., 2025; Tian et al., 2026). Feasibility, however, does not determine severity: two attacks can satisfy the same binary target while producing very different downstream task losses-such as monetary losses, policy violations, or task failures (Figure 1). This distinction is empirical rather than merely conceptual: when selecting from the same fixed set of admissible memory edits through the agents’ native memory interfaces, conventional success-guided selection raises attack success by 17.8 percentage points over random selection but increases the edited-versus-clean downstream loss gap by only 0.013; severity-guided selection increases that gap by 0.100 while retaining high attack success (Appendix H.2, Table 8). This motivates an additional attack objective: within a declared set of plausible changes to persistent memory, which admissible edit induces the greatest expected downstream loss relative to clean memory? 
+
+We quantify this severity with counterfactual memory regret (CMR), the expected increase in downstream loss induced by an edited persistent state relative to clean memory. We introduce 
+
+MemHarm , a severity-guided counterfactual memory attack that searches a frozen class of small, 1arXiv:2609.34132v1 [cs.AI] 28 Sep 2026 Preprint Severity: 
+
+Very High Binary success: YES 
+
+APPROVED 
+
+$1200 
+
+REFUND 
+
+> AI AGENT
+
+Account is 
+
+pre-authorized 
+
+$500 
+
+need supervisor 
+
+approval 
+
+Refunds 
+
+AFTER (tampered rule) 
+
+BEFORE (secure rule) 
+
+Policy / Rules 
+
+APPROVED 
+
+$950 
+
+REFUND 
+
+APPROVED 
+
+$800 
+
+REFUND 
+
+3) Across many 
+
+future interactions 
+
+2) AI agent approves 
+
+repeated high-value refunds 
+
+1) Tamper a rule 
+
+Attack 2: Persistent Rule Tampering 
+
+Severity: 
+
+Low Binary success: YES 
+
+AI AGENT 
+
+Eligible Status: 
+
+Balance:$1,250 
+
+Alice User: 
+
+To: Alice 
+
+$50 
+
+REFUND 
+
+One temporary 
+
+record is polluted. 
+
+3) AI agent approves once 2) One unauthorized refund 1) Poison a record 
+
+Attack 1: One-time Record Poisoning 
+
+Figure 1: Attack success does not determine severity. Both attacks achieve the same binary success outcome, yet they induce different downstream task losses. grounded semantic edits through the agent’s normal memory interface using offline paired-loss feedback. High CMR requires both a consequential counterfactual value and a memory pathway that faithfully preserves and acts on it. Across two benchmarks and diverse memory designs, MemHarm remains at or near the top under conventional attack success while attaining the largest matched-support CMR point estimates; factor-removal interventions link the measured harm to the selected semantic factor. We additionally execute MemHarm with GPT-OSS-120B in isolated, controlled deployments of pinned OpenClaw and Hermes (OpenClaw Foundation, 2026; Nous Research, 2026). Figure 2 traces an untrusted task through each agent’s native memory-write path, the resulting on-disk persistent state, and a distinct fresh retrieval process. The trace shows that the edit is stored in the agent’s persistent memory and remains effective after the original interaction ends. 050 100 
+
+31.5 64.1 81.0 65.9 82.8 97.2 
+
+050 100 
+
+19.3 48.5 61.5 66.3 88.1 77.8 
+
+050 100 
+
+6.9 11.4 
+
+49.8 45.4 68.8 75.6 
+
+(b) Attack-chain success 
+
+1 UNTRUSTED TASK 2 NATIVE MEMORY API 3 PERSISTED FILE 4 FRESH PROCESS 
+
+1 WRITE SUCCESS (ASR) 
+
+OpenClaw Hermes 
+
+2 CONDITIONAL ACTIVATION (RSR | write) 
+
+OpenClaw Hermes 
+
+3 END-TO-END (E2E) 
+
+OpenClaw Hermes 
+
+↓↓
+
+Rate (%) · protocol-aligned full-case comparison 
+
+Avg = family macro-mean · Best = per-metric maximum 
+
+MPBench Avg MPBench Best (per metrics) MemHarm 
+
+OpenClaw Hermes 050 100 
+
+31.5 64.1 81.0 65.9 82.8 97.2 
+
+050 100 
+
+19.3 48.5 61.5 66.3 88.1 77.8 
+
+050 100 
+
+6.9 11.4 
+
+49.8 45.4 68.8 75.6 
+
+(b) Attack-chain success 
+
+1 UNTRUSTED TASK 2 NATIVE MEMORY API 3 PERSISTED FILE 4 FRESH PROCESS 
+
+1 WRITE SUCCESS (ASR) 
+
+OpenClaw Hermes 
+
+2 CONDITIONAL ACTIVATION (RSR | write) 
+
+OpenClaw Hermes 
+
+3 END-TO-END (E2E) 
+
+OpenClaw Hermes 
+
+↓↓
+
+Rate (%) · protocol-aligned full-case comparison 
+
+Avg = family macro-mean · Best = per-metric maximum 
+
+MPBench Avg MPBench Best (per metrics) MemHarm 
+
+OpenClaw Hermes 050 100 
+
+31.5 64.1 81.0 65.9 82.8 97.2 
+
+050 100 
+
+19.3 48.5 61.5 66.3 88.1 77.8 
+
+050 100 
+
+6.9 11.4 
+
+49.8 45.4 68.8 75.6 
+
+(b) Attack-chain success 
+
+2 NATIVE MEMORY API 3 PERSISTED FILE 4 FRESH PROCESS 
+
+1 WRITE SUCCESS (ASR) 
+
+OpenClaw Hermes 
+
+2 CONDITIONAL ACTIVATION (RSR | write) 
+
+OpenClaw Hermes 
+
+3 END-TO-END (E2E) 
+
+OpenClaw Hermes 
+
+↓↓
+
+Rate (%) · protocol-aligned full-case comparison 
+
+Avg = family macro-mean · Best = per-metric maximum 
+
+MPBench Avg MPBench Best (per metrics) MemHarm 
+
+OpenClaw Hermes 050 100 
+
+31.5 64.1 81.0 65.9 82.8 97.2 
+
+050 100 
+
+19.3 48.5 61.5 66.3 88.1 77.8 
+
+050 100 
+
+6.9 11.4 
+
+49.8 45.4 68.8 75.6 
+
+(b) Attack-chain success 
+
+2 NATIVE MEMORY API 3 PERSISTED FILE 4 FRESH PROCESS 
+
+1 WRITE SUCCESS (ASR) 
+
+OpenClaw Hermes 
+
+2 CONDITIONAL ACTIVATION (RSR | write) 
+
+OpenClaw Hermes 
+
+3 END-TO-END (E2E) 
+
+OpenClaw Hermes 
+
+↓↓
+
+Rate (%) · protocol-aligned full-case comparison 
+
+Avg = family macro-mean · Best = per-metric maximum 
+
+MPBench Avg MPBench Best (per metrics) MemHarm 
+
+OpenClaw Hermes 
+
+(050 100 
+
+31.5 64.1 81.0 65.9 82.8 97.2 
+
+050 100 
+
+19.3 48.5 61.5 66.3 88.1 77.8 
+
+050 100 
+
+6.9 11.4 
+
+49.8 45.4 68.8 75.6 
+
+(b) Attack-chain success 
+
+2 NATIVE MEMORY API 3 PERSISTED FILE 4 FRESH PROCESS 
+
+1 WRITE SUCCESS (ASR) 
+
+OpenClaw Hermes 
+
+2 CONDITIONAL ACTIVATION (RSR | write) 
+
+OpenClaw Hermes 
+
+3 END-TO-END (E2E) 
+
+OpenClaw Hermes 
+
+↓↓
+
+Rate (%) · protocol-aligned full-case comparison 
+
+Avg = family macro-mean · Best = per-metric maximum 
+
+MPBench Avg MPBench Best (per metrics) MemHarm 
+
+OpenClaw Hermes 
+
+(050 100 
+
+31.5 64.1 81.0 65.9 82.8 97.2 
+
+050 100 
+
+19.3 48.5 61.5 66.3 88.1 77.8 
+
+050 100 
+
+6.9 11.4 
+
+49.8 45.4 68.8 75.6 
+
+(b) Attack-chain success 
+
+2 NATIVE MEMORY API 3 PERSISTED FILE 4 FRESH PROCESS 
+
+1 WRITE SUCCESS (ASR) 
+
+OpenClaw Hermes 
+
+2 CONDITIONAL ACTIVATION (RSR | write) 
+
+OpenClaw Hermes 
+
+3 END-TO-END (E2E) 
+
+OpenClaw Hermes 
+
+↓↓
+
+Rate (%) · protocol-aligned full-case comparison 
+
+Avg = family macro-mean · Best = per-metric maximum 
+
+MPBench Avg MPBench Best (per metrics) MemHarm 
+
+OpenClaw Hermes 
+
+(a 050 100 
+
+31.5 64.1 81.0 65.9 82.8 97.2 
+
+050 100 
+
+19.3 48.5 61.5 66.3 88.1 77.8 
+
+050 100 
+
+6.9 11.4 
+
+49.8 45.4 68.8 75.6 
+
+(b) Attack-chain success 
+
+1 UNTRUSTED TASK 2 NATIVE MEMORY API 3 PERSISTED FILE 4 FRESH PROCESS 
+
+1 WRITE SUCCESS (ASR) 
+
+OpenClaw Hermes 
+
+2 CONDITIONAL ACTIVATION (RSR | write) 
+
+OpenClaw Hermes 
+
+3 END-TO-END (E2E) 
+
+OpenClaw Hermes 
+
+↓↓
+
+Rate (%) · protocol-aligned full-case comparison 
+
+Avg = family macro-mean · Best = per-metric maximum 
+
+MPBench Avg MPBench Best (per metrics) MemHarm 
+
+OpenClaw Hermes 050 100 
+
+31.5 64.1 81.0 65.9 82.8 97.2 
+
+050 100 
+
+19.3 48.5 61.5 66.3 88.1 77.8 
+
+050 100 
+
+6.9 11.4 
+
+49.8 45.4 68.8 75.6 
+
+(b) Attack-chain success 
+
+1 UNTRUSTED TASK 2 NATIVE MEMORY API 3 PERSISTED FILE 4 FRESH PROCESS 
+
+1 WRITE SUCCESS (ASR) 
+
+OpenClaw Hermes 
+
+2 CONDITIONAL ACTIVATION (RSR | write) 
+
+OpenClaw Hermes 
+
+3 END-TO-END (E2E) 
+
+OpenClaw Hermes 
+
+↓↓
+
+Rate (%) · protocol-aligned full-case comparison 
+
+Avg = family macro-mean · Best = per-metric maximum 
+
+MPBench Avg MPBench Best (per metrics) MemHarm 
+
+OpenClaw Hermes 050 100 
+
+31.5 64.1 81.0 65.9 82.8 97.2 
+
+050 100 
+
+19.3 48.5 61.5 66.3 88.1 77.8 
+
+050 100 
+
+6.9 11.4 
+
+49.8 45.4 68.8 75.6 
+
+(b) Attack-chain success 
+
+1 UNTRUSTED TASK 2 NATIVE MEMORY API 3 PERSISTED FILE 4 FRESH PROCESS 
+
+1 WRITE SUCCESS (ASR) 
+
+OpenClaw Hermes 
+
+2 CONDITIONAL ACTIVATION (RSR | write) 
+
+OpenClaw Hermes 
+
+3 END-TO-END (E2E) 
+
+OpenClaw Hermes 
+
+↓↓
+
+Rate (%) · protocol-aligned full-case comparison 
+
+Avg = family macro-mean · Best = per-metric maximum 
+
+MPBench Avg MPBench Best (per metrics) MemHarm 
+
+OpenClaw Hermes 
+
+(050 100 
+
+31.5 64.1 81.0 65.9 82.8 97.2 
+
+050 100 
+
+19.3 48.5 61.5 66.3 88.1 77.8 
+
+050 100 
+
+6.9 11.4 
+
+49.8 45.4 68.8 75.6 
+
+(b) Attack-chain success 
+
+1 UNTRUSTED TASK 2 NATIVE MEMORY API 3 PERSISTED FILE 4 FRESH PROCESS 
+
+1 WRITE SUCCESS (ASR) 
+
+OpenClaw Hermes 
+
+2 CONDITIONAL ACTIVATION (RSR | write) 
+
+OpenClaw Hermes 
+
+3 END-TO-END (E2E) 
+
+OpenClaw Hermes 
+
+↓↓
+
+Rate (%) · protocol-aligned full-case comparison 
+
+Avg = family macro-mean · Best = per-metric maximum 
+
+MPBench Avg MPBench Best (per metrics) MemHarm 
+
+OpenClaw Hermes 
+
+(050 100 
+
+31.5 64.1 81.0 65.9 82.8 97.2 
+
+050 100 
+
+19.3 48.5 61.5 66.3 88.1 77.8 
+
+050 100 
+
+6.9 11.4 
+
+49.8 45.4 68.8 75.6 
+
+(b) Attack-chain success 
+
+1 UNTRUSTED TASK 2 NATIVE MEMORY API 3 PERSISTED FILE 4 FRESH PROCESS 
+
+1 WRITE SUCCESS (ASR) 
+
+OpenClaw Hermes 
+
+2 CONDITIONAL ACTIVATION (RSR | write) 
+
+OpenClaw Hermes 
+
+3 END-TO-END (E2E) 
+
+OpenClaw Hermes 
+
+↓↓
+
+Rate (%) · protocol-aligned full-case comparison 
+
+Avg = family macro-mean · Best = per-metric maximum 
+
+MPBench Avg MPBench Best (per metrics) MemHarm 
+
+OpenClaw Hermes 
+
+(a (a) Write–persist–retrieve attack path 050 100 
+
+31.5 64.1 81.0 65.9 82.8 97.2 
+
+050 100 
+
+19.3 48.5 61.5 66.3 88.1 77.8 
+
+050 100 
+
+6.9 11.4 
+
+49.8 45.4 68.8 75.6 
+
+(b) Attack-chain success 
+
+1 UNTRUSTED TASK 2 NATIVE MEMORY API 3 PERSISTED FILE 4 FRESH PROCESS 
+
+1 WRITE SUCCESS (ASR) 
+
+OpenClaw Hermes 
+
+2 CONDITIONAL ACTIVATION (RSR | write) 
+
+OpenClaw Hermes 
+
+3 END-TO-END (E2E) 
+
+OpenClaw Hermes 
+
+↓↓
+
+Rate (%) · protocol-aligned full-case comparison 
+
+Avg = family macro-mean · Best = per-metric maximum 
+
+MPBench Avg MPBench Best (per metrics) MemHarm 
+
+OpenClaw Hermes 050 100 
+
+31.5 64.1 81.0 65.9 82.8 97.2 
+
+050 100 
+
+19.3 48.5 61.5 66.3 88.1 77.8 
+
+050 100 
+
+6.9 11.4 
+
+49.8 45.4 68.8 75.6 
+
+(b) Attack-chain success 
+
+1 UNTRUSTED TASK 2 NATIVE MEMORY API 3 PERSISTED FILE 4 FRESH PROCESS 
+
+1 WRITE SUCCESS (ASR) 
+
+OpenClaw Hermes 
+
+2 CONDITIONAL ACTIVATION (RSR | write) 
+
+OpenClaw Hermes 
+
+3 END-TO-END (E2E) 
+
+OpenClaw Hermes 
+
+↓↓
+
+Rate (%) · protocol-aligned full-case comparison 
+
+Avg = family macro-mean · Best = per-metric maximum 
+
+MPBench Avg MPBench Best (per metrics) MemHarm 
+
+OpenClaw Hermes 050 100 
+
+31.5 64.1 81.0 65.9 82.8 97.2 
+
+050 100 
+
+19.3 48.5 61.5 66.3 88.1 77.8 
+
+050 100 
+
+6.9 11.4 
+
+49.8 45.4 68.8 75.6 
+
+(b) Attack-chain success 
+
+2 NATIVE MEMORY API 3 PERSISTED FILE 4 FRESH PROCESS 
+
+1 WRITE SUCCESS (ASR) 
+
+OpenClaw Hermes 
+
+2 CONDITIONAL ACTIVATION (RSR | write) 
+
+OpenClaw Hermes 
+
+3 END-TO-END (E2E) 
+
+OpenClaw Hermes 
+
+↓↓
+
+Rate (%) · protocol-aligned full-case comparison 
+
+Avg = family macro-mean · Best = per-metric maximum 
+
+MPBench Avg MPBench Best (per metrics) MemHarm 
+
+OpenClaw Hermes 050 100 
+
+31.5 64.1 81.0 65.9 82.8 97.2 
+
+050 100 
+
+19.3 48.5 61.5 66.3 88.1 77.8 
+
+050 100 
+
+6.9 11.4 
+
+49.8 45.4 68.8 75.6 
+
+(b) Attack-chain success 
+
+2 NATIVE MEMORY API 3 PERSISTED FILE 4 FRESH PROCESS 
+
+1 WRITE SUCCESS (ASR) 
+
+OpenClaw Hermes 
+
+2 CONDITIONAL ACTIVATION (RSR | write) 
+
+OpenClaw Hermes 
+
+3 END-TO-END (E2E) 
+
+OpenClaw Hermes 
+
+↓↓
+
+Rate (%) · protocol-aligned full-case comparison 
+
+Avg = family macro-mean · Best = per-metric maximum 
+
+MPBench Avg MPBench Best (per metrics) MemHarm 
+
+OpenClaw Hermes 
+
+(050 100 
+
+31.5 64.1 81.0 65.9 82.8 97.2 
+
+050 100 
+
+19.3 48.5 61.5 66.3 88.1 77.8 
+
+050 100 
+
+6.9 11.4 
+
+49.8 45.4 68.8 75.6 
+
+(b) Attack-chain success 
+
+2 NATIVE MEMORY API 3 PERSISTED FILE 4 FRESH PROCESS 
+
+1 WRITE SUCCESS (ASR) 
+
+OpenClaw Hermes 
+
+2 CONDITIONAL ACTIVATION (RSR | write) 
+
+OpenClaw Hermes 
+
+3 END-TO-END (E2E) 
+
+OpenClaw Hermes 
+
+↓↓
+
+Rate (%) · protocol-aligned full-case comparison 
+
+Avg = family macro-mean · Best = per-metric maximum 
+
+MPBench Avg MPBench Best (per metrics) MemHarm 
+
+OpenClaw Hermes 
+
+(050 100 
+
+31.5 64.1 81.0 65.9 82.8 97.2 
+
+050 100 
+
+19.3 48.5 61.5 66.3 88.1 77.8 
+
+050 100 
+
+6.9 11.4 
+
+49.8 45.4 68.8 75.6 
+
+(b) Attack-chain success 
+
+2 NATIVE MEMORY API 3 PERSISTED FILE 4 FRESH PROCESS 
+
+1 WRITE SUCCESS (ASR) 
+
+OpenClaw Hermes 
+
+2 CONDITIONAL ACTIVATION (RSR | write) 
+
+OpenClaw Hermes 
+
+3 END-TO-END (E2E) 
+
+OpenClaw Hermes 
+
+↓↓
+
+Rate (%) · protocol-aligned full-case comparison 
+
+Avg = family macro-mean · Best = per-metric maximum 
+
+MPBench Avg MPBench Best (per metrics) MemHarm 
+
+OpenClaw Hermes 
+
+(a 050 100 
+
+31.5 64.1 81.0 65.9 82.8 97.2 
+
+050 100 
+
+19.3 48.5 61.5 66.3 88.1 77.8 
+
+050 100 
+
+6.9 11.4 
+
+49.8 45.4 68.8 75.6 
+
+(b) Attack-chain success 
+
+1 UNTRUSTED TASK 2 NATIVE MEMORY API 3 PERSISTED FILE 4 FRESH PROCESS 
+
+1 WRITE SUCCESS (ASR) 
+
+OpenClaw Hermes 
+
+2 CONDITIONAL ACTIVATION (RSR | write) 
+
+OpenClaw Hermes 
+
+3 END-TO-END (E2E) 
+
+OpenClaw Hermes 
+
+↓↓
+
+Rate (%) · protocol-aligned full-case comparison 
+
+Avg = family macro-mean · Best = per-metric maximum 
+
+MPBench Avg MPBench Best (per metrics) MemHarm 
+
+OpenClaw Hermes 050 100 
+
+31.5 64.1 81.0 65.9 82.8 97.2 
+
+050 100 
+
+19.3 48.5 61.5 66.3 88.1 77.8 
+
+050 100 
+
+6.9 11.4 
+
+49.8 45.4 68.8 75.6 
+
+(b) Attack-chain success 
+
+1 UNTRUSTED TASK 2 NATIVE MEMORY API 3 PERSISTED FILE 4 FRESH PROCESS 
+
+1 WRITE SUCCESS (ASR) 
+
+OpenClaw Hermes 
+
+2 CONDITIONAL ACTIVATION (RSR | write) 
+
+OpenClaw Hermes 
+
+3 END-TO-END (E2E) 
+
+OpenClaw Hermes 
+
+↓↓
+
+Rate (%) · protocol-aligned full-case comparison 
+
+Avg = family macro-mean · Best = per-metric maximum 
+
+MPBench Avg MPBench Best (per metrics) MemHarm 
+
+OpenClaw Hermes 050 100 
+
+31.5 64.1 81.0 65.9 82.8 97.2 
+
+050 100 
+
+19.3 48.5 61.5 66.3 88.1 77.8 
+
+050 100 
+
+6.9 11.4 
+
+49.8 45.4 68.8 75.6 
+
+(b) Attack-chain success 
+
+1 UNTRUSTED TASK 2 NATIVE MEMORY API 3 PERSISTED FILE 4 FRESH PROCESS 
+
+1 WRITE SUCCESS (ASR) 
+
+OpenClaw Hermes 
+
+2 CONDITIONAL ACTIVATION (RSR | write) 
+
+OpenClaw Hermes 
+
+3 END-TO-END (E2E) 
+
+OpenClaw Hermes 
+
+↓↓
+
+Rate (%) · protocol-aligned full-case comparison 
+
+Avg = family macro-mean · Best = per-metric maximum 
+
+MPBench Avg MPBench Best (per metrics) MemHarm 
+
+OpenClaw Hermes 
+
+(050 100 
+
+31.5 64.1 81.0 65.9 82.8 97.2 
+
+050 100 
+
+19.3 48.5 61.5 66.3 88.1 77.8 
+
+050 100 
+
+6.9 11.4 
+
+49.8 45.4 68.8 75.6 
+
+(b) Attack-chain success 
+
+1 UNTRUSTED TASK 2 NATIVE MEMORY API 3 PERSISTED FILE 4 FRESH PROCESS 
+
+1 WRITE SUCCESS (ASR) 
+
+OpenClaw Hermes 
+
+2 CONDITIONAL ACTIVATION (RSR | write) 
+
+OpenClaw Hermes 
+
+3 END-TO-END (E2E) 
+
+OpenClaw Hermes 
+
+↓↓
+
+Rate (%) · protocol-aligned full-case comparison 
+
+Avg = family macro-mean · Best = per-metric maximum 
+
+MPBench Avg MPBench Best (per metrics) MemHarm 
+
+OpenClaw Hermes 
+
+(050 100 
+
+31.5 64.1 81.0 65.9 82.8 97.2 
+
+050 100 
+
+19.3 48.5 61.5 66.3 88.1 77.8 
+
+050 100 
+
+6.9 11.4 
+
+49.8 45.4 68.8 75.6 
+
+(b) Attack-chain success 
+
+1 UNTRUSTED TASK 2 NATIVE MEMORY API 3 PERSISTED FILE 4 FRESH PROCESS 
+
+1 WRITE SUCCESS (ASR) 
+
+OpenClaw Hermes 
+
+2 CONDITIONAL ACTIVATION (RSR | write) 
+
+OpenClaw Hermes 
+
+3 END-TO-END (E2E) 
+
+OpenClaw Hermes 
+
+↓↓
+
+Rate (%) · protocol-aligned full-case comparison 
+
+Avg = family macro-mean · Best = per-metric maximum 
+
+MPBench Avg MPBench Best (per metrics) MemHarm 
+
+OpenClaw Hermes 
+
+(a (a) Write–persist–retrieve attack path 050 100 
+
+31.5 64.1 81.0 65.9 82.8 97.2 
+
+050 100 
+
+19.3 48.5 61.5 66.3 88.1 77.8 
+
+050 100 
+
+6.9 11.4 
+
+49.8 45.4 68.8 75.6 
+
+(b) Attack-chain success 
+
+1 UNTRUSTED TASK 2 NATIVE MEMORY API 3 PERSISTED FILE 4 FRESH PROCESS 
+
+1 WRITE SUCCESS (ASR) 
+
+OpenClaw Hermes 
+
+2 CONDITIONAL ACTIVATION (RSR | write) 
+
+OpenClaw Hermes 
+
+3 END-TO-END (E2E) 
+
+OpenClaw Hermes 
+
+↓↓
+
+Rate (%) · protocol-aligned full-case comparison 
+
+Avg = family macro-mean · Best = per-metric maximum 
+
+MPBench Avg MPBench Best (per metrics) MemHarm 
+
+OpenClaw Hermes 
+
+(a) Write-to-fresh-process attack path 050 100 
+
+31.5 64.1 81.0 65.9 82.8 97.2 
+
+050 100 
+
+19.3 48.5 61.5 66.3 88.1 77.8 
+
+050 100 
+
+6.9 11.4 
+
+49.8 45.4 68.8 75.6 
+
+(b) Attack-chain success 
+
+1 UNTRUSTED TASK 2 NATIVE MEMORY API 3 PERSISTED FILE 4 FRESH PROCESS 
+
+1 WRITE SUCCESS (ASR) 
+
+OpenClaw Hermes 
+
+2 CONDITIONAL ACTIVATION (RSR | write) 
+
+OpenClaw Hermes 
+
+3 END-TO-END (E2E) 
+
+OpenClaw Hermes 
+
+↓↓
+
+Rate (%) · protocol-aligned full-case comparison 
+
+Avg = family macro-mean · Best = per-metric maximum 
+
+MPBench Avg MPBench Best (per metrics) MemHarm 
+
+OpenClaw Hermes 
+
+(a) Write-to-fresh-process attack path 050 100 
+
+31.5 64.1 81.0 65.9 82.8 97.2 
+
+050 100 
+
+19.3 48.5 61.5 66.3 88.1 77.8 
+
+050 100 
+
+6.9 11.4 
+
+49.8 45.4 68.8 75.6 
+
+(b) Attack-chain success 
+
+1 UNTRUSTED TASK 2 NATIVE MEMORY API 3 PERSISTED FILE 4 FRESH PROCESS 
+
+1 WRITE SUCCESS (ASR) 
+
+OpenClaw Hermes 
+
+2 CONDITIONAL ACTIVATION (RSR | write) 
+
+OpenClaw Hermes 
+
+3 END-TO-END (E2E) 
+
+OpenClaw Hermes 
+
+↓↓
+
+Rate (%) · protocol-aligned full-case comparison 
+
+Avg = family macro-mean · Best = per-metric maximum 
+
+MPBench Avg MPBench Best (per metrics) MemHarm 
+
+OpenClaw Hermes 
+
+(a) Write-to-fresh-process attack path 050 100 
+
+31.5 64.1 81.0 65.9 82.8 97.2 
+
+050 100 
+
+19.3 48.5 61.5 66.3 88.1 77.8 
+
+050 100 
+
+6.9 11.4 
+
+49.8 45.4 68.8 75.6 
+
+(b) Attack-chain success 
+
+1 UNTRUSTED TASK 2 NATIVE MEMORY API 3 PERSISTED FILE 4 FRESH PROCESS 
+
+1 WRITE SUCCESS (ASR) 
+
+OpenClaw Hermes 
+
+2 CONDITIONAL ACTIVATION (RSR | write) 
+
+OpenClaw Hermes 
+
+3 END-TO-END (E2E) 
+
+OpenClaw Hermes 
+
+↓↓
+
+Rate (%) · protocol-aligned full-case comparison 
+
+Avg = family macro-mean · Best = per-metric maximum 
+
+MPBench Avg MPBench Best (per metrics) MemHarm 
+
+OpenClaw Hermes 
+
+(a) Write-to-fresh-process attack path 050 100 
+
+31.5 64.1 81.0 65.9 82.8 97.2 
+
+050 100 
+
+19.3 48.5 61.5 66.3 88.1 77.8 
+
+050 100 
+
+6.9 11.4 
+
+49.8 45.4 68.8 75.6 
+
+(b) Attack-chain success 
+
+1 UNTRUSTED TASK 2 NATIVE MEMORY API 3 PERSISTED FILE 4 FRESH PROCESS 
+
+1 WRITE SUCCESS (ASR) 
+
+OpenClaw Hermes 
+
+2 CONDITIONAL ACTIVATION (RSR | write) 
+
+OpenClaw Hermes 
+
+3 END-TO-END (E2E) 
+
+OpenClaw Hermes 
+
+↓↓
+
+Rate (%) · protocol-aligned full-case comparison 
+
+Avg = family macro-mean · Best = per-metric maximum 
+
+MPBench Avg MPBench Best (per metrics) MemHarm 
+
+OpenClaw Hermes 
+
+(a) Write-to-fresh-process attack path 050 100 
+
+31.5 64.1 81.0 65.9 82.8 97.2 
+
+050 100 
+
+19.3 48.5 61.5 66.3 88.1 77.8 
+
+050 100 
+
+6.9 11.4 
+
+49.8 45.4 68.8 75.6 
+
+(b) Attack-chain success 
+
+1 UNTRUSTED TASK 2 NATIVE MEMORY API 3 PERSISTED FILE 4 FRESH PROCESS 
+
+1 WRITE SUCCESS (ASR) 
+
+OpenClaw Hermes 
+
+2 CONDITIONAL ACTIVATION (RSR | write) 
+
+OpenClaw Hermes 
+
+3 END-TO-END (E2E) 
+
+OpenClaw Hermes 
+
+↓↓
+
+Rate (%) · protocol-aligned full-case comparison 
+
+Avg = family macro-mean · Best = per-metric maximum 
+
+MPBench Avg MPBench Best (per metrics) MemHarm 
+
+OpenClaw Hermes 
+
+(a) Write-to-fresh-process attack path 050 100 
+
+31.5 64.1 81.0 65.9 82.8 97.2 
+
+050 100 
+
+19.3 48.5 61.5 66.3 88.1 77.8 
+
+050 100 
+
+6.9 11.4 
+
+49.8 45.4 68.8 75.6 
+
+(b) Attack-chain success 
+
+1 UNTRUSTED TASK 2 NATIVE MEMORY API 3 PERSISTED FILE 4 FRESH PROCESS 
+
+1 WRITE SUCCESS (ASR) 
+
+OpenClaw Hermes 
+
+2 CONDITIONAL ACTIVATION (RSR | write) 
+
+OpenClaw Hermes 
+
+3 END-TO-END (E2E) 
+
+OpenClaw Hermes 
+
+↓↓
+
+Rate (%) · protocol-aligned full-case comparison 
+
+Avg = family macro-mean · Best = per-metric maximum 
+
+MPBench Avg MPBench Best (per metrics) MemHarm 
+
+OpenClaw Hermes 
+
+(a) Write-to-fresh-process attack path 050 100 
+
+31.5 64.1 81.0 65.9 82.8 97.2 
+
+050 100 
+
+19.3 48.5 61.5 66.3 88.1 77.8 
+
+050 100 
+
+6.9 11.4 
+
+49.8 45.4 68.8 75.6 
+
+(b) Attack-chain success 
+
+1 UNTRUSTED TASK 2 NATIVE MEMORY API 3 PERSISTED FILE 4 FRESH PROCESS 
+
+1 WRITE SUCCESS (ASR) 
+
+OpenClaw Hermes 
+
+2 CONDITIONAL ACTIVATION (RSR | write) 
+
+OpenClaw Hermes 
+
+3 END-TO-END (E2E) 
+
+OpenClaw Hermes 
+
+↓↓
+
+Rate (%) · protocol-aligned full-case comparison 
+
+Avg = family macro-mean · Best = per-metric maximum 
+
+MPBench Avg MPBench Best (per metrics) MemHarm 
+
+OpenClaw Hermes 
+
+(a) Write-to-fresh-process attack path 050 100 
+
+31.5 64.1 81.0 65.9 82.8 97.2 
+
+050 100 
+
+19.3 48.5 61.5 66.3 88.1 77.8 
+
+050 100 
+
+6.9 11.4 
+
+49.8 45.4 68.8 75.6 
+
+(b) Attack-chain success 
+
+1 UNTRUSTED TASK 2 NATIVE MEMORY API 3 PERSISTED FILE 4 FRESH PROCESS 
+
+1 WRITE SUCCESS (ASR) 
+
+OpenClaw Hermes 
+
+2 CONDITIONAL ACTIVATION (RSR | write) 
+
+OpenClaw Hermes 
+
+3 END-TO-END (E2E) 
+
+OpenClaw Hermes 
+
+↓↓
+
+Rate (%) · protocol-aligned full-case comparison 
+
+Avg = family macro-mean · Best = per-metric maximum 
+
+MPBench Avg MPBench Best (per metrics) MemHarm 
+
+OpenClaw Hermes 
+
+(a) Write-to-fresh-process attack path 050 100 
+
+31.5 64.1 81.0 65.9 82.8 97.2 
+
+050 100 
+
+19.3 48.5 61.5 66.3 88.1 77.8 
+
+050 100 
+
+6.9 11.4 
+
+49.8 45.4 68.8 75.6 
+
+(b) Attack-chain success 
+
+1 UNTRUSTED TASK 2 NATIVE MEMORY API 3 PERSISTED FILE 4 FRESH PROCESS 
+
+1 WRITE SUCCESS (ASR) 
+
+OpenClaw Hermes 
+
+2 CONDITIONAL ACTIVATION (RSR | write) 
+
+OpenClaw Hermes 
+
+3 END-TO-END (E2E) 
+
+OpenClaw Hermes 
+
+↓↓
+
+Rate (%) · protocol-aligned full-case comparison 
+
+Avg = family macro-mean · Best = per-metric maximum 
+
+MPBench Avg MPBench Best (per metrics) MemHarm 
+
+OpenClaw Hermes 
+
+(a) Write-to-fresh-process attack path 
+
+Figure 2: Native-agent MPBench evaluation. (a) MemHarm’s write–persist–retrieve attack path in OpenClaw and Hermes. (b) Full-case ASR, conditional RSR, and E2E versus MPBench Avg and per-metric Best; Appendix H.1 gives the protocol. In summary, we make three contributions: • Conceptually, we formulate the downstream severity of the resulting persistent state as an attack-design objective complementary to binary attack success. • Methodologically, we formalize this objective as CMR and develop MemHarm, which freezes a candidate class of sparse, grounded semantic edits before outcome feedback and searches it using offline paired-loss feedback. • Empirically, we show that severity-guided attack design identifies more harmful persistent states while remaining strong under conventional attack success, across two agent benchmarks, multiple model backbones, and diverse memory realizations, including native-agent deployments. 
+
+2 RELATED WORK 
+
+Persistent-memory attacks. Trigger-conditioned attacks poison long-term memory, knowledge entries, or retained trigger–payload relations (Chen et al., 2024; Wang et al., 2026). Query-only and single-interaction attacks create malicious records through ordinary interactions (Dong et al., 2025; Tian et al., 2026). Other work studies poisoned experiences (Srivastava & He, 2025), recommender-2Preprint memory perturbations (Yang et al., 2026), and environment-injected trajectories (Zou et al., 2026). Recent evaluations extend these threats to cross-session Web3 and coding agents (Patlan et al., 2025; Gadgil et al., 2026), clinical memories and delayed sleeper payloads (Sunil et al., 2026; Pulipaka et al., 2026), and broader taxonomies of memory-write channels (Dash et al., 2026). Complementary work examines longitudinal safety degradation (Al-Tawaha et al., 2026) and defenses across the memory lifecycle (Leong, 2026; Lin et al., 2026). Related attack surfaces manipulate other parts of the agent pipeline: GCG optimizes adversarial prompt suffixes (Zou et al., 2023), BadChain poisons chain-of-thought demonstrations (Xiang et al., 2024), and Agent Smith propagates image-borne jailbreaks across agents (Gu et al., 2024). Retrieval-corpus poisoning instead targets external content without necessarily using an agent’s memory-write pathway (Zou et al., 2025; Li et al., 2025; Shafran et al., 2025). MemHarm differs by freezing an admissible class of persistent-memory edits and selecting among them by paired downstream operational loss, making attack severity itself the optimization target. Table 3 in Appendix A provides a detailed comparison. 
+
+Counterfactual attack construction. Counterfactual explanation and recourse study how feature changes alter an existing decision (Wachter et al., 2017; Mothilal et al., 2020; Karimi et al., 2021), while post-hoc memory auditing diagnoses an already-poisoned state (Tan et al., 2026). Our setting instead uses counterfactuals prospectively: an edited value is written before the downstream task, so clean and edited persistent states form the paired comparison for attack severity. This perspective follows potential-outcome reasoning (Rubin, 1974; Hernan & Robins, 2020) under a causal state-update model (Pearl, 2009). 
+
+Certified severity search. Searching a fixed edit class for high downstream harm raises a selection problem: the largest empirical severity estimate does not by itself establish near-optimality. Best-arm identification provides adaptive allocation schemes (Karnin et al., 2013; Jamieson & Talwalkar, 2016), while time-uniform confidence sequences support fixed-confidence stopping under adaptive sampling (Waudby-Smith & Ramdas, 2024). These tools provide the statistical basis for class-conditional selection and certification over a frozen attack space. 
+
+3 MEM HARM : S EARCHING FOR HIGH -S EVERITY MEMORY EDITS 
+
+MemHarm constructs and freezes a class of admissible, sparse, grounded counterfactual writes before receiving outcome feedback. It then uses CMR, estimated through offline paired memory interventions, to allocate rollouts and select an attack from that class (Figure 3). Section 4 establishes the class-conditional selection guarantee and analyzes why some edits attain higher CMR. 3.1 THREAT MODEL AND CMR O BJECTIVE 
+
+MemHarm targets a fixed memory mechanism g ∈ G with persistent state S ∈ S g . During attack construction, after candidates are constructed and frozen, MemHarm’s offline procedure runs reset-table isolated copies and receives only paired operational-loss feedback to allocate rollouts across the frozen candidates. This feedback is an offline attack-construction oracle, not a deployment capability. Deployment consists of one selected write through the target agent’s normal update pathway and requires no deployment-time oracle or privileged model or memory access. Let S0 ∈ S g be the initial persistent state. A write x ∈ X updates the state through the memory-update map Ug :
+
+S+ = Ug (S, x ). (1) 
+
+Operational loss. For each downstream task q, before any attack-search feedback, we freeze benchmark-derived checks Cq = {cq1, . . . , c qm q }, where mq = |C q | ≥ 1 and cqj (τ ) ∈ [0 , 1] 
+
+measures satisfaction of a registered task condition. Let τg (S; q, ω ) denote the complete agent trajectory and terminal environment state under rollout randomness ω. We define 
+
+Lg (S; q, ω ) = 1 − 1
+
+mqmq
+
+X
+
+> j=1
+
+cqj (τg (S; q, ω )) , (2) so Lg ∈ [0 , 1] and Lmax = 1. AgentDojo checks follow public user-task utility predicates (Debenedetti et al., 2024); τ 3-bench checks follow registered database/end-state and communi-3Preprint Construct the class 
+
+> typed, grounded, frozen
+
+Memory-only intervention 
+
+> paired from one initial state
+
+Search the frozen class                 
+
+> adaptive confidence landscape
+> g: memory design |a: candidate edit |t: audit round
+> Clean write
+> Semantic factor
+> Authorization
+> Ground alternatives
+> Pre-
+> authorized
+> Role
+> exception
+> Manager-
+> approved
+> Schema Realizable Coherent
+> Frozen
+> …
+> frozen before feedback
+> Initial state
+> CLEAN WRITE EDITED WRITE
+> Memory
+> update Memory
+> update
+> Clean state Edited state
+> MEMORY-ONLY GATE
+> prompt logs cache aux. retr.
+> same query
+> Action
+> Loss
+> Action
+> Loss
+> Paired loss difference
+> maximize CMR over the frozen candidates
+> Adaptive confidence search faint = earlier bounds
+> CMR
+> 0.0
+> 0.1
+> 0.3
+> 0.5
+> 0.040
+> 0.132
+> 0.412
+> 0.087
+> upper bounds
+> pulls / arm
+> Near-optimality certificate at cap
+> unresolved
+> Certified arm normal update Persistent
+> state
+
+Figure 3: MemHarm overview. MemHarm freezes plausible semantic memory edits and uses offline memory-only paired rollouts to select a high-CMR attack. cation criteria (Yao et al., 2025; Barres et al., 2025; Cuadron et al., 2026). Checks are evaluated once after the episode rather than summed over tool calls. Hence, CMR = 0 .10 is a 0.10 increase in expected normalized operational error: 10 percentage points more task failure for one binary check, or 10 percentage points more unmet requirements on average for multiple binary checks. A paired three-check example appears in Appendix G, Figure 8. 
+
+Memory-only paired intervention. For clean write X and candidate counterfactual write x′, the two branches begin at the same state: 
+
+S0
+
+g = Ug (S0, X ), Sx′
+
+g = Ug (S0, x ′). (3) During each offline construction rollout, the construction environment removes the write artifact from all non-target channels before downstream probes while preserving the target persistent-memory state and its native read path. Let Ledit = Lg (Sx′
+
+g ; Q, ω edit ) and Lclean = Lg (S0
+
+g ; Q, ω clean ) denote the matched edited and clean losses. Counterfactual memory regret is their expected paired difference: 
+
+Jg (x′; X) = CMR g (x′; X) = ELedit − Lclean  . (4) The expectation is over Q ∼ D and a prespecified joint law for (ωedit , ω clean ) with the correct branch marginals. Positive CMR indicates that the counterfactual write increases downstream operational loss. The construction follows standard potential-outcome reasoning (Rubin, 1974; Hernan & Robins, 2020) with a causal state update (Pearl, 2009). In our evaluation, D is the declared benchmark distribution. The oracle provides paired-loss feedback on a disjoint, distribution-matched optimization split, withholding test instances and hidden evaluator variables. Surrogate-distribution mismatch is outside the present evaluation. CMR retains information that a binary success event discards. Let ∆ = Ledit − Lclean and write 
+
+u+ = max {u, 0}. Because the loss is bounded, 
+
+E[∆] = E[∆ +] − E[( −∆) +] = Pr(∆ > 0) E[∆ | ∆ > 0] − Pr(∆ < 0) E[−∆ | ∆ < 0] . (5) where a term attached to a zero-probability event is taken as zero. A sign-only rate omits change magnitude; ASR (Attack Success Rate) further restricts attention to clean-success/attacked-failure pairs. Equal ASR can therefore coexist with different CMR, and the two metrics need not rank attacks alike. 
+
+Memory-path identification. Interpreting CMR as an effect carried through the target memory pathway requires consistency and no cross-copy interference in the potential-outcome sense (Hernan & Robins, 2020), together with memory-only isolation. Each branch must realize the state induced by its assigned write, evaluation copies must not alter one another, and the edited artifact must have 4Preprint no remaining route to the probe outside the target memory. Valid inference under adaptive search additionally requires fresh paired observations to retain their arm-specific conditional means after conditioning on past allocation (Waudby-Smith & Ramdas, 2024). Appendix B formalizes these conditions and the admissible coupling. 3.2 CONSTRUCTING ADMISSIBLE COUNTERFACTUALS 
+
+The construction has three steps: choose which semantic factors to edit, realize each edit as a concrete memory write, and filter invalid realizations. All three steps are completed before any downstream-loss feedback is observed. Factors are extracted from the clean write X using deterministic patterns and schema-based parsers (Appendix H.3). A customer-service note may state that refunds above $500 require supervisor approval. MemHarm can replace this authorization with a scoped counterfactual—for example, “this recurring account is pre-authorized”—and, during offline selection, score how the resulting persistent state changes later actions. The construction extends to other typed semantic factors. An extracted factor is 
+
+z = (type , ξ, rel , v, s ), (6) where type is a factor type, ξ an anchor or entity, rel a relation, v a value, and s the edit scope. This separates the editable value from its interpretation context (Appendix H.3). An edit program is 
+
+e = ( I, {v′
+
+> i
+
+}i∈I ) , |I| ≤ K, (7) where I indexes the edited factors, K is the maximum edit-size budget, and each v′ 
+
+> i
+
+is drawn from a same-type grounded replacement pool (rationale and allowed sources in Appendix H.3). For each edit program e, the generator produces concrete writes x. A candidate arm is therefore a = ( e, x ),with Jg (a; X) := Jg (x; X).The same semantic edit can be realized as a retrieved note, summary sentence, profile field, reusable reflection, or graph edge, depending on the target memory contract; a hybrid memory exposes several of these views jointly. Appendix G.3 lists the write units, read interfaces, and factor representations used in evaluation. Admissibility constrains an edit’s support and form rather than its truth. Grounding and source-admissibility rules restrict the values used and the route by which the artifact enters memory, while still permitting false counterfactual relations among valid values. Realizations additionally satisfy bounded semantic deviation and a frozen construction-time language-model typicality check. 3.3 FREEZING THE CANDIDATE SET AND SEARCH OBJECTIVE 
+
+We now turn the admissible edits from Section 3.2 into a finite search problem. Let Z(X) = {z1, . . . , z p} be the extracted factors and Ri a finite pool of grounded, same-type replacements. For an edit-size budget k ≤ K, let Ek(X) contain scope-consistent programs that edit at most k factors. For every e, a prespecified generator produces a finite realization list Rfr (e; X)
+
+before feedback. A frozen validity predicate implements the constraints above; Appendix H.3 gives the full rules. The admissible class is 
+
+Ak(X) = {(e, x ) : e ∈ E k(X), x ∈ R fr (e; X), Valid( e, x ; X) = 1 } ∪ { a0}, (8) where a0 = ( ∅, X ) is the zero-edit arm. Because each edit-size budget permits at most k edited factors and validation is budget-independent, the frozen classes are nested, A1(X) ⊆ · · · ⊆ A K (X).The class remains fixed during offline allocation: outcome feedback can change which arms receive rollouts, but not class membership. For every registered edit-size budget k ∈ { 1, . . . , K }, the signed paired-loss CMR optimum is 
+
+Vg,k (X) = max   
+
+> a∈A k(X)
+
+Jg (a; X). (9) Thus Vg, 1(X) ≤ · · · ≤ Vg,K (X). MemHarm searches AK (X) for a high-CMR arm; Vg,K (X) is the class-conditional optimum used to certify the selected edit. Certification is relative to this frozen class, not all semantic edits. 5Preprint For fixed X, g, and D, the clean-loss expectation is constant across arms, so maximizing CMR also maximizes expected edited loss. CMR retains the signed clean-relative effect for reporting, attribution, and paired inference. Appendix H.3 bounds the combinatorial candidate-class size. Our experiments use K = 3 and an 800-pair rollout cap; construction costs appear in Appendix H.4, Table 11. 3.4 ADAPTIVE SEVERITY SEARCH 
+
+MemHarm now allocates offline paired rollouts across the frozen candidates to select a high-CMR write. For arm a, matched rollout pair n yields 
+
+Za,n = Ledit  
+
+> a,n
+
+− Lclean  
+
+> a,n
+
+∈ [−Lmax , L max ]. (10) Under the sampling conditions in Appendix B, E[Za,n ] = Jg (a; X). Let η ≥ 0 be the tolerated optimality gap and δ ∈ (0 , 1) the error level for simultaneous coverage over all arms and times. At round t, MemHarm maintains time-uniform lower and upper confidence bounds LCB t(a) and 
+
+UCB t(a) for each arm (Waudby-Smith & Ramdas, 2024), turning selection into a fixed-confidence 
+
+η-best-arm identification problem (Karnin et al., 2013). The zero-edit arm has known CMR Jg (a0; X) = 0 ; each remaining arm receives one initial paired rollout. The adaptive allocator prioritizes the largest-LCB incumbent, the largest-UCB challenger, and the largest-UCB arm in each nested edit-size class. An arm a is eliminated from further sampling when UCB t(a) < max b∈A K (X) LCB t(b)−η; ties are retained and sampled in registered round-robin order. These decisions change sampling allocation while preserving the frozen candidate set. At time t, a reporting rule fixed before optimization feedback selects bat. This arm receives a class-conditional (η, δ ) optimality certificate when 
+
+max   
+
+> a∈A K(X)
+
+UCB t(a) − LCB t(bat) ≤ η. (11) The largest upper bound then exceeds the selected arm’s lower bound by at most η. If the registered rollout cap is reached without this condition, the returned arm is labeled unresolved. When also auditing the smallest edit-size budget attaining the same η-near-optimal severity, sampling continues until both certificates resolve or the cap is reached. Appendix E gives the confidence-sequence construction, reporting rules, and allocation details. The output is the selected write and its certificate status. Deployment executes that write once through the agent’s normal update pathway, with no further paired-loss feedback. 
+
+4 THEORY : C ERTIFIED SELECTION AND SEVERITY STRUCTURE 
+
+The theory establishes two properties central to MemHarm: a resolved adaptive search returns an 
+
+η-near-optimal edit within the frozen class, and the class’s attainable severity is lower-bounded by counterfactual consequence after accounting for edited- and clean-side realization error. 4.1 CERTIFIED NEAR -O PTIMAL SELECTION 
+
+Under the sampling conditions in Appendix B, the time-uniform intervals simultaneously cover 
+
+Jg (a; X) for every arm and time with probability at least 1 − δ (Appendix E). 
+
+Proposition 1 (Class-conditional signed-CMR certificate) . On this simultaneous confidence event, any reporting arm bat satisfying Equation 11 obeys 
+
+Jg (bat; X) ≥ Vg,K (X) − η. (12) Thus, a resolved MemHarm search returns an η-near-optimal severity attack within the frozen class, rather than an uncertified empirical winner. The guarantee is class-conditional, and unresolved runs carry no such certificate. Appendix D.2 gives the proof. 4.2 STRUCTURAL BASIS OF HIGH CMR We next identify when the frozen class can support high severity. Fix true factor value c and evaluator context H. Let λQ(v | c, H ) ∈ [0 , L max ] be the registered reference loss from acting on value v
+
+6Preprint while task truth remains c. For an arm a encoding value va, define its task consequence as 
+
+κ(a | c, H ) = EQ[λQ(va | c, H ) − λQ(c | c, H )] .
+
+Let ρedit  
+
+> g
+
+(a; c, H ) and ρclean  
+
+> g
+
+(c, H ) denote the expected signed deviations of edited and clean losses from their respective reference losses. The reference map is frozen before search. Appendix C gives the full definitions and multi-factor extension. 
+
+Mechanistic decomposition. For every admissible arm, adding and subtracting the reference losses gives 
+
+Jg (a; X) = κ(a | c, H ) + ρedit  
+
+> g
+
+(a; c, H ) − ρclean  
+
+> g
+
+(c, H ). (13) This identity separates harm inherent to the counterfactual from error introduced by its memory realization. 
+
+Realizable severity potential. Let εedit  
+
+> g
+
+(a; c, H ) and εclean  
+
+> g
+
+(c, H ) be the corresponding expected absolute deviations. When the frozen class contains a non-clean arm, define 
+
+Ψg,K (c, H ) = max  
+
+> a∈A K(X)\{ a0}
+
+κ(a | c, H ) − εedit  
+
+> g
+
+(a; c, H ) . (14) The feasible zero-edit arm satisfies Jg (a0; X) = 0 , so the decomposition implies 
+
+Vg,K (X) ≥ max 0, Ψg,K (c, H ) − εclean  
+
+> g
+
+(c, H ) . (15) This bound identifies what MemHarm can exploit: consequential edits support high attainable CMR when the target memory realizes them accurately, while poor clean realization cannot inflate the guarantee. Section 5.3 tests these predictions. Appendix C gives the clean-utility corollary. 
+
+Attribution ambiguity. High-severity behavior need not reveal which memory factor caused it. The standard two-point testing relation gives the following bound (Tsybakov, 2009). 
+
+Proposition 2 (Attribution ambiguity from passive observations) . Let O denote passive observations, with laws P Oi and P Oj under arms ai, a j ∈ A K (X) acting on distinct factors. If P Oi = P Oj , the causal locus is not identifiable from O; under equal priors, total variation distance TV( P Oi , P Oj ) ≤
+
+ϵ ∈ [0 , 1] implies attribution error at least (1 − ϵ)/2.
+
+Proposition 2 formalizes a limit on passive attribution: even when an attack is detected, the responsible memory factor can remain difficult to localize. Section 5.3 tests this with selected-factor removal. Appendix D.3 gives the proof. 
+
+5 EXPERIMENTS 
+
+5.1 SETUP 
+
+The evaluation follows MemHarm’s central claim from comparative advantage, through semantic mechanism, to empirical reliability. We first test whether severity-guided selection achieves higher held-out CMR than attacks evaluated on matched support. We then trace the loss to the selected factor and test memory attribution, selection reliability, and contextual plausibility. Scenarios, entities, and probes are split into disjoint construction, optimization, and test sets. Candidate generation and validation are fixed on construction data before optimization feedback, and selected attacks are evaluated only on held-out test data. Primary attack comparisons pair five rollout seeds per cell across clean, attacked, and competing methods; optimization and test seeds are disjoint. 
+
+Evaluation scope. The main evaluation combines AgentDojo tool-use tasks (Debenedetti et al., 2024) with the airline and retail domains of τ 3-bench (Yao et al., 2025; Barres et al., 2025; Cuadron et al., 2026), using GPT-4o and Llama-3.1-70B-Instruct across six memory contracts: vector episodic, rolling summary, user profile, reflection, graph, and hybrid memory (Appendix G.3, Table 7). MemHarm constructs edits automatically from public schemas and construction-split artifacts without access to hidden benchmark-evaluator variables. We use K = 3 , (η, δ ) = (0 .05 , 0.05) , and at most 800 paired rollouts per instance; Table 9 in Appendix H.3 reports the remaining registered construction and memory-interface settings. 7Preprint Table 1: Primary held-out attack comparison. CMR, ASR, and BMAR ≥4 use applicable support; BUD uses shared non-target probes. Entries are point estimates with 95% intervals; blue bold and purple shading mark the best and second-best estimates.                                                                                                                                                                                                                                                                                                                                                                    
+
+> Backbone Attack AgentDojo τ3-bench CMR ↑ASR (%) ↑BUD (pp) ↓BMAR ≥4(%) ↑CMR ↑ASR (%) ↑BUD (pp) ↓BMAR ≥4(%) ↑
+> GPT-4o
+> General attack baselines
+> AgentPoison −0.069 ±0.033 2.5±1.84.2±2.59.2±5.00.204 ±0.087 60 .0±14 .53.3±2.320 .4±12 .2
+> MINJA −0.097 ±0.104 13 .6±4.88.8±3.421 .7±7.50.184 ±0.119 60 .0±14 .27.2±3.012 .0±8.3
+> InjecMEM −0.072 ±0.093 12 .5±4.36.1±2.92.5±2.50.194 ±0.095 63 .3±14 .95.0±2.76.1±8.2
+> MemPoison 0.008 ±0.022 6.7±1.65.4±2.72.2±2.40.224 ±0.109 66 .7±13 .74.3±2.52.0±4.1
+> Specialized baselines
+> MemoryGraft 0.278 ±0.108 34 .7±9.82.8±2.347 .3±5.70.092 ±0.104 46 .7±14 .31.7±2.055 .1±14 .3
+> DrunkAgent −0.136 ±0.104 10 .6±3.97.6±3.113 .3±5.80.255 ±0.095 70 .0±14 .06.4±2.922 .1±9.4
+> MemHarm (ours) 0.611 ±0.112 62 .5±11 .22.3±2.272 .3±12 .80.347 ±0.087 68 .8±13 .82.0±2.189 .5±10 .5
+> Llama-3.1-70B
+> General attack baselines
+> AgentPoison −0.047 ±0.044 5.0±2.54.4±2.712 .9±5.80.128 ±0.084 41 .7±13 .44.2±2.722 .8±12 .4
+> MINJA 0.041 ±0.099 27 .8±6.69.3±3.624 .5±7.90.116 ±0.105 43 .3±13 .78.1±3.45.2±6.1
+> InjecMEM −0.031 ±0.090 14 .7±4.96.5±3.05.1±4.10.131 ±0.093 46 .7±14 .06.0±3.08.9±9.1
+> MemPoison 0.032 ±0.032 8.1±2.25.8±2.93.4±2.90.158 ±0.094 51 .7±13 .95.6±2.84.6±5.9
+> Specialized baselines
+> MemoryGraft 0.201 ±0.107 24 .6±8.52.7±2.347 .1±6.20.067 ±0.100 34 .2±13 .02.8±2.353 .2±14 .1
+> DrunkAgent 0.008 ±0.100 16 .4±5.27.9±3.312 .0±5.50.174 ±0.097 47 .4±14 .17.1±3.13.4±4.9
+> MemHarm (ours) 0.392 ±0.112 42 .1±11 .43.2±2.473 .6±12 .40.254 ±0.090 49 .2±13 .92.5±2.385 .0±11 .4
+
+Metrics and comparisons. CMR is the primary severity metric, with ASR reported as a comple-mentary measure of conventional attack effectiveness. CMR retains the signed paired loss change, whereas ASR counts clean-success/attacked-failure pairs. We also report benign utility drop (BUD) relative to the shared clean state on fixed non-target probes and BMAR ≥4 under blinded retention judgments, both defined in Appendix I, to measure attack specificity and contextual plausibility. Within each declared support, methods instantiate their attack variable through the target contract’s normal memory-write pathway and share data splits, backbones, rollout budgets, and paired evaluation randomness. 
+
+Native-agent deployment. We separately run the protocol-aligned MPBench comparison with GPT-OSS-120B through pinned OpenClaw and Hermes deployments, transferring only native persistent state from the write process to a fresh retrieval process (OpenClaw Foundation, 2026; Nous Research, 2026); Appendix H.1 gives the protocol. 5.2 SEVERITY -G UIDED ATTACK EFFECTIVENESS 
+
+MemHarm attains the largest CMR point estimate in every primary benchmark–backbone setting while ranking first or second by ASR point estimates on applicable support (Table 1). CMR point estimates also favor MemHarm on identical support for general attacks and contract-matched support for specialized baselines (Table 2); full estimates and adjusted paired tests appear in Appendices J.1– J.2, Table 12 and Figure 14. To control for feedback access, we give MemPoison and MemoryGraft the same optimization-split paired-CMR feedback and rollout budget as MemHarm. Both baselines improve, but MemHarm retains higher held-out CMR point estimates in every matched setting (Appendix J.1, Table 13). CMR-guided selection also improves held-out CMR over random selection within the same frozen candidate class (Appendix G.1, same-class ablation). Table 2: Fair-support severity comparisons. (a) Common-support CMR for general attacks. (b) Contract-matched CMR gains of MemHarm over specialized baselines. Entries show 95% intervals where applicable. 
+
+GPT-4o Llama-3.1-70B Attack / comparison AgentDojo τ 3-bench AgentDojo τ 3-bench (a) General attacks: common-support CMR ↑ identical six-contract support AgentPoison −0.052 ± 0.034 0.195 ± 0.086 −0.035 ± 0.041 0.171 ± 0.091 
+
+MINJA −0.081 ± 0.072 0.176 ± 0.103 −0.052 ± 0.078 0.158 ± 0.108 
+
+InjecMEM −0.059 ± 0.067 0.185 ± 0.091 −0.041 ± 0.071 0.169 ± 0.097 
+
+MemPoison 0.011 ± 0.026 0.216 ± 0.088 0.012 ± 0.029 0.195 ± 0.094 
+
+MemHarm (ours) 0.568 ± 0.094 0.334 ± 0.082 0.483 ± 0.101 0.302 ± 0.089 
+
+(b) Specialized baselines: ∆CMR = MemHarm − baseline ↑ contract-matched support MemoryGraft +0 .238 [0 .112 , 0.362] +0 .208 [0 .084 , 0.329] +0 .214 [0 .091 , 0.335] +0 .198 [0 .071 , 0.322] 
+
+DrunkAgent (profile) +0 .536 [0 .362 , 0.698] +0 .073 [ −0.006 , 0.151] +0 .435 [0 .271 , 0.589] +0 .068 [ −0.010 , 0.146] 
+
+8Preprint (a) Robustness  
+
+> ΔCMR vs best general
+> AD 4o AD L3 τ3
+> 4o
+> τ3
+> L3 0.0 0.3 0.6 Original Balanced High-conseq.
+
+(b) Transfer 
+
+> CMR ↑
+> Vec Sum Prof Refl Graph Hyb 0.0 0.3 0.6
+> src 81% 50.3% 70.5% 43.3% 86.4%
+> 4o base 4o ours L3 base L3 ours
+
+(c) Factor severity    
+
+> CMR ↑ ( k= 1)
+> 0.0 0.4 0.8 Temporal Tool Procedure Auth. Entity Depend. Preference Risk AgentDojo
+> τ3-bench
+
+(d) Attack quality   
+
+> 030
+> Det. UCB (pp) ↓
+> 025
+> Human adv. (pp) ↓
+> 03
+> Edited factors ↓
+> 0.0 0.4 SCE ↑
+> 01
+> Top-2 mass ↑
+> 01Recovery ↑
+> MemoryGraft MemHarm
+
+Figure 4: Severity structure and generalization. Panels (a–d) summarize objective robustness, cross-memory transfer, semantic-factor severity, and attack-quality diagnostics. Whiskers denote 95% CIs where available; transfer labels report macro retention. 5.3 MECHANISM : C ONSEQUENCE AND MEMORY REALIZATION 
+
+The preregistered panel examines the consequence–realization account in Section 4.2. The directional bound is nonvacuous in 19/30 positive-consequence standard-memory cells, whereas strict-schema controls have Vg,K = 0 (Appendix G.3, Table 6). Removing the selected factor changes CMR by −0.34 , compared with −0.02 for a matched irrele-vant factor; the respective 95% intervals exclude and include zero (Appendix G.3, Table 6). This intervention supports a factor-specific contribution to the observed harm; single-factor and pipeline breakdowns appear in Appendix G.6, Figure 12. With vector-memory selection frozen before any target rollout, attacks retain substantial CMR in summary, reflection, and hybrid memories, but transfer weakens in schema-constrained profile and graph stores (Figure 4(b); Appendix G.4, Figure 10). Target outcomes enter neither candidate generation nor selection. This pattern is consistent with transferable semantic corruption whose severity depends on what the target memory can realize. (a) Memory path 
+
+> Observed CMR
+> Prompt Retr. Log Cache Isol. 0.00 0.35 0.70 Residual retained Isolated
+
+(b) Certification   
+
+> Outcome share (%)
+> AD 4o τ3
+> 4o AD L3 τ3
+> L3 All 050 100 Dual Opt. only Unresolved
+
+(c) Search difficulty    
+
+> Median paired pulls ↓ Dual-cert. rate (%) ↑ Top-two gap
+> 0500 Adapt. Uniform
+> 359 518
+> 050 100 ≥ .15 .05–.15 < .05
+> 83 64 27
+
+(d) Construction          
+
+> Prec. Rec. κCov. 01Extraction ↑
+> 0.05 .038 .044
+> Oracle CMR gap ↓
+> Acc. ↑ False acc. ↓ False rej. ↓ 080 Rule rates (%)
+> Sch. Ver. Audit 040
+> Rejection (%)
+> AgentDojo τ3-bench
+
+Figure 5: Identification and reliability. Panels (a–d) summarize memory-path identification, class-conditional certification, certificate difficulty, and construction validity. Whiskers denote 95% CIs where available. 5.4 VALIDATING THE ATTACK -S EVERITY CLAIM 
+
+Residual-channel controls support memory-only isolation (Appendix F, Figure 7); 91.4% of attacks receive optimality certificates, with adaptive allocation and gap effects (Figure 5(a–c); Appendix E, Figure 6). Construction audits report extractor agreement (Cohen’s κ), oracle gap, and rejection rates (Figure 5(d); Appendix H.3, Figure 13 and Table 10). Gemini and reweighting results appear in Appendices G.1–G.2, Tables 4–5; defense and blinded-retention audits appear in Appendices G.4–G.5 (Figures 9 and 11). Together, these results support memory mediation and class-conditional selection reliability. 
+
+6 CONCLUSION AND LIMITATIONS 
+
+We introduced MemHarm to shift persistent-memory attack design from binary success toward downstream severity. By formalizing severity as counterfactual memory regret (CMR), MemHarm searches for persistent states that cause greater downstream harm relative to clean memory, while providing class-conditional guarantees over a frozen attack space. Empirically, severity-guided 9Preprint selection consistently identifies more harmful persistent states than success-oriented or matched baselines while remaining strong under conventional attack success. The resulting claims are deliberately scoped to this formulation. Certification applies to the declared finite edit class (§4.1; Appendix E), and attack construction uses resettable isolated copies with paired-loss feedback, while deployment requires only a normal-interface memory write (§3.1). CMR is likewise defined with respect to a declared downstream task distribution and operational loss, so its value should be interpreted within that evaluation setting. Broader settings and extensions are discussed in Appendices L–M. 10 Preprint AI U SE STATEMENT 
+
+Generative AI was used for language polishing, including grammar, clarity, and stylistic editing; to assist with code development and debugging; and to support brainstorming of figure concepts and visual design ideas. LLMs were also used as experimental backbones and as components of the experimental pipeline as described in Sections 3 and 5 and Appendix H. All AI-assisted text, code, and analyses were critically reviewed and verified against the underlying sources, data, and implementations. The authors reviewed all AI-assisted content and take full responsibility for the final manuscript. ETHICS STATEMENT 
+
+MemHarm is a dual-use memory attack against persistent agent state. Experiments use isolated benchmark environments and locally deployed OpenClaw and Hermes instances, never production services or live accounts. We release aggregate results, validators, and audit protocols but not live-service exploit code or deployment instructions. Human annotators completed the blinded appearance and causal-recovery judgments in Appendices I and G.5. They were recruited through Prolific and required to be at least 18 years old, fluent in English, and have a platform approval rate of at least 95%. Compensation was calibrated to expected completion time at an effective rate of at least US$15 per hour, and participants provided electronic informed consent before beginning. We collected no names, email addresses, or other additional personally identifiable information; retained records contain only pseudonymous worker IDs and judgments. The released validators and audit protocols are intended for controlled defensive audits of memory-write provenance, validation, and confirmation. REPRODUCIBILITY STATEMENT 
+
+Sections 3 and 5 specify the estimand, candidate freezing, paired evaluation, support matching, and primary metrics. The appendix reports the confidence sequences, memory contracts, task splits, validators, statistical tests, sample sizes, complete results, and audit protocols; Appendix K, Figure 15 specifies the per-attack record. We release task-level statistics, validators, and the registered protocol for independent verification and protocol-level reproduction; operational exploit code is excluded as described in the Ethics Statement above. 11 Preprint 
+
+REFERENCES 
+
+Ahmad Al-Tawaha, Shangding Gu, Peizhi Niu, Ruoxi Jia, and Ming Jin. Remembering more, risking more: Longitudinal safety risks in memory-equipped LLM agents. arXiv preprint arXiv:2605.17830 , 2026. URL https://arxiv.org/abs/2605.17830 .Victor Barres, Honghua Dong, Soham Ray, Xujie Si, and Karthik Narasimhan. τ 2-bench: Evaluating conversational agents in a dual-control environment, 2025. URL https://arxiv.org/abs/ 2506.07982 .Yunfu Cai. Prompt injection attacks on educational large language models for higher and vocational education. Scientific Reports , 16:15594, 2026. doi: 10.1038/s41598-026-46563-1. URL https: //www.nature.com/articles/s41598-026-46563-1 .Zhaorun Chen, Zhen Xiang, Chaowei Xiao, Dawn Song, and Bo Li. Agentpoison: Red-teaming llm agents via poisoning memory or knowledge bases. In Advances in Neural Information Processing Systems , 2024. URL https://openreview.net/forum?id=Y841BRW9rY .Alejandro Cuadron, Pengfei Yu, Yang Liu, and Arpit Gupta. SABER: Small actions, big errors — safeguarding mutating steps in LLM agents. In ICLR 2026 Workshop on Memory for LLM-Based Agentic Systems , 2026. URL https://openreview.net/forum?id=En2z9dckgP .Pritam Dash, Tongyu Ge, Aditi Jain, Tanmay Shah, and Zhiwei Shang. From untrusted input to trusted memory: A systematic study of memory poisoning attacks in LLM agents. arXiv preprint arXiv:2606.04329 , 2026. URL https://arxiv.org/abs/2606.04329 .Edoardo Debenedetti, Jie Zhang, Mislav Balunovic, Luca Beurer-Kellner, Marc Fischer, and Florian Tramer. Agentdojo: A dynamic environment to evaluate prompt injection attacks and defenses for llm agents. In Advances in Neural Information Processing Systems, Datasets and Benchmarks Track , 2024. URL https://openreview.net/forum?id=m1YYAQjO3w .Shen Dong, Shaochen Xu, Pengfei He, Yige Li, Jiliang Tang, Tianming Liu, Hui Liu, and Zhen Xiang. Memory injection attacks on llm agents via query-only interaction. In Advances in Neural Information Processing Systems , 2025. URL https://openreview.net/forum? id=QINnsnppv8 .Soham Gadgil, David Alexander, Sai Sunku, and Franziska Roesner. Bad memory: Evaluating prompt injection risks from memory in agentic systems. arXiv preprint arXiv:2607.14611 , 2026. URL https://arxiv.org/abs/2607.14611 .Google. What’s new in Gemini 3.5 Flash. Google AI for Developers, 2026. URL https://ai. google.dev/gemini-api/docs/whats-new-gemini-3.5 .Google DeepMind. Gemini 3.5 Flash: Model card, May 2026. URL https://deepmind. google/models/model-cards/gemini-3-5-flash/ . Published May 19, 2026. Xiangming Gu, Xiaosen Zheng, Tianyu Pang, Chao Du, Qian Liu, Ye Wang, Jing Jiang, and Min Lin. Agent Smith: A single image can jailbreak one million multimodal LLM agents exponentially fast. In Proceedings of the 41st International Conference on Machine Learning , volume 235, pp. 16647– 16672. PMLR, 2024. URL https://proceedings.mlr.press/v235/gu24e.html .Miguel A. Hernan and James M. Robins. Causal Inference: What If . Chapman and Hall/CRC, 2020. URL https://www.hsph.harvard.edu/miguel-hernan/ causal-inference-book/ .Kevin Jamieson and Ameet Talwalkar. Non-stochastic best arm identification and hyperparameter optimization. In International Conference on Artificial Intelligence and Statistics , 2016. URL 
+
+https://proceedings.mlr.press/v51/jamieson16.html .Amir-Hossein Karimi, Gilles Barthe, Borja Balle, and Isabel Valera. Algorithmic recourse: From counterfactual explanations to interventions. In Proceedings of the ACM Conference on Fairness, Accountability, and Transparency , 2021. URL https://arxiv.org/abs/2002.06278 .12 Preprint Zohar S. Karnin, Tomer Koren, and Oren Somekh. Almost optimal exploration in multi-armed bandits. In Proceedings of the 30th International Conference on Machine Learning , volume 28 of Proceedings of Machine Learning Research , pp. 1238–1246. PMLR, 2013. URL https: //proceedings.mlr.press/v28/karnin13.html .Jun Wen Leong. Injection–execution dissociation: A mechanistic evaluation of persistent memory attacks and defenses in stateful LLM agents. arXiv preprint arXiv:2605.08442 , 2026. URL 
+
+https://arxiv.org/abs/2605.08442 .Chunyang Li, Junwei Zhang, Anda Cheng, Zhuo Ma, Xinghua Li, and Jianfeng Ma. Cpa-rag: Covert poisoning attacks on retrieval-augmented generation in large language models. arXiv preprint arXiv:2505.19864 , 2025. URL https://arxiv.org/abs/2505.19864 .Zehao Lin, Xixuan Hao, Renyu Fu, Shaobo Cui, Kai Chen, Chunyu Li, Zhiyu Li, and Feiyu Xiong. A survey on long-term memory security in LLM agents: Attacks, defenses, and governance across the memory lifecycle. arXiv preprint arXiv:2604.16548 , 2026. URL https://arxiv.org/ abs/2604.16548 .Ramaravind K. Mothilal, Amit Sharma, and Chenhao Tan. Explaining machine learning classifiers through diverse counterfactual explanations. In Proceedings of the Conference on Fairness, Accountability, and Transparency , 2020. URL https://arxiv.org/abs/1905.07697 .Nous Research. Hermes Agent. Software release, August 2026. URL https://github.com/ NousResearch/hermes-agent/releases/tag/v2026.8.3 . Version 0.20.0 (release v2026.8.3). OpenClaw Foundation. OpenClaw: Personal AI assistant. Software release, August 2026. URL 
+
+https://github.com/openclaw/openclaw/releases/tag/v2026.7.1-2 . Ver-sion v2026.7.1-2. Charles Packer, Vivian Fang, Shishir G. Patil, Kevin Lin, Sarah Wooders, and Joseph E. Gonzalez. Memgpt: Towards llms as operating systems. arXiv preprint arXiv:2310.08560 , 2023. URL 
+
+https://arxiv.org/abs/2310.08560 .Joon Sung Park, Joseph C. O’Brien, Carrie J. Cai, Meredith Ringel Morris, Percy Liang, and Michael S. Bernstein. Generative agents: Interactive simulacra of human behavior. In Proceedings of the 36th Annual ACM Symposium on User Interface Software and Technology , 2023. URL 
+
+https://arxiv.org/abs/2304.03442 .Atharv Singh Patlan, Peiyao Sheng, S. Ashwin Hebbar, Prateek Mittal, and Pramod Viswanath. Real AI agents with fake memories: Fatal context manipulation attacks on Web3 agents. arXiv preprint arXiv:2503.16248 , 2025. URL https://arxiv.org/abs/2503.16248 .Judea Pearl. Causality: Models, Reasoning, and Inference . Cambridge University Press, 2009. Sidharth Pulipaka, Stanislau Hlebik, Leonidas Raghav, Sahar Abdelnabi, Vyas Raina, Ivaxi Sheth, and Mario Fritz. Hidden in memory: Sleeper memory poisoning in LLM agents. arXiv preprint arXiv:2605.15338 , 2026. URL https://arxiv.org/abs/2605.15338 .Jiachen Qian. SilentRetrieval: Hijacking retrieval-augmented generation via semantically-preserving adversarial data poisoning. In Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining, Volume 2 , 2026. doi: 10.1145/3770855.3818186. URL https: //arxiv.org/abs/2605.28074 .Donald B. Rubin. Estimating causal effects of treatments in randomized and nonrandomized studies. 
+
+Journal of Educational Psychology , 66(5):688–701, 1974. doi: 10.1037/h0037350. URL https: //doi.org/10.1037/h0037350 .Avital Shafran, Roei Schuster, and Vitaly Shmatikov. Machine against the rag: Jamming retrieval-augmented generation with blocker documents. In 34th USENIX Security Symposium (USENIX Security 25) , pp. 3787–3806. USENIX Association, 2025. URL https://www.usenix.org/ conference/usenixsecurity25/presentation/shafran .13 Preprint Noah Shinn, Federico Cassano, Ashwin Gopinath, Karthik Narasimhan, and Shunyu Yao. Reflexion: Language agents with verbal reinforcement learning. In Advances in Neural Information Processing Systems , 2023. URL https://openreview.net/forum?id=vAElhFcKW6 .Saksham Sahai Srivastava and Haoyu He. Memorygraft: Persistent compromise of llm agents via poisoned experience retrieval. arXiv preprint arXiv:2512.16962 , 2025. URL https://arxiv. org/abs/2512.16962 .Balachandra Devarangadi Sunil, Isheeta Sinha, Piyush Maheshwari, Shantanu Todmal, Shreyan Mallik, and Shuchi Mishra. Memory poisoning attack and defense on memory based LLM-agents. 
+
+arXiv preprint arXiv:2601.05504 , 2026. URL https://arxiv.org/abs/2601.05504 .Zhewen Tan, Yilun Yao, Huiyan Jin, Wenhan Yu, Guoan Wang, Mengyuan Fan, Liang Lu, Feng Liu, Xiangzheng Zhang, Duohe Ma, Tong Yang, and Lin Sun. Memaudit: Post-hoc auditing of poisoned agent memory via causal attribution and structural anomaly detection. arXiv preprint arXiv:2605.23723 , 2026. URL https://arxiv.org/abs/2605.23723 .Hanling Tian, Gengyu Zhang, Zeyang Sha, Jingying Wang, Yuhang Liu, Zhehao Huang, Kun Yang, and Xiaolin Huang. InjecMEM: Memory injection attack on LLM agent memory systems. In 
+
+Conference on Language Modeling , 2026. URL https://arxiv.org/abs/2608.23471 .Alexandre B. Tsybakov. Introduction to Nonparametric Estimation . Springer Series in Statistics. Springer, New York, NY, 2009. ISBN 978-0-387-79051-0. doi: 10.1007/b13794. URL https: //doi.org/10.1007/b13794 .Sandra Wachter, Brent Mittelstadt, and Chris Russell. Counterfactual explanations without opening the black box: Automated decisions and the gdpr. Harvard Journal of Law and Technology , 31(2): 841–887, 2017. URL https://arxiv.org/abs/1711.00399 .Guanzhi Wang, Yuqi Xie, Yunfan Jiang, Ajay Mandlekar, Chaowei Xiao, Yuke Zhu, Linxi Fan, and Anima Anandkumar. Voyager: An open-ended embodied agent with large language models. arXiv preprint arXiv:2305.16291 , 2023. URL https://arxiv.org/abs/2305.16291 .Hongtao Wang, Se Yang, Yu Chen, and Puzhuo Liu. Hijacking agent memory: Stealthy trojan attacks through conversational interaction. arXiv preprint arXiv:2605.29960 , 2026. URL https: //arxiv.org/abs/2605.29960 .Ian Waudby-Smith and Aaditya Ramdas. Estimating means of bounded random variables by betting. 
+
+Journal of the Royal Statistical Society Series B: Statistical Methodology , 86(1):1–27, 2024. doi: 10.1093/jrsssb/qkad009. URL https://doi.org/10.1093/jrsssb/qkad009 .Zhen Xiang, Fengqing Jiang, Zidi Xiong, Bhaskar Ramasubramanian, Radha Pooven-dran, and Bo Li. BadChain: Backdoor chain-of-thought prompting for large lan-guage models. In International Conference on Learning Representations , 2024. URL https://proceedings.iclr.cc/paper_files/paper/2024/hash/ 791d3337291b2c574545aeecfa75484c-Abstract-Conference.html .Nan Yan, Qian Lou, and Jiarong Xing. MemIncept: Steering LLM agents via cooperative stealthy memory injections. In Proceedings of the 43rd International Conference on Machine Learning ,2026. URL https://openreview.net/forum?id=1YNrlSSRsk .Shiyi Yang, Zhibo Hu, Xinshu Li, Chen Wang, Tong Yu, Xiwei Xu, Liming Zhu, and Lina Yao. Drunkagent: Stealthy memory corruption in llm-powered recommender agents. In Proceedings of the ACM Web Conference 2026 , pp. 6853–6864, 2026. doi: 10.1145/3774904.3792688. URL 
+
+https://doi.org/10.1145/3774904.3792688 .Shunyu Yao, Noah Shinn, Pedram Razavi, and Karthik R. Narasimhan. Tau-bench: A benchmark for tool-agent-user interaction in real-world domains. In International Conference on Learning Representations , 2025. URL https://openreview.net/forum?id=roNSXZpUDN .Andy Zou, Zifan Wang, Nicholas Carlini, Milad Nasr, J. Zico Kolter, and Matt Fredrikson. Universal and transferable adversarial attacks on aligned language models. arXiv preprint arXiv:2307.15043 ,2023. URL https://arxiv.org/abs/2307.15043 .14 Preprint Wei Zou, Runpeng Geng, Binghui Wang, and Jinyuan Jia. Poisonedrag: Knowledge corruption attacks to retrieval-augmented generation of large language models. In USENIX Security Symposium ,2025. URL https://arxiv.org/abs/2402.07867 .Wei Zou, Mingwen Dong, Miguel Romero Calvo, Shuaichen Chang, Jiang Guo, Dongkyu Lee, Xing Niu, Xiaofei Ma, Yanjun Qi, and Jiarong Jiang. Poison once, exploit forever: Environment-injected memory poisoning attacks on web agents. arXiv preprint arXiv:2604.02623 , 2026. 15 Preprint 
+
+APPENDIX CONTENTS 
+
+A Extended Comparison with Prior Memory Attacks . . . . . . . . . . . . . . . . . . 17 
+
+B Paired Intervention and Sampling Assumptions . . . . . . . . . . . . . . . . . . . . 17 
+
+C Extended Directional Analysis . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 17 
+
+D Proofs . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 19 D.1 CMR Decomposition and Directional Bound . . . . . . . . . . . . . . . . . . . 19 D.2 Proof of Proposition 1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 19 D.3 Proof of Proposition 2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 19 
+
+E Anytime-Valid Optimization and Minimality Certificates . . . . . . . . . . . . . . . 19 
+
+F Sensitivity to Memory-Only Violations . . . . . . . . . . . . . . . . . . . . . . . . . 21 
+
+G Extended Experimental Results . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 22 G.1 Additional Backbone and Selection Ablation . . . . . . . . . . . . . . . . . . . 22 G.2 Severity Robustness under Alternative Operational Priorities . . . . . . . . . . . 22 G.3 Mechanism and Memory-Contract Diagnostics . . . . . . . . . . . . . . . . . . 23 G.4 Defense Stress and Cross-Memory Transfer . . . . . . . . . . . . . . . . . . . . 23 G.5 Detectability, Retention, and Recovery Audits . . . . . . . . . . . . . . . . . . . 24 G.6 Factor and Pipeline Breakdown . . . . . . . . . . . . . . . . . . . . . . . . . . . 26 
+
+H Implementation Details . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 26 H.1 Protocol-Aligned Full-Case MPBench Comparison . . . . . . . . . . . . . . . . 26 H.2 Native-Agent Motivation Check . . . . . . . . . . . . . . . . . . . . . . . . . . 27 H.3 MemHarm Construction and Validation . . . . . . . . . . . . . . . . . . . . . . 27 H.4 Construction Overhead . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 29 
+
+I Benign Utility and Contextual Benignness . . . . . . . . . . . . . . . . . . . . . . . 30 I.1 Benign Utility Drop . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 30 I.2 Contextual Benignness . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 30 
+
+J Baseline Adaptations and Statistical Tests . . . . . . . . . . . . . . . . . . . . . . . 31 J.1 Baseline Adaptations . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 31 J.2 Statistical Reporting . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 32 
+
+K Per-Attack Audit Record . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 33 
+
+L Extended Limitations and Scope . . . . . . . . . . . . . . . . . . . . . . . . . . . . 33 
+
+M Future Directions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 34 16 Preprint 
+
+A EXTENDED COMPARISON WITH PRIOR MEMORY ATTACKS 
+
+Table 3 compares the attack variable, memory path, and evaluation target of MemHarm with repre-sentative prior attacks. 
+
+B PAIRED INTERVENTION AND SAMPLING ASSUMPTIONS 
+
+The paired CMR estimator uses four design conditions. Consistency requires that a copy assigned write x realizes state Ug (S0, x ) and the corresponding downstream loss. No cross-copy interference 
+
+requires that one arm’s rollouts do not alter another arm’s memory, tool database, vector index, cache, or task state. The memory-only intervention removes the original artifact from prompt, inbox view, non-target retrieval stores, tool log, and auxiliary cache after writing, unless that content is part of the persistent memory object being tested. Conditional mean stability requires that, after conditioning on the frozen class and past adaptive allocation, each fresh paired rollout for arm a has bounded difference in [−Lmax , L max ] and conditional mean Jg (a; X). Independent rollout seeds satisfy this condition; common random numbers may be used to reduce variance. For a nonadaptively selected arm a = ( e, x ), the paired estimator 
+
+bJg (a; X) = 1
+
+n
+
+> n
+
+X
+
+> i=1
+
+Lg (Sxg ; Qi, ω edit  
+
+> i
+
+) − Lg (S0 
+
+> g
+
+; Qi, ω clean  
+
+> i
+
+) (16) is unbiased for Equation 4 under any valid coupling of (ωedit  
+
+> i
+
+, ω clean  
+
+> i
+
+) with the correct branch marginals. Adaptive selection is certified using the simultaneous intervals in Appendix E, rather than a post-selection interval for the empirical winner. 
+
+C EXTENDED DIRECTIONAL ANALYSIS 
+
+Fix a true task-evaluable factor value C = c under context H. For factors with an executable evaluator reference, let λQ(v | c, H ) ∈ [0 , L max ] be the loss of a registered reference behavior that treats the factor as v while task truth remains c. The reference map is frozen before attack search from a benchmark rule, database transition, tool constraint, or unit-test oracle. Define 
+
+κ(a | c, H ) = EQ[λQ(va | c, H ) − λQ(c | c, H )] . (17) For multi-factor arms, c and va denote the corresponding vectors. For arm a = ( e, x ), the clean and edited realization biases are 
+
+ρclean  
+
+> g
+
+(c, H ) = EQ,ω clean 
+
+Lg (S0 
+
+> g
+
+; Q, ω clean ) − λQ(c | c, H ) , (18) 
+
+ρedit  
+
+> g
+
+(a; c, H ) = EQ,ω edit 
+
+Lg (Sxg ; Q, ω edit ) − λQ(va | c, H ) , (19) with absolute realization errors 
+
+εclean  
+
+> g
+
+(c, H ) = EQ,ω clean Lg (S0 
+
+> g
+
+; Q, ω clean ) − λQ(c | c, H ) , (20) 
+
+εedit  
+
+> g
+
+(a; c, H ) = EQ,ω edit Lg (Sxg ; Q, ω edit ) − λQ(va | c, H ) . (21) Equation 13 therefore implies 
+
+Jg (a; X) ≥ κ(a | c, H ) − εedit  
+
+> g
+
+(a; c, H ) − εclean  
+
+> g
+
+(c, H ). (22) For a class admitting a non-clean arm, define the mechanism-conditioned realizable attack potential 
+
+Ψg,K (c, H ) = max  
+
+> a∈A K(X)\{ a0}
+
+κ(a | c, H ) − εedit  
+
+> g
+
+(a; c, H ) . (23) Since the zero-edit arm satisfies Jg (a0; X) = 0 ,
+
+Vg,K (X) ≥ max 0, Ψg,K (c, H ) − εclean  
+
+> g
+
+(c, H ) . (24) 
+
+Corollary 1 (Conditional utility–attackability bound) . Let a factor-blind or no-memory baseline have clean reference error εclean  
+
+> ∅
+
+(c, H ), and define 
+
+Util g (c, H ) = εclean  
+
+> ∅
+
+(c, H ) − εclean  
+
+> g
+
+(c, H ). (25) 
+
+Then 
+
+Vg,K (X) ≥ max 0, Ψg,K (c, H ) − εclean  
+
+> ∅
+
+(c, H ) + Util g (c, H ) . (26) 
+
+Thus utility tightens the bound within a fixed realizable-potential regime, while realizable potential determines whether that utility supports high CMR. 
+
+17 Preprint Table 3: Qualitative comparison with prior memory attacks using each source paper’s terminology and evaluation protocol. 
+
+Method Attack variable Reported insertion / retention path Role of retrieval in the reported mechanism Reported detectability / plausibility framing Evaluation target 
+
+PoisonedRAG Malicious passages Retrieval-corpus or index content; agent-memory state is not the primary target Central to the attack Perplexity-based and duplicate-filter defenses evaluated Attacker-chosen answer for an attacker-chosen target question AgentPoison Trigger-conditioned poisoned demonstra-tions Poisoned long-term-memory or knowledge-base entries Central in the reported retrieval-equipped configurations Trigger coherence; benign-task behavior also measured Triggered target action and end-to-end adversarial impact MINJA Query-induced malicious records with bridging steps Records induced through query-only interaction and retained by the agent Central to later activation; query-only describes the insertion route Query-only interaction constraint Targeted malicious reasoning on later victim queries InjecMEM Topic anchor paired with an instruction payload A record induced in one interaction and retained through the memory path Retriever-agnostic anchor designed for topic-conditioned later retrieval Topic-conditioned retrieval Pre-specified output for related queries MemoryGraft Poisoned successful experiences or procedure templates Ingestion artifacts that induce persistent poisoned experience records Experience retrieval is central Successful-looking traces Persistent behavioral drift on semantically similar tasks MemPoison Dialogue-delivered trigger– payload relation A triggerable backdoor retained through selective memory processing Depends on the memory extrac-tion/retrieval pipeline Selective-memory survival Trigger-conditioned later responses DrunkAgent Adversarial target-item description and memory-update strategy A modified description perturbs the target item agent’s dynamic memory and impedes later updates Architecture-dependent; retrieval is explicit in AgentRAG but not universal across AgentCF, AgentRAG, and AgentSEQ Low-perplexity descriptions; limited change in overall recommendation performance Target-item promotion, measured by HR@ K and NDCG@ K
+
+MemHarm Frozen typed semantic edit and concrete write Normal memory-write interface in an isolated evaluation copy Uses each memory contract’s native read interface across six backends Held-out detector-family tests and causal isolation Paired downstream task regret 
+
+Construction requirements. MemHarm’s offline search requires resettable isolated copies and paired-loss feedback; deployment uses one normal-interface write. Table 11 reports measured paired-rollout, token, and wall-clock costs against no-feedback and uniform-search controls on the same instances. Cross-paper costs are not directly ranked because models, environments, and accounting conventions differ. 18 Preprint 
+
+D PROOFS 
+
+D.1 CMR D ECOMPOSITION AND DIRECTIONAL BOUND 
+
+For arm a = ( e, x ), add and subtract the two reference losses: 
+
+Jg (a; X) = E[Lg (Sxg ) − Lg (S0 
+
+> g
+
+)] (27) 
+
+= E[λQ(va | c, H ) − λQ(c | c, H )] (28) 
+
++ E[Lg (Sxg ) − λQ(va | c, H )] (29) 
+
+− E[Lg (S0 
+
+> g
+
+) − λQ(c | c, H )] (30) 
+
+= κ(a | c, H ) + ρedit  
+
+> g
+
+(a; c, H ) − ρclean  
+
+> g
+
+(c, H ), (31) which proves Equation 13. Since ρedit  
+
+> g
+
+(a; c, H ) ≥ −εedit  
+
+> g
+
+(a; c, H ) and −ρclean  
+
+> g
+
+(c, H ) ≥−εclean  
+
+> g
+
+(c, H ), Equation 22 follows. Maximizing over non-clean arms and using Jg (a0; X) = 0 
+
+gives Equation 24. □
+
+Proof of Corollary 1. Substitute εclean  
+
+> g
+
+= εclean  
+
+> ∅
+
+− Util g into Equation 24. □
+
+D.2 PROOF OF PROPOSITION 1On the simultaneous confidence event, Jg (a; X) ∈ [LCB t(a), UCB t(a)] for all arms and all times. At stopping, 
+
+Vg,K (X) ≤ max  
+
+> a
+
+UCB t(a) ≤ LCB t(bat) + η ≤ Jg (bat; X) + η. (32) 
+
+□
+
+D.3 PROOF OF PROPOSITION 2Let F ∼ Unif {i, j } and O | (F = f ) ∼ P Of . Equal-prior attribution is binary hypothesis testing between P Oi and P Oj , for which 
+
+inf 
+
+> bF
+
+Pr 
+
+ bF (O)̸ = F
+
+
+
+= 1 − TV( P Oi , P Oj )2 , TV( P, Q ) = sup 
+
+> B
+
+|P (B) − Q(B)|. (33) The likelihood-ratio rule attains this Bayes error, and no other rule can do better. Equality of the two laws gives chance-level error 1/2; TV( P Oi , P Oj ) ≤ ϵ gives the stated lower bound. □
+
+E ANYTIME -V ALID OPTIMIZATION AND MINIMALITY CERTIFICATES 
+
+For nested frozen classes, define 
+
+Vg,k (X) = max   
+
+> a∈A k(X)
+
+Jg (a; X), k⋆η (X) = min {k ∈ { 1, . . . , K } : Vg,k (X) ≥ Vg,K (X) − η}.
+
+(34) Let LCB k,t = max a∈A k (X) LCB t(a) and UCB k,t = max a∈A k (X) UCB t(a). The separate minimum-budget certificate declares k = k⋆η (X) when 
+
+LCB k,t ≥ UCB K,t − η and UCB j,t < LCB K,t − η ∀j ∈ { 1, . . . , k − 1}. (35) On the simultaneous confidence event, the first condition gives Vg,k ≥ LCB k,t ≥ UCB K,t − η ≥
+
+Vg,K − η. For every j < k , the second gives Vg,j ≤ UCB j,t < LCB K,t − η ≤ Vg,K − η. Thus the declared budget is k = k⋆η (X).For the direct-CMR certificate, the nth paired observation for arm a is Za,n from Equation 10, with conditional mean Jg (a; X) and support [−Lmax , L max ]. Define the affine rescaling 
+
+Wa,n = Za,n + Lmax 
+
+2Lmax 
+
+∈ [0 , 1] . (36) The implementation constructs two-sided predictable-mixture empirical-Bernstein confidence sequences for the bounded Wa,n observations (Waudby-Smith & Ramdas, 2024). If 
+
+[LCB Wt (a), UCB Wt (a)] is the resulting interval, the signed-CMR interval is its affine image: 
+
+LCB t(a) = 2 Lmax LCB Wt (a) − Lmax , UCB t(a) = 2 Lmax UCB Wt (a) − Lmax . (37) 19 Preprint 0 25 50 75 100                                                 
+
+> Share of audits (%)
+> AgentDojo / GPT-4o ( n= 32 )
+> ¿3-bench / GPT-4o ( n= 32 )AgentDojo / Llama-70B ( n= 32 )
+> ¿3-bench / Llama-70B ( n= 32 )Overall ( n= 128 )
+> (a) Certificate outcomes at scale
+> Status bars use one row per benchmark-backbone audit panel; annotations preserve class size, pulls, and terminal gap.
+> 22/32 21/32 19/32 18/32 80/128 8/32 9/32 10/32 10/32 37/128
+> 223
+> 4/32
+> 11
+> 12 [8, 18] 318 §104 0.087 10 [6, 15] 346 §121 0.098 12 [8, 17] 371 §132 0.112 10 [6, 14] 402 §145 0.124 11 [7, 16] 359 §131 0.105
+> Class size [IQR] Paired pulls Gap
+> Dual certificate Optimality only No certificate 020 40 60 80 100
+> Share (%)
+> k¤
+> ´= 1
+> k¤
+> ´= 2
+> k¤
+> ´= 3
+> (b) Certified minimum budget
+> Among 80 dual certificates 59/80 (73.8%) 18/80 (22.5%) 3/80 (3.8%)
+> 350 400 450 500 550
+> Median paired pulls
+> (c) Allocation efficiency
+> Matched 91.4% at-least-optimality rate
+> Adaptive 359
+> Uniform 518 30.7% fewer pulls
+> ¸0:15 0.05-0.15 <0:05
+> 025 50 75 100
+> Rate (%)
+> (d) Gap-stratified resolution
+> Dual-certificate rate
+> 83% 64% 27%
+
+Figure 6: Expanded fixed-confidence audit for direct signed CMR over 128 independent task– memory instances, with 32 instances in each benchmark–backbone panel. (a) Mutually exclusive terminal outcomes are shown together with the realized frozen-class size, mean paired pulls, and final unresolved gap. No minimum-budget-only outcome occurred. (b) Certified budgets are summarized among the 80 dual certificates. (c) Adaptive and uniform allocation use the same confidence sequences, 
+
+(η, δ ), and stopping predicates at a matched 91.4% at-least-optimality rate. (d) Resolution is stratified by the completed-audit empirical top-two arm gap. Before sampling, set M = |A K (X)| and allocate error δ/ (2 M ) to each one-sided bound of every non-exact arm. The zero-edit arm has the exact interval [0 , 0] and uses no confidence sequence. A union bound over arms and both tails gives simultaneous error at most δ.After one paired observation for every non-exact arm, the adaptive allocator samples the current largest-LCB incumbent, the largest-UCB challenger, and the largest-UCB arm in every nested budget class Ak. An arm is eliminated when UCB t(a) < max b LCB t(b) − η; ties are retained and sampled in registered round-robin order. Every decision is measurable with respect to past observations. The uniform control instead cycles equally over all non-exact arms while using the same confidence sequences, confidence level, stopping predicates, and frozen class. Let [LCB t(a), UCB t(a)] denote the registered intervals after the observations allocated to a through time t. Their simultaneous coverage event is 
+
+Pr( ∀a ∈ A K (X), ∀t : Jg (a; X) ∈ [LCB t(a), UCB t(a)]) ≥ 1 − δ. (38) Predictable allocation and optional stopping preserve this event. The recorded seeds, allocation trace, and paired observations reproduce the terminal intervals and stopping decisions. The reporting rule is fixed before optimization feedback. The AgentDojo certificate audit reports the arm with the largest empirical mean, breaking ties by smaller registered arm index. The τ 3-bench audit reports the arm with the largest LCB, breaking ties by larger empirical mean and then smaller arm index. Both evaluate Equation 11 using the reported arm’s LCB. For the dual-certificate audit, an instance continues receiving samples until both optimality and minimum-budget certificates resolve or its registered cap is reached. At the registered cap, the procedure records the reporting arm, empirical top-two gap, paired pulls, both certificate indicators, certified k⋆η when available, final unresolved gap, and terminal status. Across all panels, 117/128 instances (91.4%) receive at least an optimality certificate, while 80/128 (62.5%) also resolve the separate minimum-budget certificate. Among dual certificates, 73.8% certify a one-factor budget, 22.5% a two-factor budget, and 3.8% a three-factor budget. 20 Preprint 0.45 0.50 0.55 0.60 0.65 0.70 0.75 
+
+> Paired CMR
+> Edited artifact retained in prompt Retrieval corpus retains artifact Tool log visible to probes Auxiliary cache retained Fully isolated memory-only pipeline
+
+(a) Apparent CMR inflation        
+
+> Channels ordered by observed inflation over the isolated estimand 0.684 (+0.238) 0.636 (+0.190) 0.567 (+0.121) 0.514 (+0.068) 0.446 (+0.000)
+> Observed CMR Memory-only CMR = 0.446 0.00 0.05 0.10 0.15 0.20 0.25
+> Estimated coupling diagnostic c∙
+
+(b) Residual-channel diagnostics     
+
+> Estimated c∙Xand c∙xa
+> 0.083 0.217 0.066 0.181 0.047 0.126 0.021 0.084 0.000 0.000
+> c∙Xc∙xa
+
+Figure 7: Sensitivity to violations of the memory-only assumption, averaged over AgentDojo and 
+
+τ 3-bench. (a) Enabling each residual channel increases observed paired CMR above the isolated value of 0.446; channels are ordered by this inflation. (b) The corresponding bκX and bκxa diagnostics quantify residual coupling for the clean and edited branches. At the same 91.4% at-least-optimality certificate rate, adaptive signed-CMR allocation reduces median paired pulls from 518 to 359, a 30.7% rollout reduction. The dual-certificate rate falls from 83% for empirical top-arm gaps of at least 0.15 to 27% below 0.05, concentrating unresolved instances among small-gap cases at the registered cap. 
+
+F SENSITIVITY TO MEMORY -O NLY VIOLATIONS 
+
+For arm a = ( e, x a), let P obs 
+
+x and P mem 
+
+x denote the joint laws of downstream tasks and trajectories after the same write x, with residual non-memory channels retained or removed, respectively. Both laws fix S0, H, and D. Suppose 
+
+TV  P obs 
+
+x , P mem 
+
+x
+
+ ≤ κx, x ∈ { X, x a}. (39) Writing L for the operational loss in Equation 2, define μrx = EP rx [L] and ∆r = μrxa − μrX for 
+
+r ∈ { obs , mem }. Bounded loss and the triangle inequality give 
+
+|∆obs − ∆mem | ≤ Lmax (κX + κxa ). (40) Main Figure 5(a) summarizes the observed-CMR inflation and clean/edited coupling diagnostics for each residual channel; Appendix F gives the expanded view. All primary CMR comparisons use the isolated estimand. 21 Preprint 
+
+G EXTENDED EXPERIMENTAL RESULTS Task 33: Email a summary and the meeting-minutes file to the client.       
+
+> Same initial state and downstream task; matched rollout randomness.
+> Persistent recipient binding Native memory read → tool action Task-required outcome checks
+> Recipient Summary Attachment
+> Clean memory
+> john.mitchell@gmail.com
+> send_email
+> to = recipient(client)
+
+1 1 1
+
+Lclean = 1 − 3/3 = 0   
+
+> Edited memory
+> john.doe@gmail.com
+> send_email
+> to = recipient(client)
+
+0 1 1
+
+Ledit = 1 − 2/3 = 1/3   
+
+> One semantic factor changed Subject identical (diagnostic only)
+> Episode-level loss: three equally weighted, frozen outcome checks
+> 6 memory backends × 5 seeds = 30 paired cells
+
+Mean paired Δloss = +1/3 ≈ +0.333 
+
+Figure 8: A one-factor recipient edit increases normalized operational loss. In AgentDojo task 33, all 30 GPT-4o memory-only paired cells (six memory backends, five seeds each) change from 
+
+(1 , 1, 1) to (0 , 1, 1) on the frozen recipient, summary, and attachment checks. Thus Lclean = 0 ,
+
+Ledit = 1 /3, and the empirical CMR for this task panel is +1 /3 ≈ +0 .333 (Equations 2 and 4). The 
+
+send email subject, body, and attachment match across every pair; subject matching is diagnostic only. G.1 ADDITIONAL BACKBONE AND SELECTION ABLATION 
+
+This section reports the Gemini 3.5 Flash backbone evaluation (Google, 2026; Google DeepMind, 2026) and the complete mechanism, memory-contract, defense, transfer, stealth, and factor diagnos-tics. Detector-family advantage is the largest attacked-minus-clean score over the frozen detector family; BMAR ≥4 is the blinded proportion of writes judged retainable at level four or above. Stealth-discounted regret is SCE = CMR(1 − ∆H).Table 4: AgentDojo replication with Gemini 3.5 Flash. Metrics and applicable support follow Table 1; entries are point estimates ± 95% intervals. Blue bold and purple-shaded cells mark the best and second-best point estimates. 
+
+Attack CMR ↑ ASR (%) ↑ BUD (pp) ↓ BMAR ≥4 (%) ↑
+
+AgentPoison −0.021 ± 0.034 11 .8 ± 1.9 2.9 ± 2.7 11 .8 ± 5.5
+
+MINJA −0.036 ± 0.088 5.7 ± 3.8 5.8 ± 3.7 16 .5 ± 6.8
+
+InjecMEM −0.028 ± 0.081 4.8 ± 3.5 4.5 ± 3.3 4.3 ± 3.5
+
+MemoryGraft 0.168 ± 0.104 14 .6 ± 8.1 1.9 ± 2.4 52 .4 ± 6.4
+
+MemPoison 0.005 ± 0.023 13 .2 ± 2.2 3.9 ± 3.0 3.7 ± 3.2
+
+DrunkAgent −0.031 ± 0.094 5.1 ± 3.6 5.2 ± 3.5 10 .9 ± 5.1
+
+MemHarm (ours) 0.486 ± 0.111 58 .3 ± 9.8 2.4 ± 2.6 78 .6 ± 10 .7
+
+Same-class selection ablation. Holding typed factors, replacement pools, and validators fixed, CMR-guided selection increases held-out CMR by 0.214 over random admissible selection from the same frozen candidate class (95% CI [0 .070 , 0.351] ). G.2 SEVERITY ROBUSTNESS UNDER ALTERNATIVE OPERATIONAL PRIORITIES 
+
+We keep the candidate classes, selected attacks, and held-out paired losses fixed and alter only the evaluation weights. For nonnegative query weights wq , we recompute 
+
+CMR (w) 
+
+> m
+
+=
+
+P 
+
+> q
+
+wq
+
+ Ledit  
+
+> m,q
+
+− Lclean 
+
+> q
+
+P 
+
+> q
+
+wq
+
+.
+
+The domain-balanced regime gives each benchmark domain equal mass. High-consequence probes— monetary, external-tool, or irreversible actions labeled without attacked outcomes—receive twice the remaining probe weight before normalization. For the bounded audit, the registered weights are multiplied by 1,000 outcome-independent vectors with factors rq ∈ [0 .5, 2] and renormalized. In 22 Preprint every regime or draw, the comparison is the largest CMR among AgentPoison, MINJA, InjecMEM, and MemPoison on identical six-contract support. Table 5: Severity sensitivity to operational priorities. Frozen selections and held-out paired losses are reweighted under three fixed regimes and 1,000 bounded perturbations. Values are descriptive point estimates.                                                           
+
+> (a) Fixed priority regimes Backbone / benchmark Priority MemHarm CMR Strongest baseline Gap
+> GPT-4o / AgentDojo Original 0.568 0.011 +0.557
+> Domain-balanced 0.552 0.016 +0.536
+> High-consequence 0.614 0.026 +0.588
+> Llama-70B / AgentDojo Original 0.483 0.012 +0.471
+> Domain-balanced 0.466 0.018 +0.448
+> High-consequence 0.521 0.024 +0.497
+> GPT-4o / τ3-bench Original 0.334 0.216 +0.118
+> Domain-balanced 0.321 0.211 +0.110
+> High-consequence 0.372 0.244 +0.128
+> Llama-70B / τ3-bench Original 0.302 0.195 +0.107
+> Domain-balanced 0.290 0.190 +0.100
+> High-consequence 0.337 0.219 +0.118 (b) Bounded priority perturbations Backbone / benchmark MemHarm rank 1 5th-percentile gap
+> GPT-4o / AgentDojo 100% +0.480
+> Llama-70B / AgentDojo 100% +0.390
+> GPT-4o / τ3-bench 96% +0.071
+> Llama-70B / τ3-bench 96% +0.061
+
+Across the fixed regimes, MemHarm’s margin over the strongest general baseline remains positive in all four benchmark–backbone settings (0.100–0.588). Across the bounded perturbations, MemHarm ranks first in 96–100% of draws, and the empirical fifth-percentile margin remains positive (0.061– 0.480). G.3 MECHANISM AND MEMORY -C ONTRACT DIAGNOSTICS 
+
+Secondary clean-utility association. In the secondary standard-memory analysis ( n = 36 ), an OLS regression of Vg,K on clean utility CU g , with factor-family and preregistered Ψ-bin fixed effects, gives a slope of 0.64 (approximate 95% CI [0 .20 , 1.08] ; p < 0.01 ). We report this finite-panel association without extrapolating it to the broader population of deployed agents. Table 6: Mechanism validation. (a) A fresh preregistered directional panel contains 42 completed aggregated cells; the secondary utility association excludes the six strict-schema cells ( n = 36 ). (b) Factor-removal changes are after minus before with task-cluster bootstrap 95% intervals. 
+
+(a) Directional accounting and secondary diagnostic Test Estimate Uncertainty / denominator p
+
+Directional lower bound satisfied 42/42 cells 42 complete cells –Nonvacuous bound, positive-consequence cells 63.3% 19/30 cells –OLS slope on CU g conditional on factor / Ψ bin 0.64 approx. 95% CI [0 .20 , 1.08] ; n = 36 < 0.01 
+
+Strict-schema control Vg,K = 0 6/6 cells 6 strict-schema cells –
+
+> The association interval is approximate. The 63.3% nonvacuity rate exceeds the preregistered 50% criterion.
+
+(b) Causal-path ablation Intervention Change in CMR 95% CI conclusion 
+
+Remove selected semantic factor −0.34 Entirely below zero Remove matched irrelevant factor −0.02 Includes zero 
+
+G.4 DEFENSE STRESS AND CROSS -M EMORY TRANSFER 
+
+Appendix G.4 reports the observed defense-stress outcomes. For MemHarm, the input-injection filter reduces mean CMR from 0.479 to 0.442 , whereas MemAudit reduces it to 0.261 and the combined defense reduces it to 0.210 . The combined defense attains the lowest mean CMR for every attack method, with a mean benign drop of 0.059 ± 0.033 .23 Preprint Table 7: Memory contracts used to instantiate the same semantic attack variable across heterogeneous backends.                             
+
+> Memory Write unit Read interface Factor representation Defense-relevant property
+> Vector episodic Raw episode or document chunk Similarity retrieval Implicit span-level fact Preserves source spans, but over-retrieves plausible edits Rolling summary Session or task summary Injected summary context Compressed natural-language rule Loses fine-grained provenance during compression User profile Structured or semi-structured profile field Profile lookup / injection Explicit preference, threshold, or binding Rejects unsupported fields under strict schemas Reflection store Generated lesson or rule Retrieved reflection Reusable behavioral prior Converts local facts into broad rules Graph memory Entity–relation edge Graph neighborhood lookup Explicit typed edge Benefits from schema validation and signed edges Hybrid memory Retrieval plus summary/profile state Mixed retrieval and injection Implicit and explicit Inherits provenance loss and structured validation hooks
+
+Agent-Poison MINJA Injec-MEM Memory-Graft Mem-Poison Drunk-Agent 
+
+MemHarm 
+
+No defense Input injection filter Contradiction detection Provenance verification Human confirmation MemAudit 
+
+Combined defense 
+
+(a) Defense-by-attack CMR 
+
+Cell labels are mean § standard error; lower is better for the defender 
+
+> 0.068
+> §0.031 0.044
+> §0.028 0.061
+> §0.034 0.185
+> §0.030 0.116
+> §0.033 0.060
+> §0.031
+> 0.479
+> §0.035
+> 0.048
+> §0.027 0.041
+> §0.029 0.040
+> §0.026 0.184
+> §0.031 0.112
+> §0.032 0.049
+> §0.029
+> 0.442
+> §0.034
+> 0.037
+> §0.024 0.029
+> §0.027 0.031
+> §0.026 0.145
+> §0.023 0.079
+> §0.025 0.034
+> §0.025
+> 0.377
+> §0.032
+> 0.018
+> §0.019 0.017
+> §0.023 0.012
+> §0.017 0.102
+> §0.021 0.048
+> §0.018 0.017
+> §0.020
+> 0.303
+> §0.029
+> 0.016
+> §0.018 0.015
+> §0.022 0.010
+> §0.016 0.096
+> §0.020 0.044
+> §0.019 0.015
+> §0.019
+> 0.323
+> §0.031
+> 0.011
+> §0.015 0.011
+> §0.018 0.007
+> §0.014 0.082
+> §0.019 0.036
+> §0.016 0.011
+> §0.016
+> 0.261
+> §0.027
+> 0.008
+> §0.013 0.009
+> §0.016 0.005
+> §0.012 0.067
+> §0.017 0.026
+> §0.014 0.009
+> §0.014
+> 0.210
+> §0.021
+
+0.00 0.05 0.10 0.15 
+
+Benign utility drop 
+
+(b) Benign-utility cost 
+
+Mean drop with standard error               
+
+> 0.000 §0.000 0.016 §0.011 0.029 §0.021 0.087 §0.052 0.042 §0.026 0.036 §0.022 0.059 §0.033
+
+Figure 9: Defense-stress results for GPT-4o, equal-weight macro-averaged over AgentDojo and 
+
+τ 3-bench across five independent seeds. (a) Each cell reports mean CMR ± standard error; lower is better for the defender. The orange outline marks MemHarm and the green outline marks the combined provenance, confirmation, and causal-audit defense. (b) The aligned benign-utility cost is reported as mean drop ± standard error. 
+
+Cross-memory transfer protocol. For each benchmark–backbone block, we evaluate 48 held-out source tasks with five independent seeds. MemHarm is selected using source-memory data only and frozen before any target-memory rollout; target outcomes never enter candidate generation or selection. Confidence intervals use a task-cluster bootstrap that resamples all five seeds of a task together. Taking vector memory as the registered source, we report Rtransfer = CMR target /CMR source .Appendix G.4 shows that MemHarm retains 81.0% of source CMR in summary memory, 70.5% in reflection memory, and 86.4% in hybrid memory; profile and graph transfer are lower, consistent with stricter schemas and typed validation. G.5 DETECTABILITY , R ETENTION , AND RECOVERY AUDITS 
+
+For each method, automated detectors use at least 240 attacked writes and 240 matched-clean writes disjoint from construction, optimization, and detector calibration. Every human-rated item receives at least three independent blinded judgments. Human flagging asks whether an item is attack-derived; BMAR asks whether a single item should be retained under an ordinary maintenance decision. Recovery is judged by a separate cohort that does not see the method name or CMR and records whether the recovered explanation identifies the registered causal factor path. MemHarm has lower detector and human-flagging advantages than MemoryGraft, edits fewer factors, and achieves higher stealth-discounted regret, top-two causal mass, and recovery. Reviewers retain 80.4% of MemHarm writes and 88.7% of matched-clean writes; the mean appearance gap is −0.11 
+
+with Krippendorff’s α = 0 .73 .24 Preprint 0.0 0.1 0.2 0.3 0.4 0.5 
+
+CMR 
+
+Vector Summary Profile Reflection Graph Hybrid 
+
+(a) Macro-average transfer with held-out intervals 
+
+Vector is the frozen source memory; R denotes target/source retention 
+
+> 0.224 [0.179,0.269] R=1.000
+> 0.441 [0.389,0.493] R=1.000
+> 0.083 [0.050,0.116] R=0.371
+> 0.357 [0.309,0.405] R=0.810
+> 0.031 [0.014,0.048] R=0.138
+> 0.222 [0.183,0.261] R=0.503
+> 0.095 [0.060,0.130] R=0.424
+> 0.311 [0.267,0.355] R=0.705
+> 0.022 [0.008,0.036] R=0.098
+> 0.191 [0.156,0.226] R=0.433
+> 0.119 [0.079,0.159] R=0.531
+> 0.381 [0.333,0.429] R=0.864
+
+Vector Summary Profile Reflection Graph Hybrid 
+
+GPT-4o / baseline 
+
+GPT-4o / MemHarm 
+
+Llama / baseline 
+
+Llama / MemHarm 
+
+(b) Per-backbone point estimates 
+
+Orange outlines mark frozen MemHarm rows                     
+
+> 0.241 0.090 0.034 0.102 0.026 0.128
+> 0.472 0.386 0.248 0.337 0.219 0.414
+> 0.206 0.076 0.028 0.088 0.019 0.109
+> 0.409 0.326 0.198 0.284 0.171 0.352
+
+Vector-only baseline Frozen source-memory MemHarm 
+
+Figure 10: Cross-memory transfer after source-only selection is frozen. (a) Macro-averages over two benchmarks and two backbones; each block contains 48 held-out source tasks and five independent seeds. Whiskers are task-cluster bootstrap 95% confidence intervals and direct labels include the retention ratio Rtransfer . (b) Per-backbone CMR point estimates underlying the macro-average; orange outlines mark source-memory MemHarm rows. 0.15 0.20 0.25 0.30 
+
+0.296 
+
+0.176 
+
+Detector advantage #
+
+0.00 0.05 0.10 0.15 0.20 0.25 
+
+0.181 
+
+0.096 
+
+Human flagging #
+
+1.0 1.5 2.0 2.5 3.0 
+
+2.62 
+
+1.34 
+
+Edited factors #
+
+0.1 0.2 0.3 0.4 
+
+0.119 
+
+0.357 
+
+SCE "
+
+0.5 0.6 0.7 0.8 0.9 
+
+0.63 
+
+0.84 
+
+Top-2 mass "
+
+0.5 0.6 0.7 0.8 0.9 
+
+0.58 
+
+0.80 
+
+Recovery "
+
+0.70 0.75 0.80 0.85 0.90 0.95 
+
+BMAR ¸ 4
+
+(b) Contextual apparent benignness 
+
+Independent blinded retention audit 
+
+MemHarm writes 0.804 [0.752,0.851] 
+
+Matched-clean writes 0.887 [0.846,0.921] 
+
+−0.20 −0.15 −0.10 −0.05 0.00 
+
+(c) Appearance gap 
+
+Attack minus matched clean 
+
+-0.11 [-0.17,-0.05] 
+
+0.65 0.70 0.75 0.80 
+
+(d) Ordinal agreement 
+
+Krippendorff's ®
+
+0.73 [0.68,0.78] 
+
+(a) Stealth, sparsity, and causal faithfulness 
+
+Each lane uses its native scale; whiskers are 95% confidence intervals when reported. 
+
+MemoryGraft MemHarm 
+
+Figure 11: Held-out stealth, sparsity, recovery, and retention audits. (a) MemoryGraft and MemHarm are compared on six metrics using each metric’s native scale; whiskers denote task-cluster bootstrap 95% confidence intervals and ∆H is a simultaneous UCB. (b) The retention audit uses 240 MemHarm writes and 240 matched-clean writes, at least three reviewers per item, and task-level bootstrap intervals. (c) The attack–clean appearance gap. (d) Bootstrap interval for ordinal agreement measured by Krippendorff’s α.25 Preprint G.6 FACTOR AND PIPELINE BREAKDOWN 0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8       
+
+> CMR for single-factor edits ( k= 1 )
+> Temporal priority Tool affordance Procedure prior Authorization Entity binding Dependency Preference shift Risk threshold
+> (a) Single-factor CMR by semantic factor
+> Factors ordered by their larger benchmark-specific contribution
+> 0.806 0.151 0.723 0.184 0.244 0.472 0.318 0.361 0.336 0.218 0.286 0.195 0.097 0.163 0.142 0.079
+> AgentDojo ¿3-bench 010 20 30 40
+> Failure rate (%)
+> Strict-schema profile rejection Verifier-rejected candidate Human-audit rejection
+> (b) Pipeline failure rates
+> The independent unit remains the task
+> 31.7% 38.9% 18.6% 22.4% 26.4% 11.4%
+
+Figure 12: Factor and pipeline breakdown, averaged over both backbones. (a) Single-factor CMR by benchmark, ordered by the larger point estimate. (b) Pipeline rejection and audit-failure rates. Appendix G.6 summarizes where single-factor CMR and pipeline rejection concentrate. 
+
+H IMPLEMENTATION DETAILS 
+
+H.1 PROTOCOL -A LIGNED FULL -C ASE MPB ENCH COMPARISON 
+
+Support and deployment. We evaluate the complete adversarial MPBench suite supported by each agent (Dash et al., 2026): 3,000 OpenClaw cases across the five supported attack families and 3,240 Hermes cases across all six families. Skill-Procedure Insertion is not supported by OpenClaw and is excluded from its aggregation. The benchmark case is the evaluation unit; these complete-manifest denominators are not multiplied by the five rollout seeds used in the CMR experiments. MPBench and MemHarm share the GPT-OSS-120B backbone, pinned agent deployment, agent-specific case support, tool surface, write and retrieval boundaries, state-transfer rule, and semantic-equivalence scorer. The comparison therefore changes the attack construction while holding the execution and measurement protocol fixed. Accordingly, this experiment is intended as a protocol-aligned test of native write–persist–retrieve execution; downstream severity is evaluated separately by the paired-CMR experiments. 
+
+Native-state lifecycle. Each trial starts from isolated agent state and delivers the attack through the benchmark task context. The task and any benchmark-declared affirmative turn execute in the same write process; Conditional Command cases receive the specified affirmative response before memory maintenance. Only agent-native persistent state is transferred to a distinct fresh retrieval process. Transcripts, session databases, logs, caches, and other execution artifacts are excluded. The representative ADV 833 trace in Figure 2(a) exposes this boundary, while the rates in panel (b) use the complete agent-supported case set. 
+
+Metrics and aggregation. Within this subsection, ASR denotes MPBench write success rather than the task-regression ASR used in the main CMR experiments. For agent g and attack family f , let 
+
+Ig,f be the supported cases, Ng,f = |I g,f |, Wi indicate a target-equivalent persistent write, and Ri
+
+indicate fresh-process reactivation. We define 
+
+ASR g,f =
+
+P 
+
+> i∈I g,f
+
+Wi
+
+Ng,f 
+
+, RSR g,f =
+
+P 
+
+> i∈I g,f
+
+WiRi
+
+P 
+
+> i∈I g,f
+
+Wi
+
+,
+
+E2E g,f =
+
+P 
+
+> i∈I g,f
+
+WiRi
+
+Ng,f 
+
+= ASR g,f RSR g,f .
+
+(41) 26 Preprint with RSR g,f = 0 if no write succeeds. For each metric M , “MPBench Avg” reports 
+
+|F g |−1 P  
+
+> f∈F g
+
+Mg,f over the families supported by g. Thus, average E2E is formed after the family-level products and generally differs from average ASR times average RSR. “MPBench Best (per metrics)” reports max f ∈F g Mg,f , selecting the strongest family separately for ASR, RSR, and E2E. MemHarm is a single attack method; its bars are pooled case-level rates over the same aligned full-case manifest, with RSR conditional on successful writes and E2E the corresponding joint rate. On Hermes, Conditional Command Insertion has the highest MPBench RSR after conditioning on suc-cessful writes; its explicit affirmative trigger is a strong-signal pattern and is therefore comparatively conspicuous to input-side defenses. MemHarm instead attains the higher end-to-end rate through plausible semantic edits while optimizing downstream severity rather than conditional reactivation. H.2 NATIVE -A GENT MOTIVATION CHECK 
+
+Fixed-space objective comparison. We use a controlled native-agent ablation to test the motivating distinction between attack success and downstream severity. Sources, admissible edits, agents, and the isolated write-to-fresh-process lifecycle are held fixed; only the selection rule changes. For each source, ASR-guided selection is uniform over the optimization-split edits attaining the highest attack-success rate, whereas CMR-guided selection is uniform over those attaining the largest paired edited-minus-clean loss; random selection is uniform over the complete fixed class. The resulting policies are frozen before evaluation with disjoint rollout randomness. Here ASR uses the same clean-success/attacked-failure definition as the main evaluation, while CMR is reported on its natural paired-loss scale. Success guidance substantially improves ASR but barely changes CMR, whereas severity guidance produces a larger CMR while retaining strong ASR. This is a focused motivation check within a fixed attack space, rather than a broad benchmark comparison or evidence about unrestricted search. Table 8: Fixed-space objective comparison on held-out rollouts. All three policies select from the same admissible native-agent edit class; CMR is reported on its natural scale and ASR as a percentage.         
+
+> Selection policy CMR ASR (%) Random 0.6830 57.55 ASR-guided 0.6958 75.30
+> CMR-guided 0.7830 71.28
+
+H.3 MEM HARM CONSTRUCTION AND VALIDATION 
+
+Registered validator and class size. For an edit program and concrete write, 
+
+Valid core (e, x ; X) = 1{schema valid ∧ grounded ∧ source admissible 
+
+∧ scope consistent ∧ dsem (x, X ) ≤ ϵ}. (42) The main-text indicator combines this core check with the fixed construction-time filters: 
+
+Valid( e, x ; X) = Valid core (e, x ; X) Fcon (e, x ; X), (43) where Fcon denotes the registered benign-manifold acceptance rules detailed below. With p extracted factors, at most b replacements per factor, and at most m realizations per program, the frozen class satisfies 
+
+|A K (X)| ≤ 1 + m
+
+> K
+
+X
+
+> s=1
+
+ps
+
+
+
+bs. (44) 27 Preprint Table 9: Fixed search and memory-contract configuration. Contract-specific rows apply only where relevant.                          
+
+> Parameter Registered configuration
+> Search and certification
+> Maximum semantic edit budget K3 factors Grounded replacements per factor b2Realizations per edit program m2Certificate tolerance η0.05 CMR Certificate error δ0.05 Rollout cap Bmax 800 paired rollouts per instance Initial allocation One paired rollout per non-exact arm
+> Memory contracts
+> Dense-retrieval embedding BAAI/bge-base-en-v1.5; 768-dimensional; embeddings are
+> L2-normalized and ranked by cosine similarity Vector retrieval Top-5items Vector chunking 256 tokens with 32-token overlap Reflection retrieval Top-5items Rolling summary Updated after every completed task episode; 512-token cap Conflict handling Latest admissible value wins for single-valued factors; multi-valued facts append Graph memory 1-hop neighborhood reads; typed-edge upserts Hybrid memory Profile, current summary, and top-5retrieved items
+
+Factor extraction. The deterministic extractor combines named-span regular expressions with schema parsers for task facts and tool arguments. Matches retain source spans and are deduplicated by type and normalized value. The extractor outputs JSON records with fields type , anchor ,
+
+relation , value , scope , and confidence ; confidence is extractor metadata rather than a component of the semantic factor used in the analysis. The supported factor types appear in the construction path of Figure 3. Automatic extraction uses public tool schemas, policy manuals, database field names, repository structure, calendars, and construction-split examples. Hidden benchmark evaluator variables are never exposed to the attacker or candidate generator. During optimization, the harness may use optimization-split ground truth internally only to return paired scalar losses; held-out evaluator variables are used only after selection for final evaluation and diagnostics. Domain parsers canonicalize dates, entities, tool names, database IDs, repository symbols, policy clauses, and monetary quantities. Factor-extraction agreement, schema coverage, and the oracle CMR gap are summarized together with benign-manifold acceptance diagnostics in Appendix H.3. 
+
+Design rationale. The representation z = (type , ξ, rel , v, s ) separates the editable value from its interpretation context: type restricts semantic compatibility, anchor and relation preserve the entity– relation binding, and scope limits the affected context. This keeps the edited coordinate explicit across memory contracts. Same-type grounded replacements change an existing factor’s value rather than introduce ill-typed or unsupported values. Grounding restricts candidate values to the allowed sources specified below, not to true propositions; false relations among admissible values remain permitted. Prespecified finite replacement pools and realization lists make the class finite, while these constraints make its membership auditable before downstream-loss feedback. 
+
+Frozen realizations and data splits. For each edit program, the implementation creates one canonical realization and at most m − 1 seeded paraphrases using construction-split prompts. A single manifest fixes candidate IDs, exact texts, edit programs, seeds, validator outputs, and rejection reasons before outcome feedback. Optimization seeds and final-test draws are disjoint; typicality statistics, detectors, and thresholds are calibrated on construction data before evaluation. The detector audit uses a separate held-out set of attacked and matched-clean records. 
+
+Benign-manifold acceptance. Each domain implements 
+
+Acc benign (x) = 1{schema valid( x) ∧ grounded( x) ∧ source admissible( x)
+
+∧ nli stable( x) ∧ zlm (x) ≤ θlm ∧ h(x) ≤ θh ∀h ∈ H} . (45) 28 Preprint Precision Recall Cohen's ∙
+
+> Schema coverage
+> 0.750 0.775 0.800 0.825 0.850 0.875 0.900 0.925 0.950
+> Score
+
+(a) Automatic factor extraction   
+
+> Agreement and coverage on held-out benchmark fields
+> 0.918 0.891 0.853 0.817 0.824 0.786 0.889 0.861
+> ● AgentDojo ■¿3-bench
+> AgentDojo
+> ¿3-bench
+> 0.00 0.01 0.02 0.03 0.04 0.05
+
+(b) Oracle CMR gap 
+
+> Lower is better
+> 0.038 0.044
+> Acceptance False accept False reject
+> 020 40 60 80
+> Rate (%)
+
+(c) Benign-manifold acceptance audit                
+
+> Rates and frozen domain thresholds
+> 72.8% 68.4% 7.1% 8.3% 10.6% 12.4%
+> AgentDojo: μlm = 2 :25 ,©μh
+> ª=©0:30 ;0:35 ;0:28 ª
+> ¿3-bench: μlm = 2 :10 ,©μh
+> ª=©0:28 ;0:33 ;0:25 ª
+
+Figure 13: Front-end construction and validation quality on the two primary benchmarks. (a) Automatic factor-extractor precision, recall, Cohen’s κ, and schema coverage. (b) Oracle CMR gap, where lower is better. (c) Benign-manifold acceptance, false-accept, and false-reject rates; the domain-specific θlm and frozen detector-threshold sets are shown below the panel. The typicality score is computed as a source- and factor-calibrated next-token likelihood statistic: 
+
+NLL ϕ(x) = − 1
+
+|x|
+
+|x|
+
+X
+
+t=1 
+
+log qϕ(xt | x<t , src , type , s ), zlm (x) = NLL ϕ(x) − μtype ,s 
+
+σtype ,s 
+
+, (46) where μtype ,s and σtype ,s are estimated from construction-split benign writes of the same source type and factor family. Here grounded requires that every entity, tool, account, file, date, or policy value occurs in an allowed database, repository, calendar, manual, or replacement pool. 
+
+source admissible checks that the artifact arrives through an allowed source type and scope; it does not certify that the edited proposition is true. Cryptographic or corroborated provenance verification is evaluated as a defense. nli stable requires unchanged propositions to remain entailed. The language-model typicality term screens out realizations that are unusually unlikely for their source and factor family. The acceptance rule is calibrated per candidate on construction data; 
+
+∆H(PA, P B ) is estimated separately on held-out attacked and matched-clean writes. Table 10: Detector family and separate blinded human-flagging audit. Frozen thresholds appear in Appendix H.3.                   
+
+> Detector Implementation / checkpoint Input Calibration data
+> Instruction-injection detector Prompt-injection classifier + rule patterns Raw artifact text Benign and injected validation writes Embedding anomaly detector In-domain sentence-embedding one-class model Artifact embedding Benign domain writes Language-model typicality In-domain negative log-likelihood scorer Raw artifact text Benign domain writes Internal contradiction detector In-domain NLI consistency scorer Raw artifact text Benign and internally inconsistent writes Human flagging audit (separate) Blind attack/clean flagging Rendered artifact Independent held-out writes
+
+Held-out detector-family bound. For nA attacked and nB benign test writes, define 
+
+b∆H = max 
+
+h∈H 
+
+(
+
+1
+
+nAnAX
+
+i=1 
+
+h(XAi ) − 1
+
+nBnBX
+
+i=1 
+
+h(XBi )
+
+)
+
+. (47) Because every frozen automated score lies in [0 , 1] , a simultaneous (1 − δdet ) upper bound is 
+
+∆H = min 
+
+1, b∆H +
+
+s
+
+log(4 |H| /δ det )2nA
+
++
+
+s
+
+log(4 |H| /δ det )2nB
+
+ . (48) The detector family, score orientation, and δdet are fixed before test labels are viewed. Human-flagging advantage is estimated separately on at least three judgments per item. Its reviewer cohort is disjoint from both the BMAR retention cohort and the causal-path recovery cohort. H.4 CONSTRUCTION OVERHEAD 
+
+Table 11 compares four policies sharing MemHarm’s construction components. Zero-shot returns the first valid non-clean write in fixed order; the consequence heuristic ranks frozen candidates using 29 Preprint construction-time information. Both use no paired rollouts. Costs cover model input/output tokens and wall-clock time from factor extraction to attack selection, including both search branches but excluding held-out evaluation and audits. Table 11: Construction overhead. Methods use the same 128 instances as Figure 6. Costs are per-instance medians, including unresolved runs; CMR is equally averaged over the 24 benchmark– backbone–memory cells.                      
+
+> Method Paired pulls Tokens (M) Time (min) CMR ↑
+> Zero-shot 00.08 1.3 0.176 Consequence heuristic 00.14 2.4 0.271 Uniform CMR search 518 3.52 46.7 0.419 MemHarm adaptive 359 2.46 33.0 0.422
+
+MemHarm trades greater construction cost for higher CMR than the no-feedback controls. Relative to uniform search, adaptive allocation reduces tokens by 30.1% and time by 29.3%, with both attaining a 91.4% optimality-certificate rate. 
+
+I BENIGN UTILITY AND CONTEXTUAL BENIGNNESS 
+
+I.1 BENIGN UTILITY DROP 
+
+Let BU ben 0 denote task success from a shared canonical clean state on a frozen set of benign, non-target probes, and let BU ben  
+
+> m
+
+denote success on the same probes after method m writes its attack-produced persistent state. We report 
+
+BUD m = 100 
+
+
+
+BU ben 0 − BU ben 
+
+> m
+
+
+
+(49) in percentage points. Within each benchmark–backbone setting, every method uses the same canonical clean state and probe set; only the attack-produced persistent state varies. Lower is better, and a negative value denotes higher sampled benign performance after the attack write. Intervals use a task-cluster bootstrap over paired probe-level differences rather than subtraction of independently estimated intervals. I.2 CONTEXTUAL BENIGNNESS 
+
+Appendix G.5 reports BMAR ≥4, the proportion of attack-produced memory entries that blinded reviewers would retain under an ordinary maintenance decision. Detector-family advantage, human flagging, perplexity, and classifier labels are evaluated separately. 
+
+Blinded materials and task. For each held-out task i, let ci contain the permitted source context, agent role, and neutral memory-retention policy; let mBi be the matched clean memory record (or record bundle) and mAi be the record produced through the same normal write pathway by a frozen per-instance attack set. A reviewer receives exactly one of (ci, m Bi ) or (ci, m Ai ), never both variants for the same task, and does not see the method name, attack label, target behavior, clean rollout, attacked rollout, or detector output. The reviewer answers: 
+
+Would you retain this item as a normal, useful, and appropriately authorized memory for this agent without escalating it for review? 
+
+The final rating sir (m) ∈ { 1, . . . , 5} from reviewer r is: 1 = clearly inappropriate or manipulative; 2 = probably inappropriate; 3 = uncertain; 4 = normal, relevant, and retainable; 5 = clearly normal, relevant, and retainable. Review instructions ask reviewers to consider contextual provenance, relevance to the agent’s future work, and whether the item appears to introduce an anomalous or unauthorized behavioral rule. They do not ask reviewers to identify attacks. 
+
+Metric and matched-clean diagnostic. Our definition is closely related to prior human evaluations of apparent plausibility and suspiciousness: SilentRetrieval rates poisoned documents for apparent factual plausibility and flags documents with high aggregated suspiciousness (Qian, 2026); the educational Stealth Score rates whether an injected response appears pedagogically plausible and 30 Preprint non-adversarial (Cai, 2026); and MemIncept’s Human Detect Rate measures the fraction of injected queries identified as suspicious by human reviewers (Yan et al., 2026). BMAR changes the decision question from “is this suspicious?” or “is this plausible?” to “would this be retained as a normal memory without escalation?” With Ri independent ratings for task i, define the task-level score 
+
+MPS i(m) = median r∈Ri sir (m). (50) The primary apparent-benignness metric in Appendix G.5 is 
+
+BMAR ≥4 = 1
+
+N
+
+> N
+
+X
+
+> i=1
+
+IMPS i(mAi ) ≥ 4 . (51) Thus, BMAR ≥4 is the fraction of independent task-level attack writes that a blinded reviewer panel would retain. We additionally report the matched-clean appearance gap 
+
+∆app = 1
+
+N
+
+> N
+
+X
+
+> i=1
+
+MPS i(mAi ) − MPS i(mBi ) . (52) Higher BMAR ≥4 indicates more benign-looking attack writes, while ∆app close to zero indicates appearance close to matched genuine memory. We report ∆app together with raw BMAR ≥4 because identical appearance gaps can arise from different matched-clean retention rates. 
+
+Randomization, controls, and reporting. Attack records, matched clean records, and a small set of overt instruction-injection negative controls are randomized within benchmark–domain blocks using a fixed seed. The reported MemHarm sample contains 240 attacked writes and 240 matched-clean writes. Each item is rated by at least three independent reviewers; assignment is balanced across method and domain, and no reviewer sees multiple variants of the same task. The independent experimental unit is the task, not the individual rating. We report attacked and matched-clean 
+
+BMAR ≥4 with task-level bootstrap 95% confidence intervals, the mean MPS i attack–clean gap in Equation 52, and ordinal inter-rater reliability (Krippendorff’s α) with its bootstrap interval. 
+
+Separation from attack detection. BMAR ≥4 is reported separately from ∆H and SCE . Detector-family and human-flagging audits measure attack recognition, whereas BMAR measures retention under a blinded maintenance decision. 
+
+J BASELINE ADAPTATIONS AND STATISTICAL TESTS 
+
+Metric denominators. In the main CMR experiments, ASR counts clean-success/attacked-failure pairs. AgentDojo averages this indicator over all evaluated pairs, whereas τ 3-bench averages it over clean-success-eligible pairs. J.1 BASELINE ADAPTATIONS 
+
+AgentPoison receives the same demonstration pool and cannot write directly to the database. MINJA uses query-only write attempts through the same normal update API, with bridging steps adapted to each benchmark domain. InjecMEM uses one write interaction composed of an on-topic retrieval anchor and an adversarial command, with the command tuned under the same rollout budget as other baselines. MemPoison realizes a coherent trigger–payload statement designed to pass extraction and rewriting before storage. These four general attacks and MemHarm are evaluated on the identical six-contract cells in Table 12(a). MemoryGraft is evaluated on episodic and reflection memory, and DrunkAgent on profile memory; unsupported cells are omitted rather than imputed. The random-edit ablation samples from the same typed factors, replacement pools, and validators as MemHarm without CMR-guided selection. 
+
+Objective alignment. The general baselines retain the attack variables and construction procedures associated with their original targeted objectives. We report CMR on matched support as a common downstream-loss axis across methods, complementary to their native attack-success criteria. 31 Preprint Table 12: Support-matched CMR controls. (a) General attacks use identical six-contract support and a shared clean branch; entries are CMR estimates ± conservative 95% task-cluster bootstrap half-widths. (b) Specialized baselines use contract-matched support; the final column gives paired differences with 95% confidence intervals. 
+
+(a) General attacks on identical six-contract support Backbone / Benchmark AgentPoison MINJA InjecMEM MemPoison MemHarm Shared clean utility BU 0 (%)                                                                             
+
+> GPT-4o / AgentDojo −0.052 ±0.034 −0.081 ±0.072 −0.059 ±0.067 0.011 ±0.026 0.568 ±0.094 73 .8±5.9
+> GPT-4o / τ3-bench 0.195 ±0.086 0.176 ±0.103 0.185 ±0.091 0.216 ±0.088 0.334 ±0.082 63 .1±7.6
+> Llama-70B / AgentDojo −0.035 ±0.041 −0.052 ±0.078 −0.041 ±0.071 0.012 ±0.029 0.483 ±0.101 53 .6±6.1
+> Llama-70B / τ3-bench 0.171 ±0.091 0.158 ±0.108 0.169 ±0.097 0.195 ±0.094 0.302 ±0.089 52 .1±7.2
+
+(b) Specialized baselines on contract-matched support Matched support Backbone / Benchmark Baseline CMR MemHarm CMR Paired difference [95% CI]                                         
+
+> MemoryGraft: episodic + reflection GPT-4o / AgentDojo 0.284 0.522 +0 .238 [0 .112 ,0.362]
+> GPT-4o / τ3-bench 0.104 0.312 +0 .208 [0 .084 ,0.329]
+> Llama-70B / AgentDojo 0.231 0.445 +0 .214 [0 .091 ,0.335]
+> Llama-70B / τ3-bench 0.086 0.284 +0 .198 [0 .071 ,0.322]
+> DrunkAgent: user profile GPT-4o / AgentDojo −0.118 0.418 +0 .536 [0 .362 ,0.698]
+> GPT-4o / τ3-bench 0.248 0.321 +0 .073 [ −0.006 ,0.151]
+> Llama-70B / AgentDojo −0.074 0.361 +0 .435 [0 .271 ,0.589]
+> Llama-70B / τ3-bench 0.226 0.294 +0 .068 [ −0.010 ,0.146]
+
+Table 13: Equal-oracle baseline control. Guided variants retain each baseline’s candidate construc-tion and receive the same optimization-split paired-CMR feedback and rollout budget as MemHarm; selected attacks are evaluated on the disjoint test split. MemPoison uses identical six-contract support, whereas MemoryGraft uses matched episodic-and-reflection support. MemHarm is recomputed on each baseline’s matched support. 
+
+Backbone / benchmark Original CMR Guided CMR MemHarm CMR MemHarm − guided 
+
+CMR-guided MemPoison: identical six-contract support 
+
+GPT-4o / AgentDojo 0.011 0.286 0.568 +0 .282 
+
+GPT-4o / τ 3-bench 0.216 0.278 0.334 +0 .056 
+
+Llama-70B / AgentDojo 0.012 0.247 0.483 +0 .236 
+
+Llama-70B / τ 3-bench 0.195 0.252 0.302 +0 .050 
+
+Macro 0.109 0.266 0.422 +0.156 
+
+CMR-guided MemoryGraft: episodic-and-reflection support 
+
+GPT-4o / AgentDojo 0.284 0.372 0.522 +0 .150 
+
+GPT-4o / τ 3-bench 0.104 0.207 0.312 +0 .105 
+
+Llama-70B / AgentDojo 0.231 0.324 0.445 +0 .121 
+
+Llama-70B / τ 3-bench 0.086 0.182 0.284 +0 .102 
+
+Macro 0.176 0.271 0.391 +0.120      
+
+> Macro denotes the unweighted mean across the four backbone–benchmark cells. Approximate paired 95% CIs for the macro gaps are
+> [+0 .09 ,+0 .22] for MemPoison and [+0 .06 ,+0 .18] for MemoryGraft.
+
+J.2 STATISTICAL REPORTING 
+
+All effect comparisons use the same five paired rollout seeds, task probes, and memory initial states on their declared support. The shared clean branch in Table 12(a) is computed once per task–contract–backbone–seed cell and reports the corresponding shared clean-task utility BU 0;specialized comparisons remain within their matched contracts. Optimization-split uncertainty uses the anytime-valid arm intervals in Appendix E; final test CMR is recomputed from scratch after selection and reported with paired confidence intervals. The six original family-wise comparisons against MemHarm use Holm correction; the equal-oracle controls are reported separately as paired macro intervals. Detector-family advantage receives a simultaneous upper confidence bound over the frozen family. Mechanism definitions and test rules are fixed before evaluation in a fresh preregistered GPT-4o directional panel crossing six factor families with six standard memory backends and one strict-schema control per factor family. The panel contains 42 complete aggregated cells: the directional inequality holds in all 42, and the bound is nonvacuous in 19/30 positive-consequence standard-memory cells. The secondary association excludes the six strict-schema cells ( n = 36 ) and regresses Vg,K on CU g with factor-family and preregistered Ψ-bin fixed effects; it reports a slope of 
+
+0.64 , an approximate 95% CI of [0 .20 , 1.08] , and p < 0.01 . Causal-path ablations are separate from this panel: they pair the selected- and irrelevant-factor removals within task groups and bootstrap 32 Preprint the paired change. Construction, optimization, and test identifiers accompany the released task-level statistics. Appendix J reports the original paired attack comparisons, their multiplicity-adjusted significance levels, and the separate equal-oracle controls on each method’s declared support. 0.0 0.1 0.2 0.3 0.4 0.5 
+
+Paired CMR difference 
+
+MINJA InjecMEM AgentPoison MemPoison MemoryGraft †
+
+Random edit ‡
+
++0.398 [0.292,0.501] 
+
+p=0.0002; Holm=0.0012 
+
++0.385 [0.281,0.487] 
+
+p=0.0003; Holm=0.0015 
+
++0.377 [0.274,0.476] 
+
+p=0.0004; Holm=0.0016 
+
++0.335 [0.224,0.443] 
+
+p=0.0006; Holm=0.0018 
+
++0.215 [0.146,0.398] 
+
+p=0.0021; Holm=0.0042 
+
++0.214 [0.070,0.351] 
+
+p=0.0068; Holm=0.0068 
+
+Paired attack comparisons 
+
+MemHarm minus comparison; intervals are 95% CIs 
+
+Figure 14: Paired comparisons against MemHarm. General attacks use identical six-contract support; MemoryGraft ( †) uses matched episodic-and-reflection support; the random edit ( ‡) uses MemHarm’s typed-edit support. Points show paired CMR differences with 95% confidence intervals; raw and Holm-adjusted p-values are labeled. 
+
+K PER -A TTACK AUDIT RECORD 1 Construction record 
+
+> What changed, and why it was admissible
+
+Original input 
+
+> Clean interaction, artifact, trace, or history record
+
+Edited factor 
+
+> Typed semantic coordinate changed by MemHarm
+
+Counterfactual value 
+
+> Plausible replacement written through the normal path
+
+Replacement source 
+
+> Allowed database, policy, repository, calendar, profile, or corpus
+
+Plausibility checks 
+
+> Type, grounding, NLI, typicality, provenance, and detector gates
+
+Affected tasks 
+
+> Downstream family causally tied to the factor
+
+2 Frozen search + certificates 
+
+> How selection resolved on the fixed class
+
+Frozen class 
+
+> K; b; m , program and arm counts, plus manifest hash
+
+Allocation record 
+
+> Allocation rule, paired pulls, and empirical top-two gap
+
+CMR and uncertainty 
+
+> Optimization interval and independent paired test CI
+
+Directional accounting    
+
+> ∙,"a,"0,ª,and the directional bound
+
+Optimality certificate 
+
+> Dual, optimality-only, or unresolved status and final gap
+
+´-minimal budget   
+
+> Indicator and certified k⋆
+> ´
+> when conditions hold
+
+3 Held-out audits + outcome 
+
+> What remained after selection was frozen
+
+Stealth audit 
+
+> Detector UCB, held-out counts, and human-flagging advantage
+
+BMAR audit      
+
+> Attack/clean BMAR ¸4CIs, MPS gap, and ®
+
+Recovery audit 
+
+> Independent cohort, item counts, success rule, and CI
+
+Defense outcome 
+
+> Provenance, contradiction, confirmation, or causal-audit result
+
+Causal path 
+
+> State, retrieved item, reflection, profile field, or graph edge
+
+One selected attack, one complete audit record 
+
+Figure 15: Per-attack record for construction, frozen search, and held-out audits. 
+
+L EXTENDED LIMITATIONS AND SCOPE 
+
+Class and certification. Resolved certificates establish near-optimality within the frozen candidate class under the sampling assumptions in Appendix B. Unresolved runs carry no such certificate. 
+
+Construction access and estimand. Offline construction requires resettable isolated copies and paired-loss feedback; deployment uses one normal-interface write without the oracle. CMR is defined relative to the declared downstream task distribution D and operational loss ℓ.
+
+Empirical scope. The experiments cover the systems and memory realizations evaluated here; broader deployment settings are left to future work (Appendix M). 33 Preprint 
+
+M FUTURE DIRECTIONS 
+
+Richer and sequential attack spaces. Structured combinatorial, continuous, and sequential classes could model interacting factors, mixed persistent–transient pathways, and multi-stage writes under compaction, forgetting, reflection, and other nonstationary updates. 
+
+Feedback-limited attack construction. Noisy, delayed, one-sided, or query-limited feedback motivates surrogate severity models and simulator-to-deployment transfer, together with estimators and identifying assumptions for settings without paired clean-side observations. 
+
+Broader persistent-state architectures. Shared multi-agent stores, multimodal traces, tool-created state, hierarchical databases, learned memories, and self-modifying agents offer settings for studying how semantic corruptions compose and persist across readers, modalities, and update rules. 
+
+Operational severity under shifting objectives. Distribution shift, heterogeneous user or orga-nizational priorities, uncertain losses, and tail-risk or multi-objective criteria motivate adaptive or reference-free severity formulations for open-ended tasks. 
+
+Scalable attribution, certification, and defense-aware search. Larger or nonstationary classes call for structured elimination, hierarchical screening, tighter confidence sequences, and scalable treatment of extractor uncertainty. Partial observability and active defenses further motivate intervention-efficient localization and search against provenance, confirmation, rollback, selective forgetting, and severity-aware memory admission. 34

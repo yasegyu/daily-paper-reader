@@ -1,0 +1,669 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-10-01T19:27:05.863219+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 7,
+    "deep_cap": 6,
+    "deep_selected": 6,
+    "quick_candidates": 10,
+    "quick_skim_target": 11,
+    "quick_selected": 10
+  },
+  "deep_dive": [
+    {
+      "id": "2609.30797v1",
+      "source": "arxiv",
+      "title": "HasMem: Hard-Origin Adaptively Softened Memory for Long-Term LLM Agents",
+      "abstract": "Text-based memory and context compression support reuse of past interactions. Resizing continuous memory changes the input to a frozen LLM, coupling capacity allocation with readout. We propose Hard-Origin Adaptively Softened Memory (HasMem). Frozen hard-prompt embeddings provide a verifiable initial state. A controller adjusts memory widths, a Writer re-encodes resized entries, and Reader and Global provide readout adaptation and cross-turn state. On all $535$ questions in a reconstruction probe derived from the Multi-Session Chat (MSC) development split, the main configuration achieves lexical F1 of $95.3$ ($+4.4$ percentage points) at $93.6\\%$ of the hard reference's framed memory positions. With approximately matched per-question target body budgets, six configurations at mean per-entry retention around $0.83$--$0.91$ exceed rule-based re-encoding by $8.0$--$23.6$ exact-match (EM) percentage points. With fixed model parameters and rule target width ratio $0.75$, Global's EM gain passes a user-level exact paired test with Bonferroni correction over eight comparisons. On all $500$ LongMemEval-S questions, local lexical F1 rises from the hard reference's $3.4$ to $8.9$, and answer negative log-likelihood (NLL) falls from $12.257$ to $5.274$. F1 gains accompany lower EM on both evaluations.",
+      "authors": [
+        "Zihong He",
+        "Junxiao Shen",
+        "Chen Liang",
+        "Hai-Ning Liang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-09-25T04:22:05+00:00",
+      "link": "https://arxiv.org/pdf/2609.30797v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "adaptive memory resizing and readout for long-term LLM agents",
+      "llm_evidence_cn": "面向长期LLM智能体的自适应记忆调整与读出",
+      "llm_evidence": "面向长期LLM智能体的自适应记忆调整与读出",
+      "canonical_evidence": "面向长期LLM智能体的自适应记忆调整与读出",
+      "llm_tldr_en": "Resizing continuous memory changes the frozen LLM's input, coupling capacity with readout. HasMem starts from frozen hard-prompt embeddings, uses a controller to adjust memory widths and a Writer to re-encode entries, achieving 95.3 lexical F1 on an MSC-derived reconstruction probe at 93.6% of reference memory positions.",
+      "llm_tldr_cn": "文本记忆与上下文压缩可复用历史交互，但调整连续记忆会改变冻结语言模型的输入，导致容量分配与读出相互耦合。本文提出Hard-Origin自适应软化记忆HasMem，以冻结硬提示嵌入作为可验证初始状态，由控制器调节记忆宽度，Writer重编码被调整的条目，Reader与Global模块负责读出适配与跨轮状态。在Multi-Session Chat开发集派生的535题重建探针上，主配置取得95.3的词法F1，较基线提升4.4个点，并以约93.6%的参考记忆位置实现了高效长期记忆。",
+      "llm_tldr": "文本记忆与上下文压缩可复用历史交互，但调整连续记忆会改变冻结语言模型的输入，导致容量分配与读出相互耦合。本文提出Hard-Origin自适应软化记忆HasMem，以冻结硬提示嵌入作为可验证初始状态，由控制器调节记忆宽度，Writer重编码被调整的条目，Reader与Global模块负责读出适配与跨轮状态。在Multi-Session Chat开发集派生的535题重建探针上，主配置取得95.3的词法F1，较基线提升4.4个点，并以约93.6%的参考记忆位置实现了高效长期记忆。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "memory mechanisms in autonomous agents and agent memory architectures",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2609.32313v1",
+      "source": "arxiv",
+      "title": "MemTransfer: Benchmarking Memory Beyond Matched Experience in Embodied Decision-Making",
+      "abstract": "Memory lets an embodied agent reuse past experience, yet retaining useful information does not ensure that the agent can apply it when conditions change. We present MemTransfer, a benchmark comparing six memory representations, a working-memory baseline and five representations of past experience, under a shared frozen vision-language-model policy. It comprises 100 navigation cases across ten task types in a simulated warehouse, with expert demonstrations supplying the history. Three comparisons vary the starting pose, route availability, and amount and task relevance of history. With one demonstration per task, Full-context and Episodic memory reach 95.3% and 100.0% success at the original demonstration start, but lose 48-49 percentage points at a new test start. Summary changes little between these two test starts, yet with four demonstrations per task it retains a smaller fraction of its unchanged-route success after blocking (39.3%) than Working memory (44.8%) or the two trajectory memories (56-58%). At the new test start, increasing from one to four relevant demonstrations raises Episodic success by 14.3 percentage points, while the other evaluated representations gain no more than 1.3 percentage points. Replacing half of the relevant histories with other-task experience lowers success for both trajectory memories. These results show that robustness to one kind of mismatch does not imply robustness to another, motivating evaluation of both stored information and its use at decision time.",
+      "authors": [
+        "Haiming Tang",
+        "Xianjie Dai",
+        "Gujie Shao",
+        "Zuyi Guo",
+        "Jingguang Li",
+        "Kailang Ma",
+        "Yihong Tang",
+        "Heye Huang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-09-26T07:14:16+00:00",
+      "link": "https://arxiv.org/pdf/2609.32313v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "benchmark comparing memory representations for embodied decision-making",
+      "llm_evidence_cn": "比较具身决策中多种记忆表征的基准",
+      "llm_evidence": "比较具身决策中多种记忆表征的基准",
+      "canonical_evidence": "比较具身决策中多种记忆表征的基准",
+      "llm_tldr_en": "Memory lets embodied agents reuse experience, but retaining information does not guarantee applying it under changed conditions. MemTransfer compares six memory representations under a frozen VLM policy, showing episodic and full-context memory lose 48-49 points when conditions shift.",
+      "llm_tldr_cn": "记忆使具身智能体能够复用过往经验，但保留信息并不保证在条件变化时仍能应用。本文提出MemTransfer基准，在共享的冻结视觉语言模型策略下比较六种记忆表征，包括工作记忆基线与五种历史经验表征，覆盖十类任务共100个仓库导航案例。结果显示，在原始演示起点上全上下文与情节记忆成功率高达95.3%和100%，但条件改变后下降48至49个百分点，凸显记忆迁移的脆弱性。",
+      "llm_tldr": "记忆使具身智能体能够复用过往经验，但保留信息并不保证在条件变化时仍能应用。本文提出MemTransfer基准，在共享的冻结视觉语言模型策略下比较六种记忆表征，包括工作记忆基线与五种历史经验表征，覆盖十类任务共100个仓库导航案例。结果显示，在原始演示起点上全上下文与情节记忆成功率高达95.3%和100%，但条件改变后下降48至49个百分点，凸显记忆迁移的脆弱性。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "memory-augmented agent models that store and retrieve experience",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2609.32522v1",
+      "source": "arxiv",
+      "title": "Beyond Dyadic Memory: Interaction-Aware Multimodal Memory with Adaptive Agentic Retrieval for Multi-Party Spoken Conversations",
+      "abstract": "Long-term memory enables agents to accumulate information and reason across sessions, yet existing research primarily focuses on dyadic text or image-text conversations, leaving long-term memory for multi-party spoken conversations underexplored. This setting requires preserving conversational content, identifying participants across sessions, and retaining who speaks to whom. To this end, we propose VoxPolyMem, an interaction-aware multimodal memory framework combining incremental speaker identification with a memory hierarchy comprising interaction memory, fact memory, and participant profiles. We formulate retrieval as sequential decision-making, where an agent rewrites queries and selects retrieval tools and memory layers based on accumulated evidence to address information gaps. We further introduce Evidence-Gain GRPO (EG-GRPO), which uses round-wise credit assignment to encourage complementary evidence acquisition. We also construct VoxPolyBench to evaluate memory evolution, personalized answering, memory retrieval and reasoning, and interaction reasoning and attribution in multi-party spoken conversations. VoxPolyMem achieves an overall score of 85.0 on VoxPolyBench, surpassing the strongest evaluated baseline by 23.6 points. On Mem-Gallery and H2HMem-Multi, it scores 89.6 and 74.4, respectively, exceeding the strongest evaluated public memory baselines by over 8 points each. These results highlight its potential for persistent, personalized assistance in multi-party multimodal interactions. Code and datasets are available at https://voxpolymem.github.io/VoxPolyBench/demo/",
+      "authors": [
+        "Wenxu Jia",
+        "Xize Cheng",
+        "Zihan Zhang",
+        "Dongjie Fu",
+        "Linjun Li",
+        "Wenshi Chen",
+        "Yangyang Wu",
+        "Tao Jin"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.IR",
+        "cs.SD",
+        "eess.AS"
+      ],
+      "published": "2026-09-26T12:04:49+00:00",
+      "link": "https://arxiv.org/pdf/2609.32522v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "interaction-aware multimodal long-term memory with agentic retrieval for multi-party conversations",
+      "llm_evidence_cn": "面向多方对话的交互感知多模态长期记忆与智能体式检索",
+      "llm_evidence": "面向多方对话的交互感知多模态长期记忆与智能体式检索",
+      "canonical_evidence": "面向多方对话的交互感知多模态长期记忆与智能体式检索",
+      "llm_tldr_en": "VoxPolyMem extends long-term agent memory to multi-party spoken conversations, combining incremental speaker identification with a memory hierarchy and formulating retrieval as sequential decision-making by an agent.",
+      "llm_tldr_cn": "长期记忆研究多集中于双人文本或图文对话，多方口语对话中的记忆仍待探索，该场景需保留会话内容、跨会话识别参与者并记录谁对谁说。本文提出VoxPolyMem交互感知多模态记忆框架，结合增量说话人识别与由交互记忆、事实记忆和参与者画像构成的记忆层级，并把检索建模为顺序决策，由智能体改写查询并选择检索对象。该工作把长期记忆与智能体式检索扩展到多方口语交互场景。",
+      "llm_tldr": "长期记忆研究多集中于双人文本或图文对话，多方口语对话中的记忆仍待探索，该场景需保留会话内容、跨会话识别参与者并记录谁对谁说。本文提出VoxPolyMem交互感知多模态记忆框架，结合增量说话人识别与由交互记忆、事实记忆和参与者画像构成的记忆层级，并把检索建模为顺序决策，由智能体改写查询并选择检索对象。该工作把长期记忆与智能体式检索扩展到多方口语交互场景。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "Search for papers about long term memory, episodic memory, and memory retrieval in interactive agent systems.",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2609.32574v1",
+      "source": "arxiv",
+      "title": "CUE-Mem: Benchmarking Long-Term User Memory via Implicit Cues in Multimodal Conversations",
+      "abstract": "Long-term memory is essential for multimodal agents that interact with users across sustained conversations. However, user memories are not always explicitly stated: they may also be implied by recurring background objects in images, ambient sounds in audio, or other peripheral multimodal cues. Existing benchmarks largely focus on text-only memory or explicit multimodal evidence, leaving implicit multimodal cues underexplored. We introduce CUE-Mem, a text-image-audio benchmark for evaluating long-term user memory from implicit cues. CUE-Mem contains 2,674 questions across explicit and implicit evidence settings and covers four tasks: Entity Recall, Long Pattern, Personalized Recommendation, and Answer Refusal. Across textualized memory systems, implicit performance remains far below oracle evidence, locating the main bottleneck in preserving and retrieving subtle cues rather than question answerability. Increasing caption detail recovers more of this evidence, but brings uneven gains and rapidly growing token costs, motivating native multimodal access. Yet native access does not uniformly resolve the bottleneck: evidence use depends strongly on the backbone, while multimodal indexing introduces substantial retrieval noise. CUE-Mem provides a testbed for memory systems that selectively retain, retrieve, and use subtle multimodal evidence.",
+      "authors": [
+        "Yulin Hu",
+        "Yanyan Zhao",
+        "Zimo Long",
+        "Xing Fu",
+        "Mengtong Ji",
+        "Weixiang Zhao",
+        "Yutai Hou",
+        "Qianchao Wang",
+        "Dandan Tu"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.CL"
+      ],
+      "published": "2026-09-26T12:49:02+00:00",
+      "link": "https://arxiv.org/pdf/2609.32574v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "benchmark for long-term user memory in multimodal interactive agents",
+      "llm_evidence_cn": "面向多模态交互智能体的长期用户记忆基准",
+      "llm_evidence": "面向多模态交互智能体的长期用户记忆基准",
+      "canonical_evidence": "面向多模态交互智能体的长期用户记忆基准",
+      "llm_tldr_en": "Existing memory benchmarks rely on text or explicit multimodal evidence, ignoring implicit cues like background objects and ambient sounds. CUE-Mem is a text-image-audio benchmark of 2,674 questions spanning entity recall, long pattern, recommendation and refusal, exposing implicit-cue memory gaps.",
+      "llm_tldr_cn": "现有多模态智能体长期记忆评测多聚焦纯文本或显式多模态证据，忽视了图像背景物体、环境声音等隐式线索。本文提出CUE-Mem，一个文本-图像-音频基准，含2674个问题，覆盖实体回忆、长期模式、个性化推荐与拒答四类任务，并区分显式与隐式证据设定。实验揭示隐式线索对长期用户记忆构成显著挑战，为交互式智能体的长期记忆评测提供了新的诊断标准。",
+      "llm_tldr": "现有多模态智能体长期记忆评测多聚焦纯文本或显式多模态证据，忽视了图像背景物体、环境声音等隐式线索。本文提出CUE-Mem，一个文本-图像-音频基准，含2674个问题，覆盖实体回忆、长期模式、个性化推荐与拒答四类任务，并区分显式与隐式证据设定。实验揭示隐式线索对长期用户记忆构成显著挑战，为交互式智能体的长期记忆评测提供了新的诊断标准。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "Search for papers about long term memory, episodic memory, and memory retrieval in interactive agent systems.",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2609.33717v1",
+      "source": "arxiv",
+      "title": "Self-Designed Evaluators and Warm Memory for Long-Horizon Agents",
+      "abstract": "A tool-using language-model agent deployed over a long stream of tasks receives no reward, so it cannot tell whether it succeeded, cannot safely retry, and cannot label the experience it needs to improve. We present SelfSuite, in which the agent's own base model, given only the world's public materials, designs a small evaluation suite of weighted judges and grounded per-task briefs, freezes it, and uses it to gate a keep-best retry and to label a typed, outcome-tracked memory. On matched five-repeat benchmarks over tau2-bench and AppWorld, SelfSuite scores above the plain agent without any labels, matches methods given ten expert labels on tau2-bench, and trails Agentic Context Engineering (ACE) on AppWorld, where code execution gives a direct success signal. In an ablation campaign run on the same tasks, it is above label-free ACE in every repeat, and the gated second attempt is the only component whose removal hurts in every repeat. We also simulate a subject-matter expert who grades ten onboarding tasks per world. Using those labels to calibrate SelfSuite's evaluator gives a small, consistent gain, and using them to warm up ACE's memory lifts ACE to tie calibrated SelfSuite. A single-run study on a second model family shows the same ordering.",
+      "authors": [
+        "Saeid Asgari",
+        "Emre Kiciman",
+        "Leonardo de Oliveira Nunes",
+        "Ranveer Chandra"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-09-27T16:19:10+00:00",
+      "link": "https://arxiv.org/pdf/2609.33717v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "typed outcome-tracked memory labeling agent experience",
+      "llm_evidence_cn": "对智能体经验进行类型化结果追踪的记忆",
+      "llm_evidence": "对智能体经验进行类型化结果追踪的记忆",
+      "canonical_evidence": "对智能体经验进行类型化结果追踪的记忆",
+      "llm_tldr_en": "Long-horizon tool-using agents get no reward and cannot label experience for improvement. SelfSuite lets the agent's own model design frozen evaluator judges to gate keep-best retries and label a typed outcome-tracked memory, beating the plain agent and matching ten-label methods on tau2-bench.",
+      "llm_tldr_cn": "长期运行的工具型语言模型智能体缺乏奖励信号，既无法判断任务是否成功，也难以标注可用于改进的经验。本文提出SelfSuite，让智能体用自身基础模型仅凭公开材料设计一套冻结的加权评审器与任务简报，用于门控保留最优重试并标注带类型的、结果追踪的记忆。在tau2-bench与AppWorld的五次重复评测中，SelfSuite无需人工标签即优于原始智能体，在tau2-bench上追平使用十条专家标签的方法，为无奖励场景下的智能体记忆与自我改进提供了可行路径。",
+      "llm_tldr": "长期运行的工具型语言模型智能体缺乏奖励信号，既无法判断任务是否成功，也难以标注可用于改进的经验。本文提出SelfSuite，让智能体用自身基础模型仅凭公开材料设计一套冻结的加权评审器与任务简报，用于门控保留最优重试并标注带类型的、结果追踪的记忆。在tau2-bench与AppWorld的五次重复评测中，SelfSuite无需人工标签即优于原始智能体，在tau2-bench上追平使用十条专家标签的方法，为无奖励场景下的智能体记忆与自我改进提供了可行路径。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "memory-augmented agent models that store and retrieve experience",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2609.34677v1",
+      "source": "arxiv",
+      "title": "Learning What to Recall: Adaptive Multi-Cue Episodic Memory for World Models",
+      "abstract": "World models predict future observations from current experience and actions, yet prediction can depend on observations seen far in the past. Episodic memory preserves past observations for later recall; however, as memory accumulates, it raises a fundamental question: which memories are useful for the current prediction, and which available retrieval cues should be trusted to find them? This is challenging because fixed criteria based on recency, pose overlap, or visual similarity can be unreliable across environments and queries. We propose Future-Aware Recall (FAR), a framework that learns episodic recall from future-aware predictive supervision and adaptive multi-cue scoring. During training, FAR measures predictive utility by the conditional log-likelihood of the realized future given recalled context, approximated by negative diffusion prediction loss, and uses it to train a retriever that remains future-blind at inference. The retriever learns cue-specific relevance and automatically determines which available retrieval cues, such as time, pose, vision, and audio, to trust for each query when selecting memories. Across three complementary settings, FAR outperforms hand-designed recall even with the same retrieval cues, automatically adapts which available cues to trust, and recalls the right history as the world changes. Together, these results establish FAR as a flexible, principled approach to episodic memory access in world models.",
+      "authors": [
+        "Beomsu Kim",
+        "Chieh-Hsin Lai",
+        "Bac Nguyen",
+        "Amir Bar",
+        "Jong Chul Ye",
+        "Yuki Mitsufuji"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI",
+        "cs.CV"
+      ],
+      "published": "2026-09-28T09:07:39+00:00",
+      "link": "https://arxiv.org/pdf/2609.34677v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "adaptive multi-cue episodic memory recall for world models",
+      "llm_evidence_cn": "面向世界模型的自适应多线索情节记忆召回",
+      "llm_evidence": "面向世界模型的自适应多线索情节记忆召回",
+      "canonical_evidence": "面向世界模型的自适应多线索情节记忆召回",
+      "llm_tldr_en": "World model prediction can depend on distant past observations, but fixed recall criteria such as recency, pose overlap or visual similarity are unreliable across environments and queries. FAR learns episodic recall from future-aware predictive supervision and adaptive multi-cue scoring, deciding which memories and cues to trust.",
+      "llm_tldr_cn": "世界模型根据当前经验与动作预测未来观测，但预测有时依赖很久以前看到的观测；情节记忆虽能保存过去观测以供召回，随着记忆累积却难以判断哪些记忆对当前预测有用、应信任哪些检索线索。基于新近度、位姿重叠或视觉相似度的固定准则在不同环境与查询下并不可靠。本文提出Future-Aware Recall框架，用面向未来的预测监督与自适应多线索打分学习情节召回。该方法提升了情节记忆检索在交互式智能体系统中的可靠性与任务相关性。",
+      "llm_tldr": "世界模型根据当前经验与动作预测未来观测，但预测有时依赖很久以前看到的观测；情节记忆虽能保存过去观测以供召回，随着记忆累积却难以判断哪些记忆对当前预测有用、应信任哪些检索线索。基于新近度、位姿重叠或视觉相似度的固定准则在不同环境与查询下并不可靠。本文提出Future-Aware Recall框架，用面向未来的预测监督与自适应多线索打分学习情节召回。该方法提升了情节记忆检索在交互式智能体系统中的可靠性与任务相关性。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "Search for papers about long term memory, episodic memory, and memory retrieval in interactive agent systems.",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2609.35540v1",
+      "source": "arxiv",
+      "title": "Continuous Context Management",
+      "abstract": "Long-horizon large language model (LLM) agents commonly retain their complete interaction history until compaction is triggered at a predefined threshold. We study Continuous Context Management (CCM), which performs compaction at every turn to prevent interaction history from accumulating in the active prompt. At each turn, a CCM agent emits an updated memory together with an environment action; its next prompt contains the original task, retained memory, and newest observation rather than the complete transcript. We first evaluate CCM without fine-tuning on TerminalBench-2 using Claude Sonnet 4.6, Claude Opus 4.6, GLM-5, and Kimi K3. CCM substantially reduces cumulative input usage and active-prompt size, although it lowers task success for most models while preserving performance for Kimi K3. We use GRPO with privileged full-history distillation to improve CCM in open-weight models. A frozen copy of the student's initial model scores each sampled student action under the complete history reconstructed from that student's rollout, providing dense action-token supervision without a separate teacher rollout or reference solution. On WebShop, this objective substantially improves CCM over GRPO at both evaluated model scales and surpasses full-history GRPO for Qwen3-4B-Instruct, though not for Qwen3-8B. On Endless Terminals, the augmented method provides a modest improvement over GRPO, with both CCM policies outperforming the untrained full-history baseline. These results demonstrate that CCM is a viable inference paradigm for agents operating with substantially reduced retained context and that its performance can be improved through reinforcement learning with privileged full-history distillation.",
+      "authors": [
+        "William Hoy",
+        "Jingxuan Fan",
+        "Nurcin Celik",
+        "Xu Pan"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-09-28T16:20:08+00:00",
+      "link": "https://arxiv.org/pdf/2609.35540v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "per-turn compaction producing updated memory for long-horizon LLM agents",
+      "llm_evidence_cn": "面向长程LLM智能体的逐轮压缩与记忆更新",
+      "llm_evidence": "面向长程LLM智能体的逐轮压缩与记忆更新",
+      "canonical_evidence": "面向长程LLM智能体的逐轮压缩与记忆更新",
+      "llm_tldr_en": "Continuous Context Management compacts memory at every turn so LLM agents emit updated memory alongside actions, reducing cumulative input and prompt size on TerminalBench-2, though task success drops for most models.",
+      "llm_tldr_cn": "长程LLM智能体通常保留完整交互历史，直到达到预设阈值才触发压缩。本文研究连续上下文管理（CCM），在每一轮都进行压缩，使智能体在输出环境动作的同时输出更新后的记忆，下一轮提示仅包含原始任务、保留记忆与最新观测。在TerminalBench-2上使用多种模型评估显示，CCM显著降低累计输入与活跃提示规模，但多数模型任务成功率下降，仅部分模型性能保持。该工作为智能体上下文与记忆管理策略提供了重要权衡证据。",
+      "llm_tldr": "长程LLM智能体通常保留完整交互历史，直到达到预设阈值才触发压缩。本文研究连续上下文管理（CCM），在每一轮都进行压缩，使智能体在输出环境动作的同时输出更新后的记忆，下一轮提示仅包含原始任务、保留记忆与最新观测。在TerminalBench-2上使用多种模型评估显示，CCM显著降低累计输入与活跃提示规模，但多数模型任务成功率下降，仅部分模型性能保持。该工作为智能体上下文与记忆管理策略提供了重要权衡证据。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "memory-augmented agent models that store and retrieve experience",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2609.32391v1",
+      "source": "arxiv",
+      "title": "SCLATE: a Substrate for Continual-Learning Agent Training and Evaluation",
+      "abstract": "Continual-learning agents are systems of models, harnesses, and memory operating over long multi-session horizons. Evaluating and training them requires interleaving tasks with agent-side events such as session stop and start, crons, and memory consolidation. Yet existing benchmarks and training frameworks schedule only the benchmark's own events, leaving each benchmark and agent pair to build a custom scheduling loop. We present SCLATE, an execution substrate where benchmarks and unmodified agents each add their events to one open event scheduler through an adapter. A hybrid simulated clock runs these events on a shared timeline, flowing in real time while the agent works and skipping idle gaps, which compresses a month-long scenario into hours. SCLATE also serves as a rollout engine that runs any agent's harness and memory unmodified, recording the tokens and log probabilities of every model call through an in-container proxy. We port seven benchmarks to SCLATE and compare ten unmodified harness and memory configurations head to head on ten models. The comparison shows that an added memory system does not reliably beat the harness's native memory and that models differ widely in how they use the same harness and memory. We then post-train Qwen3.5-4B through unmodified harnesses and memory systems. The model learns to use both, reading 6.8x fewer file lines with a 16.7-point higher SWE-bench Verified pass rate, and writing richer memory records, while its held-out MetaClaw accuracy rises by up to 11.8 points.",
+      "authors": [
+        "Youngmok Jung",
+        "Sirajul Salekin",
+        "Henry Tran",
+        "Javier Movellan",
+        "Zhao Huang",
+        "Manjot Bilkhu"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.DC",
+        "cs.LG"
+      ],
+      "published": "2026-09-26T09:08:44+00:00",
+      "link": "https://arxiv.org/pdf/2609.32391v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "execution substrate for continual-learning agents with memory consolidation events",
+      "llm_evidence_cn": "面向持续学习智能体的执行基底，含记忆巩固事件",
+      "llm_evidence": "面向持续学习智能体的执行基底，含记忆巩固事件",
+      "canonical_evidence": "面向持续学习智能体的执行基底，含记忆巩固事件",
+      "llm_tldr_en": "SCLATE is an execution substrate that schedules tasks alongside agent-side events like memory consolidation, enabling training and evaluation of continual-learning agents.",
+      "llm_tldr_cn": "持续学习智能体是模型、执行框架与记忆在多会话长程上的组合，其训练与评测需要把任务与记忆巩固、会话起止等智能体事件交织调度，而现有基准只调度自身事件，迫使各方自建循环。作者提出SCLATE执行基底，基准与未改动智能体通过适配器把事件加入统一调度器，并用混合模拟时钟在共享时间线上运行事件，将一个月场景压缩到数小时。该工作为持续学习智能体的记忆巩固与管理提供了可复用的训练评测基础设施。",
+      "llm_tldr": "持续学习智能体是模型、执行框架与记忆在多会话长程上的组合，其训练与评测需要把任务与记忆巩固、会话起止等智能体事件交织调度，而现有基准只调度自身事件，迫使各方自建循环。作者提出SCLATE执行基底，基准与未改动智能体通过适配器把事件加入统一调度器，并用混合模拟时钟在共享时间线上运行事件，将一个月场景压缩到数小时。该工作为持续学习智能体的记忆巩固与管理提供了可复用的训练评测基础设施。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "Identify research on memory consolidation, forgetting, and memory management for continual learning agents.",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2609.33623v1",
+      "source": "arxiv",
+      "title": "Characterizing Memory Misalignment in Human-LLM Interaction From User Perspectives",
+      "abstract": "While memory enhances personalization in LLM-based conversational agents, it suffers from memory misalignment, where memories violate user expectations. We present a mixed-methods investigation to characterize and mitigate memory misalignment from user perspectives. First, we collected data from memory usage (N=28, 457 entries) and diary study (N=32, 304 reports), which yielded a taxonomy spanning 14 misalignment types across memory intake, storage and management, retrieval and interpretation stages. Second, four co-design workshops with 12 experienced HCI researchers derived a design space to tackle memory misalignment issues, consisting of 12 candidate interaction strategies structured across interaction form, placement and intrusiveness dimensions. Finally, a speed dating with 121 users reveals preference heterogeneity, where users prioritize proactive controls over cognitively demanding causal graph inspections or passive audit logs. Synthesizing these findings, we highlight the tension between supervisory agency and interaction overhead, and advocate for friction-aware memories that balance user oversight with conversation smoothness.",
+      "authors": [
+        "Jingruo Chen",
+        "Shuning Zhang",
+        "Eryue Xu",
+        "Jianing Li",
+        "Xin Yi"
+      ],
+      "primary_category": "cs.HC",
+      "categories": [
+        "cs.HC"
+      ],
+      "published": "2026-09-27T14:39:10+00:00",
+      "link": "https://arxiv.org/pdf/2609.33623v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "taxonomy of memory misalignment across intake, storage, retrieval stages in LLM agents",
+      "llm_evidence_cn": "刻画LLM智能体记忆在摄取、存储与检索阶段的错位类型",
+      "llm_evidence": "刻画LLM智能体记忆在摄取、存储与检索阶段的错位类型",
+      "canonical_evidence": "刻画LLM智能体记忆在摄取、存储与检索阶段的错位类型",
+      "llm_tldr_en": "Through memory usage data, a diary study and co-design workshops, this paper builds a taxonomy of 14 memory misalignment types in LLM conversational agents and a design space of interaction strategies.",
+      "llm_tldr_cn": "记忆虽能提升LLM对话智能体的个性化，却存在违背用户预期的记忆错位问题。本文采用混合方法研究，收集记忆使用数据与日记研究，归纳出覆盖记忆摄取、存储管理、检索与解释四个阶段的14类错位类型，并通过四场共创工作坊提炼出由12种候选交互策略构成的设计空间。该工作从用户视角系统刻画并缓解记忆错位，为对话智能体的记忆设计与交互提供了分类框架与设计指导。",
+      "llm_tldr": "记忆虽能提升LLM对话智能体的个性化，却存在违背用户预期的记忆错位问题。本文采用混合方法研究，收集记忆使用数据与日记研究，归纳出覆盖记忆摄取、存储管理、检索与解释四个阶段的14类错位类型，并通过四场共创工作坊提炼出由12种候选交互策略构成的设计空间。该工作从用户视角系统刻画并缓解记忆错位，为对话智能体的记忆设计与交互提供了分类框架与设计指导。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "Search for papers about long term memory, episodic memory, and memory retrieval in interactive agent systems.",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2609.32687v1",
+      "source": "arxiv",
+      "title": "Dude, Where's My State? Execution Information Requirements for Stateful Agents",
+      "abstract": "Long-running agents must preserve information that later steps depend on. We introduce the Execution Information Requirement (EIR), a lower bound on the information that must remain accessible for correct completion under specified task and access conditions. We develop LACUNA, a framework that generates tasks with known dependencies and varies information demand, retention, and recovery separately from the difficulty of individual operations. Across four models, restoring a missing result raises accuracy on affected recall steps to 100%, compared with 0% for equal-length irrelevant information. Sufficient storage alone does not ensure success: retention policies can discard required results, errors can propagate through later computations, and agents can stop before recovery is complete. We also introduce VESTIGE, which uses agent execution traces to construct semantic graphs and measure information demand for real tasks. Across 72,562 software-agent trajectories, VESTIGE reveals a steeper distance-related decline in solution-relevant rereading for failed runs (RR 0.951 per distance doubling), while adjusted peak demand alone is not associated with failure. Together, these contributions support evaluating whether agents preserve and recover the information their tasks require.",
+      "authors": [
+        "Nikita Mehrotra",
+        "Ashish Tiwari",
+        "Priyanshu Gupta",
+        "Sumit Gulwani"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-09-26T14:48:41+00:00",
+      "link": "https://arxiv.org/pdf/2609.32687v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "information retention and recovery requirements for stateful long-running agents",
+      "llm_evidence_cn": "面向有状态长时程智能体的信息保留与恢复要求",
+      "llm_evidence": "面向有状态长时程智能体的信息保留与恢复要求",
+      "canonical_evidence": "面向有状态长时程智能体的信息保留与恢复要求",
+      "llm_tldr_en": "Long-running agents must preserve information later steps depend on, yet storage alone is insufficient. The paper introduces Execution Information Requirement and the LACUNA framework that separates information demand, retention and recovery; restoring a missing result lifts recall-step accuracy from 0% to 100%.",
+      "llm_tldr_cn": "长时程智能体必须保留后续步骤所依赖的信息，但仅提供足够存储并不保证任务成功。本文提出执行信息需求EIR这一下界概念，刻画在给定任务与访问条件下必须保持可访问的信息量，并构建LACUNA框架，在分离信息需求、保留与恢复的同时控制单步操作难度。实验表明恢复缺失结果可把受影响回忆步骤的准确率从0%提升到100%，而保留策略会丢弃必需结果并导致误差在后续计算中传播。该研究为有状态智能体的记忆保留与恢复机制提供了理论刻画与诊断工具。",
+      "llm_tldr": "长时程智能体必须保留后续步骤所依赖的信息，但仅提供足够存储并不保证任务成功。本文提出执行信息需求EIR这一下界概念，刻画在给定任务与访问条件下必须保持可访问的信息量，并构建LACUNA框架，在分离信息需求、保留与恢复的同时控制单步操作难度。实验表明恢复缺失结果可把受影响回忆步骤的准确率从0%提升到100%，而保留策略会丢弃必需结果并导致误差在后续计算中传播。该研究为有状态智能体的记忆保留与恢复机制提供了理论刻画与诊断工具。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "Identify research on memory consolidation, forgetting, and memory management for continual learning agents.",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2609.34132v1",
+      "source": "arxiv",
+      "title": "From Attack Success to Attack Severity: Counterfactual Memory Attacks on LLM Agents",
+      "abstract": "As LLM agents increasingly rely on persistent memory for long-horizon and personalized behavior, they can retain and reuse information across interactions, but this also creates a lasting channel through which malicious memory writes can influence future behavior. Persistent-memory attacks are typically evaluated by whether they succeed, yet successful attacks can leave persistent states with substantially different downstream consequences. We study this severity as a distinct attack-design objective and formalize it with counterfactual memory regret (CMR), the paired increase in expected downstream loss relative to clean memory. We introduce MemHarm, which predeclares a finite class of sparse, grounded semantic edits, evaluates candidates through the normal agent memory interface using offline paired-loss feedback, and certifies resolved selections within that class. Compared with attack-success optimization, CMR-guided selection produces substantially larger downstream loss while retaining most of the success-rate gain. Across two agent benchmarks and diverse memory designs, MemHarm attains the highest CMR point estimates among the evaluated general attacks on identical support. Factor-removal interventions link this harm to the selected semantic factor, and native-agent deployments verify the write-to-fresh-process attack path.",
+      "authors": [
+        "Mingxi Zou",
+        "Langzhang Liang",
+        "Zhuo Wang",
+        "Yiyang Zhao",
+        "Lizhen Qu",
+        "Zenglin Xu"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-09-28T02:11:56+00:00",
+      "link": "https://arxiv.org/pdf/2609.34132v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "counterfactual memory attacks exploiting persistent memory of LLM agents",
+      "llm_evidence_cn": "利用LLM智能体持久记忆的反事实记忆攻击",
+      "llm_evidence": "利用LLM智能体持久记忆的反事实记忆攻击",
+      "canonical_evidence": "利用LLM智能体持久记忆的反事实记忆攻击",
+      "llm_tldr_en": "MemHarm studies the severity of persistent-memory attacks on LLM agents, formalizing counterfactual memory regret and predeclaring sparse grounded semantic edits to measure downstream damage rather than mere attack success.",
+      "llm_tldr_cn": "LLM智能体日益依赖持久记忆实现长程与个性化行为，但记忆写入也形成可长期影响未来行为的攻击通道，而已有评估只看攻击是否成功，忽略后果严重程度差异。本文把严重性作为独立攻击设计目标，提出反事实记忆后悔度量，即相对干净记忆的期望下游损失增量，并设计MemHarm方法，预先声明一类稀疏、有据的语义编辑并评估候选。该工作为智能体持久记忆的安全性与记忆管理提供了新的评估视角。",
+      "llm_tldr": "LLM智能体日益依赖持久记忆实现长程与个性化行为，但记忆写入也形成可长期影响未来行为的攻击通道，而已有评估只看攻击是否成功，忽略后果严重程度差异。本文把严重性作为独立攻击设计目标，提出反事实记忆后悔度量，即相对干净记忆的期望下游损失增量，并设计MemHarm方法，预先声明一类稀疏、有据的语义编辑并评估候选。该工作为智能体持久记忆的安全性与记忆管理提供了新的评估视角。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "Search for papers about long term memory, episodic memory, and memory retrieval in interactive agent systems.",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2609.32862v1",
+      "source": "arxiv",
+      "title": "RoboFoundry: System-as-Policy Evolution for Self-Learning Embodied Agents",
+      "abstract": "A foundation model should not act in isolation as an embodied agent. Yet, existing methods often optimize individual components of the agent stack, such as memory, context, skills, or action interfaces, rather than treating the supporting system itself as a unified policy. Moreover, interaction alone does not yield self-improvement unless execution experience is converted into persistent, validated system changes. We therefore propose RoboFoundry, the first embodied agentic framework that formulates this process as Self-Evolving System-as-Policy. RoboFoundry diagnoses capability gaps in decision-making and memory management, converts execution traces into validated task-specific system updates, and promotes recurring improvements to the general system. Evolution operates over two complementary surfaces: a context system that manages active internal context and persistent file-system memory, and a hierarchical skill system that organizes atomic skills, reusable compositions, and failure-conditioned recovery. A shared semantic interface separates embodiment-invariant decisions from embodiment-specific execution, allowing evolved system capabilities to transfer across heterogeneous robots. On EmbodiedBench, RoboFoundry achieves state-of-the-art performance, notably improving GPT-5.5 by 27.8%. It also brings Qwen3.7-Plus to near parity with GPT-5.5 (70.3% vs. 72.7%), showing consistent gains from system-as-policy evolution across foundation models. For long-horizon memory, RoboFoundry outperforms all baselines on RoboMemArena by at least 39.0%, even against methods assisted by external foundation models. On LIBERO-PRO, it further outperforms Cap-Agent0 by 243.8%-679.7% across all perturbation types. In real-world deployments, RoboFoundry demonstrates zero-shot transfer and online evolution across robots and tasks, highlighting its potential for fully autonomous embodied agents.",
+      "authors": [
+        "Jingsong Liang",
+        "Shuhao Liao",
+        "Shizhe Zhang",
+        "Diyuan Hou",
+        "Yuxin Cai",
+        "Xinjian Deng",
+        "Chengyang He",
+        "Wenhui Huang",
+        "Runjia Tan",
+        "Zhidong Wang",
+        "Lan Yu",
+        "Xuesong Tian",
+        "Guillaume Sartoretti",
+        "Jie Luo",
+        "Yao Mu",
+        "Wenjun Wu",
+        "Wanhua Li",
+        "Chen Lv"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-09-26T18:41:03+00:00",
+      "link": "https://arxiv.org/pdf/2609.32862v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "memory management in self-evolving embodied agents",
+      "llm_evidence_cn": "自学习具身智能体中的记忆管理",
+      "llm_evidence": "自学习具身智能体中的记忆管理",
+      "canonical_evidence": "自学习具身智能体中的记忆管理",
+      "llm_tldr_en": "Existing methods optimize individual agent components such as memory or skills rather than the supporting system as a unified policy. RoboFoundry casts self-evolution as System-as-Policy, diagnosing capability gaps in decision-making and memory management and converting execution traces into validated persistent system updates.",
+      "llm_tldr_cn": "现有具身智能体方法多分别优化记忆、上下文、技能或动作接口等单个组件，而非把支撑系统整体视为统一策略，且仅靠交互无法带来自我改进。本文提出RoboFoundry，首个将自我进化表述为系统即策略的具身智能体框架，它诊断决策与记忆管理中的能力缺口，把执行轨迹转化为经过验证的任务级系统更新，并将反复出现的改进提升为通用系统能力。该工作强调只有把执行经验转化为持久且经过验证的系统变更，智能体才能实现真正的持续自我进化。",
+      "llm_tldr": "现有具身智能体方法多分别优化记忆、上下文、技能或动作接口等单个组件，而非把支撑系统整体视为统一策略，且仅靠交互无法带来自我改进。本文提出RoboFoundry，首个将自我进化表述为系统即策略的具身智能体框架，它诊断决策与记忆管理中的能力缺口，把执行轨迹转化为经过验证的任务级系统更新，并将反复出现的改进提升为通用系统能力。该工作强调只有把执行经验转化为持久且经过验证的系统变更，智能体才能实现真正的持续自我进化。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "Identify research on memory consolidation, forgetting, and memory management for continual learning agents.",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2609.33379v1",
+      "source": "arxiv",
+      "title": "NLPG: Natural-Language Policy Gradients for Self-Evolving Language Agents",
+      "abstract": "Large language model agents increasingly rely on compound programs for retrieval, tool use, reasoning, and verification, yet their failures often arise from local procedural decisions. Existing reinforcement-learning and prompt-optimization approaches typically rely on scalar rewards or repeatedly modify entire prompts, making it difficult to capture and reuse procedural improvements while preserving a frozen agent. To address this problem, We propose Natural-Language Policy Gradients (NLPG), an external policy-memory method for improving a fixed agent without changing its model parameters or program structure. NLPG diagnoses execution traces, propagates downstream feedback backward through the module graph, and converts recurring failures into route-local natural-language corrections that are aggregated into bounded policy updates for subsequent executions. Across six benchmarks covering memory, reasoning, instruction following, and evidence verification, NLPG also outperforms the strongest listed baseline for each benchmark by 8.71 percentage points on average. These results provide evidence that evaluated procedural experience can be transformed into local and interpretable policy updates, enabling continual improvement of frozen agents.",
+      "authors": [
+        "Xu Liu",
+        "WenZhang Wei",
+        "Jun Cao",
+        "Dehua Peng",
+        "Huan Chen",
+        "Zhipeng Gui",
+        "Huayi Wu"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "published": "2026-09-27T09:01:48+00:00",
+      "link": "https://arxiv.org/pdf/2609.33379v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "external policy-memory for reusing procedural improvements in agents",
+      "llm_evidence_cn": "复用智能体过程性改进的外部策略记忆",
+      "llm_evidence": "复用智能体过程性改进的外部策略记忆",
+      "canonical_evidence": "复用智能体过程性改进的外部策略记忆",
+      "llm_tldr_en": "RL and prompt optimization for LLM agents rely on scalar rewards or rewrite whole prompts, hard to capture reusable procedural fixes. NLPG is an external policy-memory method that diagnoses traces, back-propagates feedback through the module graph and turns recurring failures into routines without changing the frozen agent.",
+      "llm_tldr_cn": "大语言模型智能体依赖复合程序完成检索、工具调用、推理与验证，其失败常源于局部过程决策。现有强化学习与提示优化依赖标量奖励或整体改写提示，难以捕获并复用过程性改进，且可能破坏冻结的智能体。本文提出自然语言策略梯度NLPG，一种外部策略记忆方法，通过诊断执行轨迹、沿模块图反向传播下游反馈，把反复出现的失败转化为可复用的例程。该方法在不变动模型参数与程序结构的前提下提升固定智能体，为智能体经验复用提供了新的记忆式优化范式。",
+      "llm_tldr": "大语言模型智能体依赖复合程序完成检索、工具调用、推理与验证，其失败常源于局部过程决策。现有强化学习与提示优化依赖标量奖励或整体改写提示，难以捕获并复用过程性改进，且可能破坏冻结的智能体。本文提出自然语言策略梯度NLPG，一种外部策略记忆方法，通过诊断执行轨迹、沿模块图反向传播下游反馈，把反复出现的失败转化为可复用的例程。该方法在不变动模型参数与程序结构的前提下提升固定智能体，为智能体经验复用提供了新的记忆式优化范式。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "memory-augmented agent models that store and retrieve experience",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2609.34988v1",
+      "source": "arxiv",
+      "title": "The Right Lesson at the Right Step: Deriving Control Updates for Self-Evolving Agents",
+      "abstract": "Self-evolving agents improve future behavior by reusing past experience, typically as global prompts, memories, or reflections. Yet these mechanisms rarely control where experience takes effect. In long tool-use workflows, the same lesson may correct one decision but distract another, making experience reuse a problem of localized control rather than memory alone. We introduce EvoCUE (Evolution through Control Updates from Evidence), a framework for learning reusable control-program updates from completed agent executions. EvoCUE represents the agent as an explicit state-machine controller, whose nodes perform model or tool calls and whose edges define where control passes next. This makes the workflow editable at precise locations, so each learned update can specify what to add, where it acts, and when it applies. From completed trajectories, EvoCUE uses residual goals and observed execution traces to propose localized instruction or skill edits. Each candidate is evaluated at the point where it would act by resuming the parent and edited controllers from the same checkpoint and comparing their final outcomes. Accepted edits are compiled with applicability rules, confirmed on held-out tasks, and inherited by later executions. We evaluate EvoCUE on long tool-use environments where learned conventions must reach the right execution step. From a minimal AppWorld controller without benchmark-specific onboarding instructions, EvoCUE learns the missing task-completion convention and substantially improves success on Test-Normal and Test-Challenge. On PAST-Bench office workflows, EvoCUE transfers organizational requirements from prior episodes to later tasks, improving task-execution quality. These results show that self-evolving agents should place experience inside the control flow, rather than only store it as text.",
+      "authors": [
+        "Yunhe Su",
+        "ZiYi Dong",
+        "Tong Yu",
+        "Weijian Deng",
+        "Hao Li",
+        "Bowen Jiang",
+        "Pengxu Wei"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL"
+      ],
+      "published": "2026-09-28T11:59:22+00:00",
+      "link": "https://arxiv.org/pdf/2609.34988v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "localized reuse of past experience as control updates in agents",
+      "llm_evidence_cn": "将过往经验作为控制更新进行局部复用的智能体方法",
+      "llm_evidence": "将过往经验作为控制更新进行局部复用的智能体方法",
+      "canonical_evidence": "将过往经验作为控制更新进行局部复用的智能体方法",
+      "llm_tldr_en": "Self-evolving agents reuse past experience as global prompts or memories, but rarely control where the lesson takes effect, so one lesson can help one decision and distract another. EvoCUE models the agent as an explicit state-machine controller and derives reusable control-program updates at precise locations.",
+      "llm_tldr_cn": "自进化智能体通常以全局提示、记忆或反思的形式复用过往经验，却很少控制经验在何处生效；在长工具调用流程中，同一条经验可能纠正一个决策却干扰另一个，使经验复用成为局部控制问题而非单纯的记忆问题。本文提出EvoCUE框架，把智能体表示为显式状态机控制器，其节点执行模型或工具调用、边定义控制流向，从而在精确位置编辑工作流，并从已完成的执行中学习可复用的控制程序更新。该方法将经验复用的粒度从全局记忆细化到局部控制，为自进化智能体提供更精准的经验落地机制。",
+      "llm_tldr": "自进化智能体通常以全局提示、记忆或反思的形式复用过往经验，却很少控制经验在何处生效；在长工具调用流程中，同一条经验可能纠正一个决策却干扰另一个，使经验复用成为局部控制问题而非单纯的记忆问题。本文提出EvoCUE框架，把智能体表示为显式状态机控制器，其节点执行模型或工具调用、边定义控制流向，从而在精确位置编辑工作流，并从已完成的执行中学习可复用的控制程序更新。该方法将经验复用的粒度从全局记忆细化到局部控制，为自进化智能体提供更精准的经验落地机制。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "memory-augmented agent models that store and retrieve experience",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2609.35233v1",
+      "source": "arxiv",
+      "title": "EP-Mem: Elastic Privacy Memory for Social Relationship-Aware LLM Agents",
+      "abstract": "Large language model (LLM) agents face critical privacy risks when acting as delegates in human-agent-human communication. To prevent such breaches, agents must understand users' social relationships and adhere to context-dependent social information disclosure boundaries. Current studies on agent memory privacy focus on instantaneous interactions, leaving the long-term relational disclosure problem unexplored. In this paper, we propose EP-Mem, an Elastic Privacy Memory architecture that reframes privacy as user-owned boundary control across social roles. EP-Mem introduces (1) token-level memory driven by user-configurable a privacy policy that stratifies persons and events, combining domain-level default circulation rules with fact-level whitelist/blacklist exceptions; and (2) a pluggable sidecar with a privacy engine that aligns disclosure controls with memory across summary, detail, and boundary granularities, enforced throughout generation, storage, and retrieval. We construct EP-Bench, to our knowledge the first long-term multi-party benchmark with cross-session correlated events for policy-conditioned relational disclosure. Experiments show that EP-Mem achieves 94.0% privacy classification accuracy, improves disclosure-permission judgment from 22% to 68%, and reduces privacy leakage by 75.6%, while maintaining retrieval performance and cross-benchmark generalization.",
+      "authors": [
+        "Fengzhou Sun",
+        "Yuan Zhang",
+        "Xintong Yu",
+        "Jinyao Yan"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-09-28T14:10:37+00:00",
+      "link": "https://arxiv.org/pdf/2609.35233v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "elastic privacy memory architecture with token-level memory and disclosure policies for LLM agents",
+      "llm_evidence_cn": "面向LLM智能体的弹性隐私记忆架构与令牌级记忆策略",
+      "llm_evidence": "面向LLM智能体的弹性隐私记忆架构与令牌级记忆策略",
+      "canonical_evidence": "面向LLM智能体的弹性隐私记忆架构与令牌级记忆策略",
+      "llm_tldr_en": "EP-Mem reframes agent memory privacy as user-owned boundary control across social roles, introducing an elastic token-level memory architecture with configurable disclosure policies for long-term relational privacy.",
+      "llm_tldr_cn": "LLM智能体作为人类间通信代理时面临隐私泄露风险，需理解用户社交关系并遵守情境相关的信息披露边界，而现有智能体记忆隐私研究多关注瞬时交互，未涉及长期关系披露问题。本文提出EP-Mem弹性隐私记忆架构，将隐私重构为跨社会角色的用户自有边界控制，引入由用户可配置隐私策略驱动的令牌级记忆，结合域级默认传播规则与事实级白名单。该架构为智能体长期记忆中的关系性隐私管理提供了新方案。",
+      "llm_tldr": "LLM智能体作为人类间通信代理时面临隐私泄露风险，需理解用户社交关系并遵守情境相关的信息披露边界，而现有智能体记忆隐私研究多关注瞬时交互，未涉及长期关系披露问题。本文提出EP-Mem弹性隐私记忆架构，将隐私重构为跨社会角色的用户自有边界控制，引入由用户可配置隐私策略驱动的令牌级记忆，结合域级默认传播规则与事实级白名单。该架构为智能体长期记忆中的关系性隐私管理提供了新方案。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "memory mechanisms in autonomous agents and agent memory architectures",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2609.35551v1",
+      "source": "arxiv",
+      "title": "BaRe-Mem: Bayesian Reliability Memory for Robust and Adaptive Agent Consultation",
+      "abstract": "In multi-agent systems, reliable consultation is challenging because advisor capabilities vary across tasks, and misleading information can make consultation worse than autonomous reasoning. We introduce BaRe-Mem, an online Bayesian reliability memory for multi-agent consultation. It estimates advisor reliability based on the central model's internal belief representations and updates these estimates from historical interactions. These estimates modulate the influence of advisor responses and guide the choice between consultation and autonomous reasoning. Across nine benchmarks and six central models, BaRe-Mem is more robust to misleading advisor information than debate and majority voting. On the more challenging tasks, it remains above autonomous reasoning across all tested misleading levels. Moreover, we extend the BaRe-Mem mechanism to worker allocation in agent teams. On the MuSiQue benchmark, BaRe-Mem improves task completion over routing by historical success counts and identifies capable workers earlier.",
+      "authors": [
+        "Peilin Feng",
+        "Zhengyang Huang",
+        "Soujanya Poria"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-09-28T16:25:16+00:00",
+      "link": "https://arxiv.org/pdf/2609.35551v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "online Bayesian reliability memory for multi-agent consultation",
+      "llm_evidence_cn": "面向多智能体咨询的在线贝叶斯可靠性记忆",
+      "llm_evidence": "面向多智能体咨询的在线贝叶斯可靠性记忆",
+      "canonical_evidence": "面向多智能体咨询的在线贝叶斯可靠性记忆",
+      "llm_tldr_en": "BaRe-Mem addresses unreliable multi-agent consultation by maintaining an online Bayesian reliability memory that estimates each advisor's trustworthiness from belief representations and past interactions to modulate their influence.",
+      "llm_tldr_cn": "针对多智能体系统中顾问能力参差、误导信息可能使咨询反而不如自主推理的问题，本文提出BaRe-Mem在线贝叶斯可靠性记忆。它依据中心模型内部信念表征估计各顾问可靠性，并用历史交互持续更新，进而调节顾问回答的影响并决定何时咨询、何时自主推理。在九个基准和六个中心模型上，该方法比辩论与多数投票更能抵御误导信息，在困难任务上仍保持稳健表现。",
+      "llm_tldr": "针对多智能体系统中顾问能力参差、误导信息可能使咨询反而不如自主推理的问题，本文提出BaRe-Mem在线贝叶斯可靠性记忆。它依据中心模型内部信念表征估计各顾问可靠性，并用历史交互持续更新，进而调节顾问回答的影响并决定何时咨询、何时自主推理。在九个基准和六个中心模型上，该方法比辩论与多数投票更能抵御误导信息，在困难任务上仍保持稳健表现。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "shared memory and communication in multi-agent systems",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}

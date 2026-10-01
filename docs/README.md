@@ -48,17 +48,17 @@
 <section class="dpr-home-dashboard-card dpr-home-report-card">
   <div class="dpr-home-dashboard-header">
     <div>
-      <span class="dpr-home-dashboard-kicker">2026-09-30</span>
+      <span class="dpr-home-dashboard-kicker">2026-10-01</span>
       <h3 class="dpr-home-dashboard-title">今日汇总</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">共 37 篇</strong>
+    <strong class="dpr-home-dashboard-count">共 16 篇</strong>
   </div>
   <dl class="dpr-home-dashboard-stats">
     <div class="dpr-home-dashboard-stat"><dt>累计更新</dt><dd>1 次</dd></div>
-    <div class="dpr-home-dashboard-stat"><dt>精读</dt><dd>26</dd></div>
-    <div class="dpr-home-dashboard-stat"><dt>速读</dt><dd>11</dd></div>
+    <div class="dpr-home-dashboard-stat"><dt>精读</dt><dd>6</dd></div>
+    <div class="dpr-home-dashboard-stat"><dt>速读</dt><dd>10</dd></div>
   </dl>
-  <p class="dpr-home-dashboard-body">最近更新：2026-09-30 19:59:47 UTC<br>状态：成功</p>
+  <p class="dpr-home-dashboard-body">最近更新：2026-10-01 19:31:30 UTC<br>状态：成功</p>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-brief-card">
   <div class="dpr-home-dashboard-header">
@@ -69,7 +69,10 @@
     <strong class="dpr-home-dashboard-count">AI</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<p>今日扫完37篇Agent记忆相关论文，精读26篇、速读11篇，EngramRAG以10分领跑。最值得看的是多跳Agent记忆的动态加权拓扑与突触巩固机制，以及实体结构化索引对长期记忆的支撑。建议普通读者先读这两篇精读，再顺带扫速读里的记忆压缩与控制信号两篇。</p>
+<p>今日共生成 16 篇推荐（精读 6 篇，速读 10 篇）</p>
+<p>精读：《HasMem: Hard-Origin Adaptively Softened Memory for Long-Term LLM Agents》（8.0/10）, 《MemTransfer: Benchmarking Memory Beyond Matched Experience in Embodied Decision-Making》（8.0/10）</p>
+<p>速读：《Continuous Context Management》（8.0/10）, 《SCLATE: a Substrate for Continual-Learning Agent Training and Evaluation》（7.0/10）, 《Dude, Where&#x27;s My State? Execution Information Requirements for Stateful Agents》（7.0/10）</p>
+<p>这些结果覆盖了当下较热的方向，建议先看精读区论文的关键问题与方法。</p>
   </div>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-deep-card">
@@ -78,12 +81,12 @@
       <span class="dpr-home-dashboard-kicker">今日累计</span>
       <h3 class="dpr-home-dashboard-title">精读推荐</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">26 篇</strong>
+    <strong class="dpr-home-dashboard-count">6 篇</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="EngramRAG: Dynamic Usage-Weighted Topology and Synaptic Consolidation for Multi-Hop Agentic Memory">EngramRAG: Dynamic Usage-Weighted Topology and Synaptic Consolidation for Multi-Hop Agentic Memory</span></li><li><span class="dpr-home-dashboard-paper-title" title="EnSIMem: Entity-Structured Indexing for Long-Term Agent Memory">EnSIMem: Entity-Structured Indexing for Long-Term Agent Memory</span></li><li><span class="dpr-home-dashboard-paper-title" title="Just-in-Time Memory: Learning to Curate Task-Adaptive Memory for LLM Agents">Just-in-Time Memory: Learning to Curate Task-Adaptive Memory for LLM Agents</span></li></ul>
+<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="HasMem: Hard-Origin Adaptively Softened Memory for Long-Term LLM Agents">HasMem: Hard-Origin Adaptively Softened Memory for Long-Term LLM Agents</span></li><li><span class="dpr-home-dashboard-paper-title" title="MemTransfer: Benchmarking Memory Beyond Matched Experience in Embodied Decision-Making">MemTransfer: Benchmarking Memory Beyond Matched Experience in Embodied Decision-Making</span></li><li><span class="dpr-home-dashboard-paper-title" title="Beyond Dyadic Memory: Interaction-Aware Multimodal Memory with Adaptive Agentic Retrieval for Multi-Party Spoken Conversations">Beyond Dyadic Memory: Interaction-Aware Multimodal Memory with Adaptive Agentic Retrieval for Multi-Party Spoken Conversations</span></li></ul>
   </div>
-  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">agent-memory <strong>26</strong></span></div>
+  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">agent-memory <strong>6</strong></span></div>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-skim-card">
   <div class="dpr-home-dashboard-header">
@@ -91,12 +94,12 @@
       <span class="dpr-home-dashboard-kicker">今日累计</span>
       <h3 class="dpr-home-dashboard-title">速读推荐</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">11 篇</strong>
+    <strong class="dpr-home-dashboard-count">10 篇</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="ChipMEM: Verification-Grounded Memory for EDA Agents">ChipMEM: Verification-Grounded Memory for EDA Agents</span></li><li><span class="dpr-home-dashboard-paper-title" title="Memory Control Signals Emerge Before Action in Long Horizon Agents">Memory Control Signals Emerge Before Action in Long Horizon Agents</span></li><li><span class="dpr-home-dashboard-paper-title" title="StateComp: Learning When to Compress History in Long Horizon Agents">StateComp: Learning When to Compress History in Long Horizon Agents</span></li></ul>
+<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="Continuous Context Management">Continuous Context Management</span></li><li><span class="dpr-home-dashboard-paper-title" title="SCLATE: a Substrate for Continual-Learning Agent Training and Evaluation">SCLATE: a Substrate for Continual-Learning Agent Training and Evaluation</span></li><li><span class="dpr-home-dashboard-paper-title" title="Dude, Where&#x27;s My State? Execution Information Requirements for Stateful Agents">Dude, Where&#x27;s My State? Execution Information Requirements for Stateful Agents</span></li></ul>
   </div>
-  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">agent-memory <strong>11</strong></span></div>
+  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">agent-memory <strong>10</strong></span></div>
 </section>
 </div>
 
