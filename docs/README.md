@@ -48,17 +48,17 @@
 <section class="dpr-home-dashboard-card dpr-home-report-card">
   <div class="dpr-home-dashboard-header">
     <div>
-      <span class="dpr-home-dashboard-kicker">2026-10-01</span>
+      <span class="dpr-home-dashboard-kicker">2026-10-02</span>
       <h3 class="dpr-home-dashboard-title">今日汇总</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">共 16 篇</strong>
+    <strong class="dpr-home-dashboard-count">共 19 篇</strong>
   </div>
   <dl class="dpr-home-dashboard-stats">
     <div class="dpr-home-dashboard-stat"><dt>累计更新</dt><dd>1 次</dd></div>
-    <div class="dpr-home-dashboard-stat"><dt>精读</dt><dd>6</dd></div>
-    <div class="dpr-home-dashboard-stat"><dt>速读</dt><dd>10</dd></div>
+    <div class="dpr-home-dashboard-stat"><dt>精读</dt><dd>8</dd></div>
+    <div class="dpr-home-dashboard-stat"><dt>速读</dt><dd>11</dd></div>
   </dl>
-  <p class="dpr-home-dashboard-body">最近更新：2026-10-01 19:31:30 UTC<br>状态：成功</p>
+  <p class="dpr-home-dashboard-body">最近更新：2026-10-02 19:11:24 UTC<br>状态：成功</p>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-brief-card">
   <div class="dpr-home-dashboard-header">
@@ -69,10 +69,7 @@
     <strong class="dpr-home-dashboard-count">AI</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<p>今日共生成 16 篇推荐（精读 6 篇，速读 10 篇）</p>
-<p>精读：《HasMem: Hard-Origin Adaptively Softened Memory for Long-Term LLM Agents》（8.0/10）, 《MemTransfer: Benchmarking Memory Beyond Matched Experience in Embodied Decision-Making》（8.0/10）</p>
-<p>速读：《Continuous Context Management》（8.0/10）, 《SCLATE: a Substrate for Continual-Learning Agent Training and Evaluation》（7.0/10）, 《Dude, Where&#x27;s My State? Execution Information Requirements for Stateful Agents》（7.0/10）</p>
-<p>这些结果覆盖了当下较热的方向，建议先看精读区论文的关键问题与方法。</p>
+<p>今日精读8篇、速读11篇，共19篇论文，聚焦Agent记忆机制的最新进展。最值得看的是UpliftMem用集合级提升优化记忆检索（9.0分）与EpiCon通过多模态记忆共同进化实现集体学习（9.0分），速读中Traverse的“记忆-重置-重定向”策略也颇具启发。普通读者可先关注智能体如何像人一样决定“记住什么、何时清空”，这是提升长任务表现的关键。</p>
   </div>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-deep-card">
@@ -81,12 +78,12 @@
       <span class="dpr-home-dashboard-kicker">今日累计</span>
       <h3 class="dpr-home-dashboard-title">精读推荐</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">6 篇</strong>
+    <strong class="dpr-home-dashboard-count">8 篇</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="HasMem: Hard-Origin Adaptively Softened Memory for Long-Term LLM Agents">HasMem: Hard-Origin Adaptively Softened Memory for Long-Term LLM Agents</span></li><li><span class="dpr-home-dashboard-paper-title" title="MemTransfer: Benchmarking Memory Beyond Matched Experience in Embodied Decision-Making">MemTransfer: Benchmarking Memory Beyond Matched Experience in Embodied Decision-Making</span></li><li><span class="dpr-home-dashboard-paper-title" title="Beyond Dyadic Memory: Interaction-Aware Multimodal Memory with Adaptive Agentic Retrieval for Multi-Party Spoken Conversations">Beyond Dyadic Memory: Interaction-Aware Multimodal Memory with Adaptive Agentic Retrieval for Multi-Party Spoken Conversations</span></li></ul>
+<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="UpliftMem: Learning Set-Level Uplift for Agent Memory Retrieval">UpliftMem: Learning Set-Level Uplift for Agent Memory Retrieval</span></li><li><span class="dpr-home-dashboard-paper-title" title="EpiCon: Collective Agent Learning through Co-Evolving Multimodal Memory">EpiCon: Collective Agent Learning through Co-Evolving Multimodal Memory</span></li><li><span class="dpr-home-dashboard-paper-title" title="Learning What to Remember: Long-horizon Counterfactual Memory Optimization">Learning What to Remember: Long-horizon Counterfactual Memory Optimization</span></li></ul>
   </div>
-  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">agent-memory <strong>6</strong></span></div>
+  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">agent-memory <strong>8</strong></span></div>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-skim-card">
   <div class="dpr-home-dashboard-header">
@@ -94,12 +91,12 @@
       <span class="dpr-home-dashboard-kicker">今日累计</span>
       <h3 class="dpr-home-dashboard-title">速读推荐</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">10 篇</strong>
+    <strong class="dpr-home-dashboard-count">11 篇</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="Continuous Context Management">Continuous Context Management</span></li><li><span class="dpr-home-dashboard-paper-title" title="SCLATE: a Substrate for Continual-Learning Agent Training and Evaluation">SCLATE: a Substrate for Continual-Learning Agent Training and Evaluation</span></li><li><span class="dpr-home-dashboard-paper-title" title="Dude, Where&#x27;s My State? Execution Information Requirements for Stateful Agents">Dude, Where&#x27;s My State? Execution Information Requirements for Stateful Agents</span></li></ul>
+<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="Simple Agentic Memory for Generalist Robot Policies">Simple Agentic Memory for Generalist Robot Policies</span></li><li><span class="dpr-home-dashboard-paper-title" title="Traverse: Learning When to Remember, Reset, and Redirect for Long-Horizon Web Search">Traverse: Learning When to Remember, Reset, and Redirect for Long-Horizon Web Search</span></li><li><span class="dpr-home-dashboard-paper-title" title="VideoLoop: Looped Working Memory Against Semantic Thrashing in Long-Form Video Agents">VideoLoop: Looped Working Memory Against Semantic Thrashing in Long-Form Video Agents</span></li></ul>
   </div>
-  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">agent-memory <strong>10</strong></span></div>
+  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">agent-memory <strong>11</strong></span></div>
 </section>
 </div>
 

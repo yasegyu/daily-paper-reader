@@ -1,0 +1,783 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-10-02T19:06:19.594781+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 14,
+    "deep_cap": 6,
+    "deep_selected": 8,
+    "quick_candidates": 11,
+    "quick_skim_target": 11,
+    "quick_selected": 11
+  },
+  "deep_dive": [
+    {
+      "id": "2609.36805v1",
+      "source": "arxiv",
+      "title": "UpliftMem: Learning Set-Level Uplift for Agent Memory Retrieval",
+      "abstract": "Large language model (LLM) agents reuse external memory to guide new tasks, but effective retrieval requires learning which memory sets improve execution. Such learning relies on costly outcome feedback: ordinary retrieval observes only executed sets, while evaluating alternatives requires additional rollouts. We introduce \\textsc{UpliftMem}, which learns memory retrieval from set-level execution uplift relative to the same executor without memory. A theoretical analysis of how retrieval preferences restrict feedback coverage motivates targeted probing of alternative memory sets. Probe selection follows an expected value of sample information (EVSI) criterion, derived in closed form under a correlated Gaussian model, to allocate limited training rollouts according to their expected improvement in local retrieval decisions. The shared scorer is trained with a frozen executor and selects memory sets without test-time probes. Across ALFWorld, WebShop, and BigCodeBench, \\textsc{UpliftMem} achieves the best success rates among evaluated baselines on the main evaluation sets. Controlled fixed-store and matched probe budget evaluations further demonstrate improved memory-use decisions and more effective use of execution feedback.",
+      "authors": [
+        "Mengkun Liang",
+        "Haoran Qiang",
+        "Guannan Liu",
+        "Junjie Wu"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-09-29T06:17:15+00:00",
+      "link": "https://arxiv.org/pdf/2609.36805v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "learning set-level uplift for agent memory retrieval with targeted probing",
+      "llm_evidence_cn": "通过定向探测学习集合级提升的智能体记忆检索",
+      "llm_evidence": "通过定向探测学习集合级提升的智能体记忆检索",
+      "canonical_evidence": "通过定向探测学习集合级提升的智能体记忆检索",
+      "llm_tldr_en": "Effective memory retrieval requires knowing which memory sets improve execution, but outcome feedback is costly. UpliftMem learns from set-level uplift over a no-memory executor, using an EVSI criterion to select alternative memory sets for probing.",
+      "llm_tldr_cn": "LLM 智能体复用外部记忆指导新任务，但有效检索需学习哪些记忆集合能提升执行，而这依赖昂贵的结果反馈：普通检索只观察已执行集合，评估替代方案需额外 rollout。为此提出 UpliftMem，从相对于无记忆执行器的集合级执行提升中学习检索，并通过期望样本信息价值准则在相关高斯模型下选择探测集合。该方法在有限训练 rollout 下提升检索学习效率，为记忆检索学习提供高效的反馈分配方案。",
+      "llm_tldr": "LLM 智能体复用外部记忆指导新任务，但有效检索需学习哪些记忆集合能提升执行，而这依赖昂贵的结果反馈：普通检索只观察已执行集合，评估替代方案需额外 rollout。为此提出 UpliftMem，从相对于无记忆执行器的集合级执行提升中学习检索，并通过期望样本信息价值准则在相关高斯模型下选择探测集合。该方法在有限训练 rollout 下提升检索学习效率，为记忆检索学习提供高效的反馈分配方案。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "memory retrieval mechanisms for agent decision making",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2609.37923v1",
+      "source": "arxiv",
+      "title": "EpiCon: Collective Agent Learning through Co-Evolving Multimodal Memory",
+      "abstract": "Agents can learn from past executions, but enabling different agents to reuse and build on one another's experience remains challenging. We introduce EpiCon, a shared multimodal memory framework for agent collective learning without updating host model parameters. EpiCon links question-level memory evolution to a persistent experience bank through two independently trained 2B models: a memory controller and a tree self-organizer. The controller jointly refines textual guidance and visual evidence across attempts and selectively includes visual memory. The self-organizer consolidates lessons hierarchically and retrieves experience and rules for new problems. We evaluate EpiCon on eleven benchmarks spanning four multimodal task domains, using two harnesses and multiple backbones. A frozen bank improves other systems even with a single solving attempt. A second harness raises the original system's macro-average score by 2.6 points across eleven benchmarks. Across four host configurations, EpiCon improves macro-average scores by 1.7 to 4.9 points over No Memory and reduces memory-operation time by 67\\% to 74\\% relative to backbone-sized memory models.",
+      "authors": [
+        "Ziyun Zeng",
+        "Hang Hua",
+        "Shaden Alshammari",
+        "Rogerio Feris",
+        "William T. Freeman",
+        "Jiebo Luo"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-09-29T16:16:24+00:00",
+      "link": "https://arxiv.org/pdf/2609.37923v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "shared multimodal memory framework enabling collective agent learning across agents",
+      "llm_evidence_cn": "共享多模态记忆框架支持多智能体集体学习",
+      "llm_evidence": "共享多模态记忆框架支持多智能体集体学习",
+      "canonical_evidence": "共享多模态记忆框架支持多智能体集体学习",
+      "llm_tldr_en": "EpiCon introduces a shared multimodal memory framework for collective agent learning, using a memory controller and tree self-organizer to consolidate and retrieve experience across agents without updating host parameters.",
+      "llm_tldr_cn": "针对智能体虽可从过往执行学习、却难以让不同智能体复用并累积彼此经验的问题，本文提出EpiCon，一个共享多模态记忆框架，通过记忆控制器与树式自组织器两个独立训练的2B模型，跨尝试精炼文本引导与视觉证据、分层整合经验并检索经验与规则。该方法无需更新宿主模型参数，在四个多模态任务域的十一个基准上验证有效性。其贡献在于为多智能体共享记忆与集体学习提供新方案。",
+      "llm_tldr": "针对智能体虽可从过往执行学习、却难以让不同智能体复用并累积彼此经验的问题，本文提出EpiCon，一个共享多模态记忆框架，通过记忆控制器与树式自组织器两个独立训练的2B模型，跨尝试精炼文本引导与视觉证据、分层整合经验并检索经验与规则。该方法无需更新宿主模型参数，在四个多模态任务域的十一个基准上验证有效性。其贡献在于为多智能体共享记忆与集体学习提供新方案。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "shared memory and communication in multi-agent systems",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2609.37930v1",
+      "source": "arxiv",
+      "title": "Learning What to Remember: Long-horizon Counterfactual Memory Optimization",
+      "abstract": "Persistent textual memory allows language models to carry information across long interactions, but learning what to remember is fundamentally a credit-assignment problem. A memory rewrite may only become useful many steps later, while much of the observed utility may be inherited from information already stored before the rewrite. We introduce Memory Gain Policy Optimization (MGPO), which isolates the incremental value of each memory rewrite by crediting it for its marginal contribution to current and future downstream utility. This turns delayed memory utility into a direct learning signal for optimizing what information should persist. We study MGPO on document-level information extraction, where structured supervision makes the effects of individual memory updates directly measurable. MGPO improves extraction while reducing average memory length by nearly 80% relative to the initial memory policy before optimization. The learned memory policy also supports reuse and transfer across domains, downstream models without further training. These results show that effective memory learning depends not only on preserving useful information, but on identifying which memory updates create lasting incremental value.",
+      "authors": [
+        "Jiaming Tang",
+        "Mingyan Liu",
+        "Armin Sarabi"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.LG"
+      ],
+      "published": "2026-09-29T16:17:32+00:00",
+      "link": "https://arxiv.org/pdf/2609.37930v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "credit-assignment optimization of what textual memory to persist",
+      "llm_evidence_cn": "对持久文本记忆内容的信用分配优化",
+      "llm_evidence": "对持久文本记忆内容的信用分配优化",
+      "canonical_evidence": "对持久文本记忆内容的信用分配优化",
+      "llm_tldr_en": "Learning what to remember is a credit-assignment problem since a memory rewrite pays off much later. MGPO credits each rewrite for its marginal contribution to current and future utility, giving a direct signal for memory persistence.",
+      "llm_tldr_cn": "持久文本记忆让语言模型在长交互中携带信息，但学会记住什么本质上是一个信用分配问题：一次记忆改写可能很久之后才有用，且大部分效用继承自改写前已存储的信息。作者提出记忆增益策略优化（MGPO），通过为每次记忆改写记取其当前与未来下游效用的边际贡献，将延迟的记忆效用转化为直接的学习信号。该工作在文档级信息抽取上验证了结构化监督下记忆改写效果的隔离，为智能体记忆管理提供了可优化的学习目标。",
+      "llm_tldr": "持久文本记忆让语言模型在长交互中携带信息，但学会记住什么本质上是一个信用分配问题：一次记忆改写可能很久之后才有用，且大部分效用继承自改写前已存储的信息。作者提出记忆增益策略优化（MGPO），通过为每次记忆改写记取其当前与未来下游效用的边际贡献，将延迟的记忆效用转化为直接的学习信号。该工作在文档级信息抽取上验证了结构化监督下记忆改写效果的隔离，为智能体记忆管理提供了可优化的学习目标。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "Identify research on memory consolidation, forgetting, and memory management for continual learning agents.",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2609.38353v2",
+      "source": "arxiv",
+      "title": "TAGGRAPH: Tag-Augmented Graphs for Graph Retrieval of Agent Persistent Histories",
+      "abstract": "Long-term memory lets LLM agents recall past interactions and remain consistent across sessions, but memory systems are hard to compare because they often vary in representation, indexing, retrieval, and evaluation. We present a controlled evaluation framework based on shared 5W-style conversational memories. Localized graph configurations traverse a common base graph; AdaptiveGraph adds chronological edges and Personalized PageRank diffusion. We also evaluate BM25 over the same extracted notes and OpenClaw as a raw-input external reference. Retrieval rankings vary across memory settings. On LongMemEval-S, AdaptiveGraph is the strongest graph configuration at 0.844 MRR, but BM25 reaches 0.867 and OpenClaw 0.880. On ATANT Core, localized graph traversal outperforms diffusion and BM25, whereas BM25 leads the stress rounds. Reducing LongMemEval-S within the tested range does not reproduce the ATANT diffusion penalty, but the smallest tested store remains larger than ATANT Core, so store size cannot be ruled out. The penalty also persists under a permissive content-match criterion. Vocabulary normalization and extraction quality substantially affect graph retrieval, and missing extraction tags are common among top-five misses. Retrieval strategies should therefore be evaluated jointly with the memory setting and against strong lexical baselines.",
+      "authors": [
+        "Yu-Shu Chen",
+        "Yu-Jung Liang",
+        "Pengtao Xie"
+      ],
+      "primary_category": "cs.IR",
+      "categories": [
+        "cs.IR",
+        "cs.AI"
+      ],
+      "published": "2026-09-29T18:15:04+00:00",
+      "link": "https://arxiv.org/pdf/2609.38353v2",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "graph retrieval of agent persistent long-term histories",
+      "llm_evidence_cn": "智能体持久长期历史的图检索",
+      "llm_evidence": "智能体持久长期历史的图检索",
+      "canonical_evidence": "智能体持久长期历史的图检索",
+      "llm_tldr_en": "Long-term memory lets LLM agents recall past sessions but systems are hard to compare. TAGGRAPH builds a controlled evaluation over shared 5W memories, where AdaptiveGraph reaches 0.844 MRR on LongMemEval-S yet BM25 and OpenClaw score higher.",
+      "llm_tldr_cn": "长期记忆让 LLM 智能体跨会话保持一致，但记忆系统在表示、索引、检索与评估上差异大，难以比较。为此提出基于共享 5W 对话记忆的受控评估框架，比较局部图配置、加入时间边与个性化 PageRank 的 AdaptiveGraph，以及 BM25 与 OpenClaw 基线。在 LongMemEval-S 上 AdaptiveGraph 达 0.844 MRR，但 BM25 为 0.867、OpenClaw 为 0.880，说明检索排名随记忆设置变化，为持久记忆检索提供可控对比。",
+      "llm_tldr": "长期记忆让 LLM 智能体跨会话保持一致，但记忆系统在表示、索引、检索与评估上差异大，难以比较。为此提出基于共享 5W 对话记忆的受控评估框架，比较局部图配置、加入时间边与个性化 PageRank 的 AdaptiveGraph，以及 BM25 与 OpenClaw 基线。在 LongMemEval-S 上 AdaptiveGraph 达 0.844 MRR，但 BM25 为 0.867、OpenClaw 为 0.880，说明检索排名随记忆设置变化，为持久记忆检索提供可控对比。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "Search for papers about long term memory, episodic memory, and memory retrieval in interactive agent systems.",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2609.39143v1",
+      "source": "arxiv",
+      "title": "RefCon: Iterative Refinement and Contrastive Memory Extraction for Context-Evolving Agent",
+      "abstract": "Long-horizon agent interactions generate useful but noisy experience, and retraining models to absorb it is expensive. Context-evolving agents therefore need memory extraction methods that improve with more test-time compute without relying on gold labels. We propose RefCon, which combines sequential self-refinement with parallel self-contrast to extract higher-quality memories without gold labels. Evaluated on AppWorld and BFCL-V3 across multiple context-evolving agent frameworks, RefCon delivers strong and consistent gains, including relative improvements of 21.6% on ACE and 16.6% on ReMe over no-scaling baselines, while a diversity-focused variant (DivCon) achieves a 35.5% gain on ReasoningBank. RefCon consistently outperforms existing baselines without ground-truth labels, and generalizes across model scales and to software engineering tasks, where it surpasses even ground-truth baselines. We further analyze the accuracy-token trade-off and scaling behavior, showing RefCon maintains favorable efficiency and continues to improve as more trajectories are used, unlike diversity-only scaling which saturates earlier.",
+      "authors": [
+        "Ubaidillah Ariq Prathama",
+        "Bo Liu",
+        "Yeo Boon Hong",
+        "Yu-Xuan Huang",
+        "Yangkai Ding",
+        "Tao Yu"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.LG",
+        "cs.MA"
+      ],
+      "published": "2026-09-30T07:10:38+00:00",
+      "link": "https://arxiv.org/pdf/2609.39143v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "memory extraction for context-evolving agents without gold labels",
+      "llm_evidence_cn": "面向上下文演化智能体的无金标签记忆抽取",
+      "llm_evidence": "面向上下文演化智能体的无金标签记忆抽取",
+      "canonical_evidence": "面向上下文演化智能体的无金标签记忆抽取",
+      "llm_tldr_en": "Long-horizon interactions yield noisy experience but retraining is costly. RefCon combines sequential self-refinement with parallel self-contrast to extract better memories without gold labels, gaining 21.6% on ACE and 16.6% on ReMe.",
+      "llm_tldr_cn": "长程交互产生有用但嘈杂的经验，重新训练模型吸收经验成本高昂，需要无需标注的记忆抽取方法。为此提出 RefCon，结合串行自精炼与并行自对比，在无金标签条件下抽取更高质量记忆，并给出多样性变体 DivCon。在 AppWorld 与 BFCL-V3 上相较无扩展基线，ACE 提升 21.6%，ReMe 提升 16.6%，DivCon 在 ReasoningBank 提升 35.5%，证明测试时计算可有效提升记忆抽取质量。",
+      "llm_tldr": "长程交互产生有用但嘈杂的经验，重新训练模型吸收经验成本高昂，需要无需标注的记忆抽取方法。为此提出 RefCon，结合串行自精炼与并行自对比，在无金标签条件下抽取更高质量记忆，并给出多样性变体 DivCon。在 AppWorld 与 BFCL-V3 上相较无扩展基线，ACE 提升 21.6%，ReMe 提升 16.6%，DivCon 在 ReasoningBank 提升 35.5%，证明测试时计算可有效提升记忆抽取质量。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "memory-augmented agent models that store and retrieve experience",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2609.39765v1",
+      "source": "arxiv",
+      "title": "MemCodex: Self-Programming Hierarchical Memory for Language Agents",
+      "abstract": "Agent memory faces heterogeneous access needs: a single-hop question may require one piece of evidence, whereas a multi-hop question must combine evidence from multiple sources. Predefined memory workflows cannot adapt to these varying needs. Recent adaptive methods search or learn over memory components and their compositions, but the design space itself remains predefined. We introduce MemCodex, a self-evolving hierarchical memory system that organizes experience into executable memory programs for summaries, relational knowledge, reusable skills, and latent memory. Open-ended program evolution searches the open design space of layer programs by rewriting how each layer is constructed, indexed, retrieved, and routed, thereby adapting both within-layer implementations and cross-layer composition. At query time, reads traverse the hierarchy from coarse to fine and stop once sufficient evidence is found, descending to the original history when needed. We further develop MemArena, a unified runtime that places heterogeneous data and memory systems behind a common interface. MemCodex improves average task success by 10.1% relative to the strongest adaptive-memory baseline, while using 3.4x fewer context tokens and achieving 2.1x faster inference.",
+      "authors": [
+        "Xiaoqiang Wang",
+        "Bang Liu"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL"
+      ],
+      "published": "2026-09-30T13:57:27+00:00",
+      "link": "https://arxiv.org/pdf/2609.39765v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "self-evolving hierarchical memory architecture for language agents",
+      "llm_evidence_cn": "面向语言智能体的自演化分层记忆架构",
+      "llm_evidence": "面向语言智能体的自演化分层记忆架构",
+      "canonical_evidence": "面向语言智能体的自演化分层记忆架构",
+      "llm_tldr_en": "Agent memory has heterogeneous access needs that predefined workflows cannot adapt to. MemCodex organizes experience into executable memory programs and evolves how each layer is built, indexed, retrieved and routed.",
+      "llm_tldr_cn": "智能体记忆面临异构访问需求，单跳问题只需一条证据，多跳问题却需整合多个来源，而预定义记忆流程难以自适应，已有自适应方法的设计空间本身仍是预设的。作者提出MemCodex，一种自演化的分层记忆系统，将经验组织为摘要、关系知识、可复用技能与潜在记忆等可执行记忆程序，并通过开放式程序演化改写每层的构建、索引、检索与路由。该工作把记忆架构设计空间开放化，为语言智能体的自适应记忆提供新思路。",
+      "llm_tldr": "智能体记忆面临异构访问需求，单跳问题只需一条证据，多跳问题却需整合多个来源，而预定义记忆流程难以自适应，已有自适应方法的设计空间本身仍是预设的。作者提出MemCodex，一种自演化的分层记忆系统，将经验组织为摘要、关系知识、可复用技能与潜在记忆等可执行记忆程序，并通过开放式程序演化改写每层的构建、索引、检索与路由。该工作把记忆架构设计空间开放化，为语言智能体的自适应记忆提供新思路。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "memory mechanisms in autonomous agents and agent memory architectures",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2610.00366v1",
+      "source": "arxiv",
+      "title": "What Should an Agent Remember? Disentangling Retention from Retrieval in Bounded-Memory Evaluation",
+      "abstract": "A persistent agent must decide both what to retain as information arrives and what to surface once a query appears, yet memory evaluations can confound these decisions by comparing methods that differ in both retention and selection. We build a streaming-recall benchmark crossing retention and selection rules and evaluate every condition on the same 300 seeded episodes. Holding access fixed, query-aware selection improves required-fact recall by 15.5 percentage points (95% CI: 12.8 to 18.2), whereas a mixed comparison that also changes history access reports a 68.7-point advantage, of which 53.2 points are attributable to access. Under bounded retention, query-aware, dense, and oracle selection reach the retention ceiling, and all 319 observed failures in the bounded recency condition are caused by eviction rather than ranking errors. Recall falls to 0% as targets recede sufficiently far into the past. Repeating the evaluation on SQuAD preserves the retention ceiling while showing that dense retrieval can outperform lexical retrieval on natural text. These results show that bounded-memory evaluations should hold access fixed and report retention and selection separately.",
+      "authors": [
+        "Juli Huang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-09-30T06:38:14+00:00",
+      "link": "https://arxiv.org/pdf/2610.00366v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "disentangling retention from retrieval in bounded agent memory evaluation",
+      "llm_evidence_cn": "在有限记忆评估中解耦信息保留与检索呈现",
+      "llm_evidence": "在有限记忆评估中解耦信息保留与检索呈现",
+      "canonical_evidence": "在有限记忆评估中解耦信息保留与检索呈现",
+      "llm_tldr_en": "This work builds a streaming-recall benchmark crossing retention and selection rules to disentangle what agents retain from what they surface, showing query-aware selection gains 15.5 points while much apparent advantage stems from history access.",
+      "llm_tldr_cn": "持久智能体既要决定随时间保留哪些信息，又要决定查询出现时呈现哪些信息，但现有记忆评估常将二者混为一谈，比较的方法在保留与选择上同时不同。本文构建流式回忆基准，交叉组合保留规则与选择规则，并在相同300个种子情景上评估每种条件。结果显示，在固定访问条件下查询感知选择将必需事实召回提升15.5个百分点，而混合比较中68.7点的优势有53.2点来自历史访问差异。该工作为记忆保留与检索的分离评估提供了受控框架。",
+      "llm_tldr": "持久智能体既要决定随时间保留哪些信息，又要决定查询出现时呈现哪些信息，但现有记忆评估常将二者混为一谈，比较的方法在保留与选择上同时不同。本文构建流式回忆基准，交叉组合保留规则与选择规则，并在相同300个种子情景上评估每种条件。结果显示，在固定访问条件下查询感知选择将必需事实召回提升15.5个百分点，而混合比较中68.7点的优势有53.2点来自历史访问差异。该工作为记忆保留与检索的分离评估提供了受控框架。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "memory-augmented agent models that store and retrieve experience",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2610.00872v1",
+      "source": "arxiv",
+      "title": "MemFit: Efficient Long-Term Agentic Memory",
+      "abstract": "Long-term memory systems for large language models (LLMs) have gained popularity for extending reasoning capabilities across applications. Current memory systems rely on LLM agents to organize and consolidate memory, resulting in costly, inefficient write operations. To address this limitation, we propose MemFit, a long-term memory system for conversational agents that reduces the cost and latency of memory operations. Unlike existing systems that rely on expensive LLM calls for memory construction or discard surface-level details through compression, MemFit stores each turn verbatim in an append-only store with near-instantaneous, LLM-free insertion, indexing turns with segment summaries rather than replacing them. Additionally, MemFit uses an LLM-free, multi-path retrieval strategy that combines lexical and semantic signals with cross-encoder reranking over caption- augmented episodes in both textual and multimodal settings. Empirical results on three widely used benchmarks, LoCoMo, MemGallery, and LongMemEval-S, show that MemFit achieves state-of-the-art performance while reducing memory construction time and cost several-fold, providing a scalable and efficient solution for persistent agentic memory.",
+      "authors": [
+        "Mitchell Piehl",
+        "Muchao Ye"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-10-01T00:44:33+00:00",
+      "link": "https://arxiv.org/pdf/2610.00872v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "long-term memory system for conversational agents with append-only store and retrieval",
+      "llm_evidence_cn": "面向会话智能体的长期记忆系统，采用追加存储与检索",
+      "llm_evidence": "面向会话智能体的长期记忆系统，采用追加存储与检索",
+      "canonical_evidence": "面向会话智能体的长期记忆系统，采用追加存储与检索",
+      "llm_tldr_en": "MemFit addresses costly LLM-driven memory writes in long-term agent memory by appending each turn verbatim with LLM-free insertion and segment-summary indexing, enabling cheap multi-path retrieval and lower latency.",
+      "llm_tldr_cn": "针对现有LLM长期记忆系统依赖昂贵的LLM调用进行记忆构建、写入低效的问题，本文提出MemFit，将每轮对话逐字追加存储，实现近乎即时的免LLM插入，并用分段摘要索引而非替换原文，配合免LLM多路径检索。该方法显著降低会话智能体记忆操作的成本与延迟，同时保留表层细节。其贡献在于为高效长期智能体记忆提供了可扩展的架构。",
+      "llm_tldr": "针对现有LLM长期记忆系统依赖昂贵的LLM调用进行记忆构建、写入低效的问题，本文提出MemFit，将每轮对话逐字追加存储，实现近乎即时的免LLM插入，并用分段摘要索引而非替换原文，配合免LLM多路径检索。该方法显著降低会话智能体记忆操作的成本与延迟，同时保留表层细节。其贡献在于为高效长期智能体记忆提供了可扩展的架构。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "memory mechanisms in autonomous agents and agent memory architectures",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2609.36595v1",
+      "source": "arxiv",
+      "title": "Simple Agentic Memory for Generalist Robot Policies",
+      "abstract": "Visual-memory systems commonly retain or compress past observations. Robot control additionally requires interaction-derived state that no individual frame may explicitly represent, such as persistent identity relations, accumulated progress, or ordered procedures. We introduce Simple Agentic Robot Memory (SimpleARM), a training-free memory layer for frozen generalist robot policies. From the task instruction, SimpleARM specifies what to monitor; frozen perceptual tools maintain compact typed state online; structured access retrieves that state only when a proposed subgoal depends on history; and current-view grounding resolves recalled entities before execution. We evaluate SimpleARM on RoboMME, a benchmark of memory-dependent robot manipulation tasks that require history information no longer available in the current observation. Across all 16 tasks and three policy seeds, SimpleARM achieves 67.17% mean success, compared with 44.51% for the strongest non-oracle baseline. Matched ablations show mechanism specificity: removing relation, reference, progress, or route state produces large losses where the affected state is retrieved for control, while largely sparing other tasks. These results support a state-based view of robot memory: effective memory for control is not simply retained visual history, but compact task-relevant state derived from the interaction history.",
+      "authors": [
+        "Yuyou Zhang",
+        "Yunbei Zhang",
+        "Miao Li",
+        "Janet Wang",
+        "Zijian Jin",
+        "Shilong Liu",
+        "Ding Zhao"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-09-29T03:16:27+00:00",
+      "link": "https://arxiv.org/pdf/2609.36595v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "training-free agentic memory layer with structured retrieval for robots",
+      "llm_evidence_cn": "免训练智能体记忆层与结构化检索",
+      "llm_evidence": "免训练智能体记忆层与结构化检索",
+      "canonical_evidence": "免训练智能体记忆层与结构化检索",
+      "llm_tldr_en": "SimpleARM is a training-free memory layer for frozen generalist robot policies that maintains compact typed interaction state and retrieves it only when a subgoal depends on history, improving memory-dependent manipulation.",
+      "llm_tldr_cn": "机器人控制不仅需要保留或压缩历史观测，还需要帧间难以显式表达的交互状态，例如持续身份关系、累积进度与有序流程。为此本文提出SimpleARM，一种面向冻结通用机器人策略的免训练记忆层：依据任务指令确定监控对象，用冻结感知工具在线维护紧凑类型化状态，仅在子目标依赖历史时结构化检索，并在执行前进行当前视角落地。在RoboMME记忆依赖型操作基准上的实验表明，该方法提升了依赖历史的操作表现，为机器人策略提供了可插拔的记忆增强方案。",
+      "llm_tldr": "机器人控制不仅需要保留或压缩历史观测，还需要帧间难以显式表达的交互状态，例如持续身份关系、累积进度与有序流程。为此本文提出SimpleARM，一种面向冻结通用机器人策略的免训练记忆层：依据任务指令确定监控对象，用冻结感知工具在线维护紧凑类型化状态，仅在子目标依赖历史时结构化检索，并在执行前进行当前视角落地。在RoboMME记忆依赖型操作基准上的实验表明，该方法提升了依赖历史的操作表现，为机器人策略提供了可插拔的记忆增强方案。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "memory mechanisms in autonomous agents and agent memory architectures",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2609.37311v1",
+      "source": "arxiv",
+      "title": "ReMem: Rethinking Perception and Memory in Long-Context Recommendation Agents",
+      "abstract": "Recent Recommendation Agents (RecAgents) offer a promising alternative by shifting recommendation to an active, user-side paradigm, where generative agents autonomously perceive external platforms, reason over user preferences, and execute decisions. However, existing RecAgents still suffer from two critical limitations: brittle item perception based on noisy and heterogeneous item pages, and inefficient long-context reasoning over extended user histories and multi-step interaction traces. To address these challenges, we propose a novel recommendation agent framework, termed as ReMem, that combines OCR-based multimodal perception with time-evolving dynamic memory. Instead of parsing raw HTML, ReMem observes item pages through screenshots and extracts structured multimodal information via an OCR tool, enabling a more humanoid and platform-agnostic perception mechanism. To support long-horizon preference modeling, ReMem further introduces a chunk-wise sequential memory update strategy, where the agent selectively maintains a fixed-size memory of informative historical interactions while processing arbitrarily long contexts with linear inference complexity and bounded context length. This design allows the agent to preserve evolving user preferences without relying on external memory modules or disrupting the standard autoregressive generation process. To enhance the dynamic memory instruction, we further develop a multi-memory GRPO variant, which propagates the final-answer advantage to all intermediate conversations that contribute to the final response. Extensive experiments on three datasets demonstrate that ReMem consistently outperforms state-of-the-art baselines, achieving an average improvement of 5.16\\% across three recommendation agent tasks, namely searching, ranking, and judging.",
+      "authors": [
+        "Haohao Qu",
+        "Yongcheng Jing",
+        "Chun Hin Chan",
+        "Shanru Lin",
+        "Wenqi Fan",
+        "Dacheng Tao"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.IR"
+      ],
+      "published": "2026-09-29T11:46:23+00:00",
+      "link": "https://arxiv.org/pdf/2609.37311v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "recommendation agents combining multimodal perception with time-evolving dynamic memory",
+      "llm_evidence_cn": "推荐智能体结合多模态感知与时间演化动态记忆",
+      "llm_evidence": "推荐智能体结合多模态感知与时间演化动态记忆",
+      "canonical_evidence": "推荐智能体结合多模态感知与时间演化动态记忆",
+      "llm_tldr_en": "ReMem is a recommendation agent framework combining OCR-based multimodal perception with time-evolving dynamic memory to handle noisy item pages and long-context reasoning over user histories.",
+      "llm_tldr_cn": "针对现有推荐智能体物品感知脆弱、长上下文推理低效的问题，本文提出ReMem框架，结合基于OCR的多模态感知与时间演化动态记忆，通过截图而非解析原始HTML观察物品页，并维护随交互演化的记忆。该方法提升了推荐智能体在长用户历史与多步交互轨迹下的推理效率。其贡献在于为长上下文推荐智能体提供感知与记忆协同的新框架。",
+      "llm_tldr": "针对现有推荐智能体物品感知脆弱、长上下文推理低效的问题，本文提出ReMem框架，结合基于OCR的多模态感知与时间演化动态记忆，通过截图而非解析原始HTML观察物品页，并维护随交互演化的记忆。该方法提升了推荐智能体在长用户历史与多步交互轨迹下的推理效率。其贡献在于为长上下文推荐智能体提供感知与记忆协同的新框架。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "memory mechanisms in autonomous agents and agent memory architectures",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2609.37082v2",
+      "source": "arxiv",
+      "title": "Traverse: Learning When to Remember, Reset, and Redirect for Long-Horizon Web Search",
+      "abstract": "Long-horizon information-seeking agents often accumulate noisy or misleading context, causing early mistakes to persist and making recovery increasingly difficult. We introduce an autonomous search harness in which the agent manages its own search process through three states: Rubric, Answer, and Verify. The agent first defines criteria for a valid answer, searches under these criteria, and then independently verifies the result before deciding whether to terminate or continue searching. It is further equipped with a Seal Memory tool that enables active context management. Training this behavior with reinforcement learning, however, can induce Seal Collapse, resulting in unstable training and preventing the agent from reliably learning when and how to use its memory tools. We solve this with a simple strategy that trains only the final segment after context management. Our 35B model achieves 72.83 on BrowseComp, outperforming comparable open-source systems, and consistently improves over the base model across BrowseComp-ZH, xbench, DeepSearchQA, WideSearch, financial investigation, and product search. Ablations show that autonomous compression outperforms automatic compaction and validate our RL design.",
+      "authors": [
+        "Jingyuan Ma",
+        "Lynx Aster",
+        "He Zhang",
+        "Siyao Song",
+        "Weijie Yuan",
+        "Zhe Zhang",
+        "Kai Jia",
+        "Zhifang Sui"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL"
+      ],
+      "published": "2026-09-29T09:13:44+00:00",
+      "link": "https://arxiv.org/pdf/2609.37082v2",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "agent-managed memory tool for long-horizon autonomous search agents",
+      "llm_evidence_cn": "面向长程自主搜索智能体的主动记忆管理工具",
+      "llm_evidence": "面向长程自主搜索智能体的主动记忆管理工具",
+      "canonical_evidence": "面向长程自主搜索智能体的主动记忆管理工具",
+      "llm_tldr_en": "Traverse equips long-horizon web search agents with a three-state autonomous harness and a Seal Memory tool for active context management, revealing a Seal Collapse training instability that blocks reliable memory learning.",
+      "llm_tldr_cn": "针对长程信息检索智能体易积累噪声或误导性上下文、早期错误持续存在且难以恢复的问题，本文提出Traverse自主搜索框架，让智能体在Rubric、Answer、Verify三种状态间自主管理搜索流程，并配备Seal Memory工具主动管理上下文记忆。用强化学习训练该行为时出现Seal Collapse现象，导致训练不稳定、难以可靠习得记忆行为。该工作凸显了主动记忆管理对长程智能体的重要性及相应训练挑战。",
+      "llm_tldr": "针对长程信息检索智能体易积累噪声或误导性上下文、早期错误持续存在且难以恢复的问题，本文提出Traverse自主搜索框架，让智能体在Rubric、Answer、Verify三种状态间自主管理搜索流程，并配备Seal Memory工具主动管理上下文记忆。用强化学习训练该行为时出现Seal Collapse现象，导致训练不稳定、难以可靠习得记忆行为。该工作凸显了主动记忆管理对长程智能体的重要性及相应训练挑战。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "memory mechanisms in autonomous agents and agent memory architectures",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2609.38275v1",
+      "source": "arxiv",
+      "title": "When Correct Memory Goes Wrong: Fuzzing Persistent Memory Use in LLM Agents",
+      "abstract": "Persistent memory helps LLM agents carry information across long interactions, but correct memory can still be used incorrectly when queries change or memory states evolve. Existing work mainly studies memory content errors or evaluates fixed test cases, leaving memory-use failures hard to discover systematically. We formulate this issue as a fuzzing problem and categorize such failures into query-related and memory-state failures. We then develop U-Fuzz, which starts from memory checkpoints as test seeds, mutates queries or memory states under explicit mutation obligations, validates each mutant, and uses observed memory behavior to guide iterative testing while keeping failure labels outside the search. We evaluate U-Fuzz across several memory systems against diverse fuzzing baselines, and further test an output-only setting with API-based LLMs where memory retrieval is hidden. Across these settings, U-Fuzz consistently uncovers more confirmed memory-use failures, showing that its search remains effective across different memory architectures and even when only final responses are observable.",
+      "authors": [
+        "Yuqiao Meng",
+        "Luoxi Tang",
+        "Yingxue Zhang",
+        "Yuchen Yang",
+        "Zhaohan Xi"
+      ],
+      "primary_category": "cs.DC",
+      "categories": [
+        "cs.DC",
+        "cs.AI"
+      ],
+      "published": "2026-09-29T15:35:58+00:00",
+      "link": "https://arxiv.org/pdf/2609.38275v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "persistent memory use failures in LLM agents via fuzzing",
+      "llm_evidence_cn": "LLM智能体持久记忆使用失败的模糊测试",
+      "llm_evidence": "LLM智能体持久记忆使用失败的模糊测试",
+      "canonical_evidence": "LLM智能体持久记忆使用失败的模糊测试",
+      "llm_tldr_en": "U-Fuzz formulates memory-use failures in LLM agents as a fuzzing problem, mutating queries and memory states from checkpoints to systematically discover query-related and state-related failures.",
+      "llm_tldr_cn": "持久记忆帮助LLM智能体跨长交互传递信息，但即使记忆内容正确，当查询变化或记忆状态演化时，记忆仍可能被错误使用。现有工作多关注记忆内容错误或固定测试用例，难以系统发现此类使用失败。本文将该问题形式化为模糊测试，提出U-Fuzz：以记忆检查点为测试种子，在显式变异义务下变异查询或记忆状态，逐一验证并利用观察到的记忆行为引导迭代搜索。在多个记忆系统上的评估表明，该方法能系统发现查询相关与记忆状态两类失败。",
+      "llm_tldr": "持久记忆帮助LLM智能体跨长交互传递信息，但即使记忆内容正确，当查询变化或记忆状态演化时，记忆仍可能被错误使用。现有工作多关注记忆内容错误或固定测试用例，难以系统发现此类使用失败。本文将该问题形式化为模糊测试，提出U-Fuzz：以记忆检查点为测试种子，在显式变异义务下变异查询或记忆状态，逐一验证并利用观察到的记忆行为引导迭代搜索。在多个记忆系统上的评估表明，该方法能系统发现查询相关与记忆状态两类失败。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "Search for papers about long term memory, episodic memory, and memory retrieval in interactive agent systems.",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2609.38119v2",
+      "source": "arxiv",
+      "title": "VideoLoop: Looped Working Memory Against Semantic Thrashing in Long-Form Video Agents",
+      "abstract": "Long-form video understanding requires multimodal agents to iteratively gather evidence over many reasoning steps. However, most existing agentic methods suffer from semantic thrashing: as append-only working memory grows, attention to key evidence collapses, and the agent loses access to what it has already found. First, we provide a structural argument showing that append-only memory can incorporate newly observed target evidence, but cannot remove accumulated noise or prevent ordered context growth without a rewrite operator. Second, motivated by this analysis, we propose VideoLoop, a multimodal agent with two coupled loops. The outer loop reasons over the video and the inner loop, after each step, retrieves artifacts from an unbounded filesystem of past observations and intermediate analysis, and rewrites a bounded working memory. Extensive experiments demonstrate the effectiveness of VideoLoop, which improves four popular LVLM backbones in a plug-and-play manner, with an average gain of 4.2% points over baseline on VideoMME (long). Further analysis of working memory suggests that VideoLoop mitigates semantic thrashing: on the hardest quarter of VideoMME (long) questions, a blind judge that reads only the agent's context answers 81.1% correctly, versus 60.9% for the append-only agent. With Gemini 3.1 Pro, VideoLoop reaches 88.3% on VideoMME (long), 88.8% on VideoMMMU, and 80.9% on LongVideoBench (long).",
+      "authors": [
+        "Jianming Xu",
+        "Jinfa Huang",
+        "Jingyang Lin",
+        "Zhengyuan Yang",
+        "Jiebo Luo"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-09-29T17:50:21+00:00",
+      "link": "https://arxiv.org/pdf/2609.38119v2",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "working memory management against semantic thrashing in long-form video agents",
+      "llm_evidence_cn": "长视频智能体中的工作记忆管理与语义抖动抑制",
+      "llm_evidence": "长视频智能体中的工作记忆管理与语义抖动抑制",
+      "canonical_evidence": "长视频智能体中的工作记忆管理与语义抖动抑制",
+      "llm_tldr_en": "Append-only working memory causes semantic thrashing in long-form video agents. VideoLoop couples an outer reasoning loop with an inner retrieval loop and a rewrite operator, preventing context growth from collapsing attention to key evidence.",
+      "llm_tldr_cn": "长视频理解要求多模态智能体在多个推理步中反复收集证据，但仅追加式的工作记忆会随上下文增长导致注意力崩塌，即所谓语义抖动，使智能体丢失已获得的关键证据。作者从结构上论证仅追加记忆无法删除噪声，进而提出VideoLoop，用外层推理循环与内层检索循环耦合，并引入重写算子压缩无界记忆。实验显示该设计能维持对关键证据的注意力，为交互式智能体的工作记忆管理提供了可重写的机制。",
+      "llm_tldr": "长视频理解要求多模态智能体在多个推理步中反复收集证据，但仅追加式的工作记忆会随上下文增长导致注意力崩塌，即所谓语义抖动，使智能体丢失已获得的关键证据。作者从结构上论证仅追加记忆无法删除噪声，进而提出VideoLoop，用外层推理循环与内层检索循环耦合，并引入重写算子压缩无界记忆。实验显示该设计能维持对关键证据的注意力，为交互式智能体的工作记忆管理提供了可重写的机制。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "memory mechanisms in autonomous agents and agent memory architectures",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2609.39166v2",
+      "source": "arxiv",
+      "title": "Beyond the Remembered World: Predictive 4D Belief for Persistent Navigation in Evolving Worlds",
+      "abstract": "Persistent spatial memory enables embodied agents to navigate familiar environments across repeated visits. However, targets may move while unobserved, including during navigation, making remembered locations unreliable by the time an agent arrives. Despite advances in memory retrieval and state prediction, accounting for continued hidden world evolution and revising beliefs under limited visibility remain challenging. We study Evolving-World Navigation, where agents infer target locations from intermittent observations, predict their states at inspection time, and revise beliefs using visual evidence. We propose EvolvingNav, which constructs a time-indexed belief from timestamped 3D object histories through a structured persistence-relocation model. The belief distinguishes persistence at the last observed location from relocation to alternative locations and retains probability mass outside the known candidate set. An event-driven filter propagates the current belief as time elapses, forecasts target occupancy at candidate inspection times, and incorporates new RGB-D evidence. Negative observations downweight location hypotheses according to calibrated, visibility-conditioned detection probabilities, while evidence tracking prevents repeated use of the same observations. A frozen, zero-shot vision-language controller uses the updated belief to choose actions and replan. We further introduce EvoWorld-Bench, a benchmark grounded in human activity traces, comprising 54 scenes and 803,680 tasks with controlled changes before and during navigation. In simulation and real-robot experiments, EvolvingNav improves navigation success and search efficiency over the evaluated baselines. Paired experiments show the clearest gains under learnable temporal patterns, while ablations demonstrate the value of preserving uncertainty and incorporating visibility-aware evidence.",
+      "authors": [
+        "Mingjian Gao",
+        "Zhaocheng Li",
+        "Haoyang Huang",
+        "Wenqiao Zhang",
+        "Yingjie Niu",
+        "Hao Zhou",
+        "Chao Li",
+        "Juncheng Li",
+        "Siliang Tang",
+        "Yueting Zhuang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-09-30T07:26:36+00:00",
+      "link": "https://arxiv.org/pdf/2609.39166v2",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "persistent spatial memory and belief revision for embodied agents",
+      "llm_evidence_cn": "面向具身智能体的持久空间记忆与信念修正",
+      "llm_evidence": "面向具身智能体的持久空间记忆与信念修正",
+      "canonical_evidence": "面向具身智能体的持久空间记忆与信念修正",
+      "llm_tldr_en": "Persistent spatial memory fails when targets move unobserved. EvolvingNav builds a time-indexed 4D belief from timestamped object histories, letting embodied agents predict and revise target states for navigation in evolving worlds.",
+      "llm_tldr_cn": "现有持久空间记忆假设目标静止，一旦目标在未被观察期间移动，记忆位置在智能体到达时便已失效。作者提出EvolvingNav，利用带时间戳的三维物体历史构建时间索引的4D信念，并通过视觉证据在有限可见度下持续修正对目标状态的预测。实验表明该方法在演化世界导航任务中优于既有记忆检索与状态预测基线，为具身智能体的持久空间记忆提供了可动态更新的信念表示。",
+      "llm_tldr": "现有持久空间记忆假设目标静止，一旦目标在未被观察期间移动，记忆位置在智能体到达时便已失效。作者提出EvolvingNav，利用带时间戳的三维物体历史构建时间索引的4D信念，并通过视觉证据在有限可见度下持续修正对目标状态的预测。实验表明该方法在演化世界导航任务中优于既有记忆检索与状态预测基线，为具身智能体的持久空间记忆提供了可动态更新的信念表示。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "memory mechanisms in autonomous agents and agent memory architectures",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2609.40118v1",
+      "source": "arxiv",
+      "title": "Persistent Context Graphs for Efficient Memory Compaction in LLM Agents",
+      "abstract": "As LLM capabilities advance, agents are tackling increasingly complex tasks over longer horizons. Their growing interaction histories make memory compaction essential for staying within context windows and reducing prefill cost. Existing methods summarize the history or compress its KV cache, often adding model computation to preserve information for future requests. A new user request can change which history matters, but reassessing that history with the model requires re-encoding it if the KV cache has expired. Past attention provides signals of historical importance and dependencies between messages, while relevance to the current task must be assessed using the new user request. We introduce ReCAP, a memory compaction method that stores attention-derived importance scores and dependency links in a lightweight, persistent context graph. For each new request, ReCAP combines stored importance with relevance cues from the request and follows dependency links to select messages and their supporting context, without additional model calls for selection. Compared with Codex's default summarization-based compaction, ReCAP reduces estimated latency for compaction and cold restoration by approximately 95% on both Qwen3-Coder and gpt-oss. It also roughly halves the historical context per call on SWE-Together at comparable task quality and improves accuracy on the code tasks of Lost-in-Conversation over full history by 19.8 and 41.2 points.",
+      "authors": [
+        "Jingbo Yang",
+        "Kwei-Herng Lai",
+        "Xiaowen Wang",
+        "Zhaoxuan Tan",
+        "Pei Zhou",
+        "Mengting Wan",
+        "Yaar Harari",
+        "Evgeniy Gabrilovich",
+        "Shiyu Chang"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL"
+      ],
+      "published": "2026-09-30T16:43:28+00:00",
+      "link": "https://arxiv.org/pdf/2609.40118v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "memory compaction for LLM agents via persistent context graphs",
+      "llm_evidence_cn": "基于持久上下文图的LLM智能体记忆压缩",
+      "llm_evidence": "基于持久上下文图的LLM智能体记忆压缩",
+      "canonical_evidence": "基于持久上下文图的LLM智能体记忆压缩",
+      "llm_tldr_en": "ReCAP is a memory compaction method that stores attention signals and uses the current request to reassess history importance, keeping long LLM agent histories within context windows at lower cost.",
+      "llm_tldr_cn": "随着LLM能力提升，智能体在越来越长的任务中积累大量交互历史，记忆压缩对控制上下文窗口与降低预填充成本至关重要，而新请求会改变哪些历史更重要。本文提出ReCAP记忆压缩方法，存储注意力信号以捕捉历史重要性与消息依赖，并结合当前用户请求评估相关性。实验表明，该方法在保持未来请求所需信息的同时降低了上下文与预填充开销，为LLM智能体的长程记忆管理提供了高效方案。",
+      "llm_tldr": "随着LLM能力提升，智能体在越来越长的任务中积累大量交互历史，记忆压缩对控制上下文窗口与降低预填充成本至关重要，而新请求会改变哪些历史更重要。本文提出ReCAP记忆压缩方法，存储注意力信号以捕捉历史重要性与消息依赖，并结合当前用户请求评估相关性。实验表明，该方法在保持未来请求所需信息的同时降低了上下文与预填充开销，为LLM智能体的长程记忆管理提供了高效方案。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "Search for papers about long term memory, episodic memory, and memory retrieval in interactive agent systems.",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2609.39473v1",
+      "source": "arxiv",
+      "title": "Beyond the Shadows of Plato's Cave: Evaluating False Memory in Autonomous Agents via Counterfactual Reasoning",
+      "abstract": "Autonomous agents increasingly rely on memory to generalize beyond their training environments. However, agents are bounded by what they have seen and believed, and leveraging such memories in unseen environments can introduce biases into their internal beliefs. We formalize this phenomenon as \\textit{false memory}, which can arise from spurious correlations, environment shifts, and knowledge conflicts. Despite its importance, false memory is difficult to evaluate because it stems from agent internal beliefs and is easily confounded with ordinary generalization failures. Therefore, we propose FAME, a training-free framework that evaluates false memory through the evolution of agent beliefs under counterfactual reasoning. Specifically, counterfactual scenarios reveal how beliefs change as the latent concept of memory shifts under hypothetical interventions; thus, measuring the resulting concept drift provides a signal for distinguishing faithful versus false memory. Such concepts can be estimated from agent hidden states before answer generation, avoiding the need for reward design or answer sampling. Empirical experiments reveal that simply monitoring answers often fails to detect false memory, while FAME achieves AUROCs of 76.2% - 96.7% across false-memory settings, and outperforms the best baseline by 3.4% - 23.3% across realistic benchmarks, spanning math reasoning (GSM-Symbolic), code generation (GitChameleon), and complex reasoning (BigBench-Hard). We further release corresponding counterfactual templates and facilitate future research on false memory.",
+      "authors": [
+        "Quan M. Tran",
+        "Zhuo Huang",
+        "Zhen Fang",
+        "Jing Zhang",
+        "Mingming Gong",
+        "Tongliang Liu"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-09-30T10:35:41+00:00",
+      "link": "https://arxiv.org/pdf/2609.39473v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "evaluates false memory in autonomous agents via counterfactual reasoning",
+      "llm_evidence_cn": "通过反事实推理评估自主智能体的虚假记忆",
+      "llm_evidence": "通过反事实推理评估自主智能体的虚假记忆",
+      "canonical_evidence": "通过反事实推理评估自主智能体的虚假记忆",
+      "llm_tldr_en": "Formalizes false memory in autonomous agents and proposes FAME, a training-free framework that evaluates false memory through the evolution of agent beliefs under counterfactual reasoning.",
+      "llm_tldr_cn": "自主智能体依赖记忆泛化到训练环境之外，但记忆中的偏差会形成虚假记忆，且难以与普通泛化失败区分。本文形式化虚假记忆现象，并提出免训练的FAME框架，通过反事实推理下智能体信念的演化来评估虚假记忆。该工作为智能体记忆的可靠性评估与偏见诊断提供了新视角和可复用工具。",
+      "llm_tldr": "自主智能体依赖记忆泛化到训练环境之外，但记忆中的偏差会形成虚假记忆，且难以与普通泛化失败区分。本文形式化虚假记忆现象，并提出免训练的FAME框架，通过反事实推理下智能体信念的演化来评估虚假记忆。该工作为智能体记忆的可靠性评估与偏见诊断提供了新视角和可复用工具。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "memory mechanisms in autonomous agents and agent memory architectures",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2609.40195v1",
+      "source": "arxiv",
+      "title": "MemLife: Curating and Reasoning over Long-Term Egocentric Video Memories",
+      "abstract": "Long-term egocentric video enables personalized AI assistants to reason about daily life. However, as video histories grow to hundreds of hours spanning months or years, reprocessing raw clips for every query becomes computationally prohibitive. Memory systems offer a scalable alternative by compacting videos into text representations, but often fail on practical benchmarks: either the memory does not preserve key evidence, or the retriever fails to locate relevant entries due to retrieval competition in growing search spaces. To address these challenges, we introduce MemLife, a multimodal memory system that constructs entity-grounded, first-person text episodes and retrieves them via a time-indexed agentic reader. Without training or query-time video access, MemLife improves over the strongest training-free baseline by 4.6--12.0% across four long-horizon benchmarks. To further improve memory quality, we propose MemOpt, a reinforcement learning framework that optimizes the memory writer to produce faithful, informative, and retrievable memories. MemOpt consistently improves MemLife by 2.7--5.0% across different video and question distributions, with gains that generalize across writer and reader backbones and memory systems.",
+      "authors": [
+        "Guangzhi Xiong",
+        "Xinyuan Zhang",
+        "Xiao Yang",
+        "Hyokun Yun",
+        "Kai Zhang",
+        "Shiun-Zu Kuo",
+        "Hyeonjeong Ha",
+        "Xilun Chen",
+        "Kai Sun",
+        "Lucas Liang",
+        "Guangqiang Dong",
+        "Ejaz Ahmed",
+        "Ahmed A Aly",
+        "Anuj Kumar",
+        "Raffay Hamid",
+        "Aidong Zhang",
+        "Xin Luna Dong"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.CL"
+      ],
+      "published": "2026-09-30T17:11:33+00:00",
+      "link": "https://arxiv.org/pdf/2609.40195v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "long-term memory system with time-indexed agentic retrieval over egocentric video",
+      "llm_evidence_cn": "面向第一人称视频的长期记忆系统与时间索引智能体检索",
+      "llm_evidence": "面向第一人称视频的长期记忆系统与时间索引智能体检索",
+      "canonical_evidence": "面向第一人称视频的长期记忆系统与时间索引智能体检索",
+      "llm_tldr_en": "MemLife compacts long egocentric video into entity-grounded first-person text episodes and retrieves them with a time-indexed agentic reader, avoiding query-time video reprocessing and retrieval competition.",
+      "llm_tldr_cn": "长期第一人称视频可用于个性化AI助理的日常生活推理，但历史增长到数百小时、跨越数月甚至数年后，逐查询重处理原始片段代价过高。记忆系统可将视频压缩为文本表示，却常在关键证据保留或检索定位上失败。本文提出MemLife多模态记忆系统，构建以实体为锚的第一人称文本片段，并借助时间索引的智能体阅读器进行检索，无需训练或查询时视频处理。该工作为长期视频记忆的可扩展检索提供了新思路。",
+      "llm_tldr": "长期第一人称视频可用于个性化AI助理的日常生活推理，但历史增长到数百小时、跨越数月甚至数年后，逐查询重处理原始片段代价过高。记忆系统可将视频压缩为文本表示，却常在关键证据保留或检索定位上失败。本文提出MemLife多模态记忆系统，构建以实体为锚的第一人称文本片段，并借助时间索引的智能体阅读器进行检索，无需训练或查询时视频处理。该工作为长期视频记忆的可扩展检索提供了新思路。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "Search for papers about long term memory, episodic memory, and memory retrieval in interactive agent systems.",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2610.01415v1",
+      "source": "arxiv",
+      "title": "Beyond Memory: Harnessing Long-Horizon Agents with Explicit Belief States",
+      "abstract": "Large language model (LLM) agents can now undertake increasingly complex tasks, but the way they organize interaction history into memory does not ensure a coherent understanding of the current world. We introduce PoS, an inference-time framework that constructs and continually maintains explicit belief states as the agent's decision context. Each belief combines an estimate of the current world state with unresolved task requirements, making explicit what the agent still needs to learn and accomplish. To keep this belief reliable and actionable, PoS validates its consistency and monitors task progress to detect Belief Trapping, where the agent continues to act without making meaningful progress toward the goal. Recovery is then tailored to both the trapping pattern and the type of unresolved task requirement. Experiments on four benchmarks spanning execution and diagnosis show that PoS achieves the highest overall performance on every benchmark with all three LLM backbones. Ablations demonstrate the importance of consistency validation and recovery, while context-scaling experiments show resilience to context growth. Together, these results support belief construction and continual maintenance as a foundation for long-horizon context management beyond history retention and compression.",
+      "authors": [
+        "Yu Luo",
+        "Jiamin Jiang",
+        "Yimin Zuo",
+        "Xidao Wen",
+        "Rongchen Gao",
+        "Yongqian Sun",
+        "Shenglin Zhang",
+        "Guiyang Liu",
+        "Cheng Zhang",
+        "Fang Situ",
+        "Qi Zhou",
+        "Dan Pei"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-10-01T10:21:46+00:00",
+      "link": "https://arxiv.org/pdf/2610.01415v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "explicit belief states as decision context for long-horizon agents",
+      "llm_evidence_cn": "以显式信念状态作为长时程智能体的决策上下文",
+      "llm_evidence": "以显式信念状态作为长时程智能体的决策上下文",
+      "canonical_evidence": "以显式信念状态作为长时程智能体的决策上下文",
+      "llm_tldr_en": "Introduces PoS, an inference-time framework that builds and maintains explicit belief states combining world-state estimates and unresolved task requirements, detecting and recovering from Belief Trapping in long-horizon agents.",
+      "llm_tldr_cn": "LLM智能体可完成越来越复杂的任务，但把交互历史组织为记忆并不能保证对当前世界形成连贯理解。本文提出推理时框架PoS，构造并持续维护显式信念状态作为决策上下文，将世界状态估计与未完成任务需求结合。框架通过一致性校验与进度监控检测信念陷阱并定制恢复策略，提升了长时程任务的可靠决策。",
+      "llm_tldr": "LLM智能体可完成越来越复杂的任务，但把交互历史组织为记忆并不能保证对当前世界形成连贯理解。本文提出推理时框架PoS，构造并持续维护显式信念状态作为决策上下文，将世界状态估计与未完成任务需求结合。框架通过一致性校验与进度监控检测信念陷阱并定制恢复策略，提升了长时程任务的可靠决策。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "memory retrieval mechanisms for agent decision making",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2610.00704v1",
+      "source": "arxiv",
+      "title": "SkillSpec: Consensus-Gated Agent Skill Evolution via Representation Specialization",
+      "abstract": "Natural-language skills are textual procedural memories through which large language model (LLM) agents retain reusable task knowledge without updating model weights. Existing methods typically treat skills as either static artifacts or monolithic documents optimized using aggregate validation scores as feedback. However, representing a skill as a monolithic document restricts optimization to its textual content, without explicitly modeling the structure through which procedural knowledge is retrieved and executed. We identify a key distinction between learning what knowledge to retain and determining how to organize it: textual updates should first be validated through execution evidence, after which the retained knowledge should be structured according to its procedural dependencies and retrieval requirements. To this end, we introduce SkillSpec, a two-phase framework comprising consensus-gated evolution and representation specialization. In the consensus-gated phase, complementary editing intents generate complete candidate skills. An update is committed only when paired evaluations reach consensus, requiring sufficient overall improvement and non-negative aggregate paired gain in every repeated evaluation. In the specialization phase, signals of process and redundancy sensitivity derived from the full optimization trajectory, including accepted and rejected candidates, guide the selection of a flat, graph, or hybrid representation.Across six benchmarks and three target language models, SkillSpec improves average success rate over SkillOpt by 6.89%, averaged across the three models. These results demonstrate that reliable skill evolution and representation specialization address complementary objectives: deciding what knowledge to retain and how to structure it for inference.",
+      "authors": [
+        "Huancheng Chen",
+        "Xiaodi Sun",
+        "Zhaoqiong Huang",
+        "Shenyang Huang Shreya Singhal",
+        "Jingwen Lu"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-09-30T20:52:00+00:00",
+      "link": "https://arxiv.org/pdf/2610.00704v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "natural-language skills as procedural memories agents retain and retrieve without weight updates",
+      "llm_evidence_cn": "自然语言技能作为智能体保留与检索的程序性记忆",
+      "llm_evidence": "自然语言技能作为智能体保留与检索的程序性记忆",
+      "canonical_evidence": "自然语言技能作为智能体保留与检索的程序性记忆",
+      "llm_tldr_en": "SkillSpec treats natural-language skills as procedural memory for LLM agents, separating what knowledge to retain from how to organize it, validating textual updates via execution evidence and structuring retained knowledge.",
+      "llm_tldr_cn": "针对自然语言技能作为LLM智能体程序性记忆时被当作静态产物或单体文档、未建模检索与执行结构的问题，本文提出SkillSpec，区分学习保留何种知识与如何组织知识，先以执行证据验证文本更新，再对保留知识进行结构化表示特化。该方法实现共识门控的技能演化。其贡献在于为智能体程序性记忆的组织与复用提供了新框架。",
+      "llm_tldr": "针对自然语言技能作为LLM智能体程序性记忆时被当作静态产物或单体文档、未建模检索与执行结构的问题，本文提出SkillSpec，区分学习保留何种知识与如何组织知识，先以执行证据验证文本更新，再对保留知识进行结构化表示特化。该方法实现共识门控的技能演化。其贡献在于为智能体程序性记忆的组织与复用提供了新框架。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "memory-augmented agent models that store and retrieve experience",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    }
+  ]
+}

@@ -1,0 +1,313 @@
+{
+  "date": "20261002",
+  "date_label": "",
+  "generated_at": "2026-10-02 19:11:24 UTC",
+  "recommend_exists": true,
+  "run_count": 1,
+  "papers": [
+    {
+      "paper_id": "2609.36805v1",
+      "route": "202610/02/2609.36805v1-upliftmem-learning-set-level-uplift-for-agent-memory-retrieval",
+      "title": "UpliftMem: Learning Set-Level Uplift for Agent Memory Retrieval",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "通过定向探测学习集合级提升的智能体记忆检索",
+      "first_seen_at": "2026-10-02 19:11:24 UTC",
+      "updated_at": "2026-10-02 19:11:24 UTC"
+    },
+    {
+      "paper_id": "2609.37923v1",
+      "route": "202610/02/2609.37923v1-epicon-collective-agent-learning-through-co-evolving-multimodal-memory",
+      "title": "EpiCon: Collective Agent Learning through Co-Evolving Multimodal Memory",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "共享多模态记忆框架支持多智能体集体学习",
+      "first_seen_at": "2026-10-02 19:11:24 UTC",
+      "updated_at": "2026-10-02 19:11:24 UTC"
+    },
+    {
+      "paper_id": "2609.37930v1",
+      "route": "202610/02/2609.37930v1-learning-what-to-remember-long-horizon-counterfactual-memory-optimization",
+      "title": "Learning What to Remember: Long-horizon Counterfactual Memory Optimization",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "对持久文本记忆内容的信用分配优化",
+      "first_seen_at": "2026-10-02 19:11:24 UTC",
+      "updated_at": "2026-10-02 19:11:24 UTC"
+    },
+    {
+      "paper_id": "2609.38353v2",
+      "route": "202610/02/2609.38353v2-taggraph-tag-augmented-graphs-for-graph-retrieval-of-agent-persistent-histories",
+      "title": "TAGGRAPH: Tag-Augmented Graphs for Graph Retrieval of Agent Persistent Histories",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "智能体持久长期历史的图检索",
+      "first_seen_at": "2026-10-02 19:11:24 UTC",
+      "updated_at": "2026-10-02 19:11:24 UTC"
+    },
+    {
+      "paper_id": "2609.39143v1",
+      "route": "202610/02/2609.39143v1-refcon-iterative-refinement-and-contrastive-memory-extraction-for-context-evolving-agent",
+      "title": "RefCon: Iterative Refinement and Contrastive Memory Extraction for Context-Evolving Agent",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "面向上下文演化智能体的无金标签记忆抽取",
+      "first_seen_at": "2026-10-02 19:11:24 UTC",
+      "updated_at": "2026-10-02 19:11:24 UTC"
+    },
+    {
+      "paper_id": "2609.39765v1",
+      "route": "202610/02/2609.39765v1-memcodex-self-programming-hierarchical-memory-for-language-agents",
+      "title": "MemCodex: Self-Programming Hierarchical Memory for Language Agents",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "面向语言智能体的自演化分层记忆架构",
+      "first_seen_at": "2026-10-02 19:11:24 UTC",
+      "updated_at": "2026-10-02 19:11:24 UTC"
+    },
+    {
+      "paper_id": "2610.00366v1",
+      "route": "202610/02/2610.00366v1-what-should-an-agent-remember-disentangling-retention-from-retrieval-in-bounded-memory-evaluation",
+      "title": "What Should an Agent Remember? Disentangling Retention from Retrieval in Bounded-Memory Evaluation",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "在有限记忆评估中解耦信息保留与检索呈现",
+      "first_seen_at": "2026-10-02 19:11:24 UTC",
+      "updated_at": "2026-10-02 19:11:24 UTC"
+    },
+    {
+      "paper_id": "2610.00872v1",
+      "route": "202610/02/2610.00872v1-memfit-efficient-long-term-agentic-memory",
+      "title": "MemFit: Efficient Long-Term Agentic Memory",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "面向会话智能体的长期记忆系统，采用追加存储与检索",
+      "first_seen_at": "2026-10-02 19:11:24 UTC",
+      "updated_at": "2026-10-02 19:11:24 UTC"
+    },
+    {
+      "paper_id": "2609.36595v1",
+      "route": "202610/02/2609.36595v1-simple-agentic-memory-for-generalist-robot-policies",
+      "title": "Simple Agentic Memory for Generalist Robot Policies",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "免训练智能体记忆层与结构化检索",
+      "first_seen_at": "2026-10-02 19:11:24 UTC",
+      "updated_at": "2026-10-02 19:11:24 UTC"
+    },
+    {
+      "paper_id": "2609.37082v2",
+      "route": "202610/02/2609.37082v2-traverse-learning-when-to-remember-reset-and-redirect-for-long-horizon-web-search",
+      "title": "Traverse: Learning When to Remember, Reset, and Redirect for Long-Horizon Web Search",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "面向长程自主搜索智能体的主动记忆管理工具",
+      "first_seen_at": "2026-10-02 19:11:24 UTC",
+      "updated_at": "2026-10-02 19:11:24 UTC"
+    },
+    {
+      "paper_id": "2609.38119v2",
+      "route": "202610/02/2609.38119v2-videoloop-looped-working-memory-against-semantic-thrashing-in-long-form-video-agents",
+      "title": "VideoLoop: Looped Working Memory Against Semantic Thrashing in Long-Form Video Agents",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "长视频智能体中的工作记忆管理与语义抖动抑制",
+      "first_seen_at": "2026-10-02 19:11:24 UTC",
+      "updated_at": "2026-10-02 19:11:24 UTC"
+    },
+    {
+      "paper_id": "2609.40118v1",
+      "route": "202610/02/2609.40118v1-persistent-context-graphs-for-efficient-memory-compaction-in-llm-agents",
+      "title": "Persistent Context Graphs for Efficient Memory Compaction in LLM Agents",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "基于持久上下文图的LLM智能体记忆压缩",
+      "first_seen_at": "2026-10-02 19:11:24 UTC",
+      "updated_at": "2026-10-02 19:11:24 UTC"
+    },
+    {
+      "paper_id": "2609.40195v1",
+      "route": "202610/02/2609.40195v1-memlife-curating-and-reasoning-over-long-term-egocentric-video-memories",
+      "title": "MemLife: Curating and Reasoning over Long-Term Egocentric Video Memories",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "面向第一人称视频的长期记忆系统与时间索引智能体检索",
+      "first_seen_at": "2026-10-02 19:11:24 UTC",
+      "updated_at": "2026-10-02 19:11:24 UTC"
+    },
+    {
+      "paper_id": "2610.00704v1",
+      "route": "202610/02/2610.00704v1-skillspec-consensus-gated-agent-skill-evolution-via-representation-specialization",
+      "title": "SkillSpec: Consensus-Gated Agent Skill Evolution via Representation Specialization",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "自然语言技能作为智能体保留与检索的程序性记忆",
+      "first_seen_at": "2026-10-02 19:11:24 UTC",
+      "updated_at": "2026-10-02 19:11:24 UTC"
+    },
+    {
+      "paper_id": "2609.37311v1",
+      "route": "202610/02/2609.37311v1-remem-rethinking-perception-and-memory-in-long-context-recommendation-agents",
+      "title": "ReMem: Rethinking Perception and Memory in Long-Context Recommendation Agents",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "推荐智能体结合多模态感知与时间演化动态记忆",
+      "first_seen_at": "2026-10-02 19:11:24 UTC",
+      "updated_at": "2026-10-02 19:11:24 UTC"
+    },
+    {
+      "paper_id": "2609.38275v1",
+      "route": "202610/02/2609.38275v1-when-correct-memory-goes-wrong-fuzzing-persistent-memory-use-in-llm-agents",
+      "title": "When Correct Memory Goes Wrong: Fuzzing Persistent Memory Use in LLM Agents",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "LLM智能体持久记忆使用失败的模糊测试",
+      "first_seen_at": "2026-10-02 19:11:24 UTC",
+      "updated_at": "2026-10-02 19:11:24 UTC"
+    },
+    {
+      "paper_id": "2609.39166v2",
+      "route": "202610/02/2609.39166v2-beyond-the-remembered-world-predictive-4d-belief-for-persistent-navigation-in-evolving-worlds",
+      "title": "Beyond the Remembered World: Predictive 4D Belief for Persistent Navigation in Evolving Worlds",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "面向具身智能体的持久空间记忆与信念修正",
+      "first_seen_at": "2026-10-02 19:11:24 UTC",
+      "updated_at": "2026-10-02 19:11:24 UTC"
+    },
+    {
+      "paper_id": "2609.39473v1",
+      "route": "202610/02/2609.39473v1-beyond-the-shadows-of-platos-cave-evaluating-false-memory-in-autonomous-agents-via-counterfactual-reasoning",
+      "title": "Beyond the Shadows of Plato's Cave: Evaluating False Memory in Autonomous Agents via Counterfactual Reasoning",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "通过反事实推理评估自主智能体的虚假记忆",
+      "first_seen_at": "2026-10-02 19:11:24 UTC",
+      "updated_at": "2026-10-02 19:11:24 UTC"
+    },
+    {
+      "paper_id": "2610.01415v1",
+      "route": "202610/02/2610.01415v1-beyond-memory-harnessing-long-horizon-agents-with-explicit-belief-states",
+      "title": "Beyond Memory: Harnessing Long-Horizon Agents with Explicit Belief States",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "以显式信念状态作为长时程智能体的决策上下文",
+      "first_seen_at": "2026-10-02 19:11:24 UTC",
+      "updated_at": "2026-10-02 19:11:24 UTC"
+    }
+  ]
+}
