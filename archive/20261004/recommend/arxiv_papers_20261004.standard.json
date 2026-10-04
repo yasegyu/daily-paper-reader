@@ -1,0 +1,180 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-10-04T01:08:49.414594+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 2,
+    "deep_cap": 6,
+    "deep_selected": 2,
+    "quick_candidates": 2,
+    "quick_skim_target": 11,
+    "quick_selected": 2
+  },
+  "deep_dive": [
+    {
+      "id": "2609.37443v1",
+      "source": "arxiv",
+      "title": "Learning to Retrieve Missing Evidence for Long-Term Memory QA",
+      "abstract": "Long-term memory enables language models to use past interactions in future conversations. However, evidence needed to answer a question may be scattered across distant turns, while the question itself omits clues needed to locate it. Retrieved facts can reveal these clues, motivating retrieval decisions conditioned on evidence already found. We introduce MERA (Missing-Evidence Retrieval Augmentation), which separates globally searchable memory from a question-specific evidence state. Verified evidence guides subsequent retrieval without restricting access to the global memory. We train a lightweight planner through reinforcement learning, rewarding queries that recover previously missing evidence. MERA achieves strong answer accuracy across Qwen3-30B and GPT-4o-mini backbones. With Qwen3-30B for evidence processing and answer generation, the trained 0.6B planner achieves 77.40% accuracy on LoCoMo and 71.29% on LongMemEval-S, exceeding a 30B planner without retrieval-grounded training by 4.10% and 3.96%, respectively. On LoCoMo, later retrieval rounds increase cumulative evidence recall from 55.5% to 80.5%.",
+      "authors": [
+        "Yi-Xuan Deng",
+        "Yi Zhang",
+        "Wei Liu",
+        "Chao Xue",
+        "Shuojin Yang"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "published": "2026-09-29T13:02:16+00:00",
+      "link": "https://arxiv.org/pdf/2609.37443v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "reinforcement-learned retrieval of missing evidence for long-term memory QA",
+      "llm_evidence_cn": "面向长期记忆问答的缺失证据强化学习检索",
+      "llm_evidence": "面向长期记忆问答的缺失证据强化学习检索",
+      "canonical_evidence": "面向长期记忆问答的缺失证据强化学习检索",
+      "llm_tldr_en": "Evidence for a question may be scattered across distant turns while the question omits locating clues. MERA separates globally searchable memory from a question-specific evidence state and trains a planner to retrieve missing evidence for long-term memory QA.",
+      "llm_tldr_cn": "针对长时对话中回答所需证据分散在远处轮次、而问题本身缺少定位线索的问题，本文提出MERA缺失证据检索增强方法。方法将全局可搜索记忆与问题特定的证据状态分离，已核实证据引导后续检索且不限制访问全局记忆，并用强化学习训练轻量规划器奖励找回缺失证据的查询。实验在Qwen3-30B与GPT-4等模型上取得较强答案准确率，为长期记忆检索提供了证据驱动的新策略。",
+      "llm_tldr": "针对长时对话中回答所需证据分散在远处轮次、而问题本身缺少定位线索的问题，本文提出MERA缺失证据检索增强方法。方法将全局可搜索记忆与问题特定的证据状态分离，已核实证据引导后续检索且不限制访问全局记忆，并用强化学习训练轻量规划器奖励找回缺失证据的查询。实验在Qwen3-30B与GPT-4等模型上取得较强答案准确率，为长期记忆检索提供了证据驱动的新策略。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "memory retrieval mechanisms for agent decision making",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2609.37544v2",
+      "source": "arxiv",
+      "title": "How Can Recommendation Feedback Evolve Agent Memory?",
+      "abstract": "Content-generation agents continuously receive impressions, clicks, conversions, and negative feedback from recommendation systems, providing real-world outcome signals for memory evolution. However, these signals are delayed and noisy, confounded by audience composition, placement, and recommendation policies, and may result from the combined influence of multiple memories, making accurate attribution difficult. Existing methods rely primarily on immediate feedback or semantic retrieval and therefore struggle to reliably translate recommendation outcomes into memory fitness. To address this challenge, we propose TIDE (Trajectory-Informed Directed Memory Evolution), an external memory evolution framework driven by delayed recommendation feedback. We further introduce Memory Evolution Gain (MEG), which measures the utility improvement of evolved memory over a no memory baseline on strictly future tasks. TIDE treats memory as a capacity-constrained population of experiences: temporal and semantic credit assignment estimates contextual fitness, while responsibility credit distributes outcome signals according to the memories referenced during generation. These signals are then used to reinforce, crossover, mutate, or evict memories. On an e-commerce membership marketing content-generation agent, TIDE achieves a +7.75-percentage-point MEG in offline temporal replay and significantly improves both unique click-through rate (UCTR) and activation rate in an online A/B test. On a delayed-label benchmark, TIDE achieves the lowest mean absolute error (MAE) and root mean squared error (RMSE) and the highest MEG among the compared methods, demonstrating its effectiveness.",
+      "authors": [
+        "Shanwen Mao",
+        "Mingming Li",
+        "Hao Zhang",
+        "Zhiheng Li",
+        "Yige Wang",
+        "Penghua Yu",
+        "Junxiong Zhu"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-09-29T13:22:20+00:00",
+      "link": "https://arxiv.org/pdf/2609.37544v2",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "external memory evolution framework driven by delayed recommendation feedback for content-generation agents",
+      "llm_evidence_cn": "由延迟推荐反馈驱动的外部记忆演化框架，面向内容生成智能体",
+      "llm_evidence": "由延迟推荐反馈驱动的外部记忆演化框架，面向内容生成智能体",
+      "canonical_evidence": "由延迟推荐反馈驱动的外部记忆演化框架，面向内容生成智能体",
+      "llm_tldr_en": "TIDE evolves agent memory from delayed, noisy recommendation feedback, translating real-world outcomes into memory fitness instead of relying on immediate feedback.",
+      "llm_tldr_cn": "内容生成智能体持续收到推荐系统的曝光、点击与转化等延迟且含噪的反馈，这些真实结果信号可用于记忆演化，但受受众、位置与推荐策略干扰，难以准确归因。本文提出TIDE，一个由延迟推荐反馈驱动的外部记忆演化框架，把推荐结果转化为记忆适应度。该工作为智能体记忆的持续更新与评估提供了新的现实信号来源与方法。",
+      "llm_tldr": "内容生成智能体持续收到推荐系统的曝光、点击与转化等延迟且含噪的反馈，这些真实结果信号可用于记忆演化，但受受众、位置与推荐策略干扰，难以准确归因。本文提出TIDE，一个由延迟推荐反馈驱动的外部记忆演化框架，把推荐结果转化为记忆适应度。该工作为智能体记忆的持续更新与评估提供了新的现实信号来源与方法。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "memory-augmented agent models that store and retrieve experience",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2609.34151v1",
+      "source": "arxiv",
+      "title": "Self-Evolving Agents via Likelihood-Guided Tool-Space Optimization",
+      "abstract": "Self-evolving agents can continually improve their behavior, while tools define the executable action space through which they interact with the environment. However, exposing the full tool library to model introduces substantial irrelevant context and can impair tool-use decisions. We study tool-space self-evolution, where each recurring task type maintains a persistent tool space which is constructed from accumulated output experience. We identify three limitations of existing methods: (1) output-unaware selection: they rely primarily on tool descriptions or model priors rather than observed tool outputs; (2) statelessness across request: they select tools independently for each request without consolidating prior output experience into persistent task-specific state; (3) inference cost: they repeatedly search, rank, or reason over candidate tools for subsequent requests of the same task. We address these limitations through output-aware tool scoring, persistent task-specific tool spaces, amortized tool selection, and reusable configurations across models. We introduce LOTS (Likelihood-Only Tool Scoring), which evolves an agent's tool space from accumulated output experience while keeping model parameters fixed. After each request, LOTS holds the model's generated answer and estimates each tool's contribution by measuring how much the answer likelihood changes when its observed output is removed. These contributions are aggregated within each recurring task to rank tools and update its persistent space. Across three benchmarks, LOTS improves task performance while substantially reducing tool context. More importantly, sequential experiments demonstrate that task-specific spaces persist and continue to improve over time, while cross-model experiments show that learned configurations transfer across different models.",
+      "authors": [
+        "Xuanqi Zhang",
+        "Ruinan Jin",
+        "Running Yang",
+        "Yuxuan Zhang",
+        "Minghui Chen",
+        "Wenlong Deng",
+        "Xiaoxiao Li"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-09-28T02:32:05+00:00",
+      "link": "https://arxiv.org/pdf/2609.34151v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "persistent tool space built from accumulated output experience",
+      "llm_evidence_cn": "由累积输出经验构建的持久工具空间",
+      "llm_evidence": "由累积输出经验构建的持久工具空间",
+      "canonical_evidence": "由累积输出经验构建的持久工具空间",
+      "llm_tldr_en": "Self-evolving agents expose the whole tool library, adding irrelevant context. This work studies tool-space self-evolution, maintaining a persistent task-specific tool space from accumulated output experience and addressing output-unaware selection and cross-request statelessness.",
+      "llm_tldr_cn": "自进化智能体通过工具与环境交互，但把完整工具库暴露给模型会引入大量无关上下文，损害工具使用决策。论文研究工具空间自进化，为每类重复任务维护一个由累积输出经验构建的持久工具空间，并指出既有方法存在输出无感知、跨请求无状态等缺陷，进而提出似然引导的工具空间优化。该方法利用观测到的工具输出并把历史经验整合为持久任务空间，从而改善工具选择。该工作与智能体经验积累和记忆式复用相关，但重心在工具空间而非记忆架构。",
+      "llm_tldr": "自进化智能体通过工具与环境交互，但把完整工具库暴露给模型会引入大量无关上下文，损害工具使用决策。论文研究工具空间自进化，为每类重复任务维护一个由累积输出经验构建的持久工具空间，并指出既有方法存在输出无感知、跨请求无状态等缺陷，进而提出似然引导的工具空间优化。该方法利用观测到的工具输出并把历史经验整合为持久任务空间，从而改善工具选择。该工作与智能体经验积累和记忆式复用相关，但重心在工具空间而非记忆架构。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "Identify research on memory consolidation, forgetting, and memory management for continual learning agents.",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2609.37791v1",
+      "source": "arxiv",
+      "title": "A neural network that maintains and retrieves memories based on context",
+      "abstract": "Every day, people continuously infer situational context and adjust the way they understand and remember the world. Context, signaled by the prefrontal cortex, is known to modulate working memory and episodic memory, but the algorithmic understanding of this modulation remains limited. Here, we train a recurrent neural network (RNN), augmented with an episodic memory buffer, to infer context using Bayesian inference as it continuously makes predictions of upcoming scenes while watching naturalistic movies. When the inferred context modulates the RNN's recurrent connectivity (the basis of working memory) in a low-rank manner, the model's activity patterns best match neural responses in human participants who watched the same movies during fMRI. Context also modulates episodic memory retrieval, such that the model retrieves memories based on not only content similarity but also context similarity. This is implemented as a key-value system with self-attention, designed to additionally encode context and retrieve context-congruent memories. The resulting model not only better resembles human brain representations but also learns to retrieve memories like humans much faster than a model without context modulation. Together, our findings suggest a computational mechanism by which context modulates information maintenance and long-term memory retrieval in naturalistic environments.",
+      "authors": [
+        "Hayoung Song",
+        "JeongJun Park",
+        "Qihong Lu",
+        "Giacomo Vedovati",
+        "Monica D. Rosenberg",
+        "Zachariah M. Reagh",
+        "ShiNung Ching"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.NE"
+      ],
+      "published": "2026-09-29T15:20:22+00:00",
+      "link": "https://arxiv.org/pdf/2609.37791v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "RNN with episodic memory buffer modulated by inferred context",
+      "llm_evidence_cn": "由情境调节的带情节记忆缓冲的循环神经网络",
+      "llm_evidence": "由情境调节的带情节记忆缓冲的循环神经网络",
+      "canonical_evidence": "由情境调节的带情节记忆缓冲的循环神经网络",
+      "llm_tldr_en": "Studies how prefrontal context modulates working and episodic memory algorithmically; trains an RNN with an episodic memory buffer that infers context via Bayesian inference and modulates recurrent connectivity in low-rank fashion, matching human fMRI.",
+      "llm_tldr_cn": "论文关注情境如何调制工作记忆与情节记忆这一神经计算问题，目前算法层面的理解仍有限。作者训练带情节记忆缓冲的循环神经网络，用贝叶斯推断情境，并以低秩方式调制作为工作记忆基础的循环连接。结果显示，当情境如此调制循环连接时，模型活动模式与观看相同影片的人类fMRI反应最为吻合。该工作为情境调制的记忆机制提供了可检验的算法解释。",
+      "llm_tldr": "论文关注情境如何调制工作记忆与情节记忆这一神经计算问题，目前算法层面的理解仍有限。作者训练带情节记忆缓冲的循环神经网络，用贝叶斯推断情境，并以低秩方式调制作为工作记忆基础的循环连接。结果显示，当情境如此调制循环连接时，模型活动模式与观看相同影片的人类fMRI反应最为吻合。该工作为情境调制的记忆机制提供了可检验的算法解释。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "memory mechanisms in autonomous agents and agent memory architectures",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}

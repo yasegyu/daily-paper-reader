@@ -48,17 +48,17 @@
 <section class="dpr-home-dashboard-card dpr-home-report-card">
   <div class="dpr-home-dashboard-header">
     <div>
-      <span class="dpr-home-dashboard-kicker">2026-10-02</span>
+      <span class="dpr-home-dashboard-kicker">2026-10-04</span>
       <h3 class="dpr-home-dashboard-title">今日汇总</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">共 19 篇</strong>
+    <strong class="dpr-home-dashboard-count">共 4 篇</strong>
   </div>
   <dl class="dpr-home-dashboard-stats">
     <div class="dpr-home-dashboard-stat"><dt>累计更新</dt><dd>1 次</dd></div>
-    <div class="dpr-home-dashboard-stat"><dt>精读</dt><dd>8</dd></div>
-    <div class="dpr-home-dashboard-stat"><dt>速读</dt><dd>11</dd></div>
+    <div class="dpr-home-dashboard-stat"><dt>精读</dt><dd>2</dd></div>
+    <div class="dpr-home-dashboard-stat"><dt>速读</dt><dd>2</dd></div>
   </dl>
-  <p class="dpr-home-dashboard-body">最近更新：2026-10-02 19:11:24 UTC<br>状态：成功</p>
+  <p class="dpr-home-dashboard-body">最近更新：2026-10-04 01:11:25 UTC<br>状态：成功</p>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-brief-card">
   <div class="dpr-home-dashboard-header">
@@ -69,7 +69,7 @@
     <strong class="dpr-home-dashboard-count">AI</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<p>今日精读8篇、速读11篇，共19篇论文，聚焦Agent记忆机制的最新进展。最值得看的是UpliftMem用集合级提升优化记忆检索（9.0分）与EpiCon通过多模态记忆共同进化实现集体学习（9.0分），速读中Traverse的“记忆-重置-重定向”策略也颇具启发。普通读者可先关注智能体如何像人一样决定“记住什么、何时清空”，这是提升长任务表现的关键。</p>
+<p>2026-10-04 日报：4 篇论文聚焦记忆与智能体，2 篇精读均获 8.0 分。最值得看的是长期记忆问答中的缺失证据检索，以及推荐反馈如何演化智能体记忆。普通读者可先读这两篇精读，再扫一眼速读了解工具空间优化与上下文记忆网络。</p>
   </div>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-deep-card">
@@ -78,12 +78,12 @@
       <span class="dpr-home-dashboard-kicker">今日累计</span>
       <h3 class="dpr-home-dashboard-title">精读推荐</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">8 篇</strong>
+    <strong class="dpr-home-dashboard-count">2 篇</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="UpliftMem: Learning Set-Level Uplift for Agent Memory Retrieval">UpliftMem: Learning Set-Level Uplift for Agent Memory Retrieval</span></li><li><span class="dpr-home-dashboard-paper-title" title="EpiCon: Collective Agent Learning through Co-Evolving Multimodal Memory">EpiCon: Collective Agent Learning through Co-Evolving Multimodal Memory</span></li><li><span class="dpr-home-dashboard-paper-title" title="Learning What to Remember: Long-horizon Counterfactual Memory Optimization">Learning What to Remember: Long-horizon Counterfactual Memory Optimization</span></li></ul>
+<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="Learning to Retrieve Missing Evidence for Long-Term Memory QA">Learning to Retrieve Missing Evidence for Long-Term Memory QA</span></li><li><span class="dpr-home-dashboard-paper-title" title="How Can Recommendation Feedback Evolve Agent Memory?">How Can Recommendation Feedback Evolve Agent Memory?</span></li></ul>
   </div>
-  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">agent-memory <strong>8</strong></span></div>
+  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">agent-memory <strong>2</strong></span></div>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-skim-card">
   <div class="dpr-home-dashboard-header">
@@ -91,12 +91,12 @@
       <span class="dpr-home-dashboard-kicker">今日累计</span>
       <h3 class="dpr-home-dashboard-title">速读推荐</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">11 篇</strong>
+    <strong class="dpr-home-dashboard-count">2 篇</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="Simple Agentic Memory for Generalist Robot Policies">Simple Agentic Memory for Generalist Robot Policies</span></li><li><span class="dpr-home-dashboard-paper-title" title="Traverse: Learning When to Remember, Reset, and Redirect for Long-Horizon Web Search">Traverse: Learning When to Remember, Reset, and Redirect for Long-Horizon Web Search</span></li><li><span class="dpr-home-dashboard-paper-title" title="VideoLoop: Looped Working Memory Against Semantic Thrashing in Long-Form Video Agents">VideoLoop: Looped Working Memory Against Semantic Thrashing in Long-Form Video Agents</span></li></ul>
+<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="Self-Evolving Agents via Likelihood-Guided Tool-Space Optimization">Self-Evolving Agents via Likelihood-Guided Tool-Space Optimization</span></li><li><span class="dpr-home-dashboard-paper-title" title="A neural network that maintains and retrieves memories based on context">A neural network that maintains and retrieves memories based on context</span></li></ul>
   </div>
-  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">agent-memory <strong>11</strong></span></div>
+  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">agent-memory <strong>2</strong></span></div>
 </section>
 </div>
 
