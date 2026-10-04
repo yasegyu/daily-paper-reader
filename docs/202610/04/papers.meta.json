@@ -1,8 +1,8 @@
 {
   "label": "2026-10-04",
   "date": "2026-10-04",
-  "generated_at": "2026-10-04T01:11:27",
-  "count": 4,
+  "generated_at": "2026-10-04T21:21:51",
+  "count": 5,
   "papers": [
     {
       "paper_id": "202610/04/2609.37443v1-learning-to-retrieve-missing-evidence-for-long-term-memory-qa",
@@ -35,21 +35,6 @@
       "selection_source": "fresh_fetch"
     },
     {
-      "paper_id": "202610/04/2609.34151v1-self-evolving-agents-via-likelihood-guided-tool-space-optimization",
-      "section": "quick",
-      "title_en": "Self-Evolving Agents via Likelihood-Guided Tool-Space Optimization",
-      "authors": "Xuanqi Zhang, Ruinan Jin, Running Yang, Yuxuan Zhang, Minghui Chen, Wenlong Deng, Xiaoxiao Li",
-      "date": "2026-09-28",
-      "pdf": "https://arxiv.org/pdf/2609.34151v1",
-      "score": "6.0",
-      "evidence": "由累积输出经验构建的持久工具空间",
-      "tldr": "自演化智能体依赖工具库与环境交互，但全量暴露工具会引入无关上下文并干扰工具选择。论文研究工具空间自演化，提出LOTS：固定模型参数，利用答案似然变化评估工具贡献，并按任务累积经验更新持久工具空间。在三个基准上，LOTS提升任务表现并大幅压缩工具上下文；顺序实验显示任务专属空间可持续优化，跨模型实验表明学习到的配置可迁移。",
-      "tags": "query:agent-memory",
-      "abstract_en": "Self-evolving agents can continually improve their behavior, while tools define the executable action space through which they interact with the environment. However, exposing the full tool library to model introduces substantial irrelevant context and can impair tool-use decisions. We study tool-space self-evolution, where each recurring task type maintains a persistent tool space which is constructed from accumulated output experience. We identify three limitations of existing methods: (1) output-unaware selection: they rely primarily on tool descriptions or model priors rather than observed tool outputs; (2) statelessness across request: they select tools independently for each request without consolidating prior output experience into persistent task-specific state; (3) inference cost: they repeatedly search, rank, or reason over candidate tools for subsequent requests of the same task. We address these limitations through output-aware tool scoring, persistent task-specific tool spaces, amortized tool selection, and reusable configurations across models. We introduce LOTS (Likelihood-Only Tool Scoring), which evolves an agent's tool space from accumulated output experience while keeping model parameters fixed. After each request, LOTS holds the model's generated answer and estimates each tool's contribution by measuring how much the answer likelihood changes when its observed output is removed. These contributions are aggregated within each recurring task to rank tools and update its persistent space. Across three benchmarks, LOTS improves task performance while substantially reducing tool context. More importantly, sequential experiments demonstrate that task-specific spaces persist and continue to improve over time, while cross-model experiments show that learned configurations transfer across different models.",
-      "source": "arxiv",
-      "selection_source": "fresh_fetch"
-    },
-    {
       "paper_id": "202610/04/2609.37791v1-a-neural-network-that-maintains-and-retrieves-memories-based-on-context",
       "section": "quick",
       "title_en": "A neural network that maintains and retrieves memories based on context",
@@ -61,6 +46,36 @@
       "tldr": "大脑如何依据情境调控工作记忆与情景记忆仍缺乏算法解释。作者给循环神经网络加入情景记忆缓冲区，用贝叶斯推断从自然电影中持续推断情境。当推断情境以低秩方式调制RNN循环连接时，模型活动最匹配fMRI人类脑响应；情境还通过自注意力键值系统调制记忆提取，使提取兼顾内容与情境相似性。该模型更接近人脑表征，并比无情境调制模型更快学会像人一样提取记忆，提示情境调制信息维持与长时提取的计算机制。",
       "tags": "query:agent-memory",
       "abstract_en": "Every day, people continuously infer situational context and adjust the way they understand and remember the world. Context, signaled by the prefrontal cortex, is known to modulate working memory and episodic memory, but the algorithmic understanding of this modulation remains limited. Here, we train a recurrent neural network (RNN), augmented with an episodic memory buffer, to infer context using Bayesian inference as it continuously makes predictions of upcoming scenes while watching naturalistic movies. When the inferred context modulates the RNN's recurrent connectivity (the basis of working memory) in a low-rank manner, the model's activity patterns best match neural responses in human participants who watched the same movies during fMRI. Context also modulates episodic memory retrieval, such that the model retrieves memories based on not only content similarity but also context similarity. This is implemented as a key-value system with self-attention, designed to additionally encode context and retrieve context-congruent memories. The resulting model not only better resembles human brain representations but also learns to retrieve memories like humans much faster than a model without context modulation. Together, our findings suggest a computational mechanism by which context modulates information maintenance and long-term memory retrieval in naturalistic environments.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202610/04/2610.01195v1-federated-agent-optimization",
+      "section": "quick",
+      "title_en": "Federated Agent Optimization",
+      "authors": "Qiang Yang, Zhiqiang Kou, Xueyi Zhang, Dong-Dong Wu, Hanlin Gu, Jing Guo, Yang Liu, Di Jiang, Qian Xu",
+      "date": "2026-10-01",
+      "pdf": "https://arxiv.org/pdf/2610.01195v1",
+      "score": "6.0",
+      "evidence": "分布式智能体通过受控交换共享记忆、工具与知识",
+      "tldr": "大语言模型智能体在私有环境中积累经验，却因隐私与产权限制无法直接共享，传统联邦学习也难以覆盖记忆、工具、奖励与技能等能力。本文提出联邦智能体优化（FAO），在原始数据、完整轨迹和私有知识不出本地的前提下，研究受控信息交换与协同提升。FAO被定义为平衡智能体效用、隐私泄露与通信成本的多目标问题，并沿策略、记忆、工具使用、奖励、结构化知识与技能组织优化空间。最后梳理挑战与可信联邦智能体系统的未来方向。",
+      "tags": "query:agent-memory",
+      "abstract_en": "Large language model (LLM) agents increasingly operate in private environments and accumulate valuable experience from task execution, tool use, feedback, and local knowledge. Yet such experience is distributed across organizations and cannot be directly shared because of privacy and proprietary constraints. Conventional federated learning is insufficient for this setting, as agent capabilities extend beyond model parameters to memory, tools, rewards, skills, and structured knowledge. In this paper, we formulate \\textbf{Federated Agent Optimization (FAO)}, which studies how distributed agents can collaboratively improve through controlled information exchange while keeping raw data, complete trajectories, and private knowledge local. We define FAO as a multi-objective problem balancing agent utility, privacy leakage, and communication cost, and organize its optimization space across policy, memory, tool use, reward, and structured knowledge and skills. We further characterize how private experience can be abstracted, protected, aggregated, and adapted into transferable capabilities, providing a unified view of how agents can benefit from one another without direct experience sharing. Finally, we identify the key challenges of FAO and outline several promising directions for future research toward trustworthy federated agent systems.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202610/04/2609.34151v1-self-evolving-agents-via-likelihood-guided-tool-space-optimization",
+      "section": "quick",
+      "title_en": "Self-Evolving Agents via Likelihood-Guided Tool-Space Optimization",
+      "authors": "Xuanqi Zhang, Ruinan Jin, Running Yang, Yuxuan Zhang, Minghui Chen, Wenlong Deng, Xiaoxiao Li",
+      "date": "2026-09-28",
+      "pdf": "https://arxiv.org/pdf/2609.34151v1",
+      "score": "6.0",
+      "evidence": "由累积输出经验构建的持久工具空间",
+      "tldr": "自演化智能体依赖工具库与环境交互，但全量暴露工具会引入无关上下文并干扰工具选择。论文研究工具空间自演化，提出LOTS：固定模型参数，利用答案似然变化评估工具贡献，并按任务累积经验更新持久工具空间。在三个基准上，LOTS提升任务表现并大幅压缩工具上下文；顺序实验显示任务专属空间可持续优化，跨模型实验表明学习到的配置可迁移。",
+      "tags": "query:agent-memory",
+      "abstract_en": "Self-evolving agents can continually improve their behavior, while tools define the executable action space through which they interact with the environment. However, exposing the full tool library to model introduces substantial irrelevant context and can impair tool-use decisions. We study tool-space self-evolution, where each recurring task type maintains a persistent tool space which is constructed from accumulated output experience. We identify three limitations of existing methods: (1) output-unaware selection: they rely primarily on tool descriptions or model priors rather than observed tool outputs; (2) statelessness across request: they select tools independently for each request without consolidating prior output experience into persistent task-specific state; (3) inference cost: they repeatedly search, rank, or reason over candidate tools for subsequent requests of the same task. We address these limitations through output-aware tool scoring, persistent task-specific tool spaces, amortized tool selection, and reusable configurations across models. We introduce LOTS (Likelihood-Only Tool Scoring), which evolves an agent's tool space from accumulated output experience while keeping model parameters fixed. After each request, LOTS holds the model's generated answer and estimates each tool's contribution by measuring how much the answer likelihood changes when its observed output is removed. These contributions are aggregated within each recurring task to rank tools and update its persistent space. Across three benchmarks, LOTS improves task performance while substantially reducing tool context. More importantly, sequential experiments demonstrate that task-specific spaces persist and continue to improve over time, while cross-model experiments show that learned configurations transfer across different models.",
       "source": "arxiv",
       "selection_source": "fresh_fetch"
     }

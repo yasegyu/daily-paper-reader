@@ -1,9 +1,9 @@
 {
   "date": "20261004",
   "date_label": "",
-  "generated_at": "2026-10-04 01:11:25 UTC",
+  "generated_at": "2026-10-04 21:21:47 UTC",
   "recommend_exists": true,
-  "run_count": 1,
+  "run_count": 2,
   "papers": [
     {
       "paper_id": "2609.37443v1",
@@ -19,7 +19,7 @@
       "score": 8.0,
       "evidence": "面向长期记忆问答的缺失证据强化学习检索",
       "first_seen_at": "2026-10-04 01:11:25 UTC",
-      "updated_at": "2026-10-04 01:11:25 UTC"
+      "updated_at": "2026-10-04 21:21:47 UTC"
     },
     {
       "paper_id": "2609.37544v2",
@@ -35,23 +35,7 @@
       "score": 8.0,
       "evidence": "由延迟推荐反馈驱动的外部记忆演化框架，面向内容生成智能体",
       "first_seen_at": "2026-10-04 01:11:25 UTC",
-      "updated_at": "2026-10-04 01:11:25 UTC"
-    },
-    {
-      "paper_id": "2609.34151v1",
-      "route": "202610/04/2609.34151v1-self-evolving-agents-via-likelihood-guided-tool-space-optimization",
-      "title": "Self-Evolving Agents via Likelihood-Guided Tool-Space Optimization",
-      "section": "quick",
-      "tags": [
-        {
-          "kind": "query",
-          "label": "agent-memory"
-        }
-      ],
-      "score": 6.0,
-      "evidence": "由累积输出经验构建的持久工具空间",
-      "first_seen_at": "2026-10-04 01:11:25 UTC",
-      "updated_at": "2026-10-04 01:11:25 UTC"
+      "updated_at": "2026-10-04 21:21:47 UTC"
     },
     {
       "paper_id": "2609.37791v1",
@@ -66,6 +50,38 @@
       ],
       "score": 6.0,
       "evidence": "由情境调节的带情节记忆缓冲的循环神经网络",
+      "first_seen_at": "2026-10-04 01:11:25 UTC",
+      "updated_at": "2026-10-04 21:21:47 UTC"
+    },
+    {
+      "paper_id": "2610.01195v1",
+      "route": "202610/04/2610.01195v1-federated-agent-optimization",
+      "title": "Federated Agent Optimization",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "分布式智能体通过受控交换共享记忆、工具与知识",
+      "first_seen_at": "2026-10-04 21:21:47 UTC",
+      "updated_at": "2026-10-04 21:21:47 UTC"
+    },
+    {
+      "paper_id": "2609.34151v1",
+      "route": "202610/04/2609.34151v1-self-evolving-agents-via-likelihood-guided-tool-space-optimization",
+      "title": "Self-Evolving Agents via Likelihood-Guided Tool-Space Optimization",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "由累积输出经验构建的持久工具空间",
       "first_seen_at": "2026-10-04 01:11:25 UTC",
       "updated_at": "2026-10-04 01:11:25 UTC"
     }

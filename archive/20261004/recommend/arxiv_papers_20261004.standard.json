@@ -1,6 +1,6 @@
 {
   "mode": "standard",
-  "generated_at": "2026-10-04T01:08:49.414594+00:00",
+  "generated_at": "2026-10-04T21:21:28.900870+00:00",
   "stats": {
     "mode": "standard",
     "tag_count": 1,
@@ -36,13 +36,13 @@
         "query:agent-memory"
       ],
       "llm_score": 8.0,
-      "llm_evidence_en": "reinforcement-learned retrieval of missing evidence for long-term memory QA",
-      "llm_evidence_cn": "面向长期记忆问答的缺失证据强化学习检索",
-      "llm_evidence": "面向长期记忆问答的缺失证据强化学习检索",
-      "canonical_evidence": "面向长期记忆问答的缺失证据强化学习检索",
-      "llm_tldr_en": "Evidence for a question may be scattered across distant turns while the question omits locating clues. MERA separates globally searchable memory from a question-specific evidence state and trains a planner to retrieve missing evidence for long-term memory QA.",
-      "llm_tldr_cn": "针对长时对话中回答所需证据分散在远处轮次、而问题本身缺少定位线索的问题，本文提出MERA缺失证据检索增强方法。方法将全局可搜索记忆与问题特定的证据状态分离，已核实证据引导后续检索且不限制访问全局记忆，并用强化学习训练轻量规划器奖励找回缺失证据的查询。实验在Qwen3-30B与GPT-4等模型上取得较强答案准确率，为长期记忆检索提供了证据驱动的新策略。",
-      "llm_tldr": "针对长时对话中回答所需证据分散在远处轮次、而问题本身缺少定位线索的问题，本文提出MERA缺失证据检索增强方法。方法将全局可搜索记忆与问题特定的证据状态分离，已核实证据引导后续检索且不限制访问全局记忆，并用强化学习训练轻量规划器奖励找回缺失证据的查询。实验在Qwen3-30B与GPT-4等模型上取得较强答案准确率，为长期记忆检索提供了证据驱动的新策略。",
+      "llm_evidence_en": "reinforcement-learned retrieval planner conditioning on evidence already found for long-term memory",
+      "llm_evidence_cn": "基于已获证据的条件化长期记忆检索规划器",
+      "llm_evidence": "基于已获证据的条件化长期记忆检索规划器",
+      "canonical_evidence": "基于已获证据的条件化长期记忆检索规划器",
+      "llm_tldr_en": "MERA separates globally searchable memory from a question-specific evidence state, training an RL planner to retrieve evidence that reveals clues for long-term memory QA.",
+      "llm_tldr_cn": "长期记忆问答中，答案所需证据常分散在遥远轮次，而问题本身缺少定位线索。作者提出MERA，把可全局搜索的记忆与问题特定的证据状态分离，让已核实的证据引导后续检索而不限制全局记忆访问。他们用强化学习训练轻量规划器，奖励能找回先前缺失证据的查询。该方法在Qwen3-30B与GPT-4上取得较强答案准确率。",
+      "llm_tldr": "长期记忆问答中，答案所需证据常分散在遥远轮次，而问题本身缺少定位线索。作者提出MERA，把可全局搜索的记忆与问题特定的证据状态分离，让已核实的证据引导后续检索而不限制全局记忆访问。他们用强化学习训练轻量规划器，奖励能找回先前缺失证据的查询。该方法在Qwen3-30B与GPT-4上取得较强答案准确率。",
       "llm_tags": [
         "query:agent-memory"
       ],
@@ -76,64 +76,23 @@
         "query:agent-memory"
       ],
       "llm_score": 8.0,
-      "llm_evidence_en": "external memory evolution framework driven by delayed recommendation feedback for content-generation agents",
-      "llm_evidence_cn": "由延迟推荐反馈驱动的外部记忆演化框架，面向内容生成智能体",
-      "llm_evidence": "由延迟推荐反馈驱动的外部记忆演化框架，面向内容生成智能体",
-      "canonical_evidence": "由延迟推荐反馈驱动的外部记忆演化框架，面向内容生成智能体",
-      "llm_tldr_en": "TIDE evolves agent memory from delayed, noisy recommendation feedback, translating real-world outcomes into memory fitness instead of relying on immediate feedback.",
-      "llm_tldr_cn": "内容生成智能体持续收到推荐系统的曝光、点击与转化等延迟且含噪的反馈，这些真实结果信号可用于记忆演化，但受受众、位置与推荐策略干扰，难以准确归因。本文提出TIDE，一个由延迟推荐反馈驱动的外部记忆演化框架，把推荐结果转化为记忆适应度。该工作为智能体记忆的持续更新与评估提供了新的现实信号来源与方法。",
-      "llm_tldr": "内容生成智能体持续收到推荐系统的曝光、点击与转化等延迟且含噪的反馈，这些真实结果信号可用于记忆演化，但受受众、位置与推荐策略干扰，难以准确归因。本文提出TIDE，一个由延迟推荐反馈驱动的外部记忆演化框架，把推荐结果转化为记忆适应度。该工作为智能体记忆的持续更新与评估提供了新的现实信号来源与方法。",
-      "llm_tags": [
-        "query:agent-memory"
-      ],
-      "matched_query_tag": "query:agent-memory",
-      "matched_query_text": "memory-augmented agent models that store and retrieve experience",
-      "matched_requirement_id": "req-2",
-      "selection_source": "fresh_fetch"
-    }
-  ],
-  "quick_skim": [
-    {
-      "id": "2609.34151v1",
-      "source": "arxiv",
-      "title": "Self-Evolving Agents via Likelihood-Guided Tool-Space Optimization",
-      "abstract": "Self-evolving agents can continually improve their behavior, while tools define the executable action space through which they interact with the environment. However, exposing the full tool library to model introduces substantial irrelevant context and can impair tool-use decisions. We study tool-space self-evolution, where each recurring task type maintains a persistent tool space which is constructed from accumulated output experience. We identify three limitations of existing methods: (1) output-unaware selection: they rely primarily on tool descriptions or model priors rather than observed tool outputs; (2) statelessness across request: they select tools independently for each request without consolidating prior output experience into persistent task-specific state; (3) inference cost: they repeatedly search, rank, or reason over candidate tools for subsequent requests of the same task. We address these limitations through output-aware tool scoring, persistent task-specific tool spaces, amortized tool selection, and reusable configurations across models. We introduce LOTS (Likelihood-Only Tool Scoring), which evolves an agent's tool space from accumulated output experience while keeping model parameters fixed. After each request, LOTS holds the model's generated answer and estimates each tool's contribution by measuring how much the answer likelihood changes when its observed output is removed. These contributions are aggregated within each recurring task to rank tools and update its persistent space. Across three benchmarks, LOTS improves task performance while substantially reducing tool context. More importantly, sequential experiments demonstrate that task-specific spaces persist and continue to improve over time, while cross-model experiments show that learned configurations transfer across different models.",
-      "authors": [
-        "Xuanqi Zhang",
-        "Ruinan Jin",
-        "Running Yang",
-        "Yuxuan Zhang",
-        "Minghui Chen",
-        "Wenlong Deng",
-        "Xiaoxiao Li"
-      ],
-      "primary_category": "cs.AI",
-      "categories": [
-        "cs.AI"
-      ],
-      "published": "2026-09-28T02:32:05+00:00",
-      "link": "https://arxiv.org/pdf/2609.34151v1",
-      "tags": [
-        "keyword:agent-memory",
-        "query:agent-memory"
-      ],
-      "llm_score": 6.0,
-      "llm_evidence_en": "persistent tool space built from accumulated output experience",
-      "llm_evidence_cn": "由累积输出经验构建的持久工具空间",
-      "llm_evidence": "由累积输出经验构建的持久工具空间",
-      "canonical_evidence": "由累积输出经验构建的持久工具空间",
-      "llm_tldr_en": "Self-evolving agents expose the whole tool library, adding irrelevant context. This work studies tool-space self-evolution, maintaining a persistent task-specific tool space from accumulated output experience and addressing output-unaware selection and cross-request statelessness.",
-      "llm_tldr_cn": "自进化智能体通过工具与环境交互，但把完整工具库暴露给模型会引入大量无关上下文，损害工具使用决策。论文研究工具空间自进化，为每类重复任务维护一个由累积输出经验构建的持久工具空间，并指出既有方法存在输出无感知、跨请求无状态等缺陷，进而提出似然引导的工具空间优化。该方法利用观测到的工具输出并把历史经验整合为持久任务空间，从而改善工具选择。该工作与智能体经验积累和记忆式复用相关，但重心在工具空间而非记忆架构。",
-      "llm_tldr": "自进化智能体通过工具与环境交互，但把完整工具库暴露给模型会引入大量无关上下文，损害工具使用决策。论文研究工具空间自进化，为每类重复任务维护一个由累积输出经验构建的持久工具空间，并指出既有方法存在输出无感知、跨请求无状态等缺陷，进而提出似然引导的工具空间优化。该方法利用观测到的工具输出并把历史经验整合为持久任务空间，从而改善工具选择。该工作与智能体经验积累和记忆式复用相关，但重心在工具空间而非记忆架构。",
+      "llm_evidence_en": "memory evolution driven by delayed recommendation feedback",
+      "llm_evidence_cn": "由延迟推荐反馈驱动的记忆演化",
+      "llm_evidence": "由延迟推荐反馈驱动的记忆演化",
+      "canonical_evidence": "由延迟推荐反馈驱动的记忆演化",
+      "llm_tldr_en": "Content-generation agents receive delayed, noisy recommendation feedback that is hard to attribute to memory. The paper proposes TIDE, a trajectory-informed directed memory evolution framework driven by delayed feedback to convert outcomes into memory fitness.",
+      "llm_tldr_cn": "内容生成智能体持续收到来自推荐系统的曝光、点击与转化反馈，但这些信号延迟、含噪且难以归因，现有方法依赖即时反馈或语义检索，难以把推荐结果转化为记忆适应度。论文提出TIDE，一种由延迟推荐反馈驱动的外部记忆演化框架，借助轨迹信息指导记忆的有向更新。该工作为利用真实世界延迟反馈进行智能体记忆管理提供了新思路。",
+      "llm_tldr": "内容生成智能体持续收到来自推荐系统的曝光、点击与转化反馈，但这些信号延迟、含噪且难以归因，现有方法依赖即时反馈或语义检索，难以把推荐结果转化为记忆适应度。论文提出TIDE，一种由延迟推荐反馈驱动的外部记忆演化框架，借助轨迹信息指导记忆的有向更新。该工作为利用真实世界延迟反馈进行智能体记忆管理提供了新思路。",
       "llm_tags": [
         "query:agent-memory"
       ],
       "matched_query_tag": "query:agent-memory",
       "matched_query_text": "Identify research on memory consolidation, forgetting, and memory management for continual learning agents.",
       "matched_requirement_id": "req-7",
-      "selection_source": "fresh_fetch",
-      "quick_tier": "6"
-    },
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
     {
       "id": "2609.37791v1",
       "source": "arxiv",
@@ -160,19 +119,62 @@
         "query:agent-memory"
       ],
       "llm_score": 6.0,
-      "llm_evidence_en": "RNN with episodic memory buffer modulated by inferred context",
-      "llm_evidence_cn": "由情境调节的带情节记忆缓冲的循环神经网络",
-      "llm_evidence": "由情境调节的带情节记忆缓冲的循环神经网络",
-      "canonical_evidence": "由情境调节的带情节记忆缓冲的循环神经网络",
-      "llm_tldr_en": "Studies how prefrontal context modulates working and episodic memory algorithmically; trains an RNN with an episodic memory buffer that infers context via Bayesian inference and modulates recurrent connectivity in low-rank fashion, matching human fMRI.",
-      "llm_tldr_cn": "论文关注情境如何调制工作记忆与情节记忆这一神经计算问题，目前算法层面的理解仍有限。作者训练带情节记忆缓冲的循环神经网络，用贝叶斯推断情境，并以低秩方式调制作为工作记忆基础的循环连接。结果显示，当情境如此调制循环连接时，模型活动模式与观看相同影片的人类fMRI反应最为吻合。该工作为情境调制的记忆机制提供了可检验的算法解释。",
-      "llm_tldr": "论文关注情境如何调制工作记忆与情节记忆这一神经计算问题，目前算法层面的理解仍有限。作者训练带情节记忆缓冲的循环神经网络，用贝叶斯推断情境，并以低秩方式调制作为工作记忆基础的循环连接。结果显示，当情境如此调制循环连接时，模型活动模式与观看相同影片的人类fMRI反应最为吻合。该工作为情境调制的记忆机制提供了可检验的算法解释。",
+      "llm_evidence_en": "recurrent network with episodic memory buffer that maintains and retrieves memories based on inferred context",
+      "llm_evidence_cn": "带情节记忆缓冲、基于推断情境维护与检索记忆的循环网络",
+      "llm_evidence": "带情节记忆缓冲、基于推断情境维护与检索记忆的循环网络",
+      "canonical_evidence": "带情节记忆缓冲、基于推断情境维护与检索记忆的循环网络",
+      "llm_tldr_en": "An RNN augmented with an episodic memory buffer infers context via Bayesian inference, and low-rank context modulation of recurrent connectivity best matches human fMRI responses during naturalistic movie viewing.",
+      "llm_tldr_cn": "人脑会持续推断情境并据此调整记忆方式，前额叶皮层的情境信号可调制工作记忆与情节记忆，但其算法机制尚不清楚。作者训练一个带情节记忆缓冲的循环神经网络，以贝叶斯推断在看自然电影时推断情境。当推断情境以低秩方式调制循环连接时，模型活动模式最接近观看相同电影被试的fMRI响应，为情境调制记忆提供了计算解释。",
+      "llm_tldr": "人脑会持续推断情境并据此调整记忆方式，前额叶皮层的情境信号可调制工作记忆与情节记忆，但其算法机制尚不清楚。作者训练一个带情节记忆缓冲的循环神经网络，以贝叶斯推断在看自然电影时推断情境。当推断情境以低秩方式调制循环连接时，模型活动模式最接近观看相同电影被试的fMRI响应，为情境调制记忆提供了计算解释。",
       "llm_tags": [
         "query:agent-memory"
       ],
       "matched_query_tag": "query:agent-memory",
-      "matched_query_text": "memory mechanisms in autonomous agents and agent memory architectures",
-      "matched_requirement_id": "req-1",
+      "matched_query_text": "Search for papers about long term memory, episodic memory, and memory retrieval in interactive agent systems.",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2610.01195v1",
+      "source": "arxiv",
+      "title": "Federated Agent Optimization",
+      "abstract": "Large language model (LLM) agents increasingly operate in private environments and accumulate valuable experience from task execution, tool use, feedback, and local knowledge. Yet such experience is distributed across organizations and cannot be directly shared because of privacy and proprietary constraints. Conventional federated learning is insufficient for this setting, as agent capabilities extend beyond model parameters to memory, tools, rewards, skills, and structured knowledge. In this paper, we formulate \\textbf{Federated Agent Optimization (FAO)}, which studies how distributed agents can collaboratively improve through controlled information exchange while keeping raw data, complete trajectories, and private knowledge local. We define FAO as a multi-objective problem balancing agent utility, privacy leakage, and communication cost, and organize its optimization space across policy, memory, tool use, reward, and structured knowledge and skills. We further characterize how private experience can be abstracted, protected, aggregated, and adapted into transferable capabilities, providing a unified view of how agents can benefit from one another without direct experience sharing. Finally, we identify the key challenges of FAO and outline several promising directions for future research toward trustworthy federated agent systems.",
+      "authors": [
+        "Qiang Yang",
+        "Zhiqiang Kou",
+        "Xueyi Zhang",
+        "Dong-Dong Wu",
+        "Hanlin Gu",
+        "Jing Guo",
+        "Yang Liu",
+        "Di Jiang",
+        "Qian Xu"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-10-01T07:06:00+00:00",
+      "link": "https://arxiv.org/pdf/2610.01195v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "distributed agents sharing memory, tools and knowledge via controlled exchange",
+      "llm_evidence_cn": "分布式智能体通过受控交换共享记忆、工具与知识",
+      "llm_evidence": "分布式智能体通过受控交换共享记忆、工具与知识",
+      "canonical_evidence": "分布式智能体通过受控交换共享记忆、工具与知识",
+      "llm_tldr_en": "LLM agents accumulate experience in private environments but cannot share it directly. This work formulates Federated Agent Optimization, where distributed agents collaboratively improve through controlled information exchange covering memory, tools, skills and knowledge.",
+      "llm_tldr_cn": "LLM智能体在私有环境中积累了大量经验，但因隐私与产权限制无法直接共享，而传统联邦学习只覆盖模型参数，无法涵盖记忆、工具与技能等能力。本文将这一问题形式化为联邦智能体优化，研究分布式智能体如何在保持原始数据与完整轨迹本地的前提下通过受控信息交换协同提升。工作将其定义为多目标问题，为跨组织智能体记忆与知识的共享提供了新框架。",
+      "llm_tldr": "LLM智能体在私有环境中积累了大量经验，但因隐私与产权限制无法直接共享，而传统联邦学习只覆盖模型参数，无法涵盖记忆、工具与技能等能力。本文将这一问题形式化为联邦智能体优化，研究分布式智能体如何在保持原始数据与完整轨迹本地的前提下通过受控信息交换协同提升。工作将其定义为多目标问题，为跨组织智能体记忆与知识的共享提供了新框架。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "shared memory and communication in multi-agent systems",
+      "matched_requirement_id": "req-4",
       "selection_source": "fresh_fetch",
       "quick_tier": "6"
     }
