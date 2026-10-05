@@ -1,0 +1,462 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-10-05T19:07:21.708309+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 6,
+    "deep_cap": 6,
+    "deep_selected": 6,
+    "quick_candidates": 5,
+    "quick_skim_target": 11,
+    "quick_selected": 5
+  },
+  "deep_dive": [
+    {
+      "id": "2610.02472v1",
+      "source": "arxiv",
+      "title": "APDMem: Agent-Controlled Progressive Disclosure for Query-Adaptive Long-Term Memory",
+      "abstract": "Personalized LLM assistants must recover sparse evidence from long conversation histories across queries of varying complexity. We introduce APDMem (Agent-controlled Progressive Disclosure Memory), a hierarchical long-term memory architecture that applies progressive disclosure to memory retrieval. Rather than relying on a flat memory store or fixed retrieval granularity, APDMem represents conversation history as four progressively detailed layers: thematic summaries, personalized key facts, turn-level evidence notes, and raw messages. At inference time, a controller applies progressive disclosure to the memory hierarchy: it first reads high-level summaries and drills into finer evidence only when needed. This creates an adaptive cost-fidelity trade-off: simple queries can terminate early, while complex temporal, multi-hop, or exact-evidence queries trigger deeper inspection. A note synthesizer converts retrieved evidence into a query-focused structure that consolidates facts, orders events, and flags contradictions before final answer generation. Experiments on LongMemEval show that APDMem achieves strong performance for long-context memory reasoning while accessing only 8% of the total conversations.",
+      "authors": [
+        "Chin-Lun Fu",
+        "Anagha Kulkarni",
+        "Hong Ni",
+        "Behrouz Madahian"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "published": "2026-10-01T20:51:45+00:00",
+      "link": "https://arxiv.org/pdf/2610.02472v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "hierarchical long-term memory retrieval architecture",
+      "llm_evidence_cn": "分层长期记忆检索架构",
+      "llm_evidence": "分层长期记忆检索架构",
+      "canonical_evidence": "分层长期记忆检索架构",
+      "llm_tldr_en": "APDMem is a hierarchical long-term memory architecture that organizes conversation history into four progressively detailed layers and uses an agent controller to apply progressive disclosure, achieving query-adaptive retrieval.",
+      "llm_tldr_cn": "个性化LLM助手需要从长对话历史中为复杂度各异的查询恢复稀疏证据，而扁平记忆存储与固定检索粒度难以兼顾成本与保真。本文提出智能体控制的渐进披露记忆APDMem，将对话历史组织为主题摘要、个性化关键事实、轮次级证据笔记与原始消息四层，推理时由控制器先读高层摘要再按需深入细节。该架构实现了查询自适应的检索，为长期记忆管理提供了新方案。",
+      "llm_tldr": "个性化LLM助手需要从长对话历史中为复杂度各异的查询恢复稀疏证据，而扁平记忆存储与固定检索粒度难以兼顾成本与保真。本文提出智能体控制的渐进披露记忆APDMem，将对话历史组织为主题摘要、个性化关键事实、轮次级证据笔记与原始消息四层，推理时由控制器先读高层摘要再按需深入细节。该架构实现了查询自适应的检索，为长期记忆管理提供了新方案。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "Search for papers about long term memory, episodic memory, and memory retrieval in interactive agent systems.",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2610.02687v1",
+      "source": "arxiv",
+      "title": "Decoupling Memory from Context: Structured Memory for Token-Efficient Test-Time Continual Learning",
+      "abstract": "Large language models (LLMs) are increasingly deployed in enterprise, scientific, and medical applications, where agents must incorporate domain-specific knowledge and adapt from experience. Context engineering offers a practical alternative to weight updates by improving model behavior through instructions, strategies, and evidence supplied at inference time. However, adapting context online typically requires a costly trial-and-error process, while queries are often processed independently, preventing useful experience from carrying forward. Memory systems address this limitation by retaining information across interactions, but approaches that continually append information to a shared context face increasing token costs, context-window limits, and performance degradation as the context expands. We introduce a unified formulation of context optimization and show that an agent memory system update can be interpreted as an optimization update procedure over the model's context. This perspective attempts to provide a principled framework for studying memory design and its efficiency. We then propose GraphMemory, a lightweight graph-based memory that accumulates, refines, organizes, and connects reusable strategies. For each query, GraphMemory retrieves only the relevant subgraph, enabling online context adaptation without exposing the model to the entire memory. Under bounded retrieval, the amount of retrieved memory remains constant as the number of processed examples grows. Experiments show that GraphMemory achieves competitive downstream performance while using approximately 81-85% fewer memory-construction tokens than our baselines.",
+      "authors": [
+        "Yehya Farhat",
+        "Michael Desmond",
+        "Anastasios Kyrillidis"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-10-02T02:07:32+00:00",
+      "link": "https://arxiv.org/pdf/2610.02687v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "structured memory decoupled from context for continual learning agents",
+      "llm_evidence_cn": "面向持续学习智能体的结构化记忆与上下文解耦",
+      "llm_evidence": "面向持续学习智能体的结构化记忆与上下文解耦",
+      "canonical_evidence": "面向持续学习智能体的结构化记忆与上下文解耦",
+      "llm_tldr_en": "LLM agents must adapt from experience, but online context engineering is costly and queries are processed independently. This work decouples memory from context via structured memory for token-efficient test-time continual learning, retaining experience across interactions.",
+      "llm_tldr_cn": "针对LLM智能体需在线吸收领域知识却面临上下文调整代价高、查询独立处理导致经验无法延续的问题，本文提出将记忆与上下文解耦的结构化记忆方法。它避免持续向共享上下文追加信息带来的token成本膨胀，从而在测试时实现高效的持续学习。该工作表明结构化、解耦的记忆机制是智能体测试时持续适应的有效途径。",
+      "llm_tldr": "针对LLM智能体需在线吸收领域知识却面临上下文调整代价高、查询独立处理导致经验无法延续的问题，本文提出将记忆与上下文解耦的结构化记忆方法。它避免持续向共享上下文追加信息带来的token成本膨胀，从而在测试时实现高效的持续学习。该工作表明结构化、解耦的记忆机制是智能体测试时持续适应的有效途径。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "Identify research on memory consolidation, forgetting, and memory management for continual learning agents.",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2609.33260v1",
+      "source": "arxiv",
+      "title": "CORTEX: A Verified Experience Layer for Generalist Agents",
+      "abstract": "An agent can solve a task today and face the same task under new facts, tools, or governing knowledge tomorrow. Most agent systems can retrieve relevant text or recall prior conversations, but they lack a principled way to decide when a previous solution is still valid, when it must be adapted, and when it should be discarded. We introduce CORTEX (Contextual Orchestration and Reuse of Task EXperience), a general AI systems framework that connects specialized agents through an external layer of verified experience. Each episode records its task conditions, source and tool state, decisive predicates, proof trace, verifier, and outcome. A meta-controller chooses exact replay, checked adaptation, fresh synthesis, or escalation. Accepted episodes can become task patterns and procedural strategies through a challenge-driven development loop. This gives the system an implicit competence layer that can grow without changing model weights. We formalize system contracts for exact replay and source-version separation, and derive when reuse saves computation. A controlled two-domain implementation tests the exact-replay core on 1,000 synthetic cases. Complete-family holdouts test procedural transfer on 1,000 new-family cases across eight clinical and policy splits, with complete fresh-evidence grounding and perfect invariance to irrelevant-field and insertion-order perturbations. The transfer trace exposes the work required for verified strategy execution. These results establish an initial path toward general intelligence through reusable procedures, typed experience, and developmental transfer.",
+      "authors": [
+        "Garapati Keerthana",
+        "Manik Gupta"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.LG",
+        "cs.MA"
+      ],
+      "published": "2026-09-27T06:06:32+00:00",
+      "link": "https://arxiv.org/pdf/2609.33260v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "verified external experience layer storing and reusing agent task episodes",
+      "llm_evidence_cn": "存储与复用智能体任务经验的已验证经验层",
+      "llm_evidence": "存储与复用智能体任务经验的已验证经验层",
+      "canonical_evidence": "存储与复用智能体任务经验的已验证经验层",
+      "llm_tldr_en": "Agents may re-encounter tasks under new facts or tools but lack a principled way to decide when a past solution still holds. CORTEX is a verified experience layer recording task conditions, proof traces, verifiers, and outcomes, with a meta-controller choosing replay, adaptation, synthesis, or escalation.",
+      "llm_tldr_cn": "针对智能体在新事实、新工具下重解同一任务时，缺乏判断旧方案何时有效、何时需调整或丢弃的原则性方法的问题，本文提出CORTEX框架。它通过外部可验证经验层记录任务条件、来源与工具状态、决定性谓词、证明轨迹、验证器与结果，并由元控制器选择精确重放、受检适配、全新合成或升级。被接受的经验可沉淀为任务模式，为通用智能体提供可验证的经验复用机制。",
+      "llm_tldr": "针对智能体在新事实、新工具下重解同一任务时，缺乏判断旧方案何时有效、何时需调整或丢弃的原则性方法的问题，本文提出CORTEX框架。它通过外部可验证经验层记录任务条件、来源与工具状态、决定性谓词、证明轨迹、验证器与结果，并由元控制器选择精确重放、受检适配、全新合成或升级。被接受的经验可沉淀为任务模式，为通用智能体提供可验证的经验复用机制。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "memory-augmented agent models that store and retrieve experience",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2609.38778v1",
+      "source": "arxiv",
+      "title": "Action Conditioned Bisimulation For GUI Agent Memory",
+      "abstract": "An agent that remembers what it did on a web page must decide when two pages count as the same. Memories built on observation similarity merge pages that look alike but behave differently, and GUIs are full of such pages: two tabs of one widget or two rows of one menu answer the same click differently. We define the merge rule as an action-conditioned bisimulation over the empirical predictive state graph a frozen agent fills as it acts. Two states merge only when their shared actions lead to agreeing outcomes and successor blocks under an affordance label. Observation similarity never enters the rule, and nothing is trained. It replaces the merge rule of an existing outcome-value memory, so a closed-loop comparison isolates it. On MiniWoB++ it raises success rate over a memoryless agent, while a control taking identical exploratory detours, the prior successor-representation merge, and the same criterion without action conditioning change nothing.",
+      "authors": [
+        "Hongbo Zhang",
+        "Liuyang Song",
+        "Quanquan Li",
+        "Daqian Yang",
+        "Yan Wen",
+        "Zhengtao Yao"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-09-30T02:11:02+00:00",
+      "link": "https://arxiv.org/pdf/2609.38778v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Action-conditioned bisimulation merge rule for GUI agent memory",
+      "llm_evidence_cn": "面向GUI智能体记忆的动作条件双模拟合并规则",
+      "llm_evidence": "面向GUI智能体记忆的动作条件双模拟合并规则",
+      "canonical_evidence": "面向GUI智能体记忆的动作条件双模拟合并规则",
+      "llm_tldr_en": "Agents that remember web page interactions must decide when two pages count as the same, but observation-similarity merging conflates pages that look alike yet behave differently. This work defines an action-conditioned bisimulation over the agent's predictive state graph, and on MiniWoB++ it improves success rate without any training.",
+      "llm_tldr_cn": "在网页上行动的智能体需要记住自己的操作，但必须判断两个页面何时算作同一状态；基于观测相似度的记忆会把外观相同却行为不同的页面错误合并，而GUI中此类页面比比皆是。作者提出以动作条件双模拟作为合并规则，在冻结智能体逐步填充的经验预测状态图上，仅当共享动作导致一致结果时才合并状态。该规则无需训练即可替换既有结果价值记忆的合并方式，在MiniWoB++上提升了任务成功率。这为GUI智能体记忆的状态抽象提供了新思路。",
+      "llm_tldr": "在网页上行动的智能体需要记住自己的操作，但必须判断两个页面何时算作同一状态；基于观测相似度的记忆会把外观相同却行为不同的页面错误合并，而GUI中此类页面比比皆是。作者提出以动作条件双模拟作为合并规则，在冻结智能体逐步填充的经验预测状态图上，仅当共享动作导致一致结果时才合并状态。该规则无需训练即可替换既有结果价值记忆的合并方式，在MiniWoB++上提升了任务成功率。这为GUI智能体记忆的状态抽象提供了新思路。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "memory mechanisms in autonomous agents and agent memory architectures",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2610.02361v1",
+      "source": "arxiv",
+      "title": "SEDIMA: Cross-Run Hierarchical Insight Memory for Evolutionary Search Agents",
+      "abstract": "Large language model (LLM)-driven evolutionary search is a powerful paradigm for automated program and algorithm discovery, yet existing systems are largely memoryless: each run explores from scratch, so agents repeatedly rediscover the same improvements and re-encounter the same dead ends. We introduce SEDIMA, a persistent hierarchical insight memory for evolutionary search agents. SEDIMA distills raw traces into natural-language insights, clusters them by semantic similarity using attention-weighted centroids, and retrieves relevant guidance to condition future mutations, accumulating transferable knowledge across runs and problems rather than within a single trajectory. As a drop-in module that leaves the search operators unmodified, SEDIMA improves average final performance by 5.5% on AlgoTune and 6.6% on ALE-Bench LITE under a fixed budget of 100 evaluated candidates. Under OpenEvolve, SEDIMA requires 32.3% fewer iterations on average to reach baseline-best performance across the five evaluated backbones.",
+      "authors": [
+        "Amirhossein Abaskohi",
+        "Mahdi Mostajabdaveh",
+        "Zirui Zhou"
+      ],
+      "primary_category": "cs.NE",
+      "categories": [
+        "cs.NE",
+        "cs.CL"
+      ],
+      "published": "2026-10-01T18:38:31+00:00",
+      "link": "https://arxiv.org/pdf/2610.02361v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Persistent hierarchical insight memory for evolutionary search agents",
+      "llm_evidence_cn": "面向演化搜索智能体的持久分层洞见记忆",
+      "llm_evidence": "面向演化搜索智能体的持久分层洞见记忆",
+      "canonical_evidence": "面向演化搜索智能体的持久分层洞见记忆",
+      "llm_tldr_en": "LLM-driven evolutionary search is powerful but largely memoryless, so agents rediscover the same improvements and dead ends across runs. This work presents SEDIMA, a persistent hierarchical insight memory that distills traces into natural-language insights, clusters them, and retrieves guidance to condition future mutations.",
+      "llm_tldr_cn": "基于LLM的演化搜索在自动程序与算法发现中很强大，但现有系统基本没有记忆，每次运行都从头探索，智能体反复重新发现相同改进并重蹈相同死路。作者提出SEDIMA，一种面向演化搜索智能体的持久分层洞见记忆，将原始轨迹蒸馏为自然语言洞见，用注意力加权质心按语义聚类，并检索相关指导来条件化后续变异。作为不修改搜索算子的即插即用模块，它跨运行与跨问题累积可迁移知识。该工作让演化搜索智能体具备跨轮次经验积累能力。",
+      "llm_tldr": "基于LLM的演化搜索在自动程序与算法发现中很强大，但现有系统基本没有记忆，每次运行都从头探索，智能体反复重新发现相同改进并重蹈相同死路。作者提出SEDIMA，一种面向演化搜索智能体的持久分层洞见记忆，将原始轨迹蒸馏为自然语言洞见，用注意力加权质心按语义聚类，并检索相关指导来条件化后续变异。作为不修改搜索算子的即插即用模块，它跨运行与跨问题累积可迁移知识。该工作让演化搜索智能体具备跨轮次经验积累能力。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "memory-augmented agent models that store and retrieve experience",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2610.03020v1",
+      "source": "arxiv",
+      "title": "DyadMem: A Long-Term Memory Benchmark of How Agents Work with Users",
+      "abstract": "Long-term agents must remember not only what is true about a user, but also how a particular agent should work with that user as their shared history evolves. Existing benchmarks primarily supervise user facts and preferences or experience reusable across users, leaving this relationship-specific agent memory implicit. Additionally, most prior works measure the model solely with final-answer QA over long interaction histories, making the assessment still incomplete and unreliable. To this end, we introduce DyadMem with the proposed new definition User-conditioned Relational Agent Memory (URAM). DyadMem jointly annotates user-side memory and URAM along the same multi-session trajectories, resulting in 6 memory categories. To summarize, it includes 3,065 episodes, 50,961 sessions, and 61,210 QA instances, with extensive session-level Capture and Update gold annotations, query-level Recall support, and two QA settings: Gold-Memory and Full-Pipeline. Across 16 open-weight and 4 proprietary models, Gold-Memory QA is consistently strong, yet Full-Pipeline QA drops sharply. Such a gap explicitly supports our fine-grained evaluation design. Additionally, several quantitative results further reveal low Capture recall, incomplete Recall, and unsafe-deletion issues arising from even the frontier LLMs. We further conduct a rigorous experiment to validate the effectiveness of our URAM and observe the positive effects for all 20 models. In summary, DyadMem is a dual-domain, full-pipeline memory benchmark with extensive annotation efforts for advancing the domain's development.",
+      "authors": [
+        "Yifei Tao",
+        "Xinyu Zhong",
+        "Henry Hengyuan Zhao",
+        "Fanyi Wang",
+        "Tengda Guo",
+        "Wentao Qiu",
+        "Ying Wang",
+        "Liujian Tang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-10-02T08:57:43+00:00",
+      "link": "https://arxiv.org/pdf/2610.03020v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Long-term memory benchmark for how agents work with users",
+      "llm_evidence_cn": "衡量智能体如何与用户协作的长期记忆基准",
+      "llm_evidence": "衡量智能体如何与用户协作的长期记忆基准",
+      "canonical_evidence": "衡量智能体如何与用户协作的长期记忆基准",
+      "llm_tldr_en": "Long-term agents must remember not only user facts but how an agent should work with a user as shared history evolves. This work introduces DyadMem and the notion of User-conditioned Relational Agent Memory, annotating user-side memory and relational memory across multi-session trajectories.",
+      "llm_tldr_cn": "长期智能体不仅要记住关于用户的事实，还要随着共同历史演化记住某个智能体应如何与该用户协作，而现有基准多只监督用户事实与偏好，忽略了这种关系型智能体记忆。为此作者提出DyadMem基准以及用户条件关系型智能体记忆（URAM）定义，在同一多会话轨迹上联合标注用户侧记忆与关系型记忆，形成6类记忆。该基准包含约3065个样本，弥补了仅用最终答案QA评估的不足。它为评估智能体长期记忆提供了更贴近协作场景的标准。",
+      "llm_tldr": "长期智能体不仅要记住关于用户的事实，还要随着共同历史演化记住某个智能体应如何与该用户协作，而现有基准多只监督用户事实与偏好，忽略了这种关系型智能体记忆。为此作者提出DyadMem基准以及用户条件关系型智能体记忆（URAM）定义，在同一多会话轨迹上联合标注用户侧记忆与关系型记忆，形成6类记忆。该基准包含约3065个样本，弥补了仅用最终答案QA评估的不足。它为评估智能体长期记忆提供了更贴近协作场景的标准。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "Search for papers about long term memory, episodic memory, and memory retrieval in interactive agent systems.",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2609.35431v1",
+      "source": "arxiv",
+      "title": "Memory in the Sky: Low-Altitude Question Answering with Multi-Agent Memory Aggregation",
+      "abstract": "This paper studies low-altitude question answering (LAQA), in which distributed unmanned aerial vehicle (UAV) memories are aggregated at a ground server to answer questions about observations over a long horizon. Unlike conventional resource allocation based on sensing, communication, control, or computation metrics, LAQA requires an explicit measure of memory value. We propose a generative adversarial exam (GAE) that uses forward simulation to evaluate memory retrieval and exam scores to quantify memory quality. This enables the downstream QA value of candidate memories to be measured and optimized without accessing the internal mechanisms of the black-box captioning, retrieval, and reasoning pipeline. Building on this metric, we develop a memory-centric (MemCen) framework that jointly selects UAVs and allocates transmit power to maximize memory quality under communication constraints. In the noise-limited regime, we derive a QoM-aware capped water-filling law that explicitly connects task utility with physical-layer power allocation. We further develop penalty successive optimization (PSO) and learning to memorize (L2M) solvers. MemCen achieves QA accuracies of 92.4% and 84.0% in CARLA Town04 and Town05 under static and dynamic communication conditions, respectively. In real-world experiments, MemCen achieves 88.5% QA accuracy on the panoramic multi-agent system (PMAS) benchmark. Finally, UAV-to-robot-dog demonstrations further validate the practical utility of the acquired memories for environmental understanding and navigation.",
+      "authors": [
+        "Chengyang Li",
+        "Yujie Wan",
+        "Shuai Wang",
+        "Kejiang Ye",
+        "Weijie Yuan",
+        "Boyu Zhou",
+        "Yik-Chung Wu",
+        "Chengzhong Xu",
+        "Huseyin Arslan"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.IT"
+      ],
+      "published": "2026-09-28T15:36:32+00:00",
+      "link": "https://arxiv.org/pdf/2609.35431v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "multi-agent memory aggregation for low-altitude question answering",
+      "llm_evidence_cn": "面向低空问答的多智能体记忆聚合",
+      "llm_evidence": "面向低空问答的多智能体记忆聚合",
+      "canonical_evidence": "面向低空问答的多智能体记忆聚合",
+      "llm_tldr_en": "This paper studies low-altitude QA where distributed UAV memories are aggregated at a ground server, proposing a generative adversarial exam to quantify memory value and optimize memory selection for long-horizon QA.",
+      "llm_tldr_cn": "本文研究低空问答场景，将分布式无人机记忆在地面服务器聚合，以回答长时程观测相关问题，其关键在于显式度量记忆价值。作者提出生成对抗考试（GAE），通过前向仿真评估记忆检索，并用考试分数量化记忆质量，从而在无需访问黑箱描述、检索与推理管线内部机制的情况下优化候选记忆的下游问答价值。基于该度量，方法实现了多智能体记忆的有效聚合与选择，为分布式记忆系统提供了可优化的价值评估手段。",
+      "llm_tldr": "本文研究低空问答场景，将分布式无人机记忆在地面服务器聚合，以回答长时程观测相关问题，其关键在于显式度量记忆价值。作者提出生成对抗考试（GAE），通过前向仿真评估记忆检索，并用考试分数量化记忆质量，从而在无需访问黑箱描述、检索与推理管线内部机制的情况下优化候选记忆的下游问答价值。基于该度量，方法实现了多智能体记忆的有效聚合与选择，为分布式记忆系统提供了可优化的价值评估手段。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "shared memory and communication in multi-agent systems",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2609.35576v1",
+      "source": "arxiv",
+      "title": "Share-Borne AI Virus: Memory-Hopping Attacks Across LLM Agents",
+      "abstract": "Large language models are increasingly deployed as stateful assistants that retain information across interactions and use tools to read, modify, and create persistent artifacts. As these artifacts are shared between users, they form an indirect communication channel between otherwise independent assistants. We study a failure mode in which this channel enables self-propagating attacks. We introduce artifact-mediated propagation, where adversarial content introduced through an artifact (e.g. a report), is stored in an assistant's persistent memory, reproduced in a subsequently created artifact, and acquired by another assistant that later reads it. We evaluate this process in temporal human-agent universes that model artifact exchange between independently operated assistants over time, measuring whether an attack survives successive hand-offs, how many hops it reaches, and how broadly it spreads. We find that attacks can propagate across multiple independent assistants and persist over extended interaction sequences. In larger simulated environments, even GPT-5.6 Luna exhibits substantial spread, reaching 60-80% of agents with propagation chains extending to eight hops. These results show that persistent artifacts can act as durable carriers of adversarial state, allowing attacks to outlive individual interactions and spread across isolated assistants.",
+      "authors": [
+        "Sidharth Pulipaka",
+        "Ansh Sharma",
+        "Stanislau Hlebik",
+        "Leonidas Raghav",
+        "Vyas Raina",
+        "Ivaxi Sheth",
+        "Mario Fritz"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.CL",
+        "cs.CR",
+        "cs.LG"
+      ],
+      "published": "2026-09-28T16:34:52+00:00",
+      "link": "https://arxiv.org/pdf/2609.35576v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "persistent memory shared via artifacts forms a cross-agent communication channel",
+      "llm_evidence_cn": "经共享制品传递的持久记忆构成智能体间通信通道",
+      "llm_evidence": "经共享制品传递的持久记忆构成智能体间通信通道",
+      "canonical_evidence": "经共享制品传递的持久记忆构成智能体间通信通道",
+      "llm_tldr_en": "Stateful assistants share persistent artifacts that act as an indirect communication channel, enabling self-propagating attacks; the paper introduces artifact-mediated propagation where adversarial content stored in memory is reproduced and picked up by other agents.",
+      "llm_tldr_cn": "大模型助手保留跨交互信息并通过工具读写持久制品，这些在用户间共享的制品构成了本应独立助手之间的间接通信通道。作者研究该通道导致的自我传播攻击，提出制品介导传播机制：恶意内容经报告等制品写入助手持久记忆，再被复现到新制品并被另一助手读取。该工作揭示了共享记忆与跨智能体通信带来的新型安全失效模式，对多智能体记忆系统设计具警示意义。",
+      "llm_tldr": "大模型助手保留跨交互信息并通过工具读写持久制品，这些在用户间共享的制品构成了本应独立助手之间的间接通信通道。作者研究该通道导致的自我传播攻击，提出制品介导传播机制：恶意内容经报告等制品写入助手持久记忆，再被复现到新制品并被另一助手读取。该工作揭示了共享记忆与跨智能体通信带来的新型安全失效模式，对多智能体记忆系统设计具警示意义。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "shared memory and communication in multi-agent systems",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2609.38641v1",
+      "source": "arxiv",
+      "title": "Vision-Language-Action Autonomous Driving Agent with Language-based Memory",
+      "abstract": "Vision-Language-Action (VLA) foundation models have recently emerged as one of the prevailing solutions for autonomous driving, as they can utilize knowledge acquired during vision-language pretraining for accurate and interpretable driving. However, VLAs can take only a limited number of frames as visual input due to the high token cost of an image, which is problematic for memory-dependent tasks such as determining the arrival order at all-way stops and long-horizon driving scene understanding. Existing solutions use latent vector memories accessed through cross-attention, which are neither interpretable nor portable. In this paper, we propose AD-Memo, a general-purpose VLA driving agent with language-based memory. The agent outputs memory as an extension of its Chain-of-Thought (CoT) to record surrounding objects critical to driving; this memory becomes part of the agent's future input. We curate memory-based datasets and train VLAs with a two-stage recipe: Supervised Fine-Tuning (SFT) and \\textit{Da Capo}, a novel semi-closed-loop Reinforcement Learning (RL) algorithm which uses trajectory-level advantage for memory and step-level advantage for driving, leading to better credit assignment. Across scenarios such as all-way stops and general driving, AD-Memo improves driving quality, enables better question answering on driving scenes, and produces plug-and-play memory for other models.",
+      "authors": [
+        "Kai Yan",
+        "Xiangyu Chen",
+        "Yulong Cao",
+        "Alex Naumann",
+        "Peter Karkus",
+        "Yan Wang",
+        "Jef Packer",
+        "Alex Schwing",
+        "Yuxiong Wang",
+        "Boris Ivanovic",
+        "Wenjie Luo",
+        "Marco Pavone"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.RO"
+      ],
+      "published": "2026-09-29T23:00:01+00:00",
+      "link": "https://arxiv.org/pdf/2609.38641v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "VLA driving agent with language-based memory for long-horizon scene understanding",
+      "llm_evidence_cn": "带语言记忆的视觉-语言-动作驾驶智能体用于长时程场景理解",
+      "llm_evidence": "带语言记忆的视觉-语言-动作驾驶智能体用于长时程场景理解",
+      "canonical_evidence": "带语言记忆的视觉-语言-动作驾驶智能体用于长时程场景理解",
+      "llm_tldr_en": "VLAs take few frames due to image token cost, hurting memory-dependent driving tasks; AD-Memo adds interpretable, portable language-based memory to a VLA driving agent, improving long-horizon scene understanding and order judgments.",
+      "llm_tldr_cn": "视觉-语言-动作基础模型因图像令牌成本只能输入有限帧，难以应对判断全向停车到达顺序、长时程驾驶场景理解等依赖记忆的任务。现有方案使用经交叉注意力访问的隐向量记忆，既不可解释也难以迁移。作者提出AD-Memo，一种带语言记忆的通用VLA驾驶智能体，直接以语言形式输出并利用记忆。该工作将可解释、可移植的语言记忆引入自动驾驶智能体，拓展了记忆机制在具身决策中的应用。",
+      "llm_tldr": "视觉-语言-动作基础模型因图像令牌成本只能输入有限帧，难以应对判断全向停车到达顺序、长时程驾驶场景理解等依赖记忆的任务。现有方案使用经交叉注意力访问的隐向量记忆，既不可解释也难以迁移。作者提出AD-Memo，一种带语言记忆的通用VLA驾驶智能体，直接以语言形式输出并利用记忆。该工作将可解释、可移植的语言记忆引入自动驾驶智能体，拓展了记忆机制在具身决策中的应用。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "memory mechanisms in autonomous agents and agent memory architectures",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2610.02488v1",
+      "source": "arxiv",
+      "title": "Harnessing LLMs as Agents: What Does It Cost?",
+      "abstract": "Language-model agents increasingly rely on harnesses that manage bounded context, persistent memory, tools, verification, and repeated execution, yet existing notions of model capability do not quantify the computational resources these mechanisms consume. We introduce the Language Model Agent Machine (LAM), a resource-bounded abstraction that fixes the underlying semantic model while explicitly charging harness-level resources. We establish four classes of results. Communication: LAM execution is instancewise equivalent to red--blue pebbling under simultaneous call--transfer budgets, transferring classical I/O lower bounds to context--memory traffic. Access: memory interfaces induce asymptotic separations, including a $Θ(n)$ gap between random and non-speculative sequential access on pointer chasing. Recomputation: bit-reversal DAGs require $Θ(n^2/(C+S)+n)$ model calls with context capacity $C$ and persistent-memory capacity $S$, quantifying when stored intermediate state avoids repeated semantic computation. Reliability: we derive tight stage-local sampling bounds, exact imperfect-verification costs, and a Young--Daly-type checkpoint law with a closed-form optimal verification interval. Controlled and held-out experiments on GPT-6 Astra test communication and reliability predictions, including checkpoint optima, policy selection under programmatic checking, and tradeoffs among call granularity, logical input traffic, and reliability on chained MATH tasks. Together, these results provide a resource theory for the computational cost of language-model agent harnesses.",
+      "authors": [
+        "Zelin Zhao",
+        "Xinyu Guo",
+        "Jingyuan Zhang",
+        "Yuxuan Zhang",
+        "Yongxin Chen"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-10-01T21:05:49+00:00",
+      "link": "https://arxiv.org/pdf/2610.02488v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "resource-bounded abstraction charging persistent memory and context-memory traffic",
+      "llm_evidence_cn": "以资源受限抽象刻画持久记忆与上下文-记忆流量",
+      "llm_evidence": "以资源受限抽象刻画持久记忆与上下文-记忆流量",
+      "canonical_evidence": "以资源受限抽象刻画持久记忆与上下文-记忆流量",
+      "llm_tldr_en": "It formalizes the cost of agent harnesses such as persistent memory and context management via a resource-bounded Language Model Agent Machine, deriving I/O and access lower bounds that transfer classical pebbling results to memory traffic.",
+      "llm_tldr_cn": "现有模型能力指标无法量化智能体框架中持久记忆、工具与上下文管理等机制消耗的计算资源。作者提出语言模型智能体机LAM，将底层语义模型固定而显式计费框架层资源，并证明其执行等价于带调用-传输预算的红蓝卵石游戏。该抽象把经典I/O下界迁移到上下文-记忆流量，并给出内存接口导致的渐近分离，为智能体记忆架构的资源分析提供理论工具。",
+      "llm_tldr": "现有模型能力指标无法量化智能体框架中持久记忆、工具与上下文管理等机制消耗的计算资源。作者提出语言模型智能体机LAM，将底层语义模型固定而显式计费框架层资源，并证明其执行等价于带调用-传输预算的红蓝卵石游戏。该抽象把经典I/O下界迁移到上下文-记忆流量，并给出内存接口导致的渐近分离，为智能体记忆架构的资源分析提供理论工具。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "memory mechanisms in autonomous agents and agent memory architectures",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2609.38886v1",
+      "source": "arxiv",
+      "title": "Benchmarking and Enhancing Skill-Level Memory for Partially Observable Robotic Manipulation",
+      "abstract": "Recent advances in robot learning have enabled manipulation policies to perform increasingly diverse tasks and generalize across environments. However, reliable execution often depends on hidden task states that cannot be determined from current observations alone, making interaction history essential. We introduce $HIDE$, a benchmark for evaluating manipulation memory under partial observability. HIDE comprises 15 tasks covering repetition counting, historical-state recall, and execution-progress tracking, with randomized initial configurations and decision points where similar observations require different actions depending on prior events. We further propose $SEEK$, a framework combining three complementary memory mechanisms to retain historical evidence and track execution state. Evaluations reveal substantial limitations in existing policies on HIDE, while memory augmentation improves task success in both simulation and real-world experiments. Individual mechanisms benefit some tasks but can degrade others; their combination achieves the highest average success rate on HIDE among the evaluated configurations. These findings highlight the importance of maintaining internal representations of hidden task states and matching memory design to task-specific information requirements.",
+      "authors": [
+        "Yansong Shi",
+        "Jiange Yang",
+        "Xijie Yang",
+        "Shaowei Zhang",
+        "Yuhan Zhu",
+        "Tao Lu",
+        "Limin Wang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-09-30T03:35:00+00:00",
+      "link": "https://arxiv.org/pdf/2609.38886v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "memory mechanisms and memory benchmark for partially observable robotic manipulation agents",
+      "llm_evidence_cn": "面向部分可观测机器人操作智能体的记忆机制与记忆基准",
+      "llm_evidence": "面向部分可观测机器人操作智能体的记忆机制与记忆基准",
+      "canonical_evidence": "面向部分可观测机器人操作智能体的记忆机制与记忆基准",
+      "llm_tldr_en": "The paper introduces HIDE, a benchmark for evaluating manipulation memory under partial observability, and SEEK, a framework combining three complementary memory mechanisms to enhance robot policies that must rely on interaction history.",
+      "llm_tldr_cn": "该论文针对部分可观测机器人操作中隐藏任务状态使策略难以可靠执行的问题，指出仅靠当前观测不足、必须依赖交互历史。作者提出HIDE基准，包含15项覆盖重复计数、历史状态回忆与执行进度跟踪的任务，并设计融合三种互补记忆机制的SEEK框架。实验在随机初始配置与相似观测需不同动作的决策点上评估记忆能力，为机器人操作中的技能级记忆提供统一评测与增强方案。",
+      "llm_tldr": "该论文针对部分可观测机器人操作中隐藏任务状态使策略难以可靠执行的问题，指出仅靠当前观测不足、必须依赖交互历史。作者提出HIDE基准，包含15项覆盖重复计数、历史状态回忆与执行进度跟踪的任务，并设计融合三种互补记忆机制的SEEK框架。实验在随机初始配置与相似观测需不同动作的决策点上评估记忆能力，为机器人操作中的技能级记忆提供统一评测与增强方案。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "memory mechanisms in autonomous agents and agent memory architectures",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}

@@ -1,0 +1,185 @@
+{
+  "date": "20261005",
+  "date_label": "",
+  "generated_at": "2026-10-05 19:12:00 UTC",
+  "recommend_exists": true,
+  "run_count": 1,
+  "papers": [
+    {
+      "paper_id": "2610.02472v1",
+      "route": "202610/05/2610.02472v1-apdmem-agent-controlled-progressive-disclosure-for-query-adaptive-long-term-memory",
+      "title": "APDMem: Agent-Controlled Progressive Disclosure for Query-Adaptive Long-Term Memory",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "分层长期记忆检索架构",
+      "first_seen_at": "2026-10-05 19:12:00 UTC",
+      "updated_at": "2026-10-05 19:12:00 UTC"
+    },
+    {
+      "paper_id": "2610.02687v1",
+      "route": "202610/05/2610.02687v1-decoupling-memory-from-context-structured-memory-for-token-efficient-test-time-continual-learning",
+      "title": "Decoupling Memory from Context: Structured Memory for Token-Efficient Test-Time Continual Learning",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "面向持续学习智能体的结构化记忆与上下文解耦",
+      "first_seen_at": "2026-10-05 19:12:00 UTC",
+      "updated_at": "2026-10-05 19:12:00 UTC"
+    },
+    {
+      "paper_id": "2609.33260v1",
+      "route": "202610/05/2609.33260v1-cortex-a-verified-experience-layer-for-generalist-agents",
+      "title": "CORTEX: A Verified Experience Layer for Generalist Agents",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "存储与复用智能体任务经验的已验证经验层",
+      "first_seen_at": "2026-10-05 19:12:00 UTC",
+      "updated_at": "2026-10-05 19:12:00 UTC"
+    },
+    {
+      "paper_id": "2609.38778v1",
+      "route": "202610/05/2609.38778v1-action-conditioned-bisimulation-for-gui-agent-memory",
+      "title": "Action Conditioned Bisimulation For GUI Agent Memory",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "面向GUI智能体记忆的动作条件双模拟合并规则",
+      "first_seen_at": "2026-10-05 19:12:00 UTC",
+      "updated_at": "2026-10-05 19:12:00 UTC"
+    },
+    {
+      "paper_id": "2610.02361v1",
+      "route": "202610/05/2610.02361v1-sedima-cross-run-hierarchical-insight-memory-for-evolutionary-search-agents",
+      "title": "SEDIMA: Cross-Run Hierarchical Insight Memory for Evolutionary Search Agents",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "面向演化搜索智能体的持久分层洞见记忆",
+      "first_seen_at": "2026-10-05 19:12:00 UTC",
+      "updated_at": "2026-10-05 19:12:00 UTC"
+    },
+    {
+      "paper_id": "2610.03020v1",
+      "route": "202610/05/2610.03020v1-dyadmem-a-long-term-memory-benchmark-of-how-agents-work-with-users",
+      "title": "DyadMem: A Long-Term Memory Benchmark of How Agents Work with Users",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "衡量智能体如何与用户协作的长期记忆基准",
+      "first_seen_at": "2026-10-05 19:12:00 UTC",
+      "updated_at": "2026-10-05 19:12:00 UTC"
+    },
+    {
+      "paper_id": "2609.35431v1",
+      "route": "202610/05/2609.35431v1-memory-in-the-sky-low-altitude-question-answering-with-multi-agent-memory-aggregation",
+      "title": "Memory in the Sky: Low-Altitude Question Answering with Multi-Agent Memory Aggregation",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "面向低空问答的多智能体记忆聚合",
+      "first_seen_at": "2026-10-05 19:12:00 UTC",
+      "updated_at": "2026-10-05 19:12:00 UTC"
+    },
+    {
+      "paper_id": "2609.38641v1",
+      "route": "202610/05/2609.38641v1-vision-language-action-autonomous-driving-agent-with-language-based-memory",
+      "title": "Vision-Language-Action Autonomous Driving Agent with Language-based Memory",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "带语言记忆的视觉-语言-动作驾驶智能体用于长时程场景理解",
+      "first_seen_at": "2026-10-05 19:12:00 UTC",
+      "updated_at": "2026-10-05 19:12:00 UTC"
+    },
+    {
+      "paper_id": "2609.38886v1",
+      "route": "202610/05/2609.38886v1-benchmarking-and-enhancing-skill-level-memory-for-partially-observable-robotic-manipulation",
+      "title": "Benchmarking and Enhancing Skill-Level Memory for Partially Observable Robotic Manipulation",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "面向部分可观测机器人操作智能体的记忆机制与记忆基准",
+      "first_seen_at": "2026-10-05 19:12:00 UTC",
+      "updated_at": "2026-10-05 19:12:00 UTC"
+    },
+    {
+      "paper_id": "2609.35576v1",
+      "route": "202610/05/2609.35576v1-share-borne-ai-virus-memory-hopping-attacks-across-llm-agents",
+      "title": "Share-Borne AI Virus: Memory-Hopping Attacks Across LLM Agents",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "经共享制品传递的持久记忆构成智能体间通信通道",
+      "first_seen_at": "2026-10-05 19:12:00 UTC",
+      "updated_at": "2026-10-05 19:12:00 UTC"
+    },
+    {
+      "paper_id": "2610.02488v1",
+      "route": "202610/05/2610.02488v1-harnessing-llms-as-agents-what-does-it-cost",
+      "title": "Harnessing LLMs as Agents: What Does It Cost?",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "以资源受限抽象刻画持久记忆与上下文-记忆流量",
+      "first_seen_at": "2026-10-05 19:12:00 UTC",
+      "updated_at": "2026-10-05 19:12:00 UTC"
+    }
+  ]
+}

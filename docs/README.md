@@ -48,17 +48,17 @@
 <section class="dpr-home-dashboard-card dpr-home-report-card">
   <div class="dpr-home-dashboard-header">
     <div>
-      <span class="dpr-home-dashboard-kicker">2026-10-04</span>
+      <span class="dpr-home-dashboard-kicker">2026-10-05</span>
       <h3 class="dpr-home-dashboard-title">今日汇总</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">共 5 篇</strong>
+    <strong class="dpr-home-dashboard-count">共 11 篇</strong>
   </div>
   <dl class="dpr-home-dashboard-stats">
-    <div class="dpr-home-dashboard-stat"><dt>累计更新</dt><dd>2 次</dd></div>
-    <div class="dpr-home-dashboard-stat"><dt>精读</dt><dd>2</dd></div>
-    <div class="dpr-home-dashboard-stat"><dt>速读</dt><dd>3</dd></div>
+    <div class="dpr-home-dashboard-stat"><dt>累计更新</dt><dd>1 次</dd></div>
+    <div class="dpr-home-dashboard-stat"><dt>精读</dt><dd>6</dd></div>
+    <div class="dpr-home-dashboard-stat"><dt>速读</dt><dd>5</dd></div>
   </dl>
-  <p class="dpr-home-dashboard-body">最近更新：2026-10-04 21:21:47 UTC<br>状态：成功</p>
+  <p class="dpr-home-dashboard-body">最近更新：2026-10-05 19:12:00 UTC<br>状态：成功</p>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-brief-card">
   <div class="dpr-home-dashboard-header">
@@ -69,9 +69,7 @@
     <strong class="dpr-home-dashboard-count">AI</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<p>今天完成5篇论文日报：2篇8.0精读聚焦长期记忆问答的缺失证据检索与推荐反馈驱动的智能体记忆演化，3篇6.0速读覆盖上下文记忆网络、联邦智能体优化和自演化智能体工具空间优化。</p>
-<p>最值得看的是两篇8.0精读方向：长期记忆QA如何主动检索缺失证据，以及推荐反馈如何演化智能体记忆。</p>
-<p>普通读者可先读这两篇精读，再按兴趣补速读中的联邦优化或自演化智能体工具空间优化。</p>
+<p>2026-10-05 日报精选 11 篇记忆相关论文，其中 6 篇精读、5 篇速读，聚焦智能体的长期记忆与高效上下文管理。最值得看的是两篇 9.0 分精读：APDMem 用智能体控制渐进式披露实现查询自适应长期记忆，另一篇则把记忆从上下文中解耦，用结构化记忆支持高 token 效率的测试时持续学习。普通读者可先从这两篇入手，理解&quot;记忆该存什么、何时取出&quot;这一核心思路，再按需浏览速读中的低空问答、自动驾驶与机器人操作应用。</p>
   </div>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-deep-card">
@@ -80,12 +78,12 @@
       <span class="dpr-home-dashboard-kicker">今日累计</span>
       <h3 class="dpr-home-dashboard-title">精读推荐</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">2 篇</strong>
+    <strong class="dpr-home-dashboard-count">6 篇</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="Learning to Retrieve Missing Evidence for Long-Term Memory QA">Learning to Retrieve Missing Evidence for Long-Term Memory QA</span></li><li><span class="dpr-home-dashboard-paper-title" title="How Can Recommendation Feedback Evolve Agent Memory?">How Can Recommendation Feedback Evolve Agent Memory?</span></li></ul>
+<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="APDMem: Agent-Controlled Progressive Disclosure for Query-Adaptive Long-Term Memory">APDMem: Agent-Controlled Progressive Disclosure for Query-Adaptive Long-Term Memory</span></li><li><span class="dpr-home-dashboard-paper-title" title="Decoupling Memory from Context: Structured Memory for Token-Efficient Test-Time Continual Learning">Decoupling Memory from Context: Structured Memory for Token-Efficient Test-Time Continual Learning</span></li><li><span class="dpr-home-dashboard-paper-title" title="CORTEX: A Verified Experience Layer for Generalist Agents">CORTEX: A Verified Experience Layer for Generalist Agents</span></li></ul>
   </div>
-  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">agent-memory <strong>2</strong></span></div>
+  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">agent-memory <strong>6</strong></span></div>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-skim-card">
   <div class="dpr-home-dashboard-header">
@@ -93,12 +91,12 @@
       <span class="dpr-home-dashboard-kicker">今日累计</span>
       <h3 class="dpr-home-dashboard-title">速读推荐</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">3 篇</strong>
+    <strong class="dpr-home-dashboard-count">5 篇</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="A neural network that maintains and retrieves memories based on context">A neural network that maintains and retrieves memories based on context</span></li><li><span class="dpr-home-dashboard-paper-title" title="Federated Agent Optimization">Federated Agent Optimization</span></li><li><span class="dpr-home-dashboard-paper-title" title="Self-Evolving Agents via Likelihood-Guided Tool-Space Optimization">Self-Evolving Agents via Likelihood-Guided Tool-Space Optimization</span></li></ul>
+<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="Memory in the Sky: Low-Altitude Question Answering with Multi-Agent Memory Aggregation">Memory in the Sky: Low-Altitude Question Answering with Multi-Agent Memory Aggregation</span></li><li><span class="dpr-home-dashboard-paper-title" title="Vision-Language-Action Autonomous Driving Agent with Language-based Memory">Vision-Language-Action Autonomous Driving Agent with Language-based Memory</span></li><li><span class="dpr-home-dashboard-paper-title" title="Benchmarking and Enhancing Skill-Level Memory for Partially Observable Robotic Manipulation">Benchmarking and Enhancing Skill-Level Memory for Partially Observable Robotic Manipulation</span></li></ul>
   </div>
-  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">agent-memory <strong>3</strong></span></div>
+  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">agent-memory <strong>5</strong></span></div>
 </section>
 </div>
 
