@@ -1,0 +1,153 @@
+{
+  "date": "20261006",
+  "date_label": "",
+  "generated_at": "2026-10-06 19:38:32 UTC",
+  "recommend_exists": true,
+  "run_count": 1,
+  "papers": [
+    {
+      "paper_id": "2610.05176v1",
+      "route": "202610/06/2610.05176v1-aecg-asymmetric-experience-consolidation-and-governance-in-multi-agent-systems",
+      "title": "AECG: Asymmetric Experience Consolidation and Governance In Multi-Agent Systems",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "多智能体系统中程序性记忆的经验巩固与治理",
+      "first_seen_at": "2026-10-06 19:38:32 UTC",
+      "updated_at": "2026-10-06 19:38:32 UTC"
+    },
+    {
+      "paper_id": "2610.05732v1",
+      "route": "202610/06/2610.05732v1-pacmi-provenance-aware-cascading-memory-invalidation-for-long-term-llm-agents",
+      "title": "PACMI: Provenance-Aware Cascading Memory Invalidation for Long-Term LLM Agents",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "面向长期大模型智能体的记忆失效与管理",
+      "first_seen_at": "2026-10-06 19:38:32 UTC",
+      "updated_at": "2026-10-06 19:38:32 UTC"
+    },
+    {
+      "paper_id": "2610.06830v1",
+      "route": "202610/06/2610.06830v1-mempilot-orchestrating-on-demand-multimodal-memory-curation-for-llm-agents",
+      "title": "MemPilot: Orchestrating On-Demand Multimodal Memory Curation for LLM Agents",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "面向大模型智能体的按需多模态记忆整理架构",
+      "first_seen_at": "2026-10-06 19:38:32 UTC",
+      "updated_at": "2026-10-06 19:38:32 UTC"
+    },
+    {
+      "paper_id": "2610.04868v1",
+      "route": "202610/06/2610.04868v1-from-memory-to-guide-spatio-temporal-composer-for-procedural-coding-memory",
+      "title": "From Memory to Guide: Spatio-Temporal Composer for Procedural Coding Memory",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "记忆增强智能体的程序性记忆检索与应用",
+      "first_seen_at": "2026-10-06 19:38:32 UTC",
+      "updated_at": "2026-10-06 19:38:32 UTC"
+    },
+    {
+      "paper_id": "2610.04195v1",
+      "route": "202610/06/2610.04195v1-memleak-cross-user-semantic-leakage-in-multi-tenant-ai-agent-memory",
+      "title": "MemLeak: Cross-User Semantic Leakage in Multi-Tenant AI Agent Memory",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "共享多租户智能体记忆向量库中的跨用户语义检索泄漏",
+      "first_seen_at": "2026-10-06 19:38:32 UTC",
+      "updated_at": "2026-10-06 19:38:32 UTC"
+    },
+    {
+      "paper_id": "2610.04701v1",
+      "route": "202610/06/2610.04701v1-test-time-training-as-residual-memory-for-robot-policies",
+      "title": "Test-Time Training as Residual Memory for Robot Policies",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "以测试时训练作为残差记忆的记忆增强长时程机器人策略",
+      "first_seen_at": "2026-10-06 19:38:32 UTC",
+      "updated_at": "2026-10-06 19:38:32 UTC"
+    },
+    {
+      "paper_id": "2610.05162v1",
+      "route": "202610/06/2610.05162v1-memadapter-counterfactual-adaptation-against-memory-induced-sycophancy",
+      "title": "Memadapter: Counterfactual Adaptation Against Memory-induced Sycophancy",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "研究LLM智能体长期记忆引发的谄媚及反事实适应",
+      "first_seen_at": "2026-10-06 19:38:32 UTC",
+      "updated_at": "2026-10-06 19:38:32 UTC"
+    },
+    {
+      "paper_id": "2610.05223v1",
+      "route": "202610/06/2610.05223v1-look-before-you-leap-thermodynamic-arbitration-of-parametric-and-non-parametric-knowledge-in-llm-agents-via-self-regulating-memory-architectures",
+      "title": "Look Before You Leap: Thermodynamic Arbitration of Parametric and Non-Parametric Knowledge in LLM Agents via Self-Regulating Memory Architectures",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "自调节记忆架构协调参数与非参数知识",
+      "first_seen_at": "2026-10-06 19:38:32 UTC",
+      "updated_at": "2026-10-06 19:38:32 UTC"
+    },
+    {
+      "paper_id": "2609.38768v1",
+      "route": "202610/06/2609.38768v1-learning-under-forgetting-statistical-support-selective-retention-in-stochastic-training-dynamics",
+      "title": "Learning Under Forgetting: Statistical Support-Selective Retention in Stochastic Training Dynamics",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "把遗忘视为训练动力学中的选择机制",
+      "first_seen_at": "2026-10-06 19:38:32 UTC",
+      "updated_at": "2026-10-06 19:38:32 UTC"
+    }
+  ]
+}

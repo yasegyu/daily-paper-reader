@@ -48,17 +48,17 @@
 <section class="dpr-home-dashboard-card dpr-home-report-card">
   <div class="dpr-home-dashboard-header">
     <div>
-      <span class="dpr-home-dashboard-kicker">2026-10-05</span>
+      <span class="dpr-home-dashboard-kicker">2026-10-06</span>
       <h3 class="dpr-home-dashboard-title">今日汇总</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">共 11 篇</strong>
+    <strong class="dpr-home-dashboard-count">共 9 篇</strong>
   </div>
   <dl class="dpr-home-dashboard-stats">
     <div class="dpr-home-dashboard-stat"><dt>累计更新</dt><dd>1 次</dd></div>
-    <div class="dpr-home-dashboard-stat"><dt>精读</dt><dd>6</dd></div>
+    <div class="dpr-home-dashboard-stat"><dt>精读</dt><dd>4</dd></div>
     <div class="dpr-home-dashboard-stat"><dt>速读</dt><dd>5</dd></div>
   </dl>
-  <p class="dpr-home-dashboard-body">最近更新：2026-10-05 19:12:00 UTC<br>状态：成功</p>
+  <p class="dpr-home-dashboard-body">最近更新：2026-10-06 19:38:32 UTC<br>状态：成功</p>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-brief-card">
   <div class="dpr-home-dashboard-header">
@@ -69,7 +69,10 @@
     <strong class="dpr-home-dashboard-count">AI</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<p>2026-10-05 日报精选 11 篇记忆相关论文，其中 6 篇精读、5 篇速读，聚焦智能体的长期记忆与高效上下文管理。最值得看的是两篇 9.0 分精读：APDMem 用智能体控制渐进式披露实现查询自适应长期记忆，另一篇则把记忆从上下文中解耦，用结构化记忆支持高 token 效率的测试时持续学习。普通读者可先从这两篇入手，理解&quot;记忆该存什么、何时取出&quot;这一核心思路，再按需浏览速读中的低空问答、自动驾驶与机器人操作应用。</p>
+<p>今日共生成 9 篇推荐（精读 4 篇，速读 5 篇）</p>
+<p>精读：《AECG: Asymmetric Experience Consolidation and Governance In Multi-Agent Systems》（9.0/10）, 《PACMI: Provenance-Aware Cascading Memory Invalidation for Long-Term LLM Agents》（9.0/10）</p>
+<p>速读：《MemLeak: Cross-User Semantic Leakage in Multi-Tenant AI Agent Memory》（7.0/10）, 《Test-Time Training as Residual Memory for Robot Policies》（7.0/10）, 《Memadapter: Counterfactual Adaptation Against Memory-induced Sycophancy》（7.0/10）</p>
+<p>这些结果覆盖了当下较热的方向，建议先看精读区论文的关键问题与方法。</p>
   </div>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-deep-card">
@@ -78,12 +81,12 @@
       <span class="dpr-home-dashboard-kicker">今日累计</span>
       <h3 class="dpr-home-dashboard-title">精读推荐</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">6 篇</strong>
+    <strong class="dpr-home-dashboard-count">4 篇</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="APDMem: Agent-Controlled Progressive Disclosure for Query-Adaptive Long-Term Memory">APDMem: Agent-Controlled Progressive Disclosure for Query-Adaptive Long-Term Memory</span></li><li><span class="dpr-home-dashboard-paper-title" title="Decoupling Memory from Context: Structured Memory for Token-Efficient Test-Time Continual Learning">Decoupling Memory from Context: Structured Memory for Token-Efficient Test-Time Continual Learning</span></li><li><span class="dpr-home-dashboard-paper-title" title="CORTEX: A Verified Experience Layer for Generalist Agents">CORTEX: A Verified Experience Layer for Generalist Agents</span></li></ul>
+<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="AECG: Asymmetric Experience Consolidation and Governance In Multi-Agent Systems">AECG: Asymmetric Experience Consolidation and Governance In Multi-Agent Systems</span></li><li><span class="dpr-home-dashboard-paper-title" title="PACMI: Provenance-Aware Cascading Memory Invalidation for Long-Term LLM Agents">PACMI: Provenance-Aware Cascading Memory Invalidation for Long-Term LLM Agents</span></li><li><span class="dpr-home-dashboard-paper-title" title="MemPilot: Orchestrating On-Demand Multimodal Memory Curation for LLM Agents">MemPilot: Orchestrating On-Demand Multimodal Memory Curation for LLM Agents</span></li></ul>
   </div>
-  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">agent-memory <strong>6</strong></span></div>
+  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">agent-memory <strong>4</strong></span></div>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-skim-card">
   <div class="dpr-home-dashboard-header">
@@ -94,7 +97,7 @@
     <strong class="dpr-home-dashboard-count">5 篇</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="Memory in the Sky: Low-Altitude Question Answering with Multi-Agent Memory Aggregation">Memory in the Sky: Low-Altitude Question Answering with Multi-Agent Memory Aggregation</span></li><li><span class="dpr-home-dashboard-paper-title" title="Vision-Language-Action Autonomous Driving Agent with Language-based Memory">Vision-Language-Action Autonomous Driving Agent with Language-based Memory</span></li><li><span class="dpr-home-dashboard-paper-title" title="Benchmarking and Enhancing Skill-Level Memory for Partially Observable Robotic Manipulation">Benchmarking and Enhancing Skill-Level Memory for Partially Observable Robotic Manipulation</span></li></ul>
+<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="MemLeak: Cross-User Semantic Leakage in Multi-Tenant AI Agent Memory">MemLeak: Cross-User Semantic Leakage in Multi-Tenant AI Agent Memory</span></li><li><span class="dpr-home-dashboard-paper-title" title="Test-Time Training as Residual Memory for Robot Policies">Test-Time Training as Residual Memory for Robot Policies</span></li><li><span class="dpr-home-dashboard-paper-title" title="Memadapter: Counterfactual Adaptation Against Memory-induced Sycophancy">Memadapter: Counterfactual Adaptation Against Memory-induced Sycophancy</span></li></ul>
   </div>
   <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">agent-memory <strong>5</strong></span></div>
 </section>

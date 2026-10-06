@@ -1,0 +1,383 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-10-06T19:36:02.796886+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 4,
+    "deep_cap": 6,
+    "deep_selected": 4,
+    "quick_candidates": 5,
+    "quick_skim_target": 11,
+    "quick_selected": 5
+  },
+  "deep_dive": [
+    {
+      "id": "2610.05176v1",
+      "source": "arxiv",
+      "title": "AECG: Asymmetric Experience Consolidation and Governance In Multi-Agent Systems",
+      "abstract": "Large language model (LLM)-based multi-agent systems increasingly rely on memory to transform execution trajectories into reusable procedural knowledge. Yet repeated retrieval also makes memory errors persistent: memory pollution arises when outdated, weakly supported, or spuriously successful procedures become recurring components of future reasoning. Multi-agent execution introduces an additional structural risk. Scope collapse occurs when procedural knowledge escapes the coordination scope in which it was shown effective and is repeatedly reused at incompatible decision levels, allowing local errors to influence cascades of downstream decisions. Meanwhile, task-level failures provide ambiguous supervision because they rarely reveal which recalled knowledge was responsible. We introduce AECG, a framework for asymmetric experience consolidation and governance for multi-agent systems. AECG turns memory from static experience storage into a dynamic reliability-governance loop, preserving coordination scope and using multi-scale, confidence-aware reliability to detect degradation. It then combines degradation with downstream impact to prioritize high-risk knowledge under a bounded review budget, applies targeted interventions, and reactivates revised skills only after paired replay. Across three multi-agent frameworks and four benchmarks, AECG achieves the best score in 11 of 12 framework--benchmark settings and improves over the strongest competing memory method by as much as 10.23 percentage points; removing scope preservation reduces accuracy by up to 16.89 points. AECG thereby reframes multi-agent memory from passive accumulation into auditable reliability governance. Code is available at https://github.com/fenhg297/AECG",
+      "authors": [
+        "Ao Tian",
+        "Jialong Liu",
+        "Daqi Zheng",
+        "Xin Sun",
+        "Mengting Li",
+        "Zhizhao Xiao",
+        "Zijian Huang",
+        "Honglei Wang",
+        "Zijian Hei",
+        "Yukun Yan"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-10-04T12:38:03+00:00",
+      "link": "https://arxiv.org/pdf/2610.05176v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Experience consolidation and governance of procedural memory in multi-agent systems",
+      "llm_evidence_cn": "多智能体系统中程序性记忆的经验巩固与治理",
+      "llm_evidence": "多智能体系统中程序性记忆的经验巩固与治理",
+      "canonical_evidence": "多智能体系统中程序性记忆的经验巩固与治理",
+      "llm_tldr_en": "LLM multi-agent systems turn trajectories into reusable procedural knowledge, but repeated retrieval causes memory pollution and scope collapse. AECG introduces asymmetric experience consolidation and governance to curb persistent memory errors.",
+      "llm_tldr_cn": "针对LLM多智能体系统将执行轨迹转化为可复用程序性知识时反复检索导致记忆污染与作用域坍塌的问题，本文提出非对称经验巩固与治理框架AECG。该方法区分不同决策层级与协调范围，对经验进行非对称巩固并施加治理，防止过时或虚假成功程序被反复复用并级联放大错误。研究揭示了多智能体记忆的结构性风险，为程序性记忆的巩固、遗忘与治理提供了系统性方案。",
+      "llm_tldr": "针对LLM多智能体系统将执行轨迹转化为可复用程序性知识时反复检索导致记忆污染与作用域坍塌的问题，本文提出非对称经验巩固与治理框架AECG。该方法区分不同决策层级与协调范围，对经验进行非对称巩固并施加治理，防止过时或虚假成功程序被反复复用并级联放大错误。研究揭示了多智能体记忆的结构性风险，为程序性记忆的巩固、遗忘与治理提供了系统性方案。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "Identify research on memory consolidation, forgetting, and memory management for continual learning agents.",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2610.05732v1",
+      "source": "arxiv",
+      "title": "PACMI: Provenance-Aware Cascading Memory Invalidation for Long-Term LLM Agents",
+      "abstract": "LLM agents rely on long-term memory to retain and reuse information when performing tasks over long horizons. Existing methods provide limited support for handling memories that become outdated as new observations or domain evidence arrive. Such outdated memories may remain semantically relevant, continue to affect dependent records, and retain value as historical evidence. This calls for two capabilities: dependency tracking to identify downstream effects and historical preservation to retain useful past records. We propose Provenance-Aware Cascading Memory Invalidation (PACMI), a framework that represents memories and new evidence in a provenance graph with typed dependency edges. PACMI assigns records to a four-state validity lattice, propagates validity changes to dependent memories, and uses the resulting states for retrieval and stale-premise detection. We also introduce a diagnostic benchmark with 100 cases and 300 queries across five domains. The evaluation separates node, context-, and answer-level performance. PACMI achieves the highest final-answer accuracy on this benchmark, and its paired difference from the strongest baseline is significant under an exact McNemar test. The premise checker achieves perfect precision, recall, and F 1 on the controlled query distribution. Cascading propagation primarily improves memorystate correctness: removing it increases final-answer errors from 3 to 11, but the paired difference does not reach the 0.05 significance threshold. Code and data will be made publicly available.",
+      "authors": [
+        "Yiqi Wang",
+        "Jiaqi Liu",
+        "Jiaqi Zhang",
+        "Zhangkai Wu",
+        "Yiqun Duan",
+        "Mingkai Zheng",
+        "Taotao Cai"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.IR"
+      ],
+      "published": "2026-10-05T03:31:51+00:00",
+      "link": "https://arxiv.org/pdf/2610.05732v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "memory invalidation and management for long-term LLM agents",
+      "llm_evidence_cn": "面向长期大模型智能体的记忆失效与管理",
+      "llm_evidence": "面向长期大模型智能体的记忆失效与管理",
+      "canonical_evidence": "面向长期大模型智能体的记忆失效与管理",
+      "llm_tldr_en": "LLM agents rely on long-term memory but lack support for outdated memories. PACMI builds a provenance graph with typed dependency edges and a four-state validity lattice to track dependencies and preserve history, enabling cascading memory invalidation and better memory management over long horizons.",
+      "llm_tldr_cn": "长期运行的大模型智能体依赖长期记忆，但现有方法难以处理随新证据到来而过时的记忆，这些旧记忆仍可能语义相关并影响下游记录。本文提出PACMI，用带类型依赖边的溯源图表征记忆与新证据，并引入四态有效性格，支持级联失效与历史保留。该框架实现了依赖追踪与过期记忆管理，为长期智能体的记忆维护与遗忘机制提供了新方案。",
+      "llm_tldr": "长期运行的大模型智能体依赖长期记忆，但现有方法难以处理随新证据到来而过时的记忆，这些旧记忆仍可能语义相关并影响下游记录。本文提出PACMI，用带类型依赖边的溯源图表征记忆与新证据，并引入四态有效性格，支持级联失效与历史保留。该框架实现了依赖追踪与过期记忆管理，为长期智能体的记忆维护与遗忘机制提供了新方案。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "Identify research on memory consolidation, forgetting, and memory management for continual learning agents.",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2610.06830v1",
+      "source": "arxiv",
+      "title": "MemPilot: Orchestrating On-Demand Multimodal Memory Curation for LLM Agents",
+      "abstract": "Memory has become integral to the LLM agent ecosystem, supporting information retention and reuse across interactions. However, most existing agent memory systems construct memory in a query-agnostic manner, which can incur unnecessary preprocessing cost and discard details that later prove essential. Recent studies have begun shifting memory processing toward runtime adaptation, but typically specialize in particular operations or fixed processing schemes, leaving flexible control over performance, cost, and latency largely underexplored. To address this challenge, we present \\textbf{MemPilot}, a flexible framework that orchestrates on-demand memory curation under different performance--cost--latency preferences. Specifically, we optimize a multi-step LLM policy via reinforcement learning to iteratively choose between retrieving from query-agnostic memory and delegating query-specific curation of raw multimodal history to heterogeneous LLMs and VLMs. The policy jointly controls evidence amount, curation instructions, model selection, and visual access, enabling fine-grained allocation of runtime computation. To optimize this policy under competing objectives, we adapt objective-wise advantage decoupling by separately estimating each objective's advantage before aggregation. Moreover, we introduce prefix-based marginal utility estimation for fine-grained credit assignment across multi-step rollouts. Experiments on five multimodal agent-memory benchmarks demonstrate favorable performance--cost--latency trade-offs across optimization preferences, with preference sweeps yielding broader frontiers than existing trade-off-aware baselines.",
+      "authors": [
+        "Haozhen Zhang",
+        "Haodong Yue",
+        "Quanyu Long",
+        "Jianzhu Bao",
+        "Qingyuan Liu",
+        "Tao Feng",
+        "Bohan Liu",
+        "Weida Liang",
+        "Wenya Wang"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-10-05T17:58:06+00:00",
+      "link": "https://arxiv.org/pdf/2610.06830v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "on-demand multimodal memory curation architecture for LLM agents",
+      "llm_evidence_cn": "面向大模型智能体的按需多模态记忆整理架构",
+      "llm_evidence": "面向大模型智能体的按需多模态记忆整理架构",
+      "canonical_evidence": "面向大模型智能体的按需多模态记忆整理架构",
+      "llm_tldr_en": "Most agent memory systems build memory query-agnostically, incurring cost and discarding key details. MemPilot is a flexible framework that orchestrates on-demand multimodal memory curation under different performance-cost-latency preferences via multi-objective optimization.",
+      "llm_tldr_cn": "记忆已成为大模型智能体生态的重要组成，但多数系统以与查询无关的方式构建记忆，造成不必要的预处理开销并丢失后续关键细节。本文提出MemPilot，一个按需编排多模态记忆整理的灵活框架，在不同性能、成本与延迟偏好下进行多目标优化。方法实现了对记忆处理的运行时自适应控制，为智能体记忆架构在效率与质量间的权衡提供了新方案。",
+      "llm_tldr": "记忆已成为大模型智能体生态的重要组成，但多数系统以与查询无关的方式构建记忆，造成不必要的预处理开销并丢失后续关键细节。本文提出MemPilot，一个按需编排多模态记忆整理的灵活框架，在不同性能、成本与延迟偏好下进行多目标优化。方法实现了对记忆处理的运行时自适应控制，为智能体记忆架构在效率与质量间的权衡提供了新方案。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "memory mechanisms in autonomous agents and agent memory architectures",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2610.04868v1",
+      "source": "arxiv",
+      "title": "From Memory to Guide: Spatio-Temporal Composer for Procedural Coding Memory",
+      "abstract": "Memory-augmented agents typically integrate procedural knowledge by injecting retrieved skills directly into text prompts. This approach dangerously equates readable text with reliable execution. To bridge this gap, we introduce From Memory to Guide, a novel paradigm that transitions procedural memory from passive text delivery to active, inference-time policy adaptation. We instantiate this paradigm through the Spatio-Temporal Composer, an active policy compiler that explicitly manages exactly how and when retrieved knowledge should be applied. Rather than treating skills as plug-and-play modules, Composer dynamically aligns historical knowledge with current environmental constraints (spatial adaptation) and precisely dictates its applicable lifecycle (temporal orchestration). It actively transforms static memories into strictly bounded Runtime Guides---equipping the agent with localized objectives and behavioral guardrails without requiring a single parameter update. Extensive evaluations on 13 demanding, long-horizon software engineering tasks in EngramBench demonstrate the clear advantages of this architecture. Composer not only robustly prevents context mismatch but drives an absolute pass-rate increase of 7.2 percentage points on the most complex tasks, while simultaneously slashing the main agent's token usage by 32.2%.",
+      "authors": [
+        "Zhixuan Tan",
+        "Pengjie Gu",
+        "Zhao Li",
+        "Yihan Hu",
+        "Xu He",
+        "Dong Li",
+        "Jianye Hao"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-10-04T02:15:24+00:00",
+      "link": "https://arxiv.org/pdf/2610.04868v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "memory-augmented agents, procedural memory retrieval and application",
+      "llm_evidence_cn": "记忆增强智能体的程序性记忆检索与应用",
+      "llm_evidence": "记忆增强智能体的程序性记忆检索与应用",
+      "canonical_evidence": "记忆增强智能体的程序性记忆检索与应用",
+      "llm_tldr_en": "Memory-augmented agents inject retrieved skills directly into prompts, equating readable text with reliable execution. From Memory to Guide proposes the Spatio-Temporal Composer, an active policy compiler that aligns retrieved procedural knowledge with current constraints and decides when to apply it.",
+      "llm_tldr_cn": "记忆增强智能体通常把检索到的技能直接注入文本提示，容易把可读文本误当作可靠执行。本文提出从记忆到引导的新范式，并实例化为时空组合器这一主动策略编译器，显式管理检索知识何时及如何应用。方法在推理时根据当前环境约束动态对齐历史知识，并规定其适用时段，从而提升程序性记忆的可靠执行效果。",
+      "llm_tldr": "记忆增强智能体通常把检索到的技能直接注入文本提示，容易把可读文本误当作可靠执行。本文提出从记忆到引导的新范式，并实例化为时空组合器这一主动策略编译器，显式管理检索知识何时及如何应用。方法在推理时根据当前环境约束动态对齐历史知识，并规定其适用时段，从而提升程序性记忆的可靠执行效果。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "memory-augmented agent models that store and retrieve experience",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2610.04195v1",
+      "source": "arxiv",
+      "title": "MemLeak: Cross-User Semantic Leakage in Multi-Tenant AI Agent Memory",
+      "abstract": "Personal AI agents in enterprise multi-tenant deployments share a common vector store for long-term memory. Shared embedding spaces create a surface for cross-user memory leakage: a user's query can retrieve semantically adjacent memories belonging to another user through ordinary cosine-similarity retrieval, without any exploit. We formalize this as cross-user admissibility failure and evaluate it across six experiments, plus follow-up ablations, under both sparse (TF-IDF) and production-faithful (MiniLM-L6-v2) retrieval. Non-adversarial, incidental leakage reaches 70--100\\% under pooled {same-team} retrieval; adversarially crafted memories achieve 90--100\\% top-$k$ placement, exceeding weaker keyword-based attacker baselines, with score lifts of $+0.416$ to $+0.511$ under production-faithful dense retrieval (Config B); and end-to-end response contamination reaches 5.00/5 under a production retrieval path and 4.67/5 with Claude Sonnet~4.5, with contaminated responses often scoring as helpful or more helpful than clean ones, a gap validated against human judgment. Among three architectural mitigations, only hard post-retrieval ownership gating consistently restores the clean baseline (1.00/5) across {two generation models, at a measured latency overhead of roughly 1.4~ms per query.",
+      "authors": [
+        "Priyanka Mudgal",
+        "Kai Zhao",
+        "Guilin Zhang",
+        "Andy Olsen",
+        "Ezekiel Miller",
+        "Xu Chu",
+        "Aletta Johanna Blanken"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-10-03T01:16:05+00:00",
+      "link": "https://arxiv.org/pdf/2610.04195v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Cross-user memory leakage in shared multi-tenant agent memory vector stores via semantic retrieval",
+      "llm_evidence_cn": "共享多租户智能体记忆向量库中的跨用户语义检索泄漏",
+      "llm_evidence": "共享多租户智能体记忆向量库中的跨用户语义检索泄漏",
+      "canonical_evidence": "共享多租户智能体记忆向量库中的跨用户语义检索泄漏",
+      "llm_tldr_en": "The paper formalizes cross-user admissibility failure in multi-tenant AI agent memory, showing that shared embedding stores let a user query retrieve another user memories via ordinary cosine similarity, with incidental leakage reaching 70-100%.",
+      "llm_tldr_cn": "企业多租户部署的个人智能体共享同一长期记忆向量库，共享嵌入空间使用户查询可通过普通余弦检索取回他人语义相邻的记忆。本文将此形式化为跨用户可准入性失败，并在稀疏TF-IDF与生产级MiniLM检索下开展六组实验与消融。结果显示非对抗性偶然泄漏达70-100%，对抗构造记忆的top-k置入率达90-100%。该研究揭示了共享智能体记忆的安全风险，对多租户记忆架构设计有重要警示。",
+      "llm_tldr": "企业多租户部署的个人智能体共享同一长期记忆向量库，共享嵌入空间使用户查询可通过普通余弦检索取回他人语义相邻的记忆。本文将此形式化为跨用户可准入性失败，并在稀疏TF-IDF与生产级MiniLM检索下开展六组实验与消融。结果显示非对抗性偶然泄漏达70-100%，对抗构造记忆的top-k置入率达90-100%。该研究揭示了共享智能体记忆的安全风险，对多租户记忆架构设计有重要警示。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "shared memory and communication in multi-agent systems",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2609.38768v1",
+      "source": "arxiv",
+      "title": "Learning Under Forgetting: Statistical Support-Selective Retention in Stochastic Training Dynamics",
+      "abstract": "Prior work has shown that neural networks exhibit implicit biases toward low-complexity structure (e.g., spectral bias), memorization dynamics, and compression-like effects during training, but a unified dynamical account of selective retention remains incomplete. We propose Repeated Reinforcement with Persistent Forgetting (RPF) dynamics, a minimal framework in which repeated exposure reinforces patterns and structures that recur in the data, while persistent forgetting attenuates learned information. This view treats forgetting not merely as a failure mode, but as a selection mechanism. We build the theory in three successive layers. First, in an independent-feature model, we derive an exposure-selective survival law and a support-dependent retention boundary characterizing which patterns persist under forgetting. Second, in a shared-parameter model, we show that forgetting induces spectral filtering over covariance modes, preserving strongly supported shared components while suppressing weak ones. Third, under small-step and norm/coding approximations, we show how RPF dynamics induce an implicit trade-off between data fitting and the cost of stored information, yielding Minimum Description Length (MDL)-like compression. Controlled experiments provide evidence for this reinforcement--forgetting selection mechanism in scalar memories and a nonlinear shared network. Joint reinforcement and attenuation interventions shift conditional retention, while matched exposure counts reveal forgetting-dependent effects of reinforcement timing and changes in the composition of the retained set. Together, these results show that repeated reinforcement and persistent forgetting jointly provide a controllable source of inductive bias beyond neural architecture and scale.",
+      "authors": [
+        "Fujie Gao",
+        "Zuyue Zhang",
+        "Gang Sun"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-09-30T01:50:39+00:00",
+      "link": "https://arxiv.org/pdf/2609.38768v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Forgetting as a selection mechanism in training dynamics",
+      "llm_evidence_cn": "把遗忘视为训练动力学中的选择机制",
+      "llm_evidence": "把遗忘视为训练动力学中的选择机制",
+      "canonical_evidence": "把遗忘视为训练动力学中的选择机制",
+      "llm_tldr_en": "The paper proposes Repeated Reinforcement with Persistent Forgetting dynamics, treating forgetting not as a failure but as a selection mechanism, and derives an exposure-selective survival law for retention.",
+      "llm_tldr_cn": "以往工作发现神经网络训练中存在谱偏置、记忆化与压缩等效应，但对选择性保留缺乏统一的动力学解释。本文提出重复强化与持续遗忘（RPF）动力学，把遗忘视为一种选择机制而非单纯的失效模式，在重复曝光中强化反复出现的模式，同时用持续遗忘衰减已学信息。作者分三层建立理论，首先在独立特征模型中推导出曝光选择性存活律。该框架为持续学习中的记忆巩固与遗忘管理提供了理论视角。",
+      "llm_tldr": "以往工作发现神经网络训练中存在谱偏置、记忆化与压缩等效应，但对选择性保留缺乏统一的动力学解释。本文提出重复强化与持续遗忘（RPF）动力学，把遗忘视为一种选择机制而非单纯的失效模式，在重复曝光中强化反复出现的模式，同时用持续遗忘衰减已学信息。作者分三层建立理论，首先在独立特征模型中推导出曝光选择性存活律。该框架为持续学习中的记忆巩固与遗忘管理提供了理论视角。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "Identify research on memory consolidation, forgetting, and memory management for continual learning agents.",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2610.04701v1",
+      "source": "arxiv",
+      "title": "Test-Time Training as Residual Memory for Robot Policies",
+      "abstract": "Memory is essential for long-horizon robotic manipulation, where successful actions may depend on past events that are no longer recoverable from the current observation. As episodes grow longer, however, retaining the full history becomes increasingly costly, creating a fundamental scalability challenge for memory-augmented policies. Existing approaches address this challenge by either storing selected past observations in a bounded memory bank or compressing interaction history into a fixed-size parametric state through Test-Time Training (TTT). Yet these formulations do not explicitly distinguish between historical information that can already be recovered from the policy's current context and information that must persist beyond it. We introduce TTT-RM, which repurposes TTT as Residual Memory, using fast weights not to generically compress history but to complement a bounded memory bank by preserving task-relevant historical information that cannot be recovered from the policy's current context. Concretely, TTT-RM learns a history decoder that reconstructs historical representations from the current observation and retrieved memory. The resulting reconstruction residual captures what this context fails to explain and serves as the learning target for TTT. The TTT slow weights are optimized against this residual target so that online fast-weight updates learn to encode complementary historical information over time. The fast-weight state is then queried to produce a residual memory representation that conditions action generation. Extensive experiments on memory-intensive simulation benchmarks and real-world tasks show that TTT-RM consistently improves across multiple memory designs, outperforms diverse baselines, and supports sustained execution on a three-minute, eight-stage stowing task.",
+      "authors": [
+        "Haoxuan Wang",
+        "Gengyu Zhang",
+        "Ramana Rao Kompella",
+        "Gaowen Liu",
+        "Yan Yan"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-10-03T18:26:25+00:00",
+      "link": "https://arxiv.org/pdf/2610.04701v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "test-time training as residual memory for memory-augmented long-horizon robot policies",
+      "llm_evidence_cn": "以测试时训练作为残差记忆的记忆增强长时程机器人策略",
+      "llm_evidence": "以测试时训练作为残差记忆的记忆增强长时程机器人策略",
+      "canonical_evidence": "以测试时训练作为残差记忆的记忆增强长时程机器人策略",
+      "llm_tldr_en": "Long-horizon robotic manipulation needs memory, but retaining full history is costly and prior methods do not separate information recoverable from current context versus information that must persist. This paper introduces TTT-RM, using test-time training as residual memory, improving memory efficiency and policy performance on long-horizon tasks.",
+      "llm_tldr_cn": "长时程机器人操作中成功动作常依赖当前观测已无法恢复的过往事件，因此记忆不可或缺；但随着回合变长，保留完整历史代价越来越高。现有方法或在有界记忆库中保存部分观测，或通过测试时训练将交互历史压缩为固定大小参数状态，却未区分当前上下文已可恢复的信息与必须持久保留的信息。本文提出TTT-RM，将测试时训练作为残差记忆，在长时程操作任务中提升记忆效率与策略表现，为记忆增强策略提供可扩展方案。",
+      "llm_tldr": "长时程机器人操作中成功动作常依赖当前观测已无法恢复的过往事件，因此记忆不可或缺；但随着回合变长，保留完整历史代价越来越高。现有方法或在有界记忆库中保存部分观测，或通过测试时训练将交互历史压缩为固定大小参数状态，却未区分当前上下文已可恢复的信息与必须持久保留的信息。本文提出TTT-RM，将测试时训练作为残差记忆，在长时程操作任务中提升记忆效率与策略表现，为记忆增强策略提供可扩展方案。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "memory-augmented agent models that store and retrieve experience",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2610.05162v1",
+      "source": "arxiv",
+      "title": "Memadapter: Counterfactual Adaptation Against Memory-induced Sycophancy",
+      "abstract": "Long-term memory enables LLM-based agents to retain and reuse information across tasks and sessions, supporting personalization and long-horizon interactions. However, persistent memories can also induce sycophancy, causing agents to over-align with users' historical beliefs even when they are inaccurate, outdated, or inconsistent with objective evidence. Existing mitigation methods assume that memory-induced sycophancy originates from biased or incorrect memories and attempt to reduce this risk by filtering such memories at different stages of the memory pipeline. However, in the real world, objective and correct memories can still induce sycophancy, and the same memory can warrant different influence across different contexts. To this end, we propose MemAdapter, a novel framework that adaptively integrates retrieved memories to support objective and reliable reasoning. Specifically, MemAdapter consists of three components: (i) Counterfactual Induction, which leverages counterfactual reasoning to uncover the potential risk of retrieved memories; (ii) Context-Aware Reflection, which calibrates the inferential influence of each retrieved memory in light of the current task via self-reflection; and (iii) Evidence-Based Reasoning, which grounds the final response in appropriate evidence while preserving the legitimate influence of memory. Extensive experiments on three benchmarks demonstrate that MemAdapter consistently improves memory reliability across diverse scenarios. Our code is available at https://github.com/DEEP-JLU/MemAdapter.",
+      "authors": [
+        "Ruqing Ning",
+        "Haibo Meng",
+        "Zhishang Xiang",
+        "Zerui Chen",
+        "Jinsong Su",
+        "Xin Wang",
+        "Qinggang Zhang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-10-04T12:12:16+00:00",
+      "link": "https://arxiv.org/pdf/2610.05162v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "long-term memory in LLM agents and counterfactual adaptation against memory-induced sycophancy",
+      "llm_evidence_cn": "研究LLM智能体长期记忆引发的谄媚及反事实适应",
+      "llm_evidence": "研究LLM智能体长期记忆引发的谄媚及反事实适应",
+      "canonical_evidence": "研究LLM智能体长期记忆引发的谄媚及反事实适应",
+      "llm_tldr_en": "Long-term memory helps LLM agents reuse information, but persistent memories can induce sycophancy even when correct. This paper argues correct memories also cause sycophancy and that the same memory should matter differently by context, proposing Memadapter, a counterfactual adaptation method that mitigates sycophancy while keeping personalization.",
+      "llm_tldr_cn": "长期记忆使LLM智能体能够跨任务与会话保留信息，但持久记忆会诱发谄媚行为，使其过度迎合用户历史信念，即便这些记忆客观正确。现有方法假设谄媚源于错误记忆并试图过滤，本文指出正确记忆同样可能致谄媚，且同一记忆在不同情境下应有不同影响。为此提出Memadapter，通过反事实适应动态调节记忆影响。实验显示该方法在缓解谄媚的同时保留个性化收益。",
+      "llm_tldr": "长期记忆使LLM智能体能够跨任务与会话保留信息，但持久记忆会诱发谄媚行为，使其过度迎合用户历史信念，即便这些记忆客观正确。现有方法假设谄媚源于错误记忆并试图过滤，本文指出正确记忆同样可能致谄媚，且同一记忆在不同情境下应有不同影响。为此提出Memadapter，通过反事实适应动态调节记忆影响。实验显示该方法在缓解谄媚的同时保留个性化收益。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "Search for papers about long term memory, episodic memory, and memory retrieval in interactive agent systems.",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2610.05223v1",
+      "source": "arxiv",
+      "title": "Look Before You Leap: Thermodynamic Arbitration of Parametric and Non-Parametric Knowledge in LLM Agents via Self-Regulating Memory Architectures",
+      "abstract": "The architecture of modern LLMs consists of a profound cognitive polarization. LLMs possess implicit intuition encoded in their parameters, yet rely on a disconnected, explicit mechanism to access the outside world. Agentic frameworks have not bridged this gap; instead, models are often compelled into pathological \"induced amnesia.\" Under the prevailing \"Retrieve-Always\" paradigm, agents must distrust their internal knowledge, making every user interaction a \"tabula rasa\" event that must be checked externally. This creates reflexive dependence that can be thermodynamically wasteful, cognitively fragile, and susceptible to irrelevant context. We propose a return to first principles, operationalizing the biological maxim \"Look Before You Leap.\" We introduce MARTA (Metacognitive Adaptive Retrieval and Thought Architecture), a neuro-symbolic framework that bridges parametric and non-parametric knowledge. Rather than treating retrieval as mandatory, MARTA models it as a cost, taking the leap only when perceived internal inadequacy warrants external information. By allowing the agent to gauge the entropy of its own thoughts before acting, MARTA enables deliberative retrieval and uncertainty-aware decision making. Our approach suggests that giving agents the capacity for introspection can restore a more efficient balance between internal knowledge and external information.",
+      "authors": [
+        "Akash Das",
+        "Ishan Roy"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.CL"
+      ],
+      "published": "2026-10-04T13:43:24+00:00",
+      "link": "https://arxiv.org/pdf/2610.05223v1",
+      "tags": [
+        "keyword:agent-memory",
+        "query:agent-memory"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "self-regulating memory architecture arbitrating parametric and non-parametric knowledge",
+      "llm_evidence_cn": "自调节记忆架构协调参数与非参数知识",
+      "llm_evidence": "自调节记忆架构协调参数与非参数知识",
+      "canonical_evidence": "自调节记忆架构协调参数与非参数知识",
+      "llm_tldr_en": "Agents under Retrieve-Always distrust internal knowledge, causing induced amnesia and wasteful retrieval. This paper proposes a self-regulating memory architecture that thermodynamically arbitrates parametric and non-parametric knowledge in LLM agents.",
+      "llm_tldr_cn": "现代LLM的参数化直觉与外部非参数知识相互割裂，智能体框架未能弥合这一鸿沟，反而在总是检索范式下被迫不信任内部知识，形成病态的诱发失忆，造成热力学浪费与认知脆弱。该文从第一性原理出发，提出一种自调节记忆架构，在参数化与非参数化知识之间进行类似热力学的仲裁，决定何时依赖内部知识、何时检索外部记忆。该工作为智能体记忆管理提供了兼顾效率与鲁棒性的新架构思路。",
+      "llm_tldr": "现代LLM的参数化直觉与外部非参数知识相互割裂，智能体框架未能弥合这一鸿沟，反而在总是检索范式下被迫不信任内部知识，形成病态的诱发失忆，造成热力学浪费与认知脆弱。该文从第一性原理出发，提出一种自调节记忆架构，在参数化与非参数化知识之间进行类似热力学的仲裁，决定何时依赖内部知识、何时检索外部记忆。该工作为智能体记忆管理提供了兼顾效率与鲁棒性的新架构思路。",
+      "llm_tags": [
+        "query:agent-memory"
+      ],
+      "matched_query_tag": "query:agent-memory",
+      "matched_query_text": "memory mechanisms in autonomous agents and agent memory architectures",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}

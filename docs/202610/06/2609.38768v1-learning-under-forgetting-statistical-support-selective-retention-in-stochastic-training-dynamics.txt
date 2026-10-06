@@ -1,0 +1,641 @@
+Title: Learning Under Forgetting: Statistical Support-Selective Retention in Stochastic Training Dynamics
+
+URL Source: https://arxiv.org/pdf/2609.38768v1
+
+Published Time: Thu, 01 Oct 2026 00:40:17 GMT
+
+Number of Pages: 19
+
+Markdown Content:
+# Learning Under Forgetting: Statistical Support-Selective Retention in Stochastic Training Dynamics 
+
+Fujie Gao Zuyue Zhang Gang Sun 
+
+# Abstract 
+
+Prior work has shown that neural networks exhibit implicit biases toward low-complexity structure (e.g., spectral bias), memorization dynamics, and compression-like effects during training, but a unified dynamical account of selective retention remains incomplete. We propose Repeated Reinforcement with Persistent Forget-ting (RPF) dynamics, a minimal framework in which repeated exposure reinforces patterns and structures that recur in the data, while persistent forgetting attenuates learned information. This view treats forgetting not merely as a failure mode, but as a selection mechanism. We build the theory in three successive layers. First, in an independent-feature model, we derive an exposure-selective survival law and a support-dependent retention boundary characterizing which patterns persist under forgetting. Second, in a shared-parameter model, we show that forgetting induces spectral filtering over covariance modes, preserving strongly supported shared com-ponents while suppressing weak ones. Third, under small-step and norm/coding approximations, we show how RPF dynamics induce an implicit trade-off between data fitting and the cost of stored information, yielding Minimum Description Length (MDL)-like compression. Controlled experiments provide evidence for this reinforcement–forgetting selection mechanism in scalar memories and a nonlinear shared network. Joint reinforcement and attenuation interventions shift conditional retention, while matched exposure counts reveal forgetting-dependent effects of reinforcement timing and changes in the composition of the retained set. Together, these results show that repeated reinforcement and persistent forgetting jointly provide a controllable source of inductive bias beyond neural architecture and scale. 
+
+# 1 Introduction 
+
+Training is usually described as a process of accumulating information from data, while mechanisms such as weight decay and ℓ2 regularization (Krogh and Hertz, 1992; Loshchilov and Hutter, 2019), dropout (Srivastava et al., 2014), and stochastic updates (Mandt et al., 2017) are treated as regular-ization or noisy optimization dynamics. From the perspective of training dynamics, however, these mechanisms can also attenuate, mask, perturb, or overwrite learned representations. This shifts the question from how to prevent forgetting to what forgetting permits to survive. This is a fundamental issue for modern learning systems trained on large, redundant data streams. Such systems are exposed to vast amounts of raw information, yet often retain stable patterns and structures while discarding incidental details. A sharper version arises when the available experience is limited but highly redundant: a system may still acquire reusable patterns and structures without retaining broad factual detail. Data do not support all information equally. Patterns and structures that recur in the data receive repeated reinforcement through many updates, whereas weakly supported details receive inconsistent reinforcement. If learning and forgetting coexist throughout training, which patterns and structures are retained, which are forgotten, and what determines this separation? 
+
+> Preprint. arXiv:2609.38768v1 [cs.LG] 30 Sep 2026
+
+Prior work has studied forgetting, regularization, memorization, and scaling, but has paid relatively little attention to directly characterizing which patterns survive under simultaneous reinforcement and attenuation. We address this selective-retention problem from the perspective of training dynamics. Throughout this paper, patterns and structures denote reusable units of regularity, such as words or relations in language, edges or textures in images, timbre or recurring acoustic motifs in sound, and shared directions in learned representations. Repeated Reinforcement with Persistent Forgetting (RPF) is not a semantic importance criterion: frequent superficial patterns may survive, while rare meaningful facts may require additional mechanisms. Its central answer is that information is retained when it can be reconstructed often enough to survive forgetting. Our contributions are: • We formulate RPF dynamics to study training-dynamics-induced selective retention under repeated exposure and persistent forgetting; • We derive the survival mechanism from an independent-feature exposure law to shared-parameter spectral filtering, and give an approximate MDL-like interpretation; • We test this mechanism in scalar memories and in a shared nonlinear network, where a reinforcement–forgetting phase diagram and matched occurrence counts reveal conditional and history-dependent selection. 
+
+# 2 Related Work 
+
+We relate RPF to four lines of work: forgetting, training dynamics, data repetition, and compression. Forgetting has been studied most extensively in continual learning, where it is usually treated as a failure mode to be mitigated. Foundational work identified catastrophic interference as a central limitation of connectionist systems (McCloskey and Cohen, 1989; French, 1999; Goodfellow et al., 2014). Subsequent methods preserve knowledge through explicit constraints, importance estimates, distillation, replay, or memory modules, including EWC and Synaptic Intelligence (Kirkpatrick et al., 2017; Zenke et al., 2017), Learning without Forgetting (Li and Hoiem, 2016), experience replay (Rolnick et al., 2019), GEM and A-GEM (Lopez-Paz and Ranzato, 2017; Chaudhry et al., 2019), iCaRL (Rebuffi et al., 2017), and memory architectures (Weston et al., 2015). Recent work extends these concerns to large-model lifelong learning and stability–plasticity trade-offs (van de Ven et al., 2025; Das Biswas et al., 2026; Lu et al., 2025). These approaches ask how to prevent or compensate for forgetting; RPF asks which repeatedly reinforced patterns and structures survive when forgetting remains active. RPF also relates to learning dynamics and regularization. Gradient descent can converge to particular solutions in underdetermined settings (Soudry et al., 2018; Gunasekar et al., 2018), neural networks exhibit spectral bias (Rahaman et al., 2019), and example-level training dynamics reveal that some examples are repeatedly forgotten while others are never forgotten (Toneva et al., 2019). Grokking shows delayed transitions from memorization to generalization (Power et al., 2022), with later work emphasizing weight decay, data-size dependence, and representation emergence (Liu et al., 2023). Weight decay and dropout are usually viewed as regularizers (Krogh and Hertz, 1992; Loshchilov and Hutter, 2019; Srivastava et al., 2014), and stochastic optimization can be studied as noise-induced dynamics (Mandt et al., 2017). Our focus is not regularization as such, but whether a mechanism implements a forgetting pressure that competes with pattern-specific reinforcement; in our experiments, weight decay provides a direct smooth-attenuation knob, while dropout is treated as a candidate masking-based mechanism whose role must be evaluated empirically. More directly, Yunis et al. (2024) relate weight singular values, effective rank, and alignment to generalization, and show that weight decay strengthens rank bias beyond norm control. Lu (2025) analyze Fourier-frequency suppression in convolutional weights under regularization. RPF uses covariance-supported directions in its shared-linear case and makes pattern-level retention boundaries and reinforcement schedules explicit intervention objects. Balasubramanian and Kasiviswanathan (2026) quantify old-mode mass loss and component drift through divergence direction, behavioral overlap, sampling, and replay in a two-mode post-training model. RPF examines selection across nonuniformly reinforced patterns under persistent attenuation, including how matched occurrence counts acquire different final value through their timing. The contribution is this retention formulation and its testable intervention structure. 2Selective retention is also an empirical concern in large language models. LLMs can emit verbatim training data (Carlini et al., 2021), and memorization increases with model size, context, and duplicated examples (Carlini et al., 2023; Biderman et al., 2023). Training-dynamics studies show that larger models memorize faster and forget less (Tirumala et al., 2022); data-constrained scaling work shows that repeated data can help up to a point (Muennighoff et al., 2023); long-tail knowledge studies show that factual recall depends strongly on pretraining evidence (Kandpal et al., 2023); and controlled knowledge-storage work shows that data diversity and augmentation affect whether stored knowledge becomes extractable (Allen-Zhu and Li, 2023). These findings motivate a mechanistic question: how does repeated exposure translate into retention under persistent forgetting? Finally, scaling laws characterize aggregate performance as a function of model size, data, and compute (Kaplan et al., 2020; Hoffmann et al., 2022; Henighan et al., 2020; Paquette et al., 2024); related quantization views model scaling as the acquisition of discrete skills or quanta in frequency order (Michaud et al., 2023). Natural data and learned examples are highly nonuniform, often exhibiting Zipf-like, power-law, or long-tailed structure (Zipf, 1949; Newman, 2005; Piantadosi, 2014; Simoncelli and Olshausen, 2001; Zhang et al., 2024), with long-tail memorization playing an important role in neural networks (Feldman and Zhang, 2020). RPF connects these views at the level of retained information rather than only loss. RPF also differs from explicit Information Bottleneck or MDL objectives (Tishby and Zaslavsky, 2015; Alemi et al., 2017; Kawaguchi et al., 2023; Rissanen, 1978; Grunwald, 2007; Hinton and Van Camp, 1993): the compression-like effect arises from the training dynamics, through attenuation of components that are not repeatedly reconstructed. 
+
+# 3 Theoretical Analysis 
+
+3.1 Formalization Patterns and structures. Let S denote a space of reusable regularities in the data stream. A member s ∈ S is a pattern whose occurrences induce compatible learning signals. The boundary of s
+
+is operational rather than semantic: it may be a word, phrase, relation, texture, acoustic motif, or a distributed component that can be repeatedly encountered, reinforced, weakened, and reconstructed during training. 
+
+Persistent forgetting. Persistent forgetting continually reduces the recoverable strength of pre-viously encoded information. In RPF, forgetting is a conceptual pressure on stored patterns and structures; concrete training techniques such as decay, regularization, stochastic perturbation, dropout-style masking, overwriting, or interference may implement this pressure in different ways. Whether a particular technique realizes the desired pattern-level forgetting effect is setting-dependent. Let 
+
+γt(s) ≥ 0 denote the effective forgetting pressure on pattern s at step t. We analyze multiplicative decay with rate d as the tractable smooth-attenuation case, for which a typical forgetting strength satisfies γ ≈ d up to representation- and optimizer-dependent constants. 
+
+Exposure and repeated reinforcement. Let p(s) be the data exposure of s. Repeated traversal increases the number of steps n, while selective replay or sampling changes may alter the sampling exposure q(s); otherwise q(s) = p(s). Loss reweighting instead changes the compatible update per exposure, represented by R(s) under a fixed learning-strength scale. For n training steps, let Et(s)
+
+be the fraction of examples in step t’s minibatch that expose s (an indicator for a single-example step), and define normalized cumulative exposure 
+
+Nn(s) = 
+
+> n
+
+X
+
+> t=1
+
+Et(s), E[Nn(s)] = nq (s) (1) when minibatch examples are sampled independently from q. Thus repeated exposure creates repeated reinforcement opportunities. Repeated reinforcement is accumulated compatible update pressure, not raw frequency alone. Let 
+
+ρt(s) ≥ 0 denote the compatible reinforcement coefficient at step t, normalized by the remaining recovery gap and measured before subsequent attenuation. Frequent and consistently aligned oc-currences make P 
+
+> t
+
+ρt(s) grow, whereas rare or inconsistent occurrences yield weak accumulated reinforcement. For discrete patterns, q(s) may be estimated by exposure frequency; for distributed 3structures, effective support may arise through covariance strength, shared contexts, replay, weighting, or other mechanisms that repeatedly align updates. 
+
+Survival and recoverability. A pattern survives if it remains usable after repeated weakening and relearning. Let R(s) ≥ 0 denote its local recovery coefficient per compatible exposure, normalized by the learning-strength scale η and the remaining gap to a reference strength. Exposure frequency is accounted for separately by q(s): R(s) measures recovery given an exposure, rather than inverse re-covery time measured in ordinary training steps. Recoverability depends on the current representation and update protocol. Exposure and this conditional recovery coefficient combine into the effective support 
+
+λeff (s) = q(s)R(s). (2) Low-support details have small q(s); unstable structures have small R(s); both are vulnerable to persistent forgetting. The analytic models below instantiate this support scale in two basis cases: the independent-feature model has R(s) = 1 so that support reduces to exposure, while the shared-parameter model replaces isolated exposure by covariance-supported directions. Section 5 specifies the normalization and distinguishes conditional recovery from recovery time in the training stream. 
+
+3.2 Repeated Reinforcement with Persistent Forgetting (RPF) 
+
+RPF couples reinforcement and forgetting in one training dynamics. Let Zt denote the learned state at step t, abstracting over parameters, representations, or memory traces. RPF writes one coarse-grained training step as an update operator followed by a forgetting operator: 
+
+Zt+1 = Ft
+
+ Ut(Zt; Bt), (3) where Bt is the minibatch or data event at step t. The update Ut reinforces data-supported structures, while Ft attenuates learned information. Thus retained structures must be repeatedly reconstructed against persistent attenuation. Under stationary local mean-field bookkeeping, the nominal reinforcement scale is 
+
+E
+
+" nX
+
+> t=1
+
+ρt(s)
+
+#
+
+∝ nη λ eff (s) = nη q (s)R(s), (4) where η is a learning-strength scale. Final retained strength also depends on the survival of these updates through subsequent dynamics. With effective forgetting strength γ, a schematic finite-horizon reconstruction requirement takes the form 
+
+nη λ eff (s) ≥ Cn(γ, ϵ ). (5) Here Cn depends on the horizon as well as attenuation and the retention criterion; it cannot be held fixed while persistent forgetting accumulates. The scalar case below supplies an exact finite-horizon law. In steady state, the characteristic competition is between the per-step scales, 
+
+η λ eff (s) ≳ γ. (6) Thus patterns and structures persist when their effective support is large enough to withstand persis-tent forgetting. The finite-time condition above concerns cumulative reconstruction opportunities, while the steady-state condition compares per-step reinforcement with per-step attenuation. In the independent-feature model below, λeff reduces to exposure up to the learning scale; in the shared-parameter model, the analogous support quantity is a covariance eigenvalue. The specified retention level determines the boundary constant, and the mapping to effective support is representation-dependent; Appendix B gives additional bookkeeping details. 
+
+3.3 Theoretical Results 
+
+We develop this reinforcement–forgetting selection in three successive layers: survival of independent patterns, retention of shared representation directions, and an information-constrained interpretation of maintained structure. 43.3.1 Independent features: exposure-selective survival 
+
+We first isolate the mechanism by assigning each pattern an independent scalar strength. Let xts ∈ { 0, 1} indicate whether pattern s is exposed at step t, let wts ∈ R denote its learned strength, and let θs be the fully learned target value. We use the multiplicative-forgetting dynamics 
+
+wt+1  
+
+> s
+
+= (1 − d) wts + ηx ts(θs − wts) , (7) where d ∈ (0 , 1) is the forgetting rate and η > 0 is the learning rate. 
+
+Assumption 1 (Independent-feature RPF) . For each s, exposure events are sampled independently over time with xts ∼ Bernoulli( p(s)) . Updates are compatible with the target θs, forgetting follows Eq. (7) with 0 < d < 1, 0 < ηp (s) < 1, and |θs| < ∞.
+
+Theorem 1 (Exposure-selective survival) . Under Assumption 1, E[wts] converges to 
+
+w∗ 
+
+> s
+
+= (1 − d)ηp (s)
+
+d + (1 − d)ηp (s) θs. (8) 
+
+Consequently there is a characteristic survival scale 
+
+p∗ = Θ 
+
+ d
+
+(1 − d)η
+
+
+
+(9) 
+
+such that 
+
+w∗ 
+
+> s
+
+≈
+
+
+
+(1 − d)ηp (s)
+
+d θs, p(s) ≪ p∗,θs, p(s) ≫ p∗.
+
+(10) Thus retention is controlled by the ratio between reinforcement (1 − d)ηp (s) and forgetting d,producing a soft exposure threshold. For θs̸ = 0 and 0 < ϵ < 1, the criterion w∗ 
+
+> s
+
+/θ s ≥ ϵ is equivalent to 
+
+p(s) ≥ p∗ 
+
+> ϵ
+
+= ϵ
+
+1 − ϵd
+
+(1 − d)η . (11) This is a selection rule for the retained set at the specified strength level. The theorem characterizes expected strength; finite-run retention remains stochastic. The proof and finite-run variability details are in Appendix A and Appendix B. 
+
+Heavy-tailed exposure and finite-time scaling. Under heavy-tailed exposure, the independent-feature law yields a retained-count scaling. 
+
+Assumption 2 (Power-law exposure) . Let patterns sr obey a power-law exposure profile, 
+
+p(sr ) = Cr −α, α > 1, (12) 
+
+where r = 1 , 2, . . . is the decreasing-exposure rank, C > 0 is the normalizer, and α is the tail exponent. 
+
+The exact power-law form is used only to obtain a closed-form retained-count scaling. The RPF survival boundary itself requires only nonuniform effective support with scale separation. For a finite run of length n, define the effective training strength 
+
+S = nη (1 − d). (13) In the accumulation-dominated regime, where nd ≪ 1 and the discrete learning step is small at the boundary, a fixed criterion on normalized expected strength gives Sp (sr ) = Θ(1) . Section 5 derives this regime and its crossover to the forgetting-limited equilibrium. 
+
+Corollary 1 (Finite-time retained-count scaling) . Under Assumption 2 in the accumulation-dominated regime with Sp (sr ) = Θ(1) , the retained rank cutoff k∗, defined by Sp (sk∗ ) = Θ(1) , scales as 
+
+k∗ ∼ S1/α (14) 
+
+up to constants depending on C and ϵ, while the accumulation-dominated approximation holds and before exhausting the pattern support. 
+
+Thus early training effort expands the expected-strength retained set sublinearly. At fixed positive forgetting, further training approaches a retention ceiling rather than extending this power law indefinitely. Under heavy-tailed exposure, this also means that a relatively small retained set can cover a large fraction of exposure mass. The derivation and retained-mass estimate are in Appendix B. 53.3.2 Shared parameters: spectral filtering 
+
+We next show that when parameters are shared, the same reinforcement–forgetting balance selects supported directions of variation rather than isolated patterns. This is the key shift from retaining independent pattern coordinates to retaining reusable directions: in shared representations, forgetting no longer asks whether one pattern survives alone, but which directions are rebuilt by many compatible patterns and structures. Consider a linear prediction setting in which a sampled pattern s is represented by a feature vector 
+
+x = x(s) ∈ Rm, with target parameter θ ∈ Rm and model parameter w ∈ Rm. Let 
+
+Σ = E[xx ⊤] (15) be the second-moment matrix of pattern representations (the covariance for centered features). For discrete pattern inputs, Σ = P 
+
+> s
+
+p(s)x(s)x(s)⊤ is exposure-weighted. Its eigenspectrum measures support along shared directions. 
+
+Assumption 3 (Shared-parameter RPF) . The expected update is governed by the second-moment matrix Σ above, forgetting applies the same multiplicative attenuation rate d to all coordinates after each expected update, and 0 < ηλ i < 1 for every nonzero mode. 
+
+For the linear predictor x⊤w with target x⊤θ and squared loss, the population gradient is Σ( w − θ).Applying multiplicative attenuation after the gradient update gives the exact expected dynamics 
+
+wt+1 = (1 − d) wt + ηΣ( θ − wt) . (16) 
+
+Theorem 2 (Spectral filtering under forgetting) . Under Assumption 3, let Σ = P 
+
+> i
+
+λiuiu⊤ 
+
+> i
+
+be the eigendecomposition of this second-moment matrix, where ui are orthonormal shared pattern directions and λi ≥ 0 are their support strengths. Under Eq. (16) , the equilibrium is 
+
+w∗ = X
+
+> i
+
+f (λi)θiui, θi = θ⊤ui, (17) 
+
+where 
+
+f (λ) = (1 − d)ηλ d + (1 − d)ηλ . (18) 
+
+Thus there is a characteristic spectral threshold 
+
+λ∗ = Θ 
+
+ d
+
+(1 − d)η
+
+
+
+(19) 
+
+such that low-support modes satisfy f (λ) = O(λ) for λ ≪ λ∗, while high-support modes satisfy 
+
+f (λ) ≈ 1 for λ ≫ λ∗.
+
+Diagonalizing Σ reduces each mode to the scalar recursion in Theorem 1 with p(s) replaced by λi;see Appendix A. This lifts exposure-selective survival from isolated features to shared representations: forgetting filters the support spectrum, preserving reusable directions supported by recurring structures and attenuating weak or idiosyncratic modes. 
+
+3.3.3 Information-constrained interpretation 
+
+Third, under smooth multiplicative decay, the same dynamics also admits an information-constrained interpretation. Assume small d and η, and standard Gaussian or coding approximations connecting parameter norm to description length. Under these assumptions, multiplicative forgetting, 
+
+Wt+1 = (1 − d) ( Wt − η∇L t(Wt)) . (20) to first order in the small-step limit follows gradient flow on an objective of the form 
+
+L(W ) + d
+
+2η ∥W ∥2. (21) Parameter norm can then proxy description length or stored information (Hinton and Van Camp, 1993; Rissanen, 1978; Grunwald, 2007). This is an approximate interpretation, not an exact equivalence to Information Bottleneck or MDL objectives (Tishby and Zaslavsky, 2015; Alemi et al., 2017; Kawaguchi et al., 2023). RPF provides a dynamics-based route to an MDL-like effect: information that is not repeatedly reconstructed is continuously leaked, whereas supported and recoverable information remains worth maintaining. The norm/coding assumptions and the corresponding approximation are detailed in Appendix C. 6Figure 1: Independent-feature signatures of RPF. Left: learned strength after 10 5 updates exhibits the predicted soft support-dependent transition. Right: the number of sampled memories above a relative threshold grows sublinearly and approaches saturation, in qualitative agreement with the finite-time-to-steady-state picture. The expected-strength law k∗ ∼ S1/α describes the accumulation-dominated regime. These batch-wise, finite-run observations support the predicted pattern of selective retention and growth toward a forgetting-limited ceiling. 
+
+# 4 Experiments 
+
+The experiments test how repeated reinforcement and persistent forgetting jointly select what re-mains learned. We first examine exposure-selective survival in scalar memories, then conditional associations in a shared nonlinear predictor. Finally, matched reinforcement schedules test how the history of reinforcement changes the retained set at identical occurrence counts. The neural task has a uniform output marginal. 
+
+4.1 Experiment 1: Independent-Feature Survival 
+
+This experiment tests the basis-case mechanism in Section 3.3.1: whether nonuniform exposure, opposed by persistent attenuation, is sufficient to convert a heavy-tailed distribution over patterns into selective retention. 
+
+Setup and results. We simulate N = 10 ,000 independent scalar memories with Zipf exposure 
+
+p(sr ) ∝ r−1.2, target θs = 1 , learning rate η = 0 .2, and batch-wise attenuation w ← (1 − d)w with 
+
+d = 0 .015 every 32 updates. For scaling runs, we vary the number of updates, retain the plotting coordinate S = nη (1 − d), and count a pattern as retained when ws > 0.01 max j wj . Appendix D distinguishes this sampled, relative-threshold count from the theoretical cutoff on expected strength. In Figure 1, each point in the left panel is one pattern and the smoothed curve averages logarithmic exposure bins. Low-exposure patterns receive too few reconstruction events to compensate for attenuation, whereas high-exposure patterns are repeatedly rebuilt and approach the target. The soft transition and intermediate-support scatter agree with the expected profile in Eq. (8). The right panel shows sublinear expansion and eventual saturation of the sampled retained set. This illustrates the RPF mechanism: reinforcement initially extends retention into the tail, while persistent forgetting sets the long-run support boundary. Section 5 connects these two regimes analytically. 
+
+4.2 Experiment 2: Conditional Retention under Reinforcement and Forgetting 
+
+The independent-feature experiment isolates scalar survival, but real neural models share parameters across many patterns. We next ask whether support-dependent selection also appears for conditional associations in a shared nonlinear network. We construct the task so that the output marginal alone cannot predict the target. Each pattern s = ( r, k ) combines one of 64 Zipf ranks with one of 8 labels, and its target is y(s) = k. Every rank has equal mass for each label, including after focal resampling. Thus P (Y = k) = 1 /8 and H(Y | S) = 0 : successful prediction requires the input–label relation. The network receives a single identifier for s, without direct access to k.7Correct input Same-rank control 0.0 0.2 0.4 0.6 0.8 1.0                         
+
+> Mean correct-label probability
+> 0.694 0.043
+> Marginal = 0.125
+> (a) Conditional association
+> 1x 2x 4x 8x
+> Focal resampling weight
+> 0.000 0.003 0.006 0.009 0.012 0.015 0.021
+> Per-step attenuation  dstep  1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 0.98 1.00 1.00 1.00 0.55 0.93 0.99 1.00 0.01 0.17 0.53 0.82 0.00 0.00 0.00 0.01 0.00 0.00 0.00 0.00
+> (b) Tail retention
+> 0.0 0.5 1.0 Retained fraction
+
+Figure 2: Conditional retention and its reinforcement–forgetting phase diagram. Left: correct-input and same-rank control probabilities, averaged over focal patterns across all 140 runs; the dashed line is the uniform label marginal. Right: tail focal retention ( cs ≥ 0.5), averaged over five seeds. Resampling moves associations into the retained region near the transition. The horizontal coordinate is the resampling weight, not the normalized exposure multiplier; the 8× weight increases each focal pattern’s sampling probability by 3.448 ×.
+
+Setup and conditional control. A 24-dimensional embedding feeds a shared 24 → 48 → 8 GELU head trained with cross-entropy. We designate ranks 3, 7, . . . , 63 as focal and cross their resampling weights m ∈ { 1, 2, 4, 8} with seven AdamW decay coefficients over five seeds, for 140 runs. Every run uses 600 steps, batch size 256 , and learning rate η = 0 .003 . The per-step parameter attenuation is 
+
+dstep = ηλ wd ∈ { 0, 0.003 , 0.006 , 0.009 , 0.012 , 0.015 , 0.021 }. (22) We measure conditional strength cs = PW (y(s) | s) and usable retention cs ≥ 0.5. A same-rank control replaces (r, k ) with (r, k + 1 mod 8) while querying the original label k. Averaged over focal patterns across the full grid, correct-input probability is 0.694 , versus 0.043 under this control, giving a conditional gap of 0.652 . This gap shows that the retention measure depends on learned input–label associations rather than output marginal fitting. 
+
+Selection boundary and intervention. Figure 2 exhibits a saturated low-attenuation region, a transition where reinforcement changes the retained set, and a high-attenuation region where the tested reinforcement is insufficient for tail retention. At dstep = 0 .012 , increasing m from 1 to 
+
+2, 4, and 8 raises tail focal retention from 0.013 to 0.175 , 0.525 , and 0.819 . On the continuous focal-probability scale, the 8 × − 1× gain is 0.014 at zero attenuation, 0.177 at 0.012 , and 0.041 at 
+
+0.021 . The intervention is most effective near the retention transition. The observable RPF mapping is concrete: s is a conditional association, qm(s) its normalized sampling probability, cs its observable strength, and dstep the controlled parameter attenuation; per-exposure recoverability R(s) is not measured here. The same association can cross the retention criterion as its sampling support changes. Thus, in a network with shared parameters, attenuation shifts the support required for a conditional association to remain usable. Appendix D gives all phase cells and sensitivity to thresholds 0.4, 0.5,and 0.6. A factorized synthetic task also shows selective retention through held-out combinations without a complete-pattern embedding (Table 4 and Appendix D). 
+
+4.3 Experiment 3: Temporal Coupling and Pattern Selection 
+
+RPF also predicts that the final value of an occurrence depends on the dynamics that follow it. We therefore hold the complete sample multiset fixed and vary the temporal organization of reinforcement. For each of ten seeds, early, uniform, and late schedules share the same initialization, 600 optimizer steps, and exact 153 ,600 -sample multiset, including 55 ,512 additional focal replay samples. The remaining base samples also contain focal occurrences. The schedule changes the placement of the additional replay samples and hence local minibatch composition; every identifier has exactly the same count across schedules. Four attenuation levels yield 120 runs. 80 200 400 600               
+
+> Optimizer step
+> 0.0 0.2 0.4 0.6 0.8 1.0
+> Focal correct probability
+> (a) No attenuation
+> early uniform late
+> 0200 400 600
+> Optimizer step
+> 0.0 0.2 0.4 0.6 0.8 1.0
+> Focal correct probability
+> (b) Attenuation dstep = 0.012
+> 0.009 .012 .015
+> Per-step attenuation dstep
+> 0.0 0.1 0.2 0.3
+> Paired timing contrast  C(dstep ) (c) Additional timing effect
+> 0.0 0.2 0.4 0.6
+> Background correct probability
+> 0.3 0.4 0.5 0.6 0.7 0.8
+> Focal correct probability
+> early uniform late
+> (d) Selected set at dstep = 0.012
+
+Figure 3: Timing changes the retained value of identical sample multisets. Top: focal probability trajectories with zero attenuation and with dstep = 0 .012 ; curves show ten-seed means and shading shows standard deviations. Bottom left: the paired timing contrast in Eq. (23), with 95% bootstrap intervals across seeds. Bottom right: at dstep = 0 .012 , later focal replay increases focal correct-label probability while decreasing background correct-label probability; points are schedule means and bars are seed standard deviations. The intervention changes the composition of the retained set. Ordinary optimization order can matter even without decay. For mean focal conditional probability 
+
+Y , we measure the additional attenuation-dependent timing difference by the paired contrast 
+
+C(dstep ) = Ylate (dstep ) − Yearly (dstep )
+
+− Ylate (0) − Yearly (0) . (23) The zero-attenuation late–early gap is 0.0186 . At dstep = 0 .009 , 0.012 , and 0.015 , the addi-tional contrasts are respectively 0.1999 , 0.2895 , and 0.3009 , with paired 95% bootstrap intervals 
+
+[0 .1929 , 0.2069] , [0 .2814 , 0.2978] , and [0 .2934 , 0.3081] . Equal occurrence counts therefore produce substantially different final retention, and the size of that difference depends on persistent forgetting. The trajectories in Figure 3 show the mechanism at the behavioral level: under attenuation, early focal gains decline during subsequent base training, while late reinforcement remains stronger at evaluation. The effect is selective. At dstep = 0 .012 , focal/background probabilities are 0.416 /0.514 for early, 
+
+0.642 /0.436 for uniform, and 0.724 /0.140 for late replay. Under the same cs ≥ 0.5 criterion, mean focal/background retained fractions change from 0.232 /0.465 (early) to 0.995 /0.000 (late) across ten seeds. Rearranging the same training budget changes which associations remain strongly available. These results establish a forgetting-dependent temporal effect in a nonlinear shared network: equal occurrence counts do not guarantee equal final reinforcement or the same retained pattern set. 
+
+# 5 Discussion 
+
+Our results characterize learning under forgetting as survival under the combined effects of training dynamics and the data distribution. RPF is therefore distinct from denoising or semantic filtering. 9It assumes no prior separation between signal and noise, and it does not assign value according to whether a stored item is meaningful, true, or useful. The survival criterion is support and recoverability: information remains encoded when it can be reconstructed often enough, and quickly enough, to offset persistent attenuation. High-support superficial patterns may survive, while rare but meaningful facts may decay unless they are replayed, retrieved, curated, or otherwise reinforced. Repeated artifacts or biases can also survive if they receive sufficient support. In this sense, RPF describes a passive selection effect induced by training dynamics, not a criterion for truth, utility, or semantic importance. Here passive selection means that the dynamics determine which patterns lose recoverability without explicitly prescribing which individual patterns must be forgotten. Adjusting a global attenuation hyperparameter changes the selection pressure; the identities of lost patterns emerge from its interaction with reinforcement. Under RPF, abstraction corresponds to repeated reconstruction of shared directions under attenuation. RPF does not define abstraction semantically or impose it architecturally; abstraction appears as the residue of repeated reconstruction under forgetting. In shared parameters, the unit of survival changes from isolated patterns to covariance-supported directions: reusable directions persist, while weak or idiosyncratic directions are attenuated. In the factorized synthetic task, added reinforcement also increases correct-label probability through held-out template combinations without a complete-association embedding (Appendix D). RPF is related to regularization, but it is not merely a restatement of weight decay. The novelty is that attenuation coupled to nonuniform reinforcement converts uniform forgetting pressure into a nonuniform survival boundary. In the regularization view, weight decay is usually a small penalty for generalization; in the RPF view, it is a controllable forgetting pressure that can be increased to raise the support required for retention. 
+
+Reinforcement value depends on history. In RPF, repeated reinforcement continually reconstructs information while persistent forgetting makes reconstruction necessary for continued retention. The strength and temporal organization of compatible updates determine their effective reinforcing contribution under this forgetting pressure. In the scalar case, write U(a)(w) = (1 − a)w + aθ and 
+
+F(d)(w) = (1 − d)w. Then 
+
+F(d)(U(a)(w)) − U (a)(F(d)(w)) = −adθ. (24) For a sequence of exposures, the final state weights each update by the dynamics that follow it (Appendix B). Equal occurrence counts can therefore supply different effective reinforcement under persistent forgetting. The timing result refines repeated reinforcement itself: its effective value is the part of compatible updates that survives subsequent dynamics. Experiment 2 tests this reconstruction– attenuation balance through joint interventions; Experiment 3 tests the temporal organization of reinforcement within the same coupling. The resulting changes in conditional retention and retained-set composition provide controlled empirical evidence for the RPF selection framework. 
+
+Finite-time expansion and the steady-state ceiling. The retained-count law and the stationary boundary describe different regimes of the same recursion. For w0 
+
+> s
+
+= 0 , θs̸ = 0 , and βs =(1 − d)ηp (s), the exact normalized expected strength is 
+
+rn(s) := E[wns ]
+
+θs
+
+= βs
+
+d + βs
+
+[1 − (1 − d − βs)n] . (25) For nd ≪ 1 and small learning steps near the boundary, rn(s) ≈ 1 − exp[ −nβ s]. Thus a fixed criterion rn(s) ≥ ϵ gives pϵ(n) ≈ − log(1 − ϵ)/S and the accumulation-dominated law k∗ ∼ S1/α .At fixed positive d, however, rn approaches βs/(d + βs), and the boundary approaches p∗ 
+
+> ϵ
+
+in Eq. (11). The limiting retained rank is of order (C/p ∗ 
+
+> ϵ
+
+)1/α within the available rank range. Further training approaches this forgetting-limited ceiling. Experiment 1 uses batch-wise attenuation and a relative threshold on sampled strengths. Its observed sublinear expansion and saturation visualize this RPF progression: reinforcement initially expands the retained set, while persistent forgetting sets its long-run support boundary. 
+
+Recoverability conditional on exposure. The factors in q(s)R(s) must count exposure only once. At a fixed local state and update protocol, our convention is 
+
+E[∆ wU,direct  
+
+> s
+
+| Et(s) = e, Z t] ≈ ηeR (s; Zt)( θs − wts), (26) 10 where e is the minibatch exposure fraction, ∆wU,direct  
+
+> s
+
+is the compatible contribution before the forgetting operator, and θs is a specified reference strength. We suppress the state argument in the mean-field notation. Here R measures normalized recovery per exposure; averaging the direct contribution over minibatches gives the scale ηqR . Recoverability reflects the architecture, optimizer, current representation, context diversity, and the extent to which other patterns share the same structure. The independent-feature case has R = 1 . In contrast, 1/T stream rec , with time measured in ordinary training steps, is a process recovery rate that already includes exposure waiting, intervening attenuation, and shared updates. It cannot be substituted for R and multiplied by q again. A specified probe and local update assay give the corresponding operational definition in a nonlinear network. 
+
+Empirical support and quantitative questions. The conditional neural experiments provide evidence for the RPF framework: compatible reinforcement and persistent forgetting jointly select which input–label associations remain available under a shared nonlinear head. The phase diagram shows how reinforcement and attenuation move conditional associations across a retention transition; matched schedules show that the same exposure count can select a different retained set. At the quantitative level, the nonlinear phase boundary moves toward higher support as attenuation increases, with an empirical log–log slope of 3.05 across 53 runs with identifiable crossings, compared with the approximately unit slope of the small-decay scalar boundary at fixed learning rate. This is a boundary-versus-attenuation slope, distinct from the count-versus-training-strength exponent 1/α .The fixed ratio ρ = (1 − dstep )ηq/d step also fails to collapse the AdamW curves; its held-out-seed probability RMSE is 0.1767 , compared with 0.1072 for a decay-only predictor. These results support the RPF selection picture and identify the quantitative role of nonlinear training dynamics as a further question. The neural measurements concern conditional behavior. Identifying R and local support operators, testing the covariance-mode law, and evaluating generalization across broader compositions and real language data are the next empirical steps. The paired timing contrast measures the schedule-by-attenuation interaction, including effects mediated by adaptive optimization and shared-gradient interference: the replay blocks change the local minibatch distribution even though occurrence counts match. Separating the contributions of these pathways requires additional interventions. AdamW controls parameter attenuation; its effect on conditional probability is mediated by the network and optimizer. The heavy-tailed analysis should also be read mechanistically. The exact Zipf or power-law form is not required for RPF itself; it only yields a closed-form retained-count scaling. The more general requirement is scale separation in effective support, which may arise from pattern exposure, phrase and relation reuse, visual or acoustic motifs, contextual diversity, replay, weighting, or covariance-supported representation directions. Under heavy-tailed exposure, a small retained type set can still cover a large fraction of exposure mass. 
+
+Implications for controlling retention. RPF treats attenuation as a controllable forgetting pressure and replay as a way to allocate reinforcement across patterns. Additional training can expand the retained set until the forgetting-limited ceiling; sampling and weighting can increase support for selected patterns, while stronger attenuation raises the support needed to retain them. The phase diagram identifies where added support has the greatest effect, and the timing experiment shows that the final value of a fixed reinforcement budget depends on when it is spent. Concentrated late reinforcement can preserve selected associations at the expense of background retention, so the retained set must be evaluated alongside focal gains. Norm/coding approximations further motivate an MDL-like interpretation: repeated reinforcement maintains supported information despite the cost of storing it, while insufficiently reconstructed components decay. The central result remains the dynamically selected retained set. 
+
+# 6 Conclusion 
+
+RPF formulates learning as repeated reconstruction under persistent forgetting. The independent-feature model gives an exposure-dependent survival boundary, while the shared-linear model shows how this selection preserves covariance-supported directions rebuilt by recurring structures. Finite-time dynamics connect initial retained-set expansion to a forgetting-limited ceiling. Conditional neural experiments establish a reinforcement–forgetting phase diagram and show that identical 11 occurrence counts produce different retention when the temporal organization of reinforcement changes. The same intervention changes which patterns remain available, providing empirical support for the framework. RPF therefore identifies a concrete selection principle: attenuation sets the support required for retention, while the amount and timing of reinforcement determine which patterns cross that boundary. 
+
+# References 
+
+James Kirkpatrick, Razvan Pascanu, Neil Rabinowitz, Joel Veness, Guillaume Desjardins, Andrei A. Rusu, Kieran Milan, John Quan, Tiago Simonet, Blake A. O’Donoghue, et al. Overcoming catastrophic forgetting in neural networks. Proceedings of the National Academy of Sciences , 114(13):3521–3526, 2017. Gido M. van de Ven, Nicholas Soures, and Dhireesha Kudithipudi. Continual learning and catastrophic forgetting. In Learning and Memory: A Comprehensive Reference , 3rd edition, vol. 1, pp. 153–168. Academic Press, 2025. arXiv:2403.05175. J. Kaplan, S. McCandlish, T. Henighan, et al. Scaling laws for neural language models. arXiv:2001.08361, 2020. J. Hoffmann, S. Borgeaud, A. Mensch, et al. Training compute-optimal large language models. arXiv:2203.15556, 2022. N. Srivastava, G. Hinton, A. Krizhevsky, I. Sutskever, R. Salakhutdinov. Dropout: a simple way to prevent neural networks from overfitting. J. Machine Learning Research , 15(1):1929–1958, 2014. Anders Krogh and John A. Hertz. A simple weight decay can improve generalization. In Advances in Neural Information Processing Systems , 1992. Ilya Loshchilov and Frank Hutter. Decoupled weight decay regularization. In International Conference on Learning Representations , 2019. Stephan Mandt, Matthew D. Hoffman, and David M. Blei. Stochastic gradient descent as approximate Bayesian inference. Journal of Machine Learning Research , 18:1–35, 2017. N. Rahaman, A. Baratin, D. Arpit, et al. On the spectral bias of neural networks. ICML , 2019. Shristi Das Biswas, Yue Zhang, Anwesan Pal, Radhika Bhargava, and Kaushik Roy. ELLA: Efficient lifelong learning for adapters in large language models. arXiv:2601.02232, 2026. F. Zenke, B. Poole, S. Ganguli. Continual learning through synaptic intelligence. ICML , 2017. J. Weston, S. Chopra, A. Bordes. Memory networks. ICLR , 2015. Aojun Lu, Hangjie Yuan, Tao Feng, and Yanan Sun. Rethinking the stability-plasticity trade-off in continual learning from an architectural perspective. arXiv:2506.03951, 2025. E. P. Simoncelli, B. A. Olshausen. Natural image statistics and neural representation. Annu. Rev. Neurosci. ,24:1193–1216, 2001. George Kingsley Zipf. Human Behavior and the Principle of Least Effort. Addison-Wesley, 1949. M. E. J. Newman. Power laws, Pareto distributions and Zipf’s law. Contemporary Physics , 46(5):323–351, 2005. Steven T. Piantadosi. Zipf’s word frequency law in natural language: A critical review and future directions. 
+
+Psychonomic Bulletin & Review , 21:1112–1130, 2014. Chongsheng Zhang, George Almpanidis, Gaojuan Fan, Binquan Deng, Yanbo Zhang, Ji Liu, Aouaidjia Kamel, Paolo Soda, and João Gama. A systematic review on long-tailed learning. arXiv:2408.00483, 2024. N. Tishby, N. Zaslavsky. Deep learning and the information bottleneck principle. IEEE Information Theory Workshop , 2015. Alexander A. Alemi, Ian Fischer, Joshua V. Dillon, and Kevin Murphy. Deep variational information bottleneck. In International Conference on Learning Representations , 2017. Kenji Kawaguchi, Zhun Deng, Xu Ji, and Jiaoyang Huang. How does information bottleneck help deep learning? In International Conference on Machine Learning , 2023. Jorma Rissanen. Modeling by shortest data description. Automatica , 14(5):465–471, 1978. 
+
+12 Peter D. Grunwald. The minimum description length principle. MIT Press, 2007. Geoffrey E. Hinton and Drew Van Camp. Keeping the neural networks simple by minimizing the description length of the weights. In Proceedings of the Conference on Computational Learning Theory , 1993. Michael McCloskey and Neal J. Cohen. Catastrophic interference in connectionist networks: the sequential learning problem. In Psychology of Learning and Motivation , 1989. D. Rolnick, A. Ahuja, J. Schwarz, T. Lillicrap, G. Wayne. Experience replay for continual learning. NeurIPS ,2019. Mariya Toneva, Alessandro Sordoni, Remi Tachet des Combes, Adam Trischler, Yoshua Bengio, and Geoffrey J. Gordon. An empirical study of example forgetting during deep neural network learning. In International Conference on Learning Representations , 2019. Alethea Power, Yuri Burda, Harri Edwards, Igor Babuschkin, and Vedant Misra. Grokking: Generalization beyond overfitting on small algorithmic datasets. arXiv:2201.02177, 2022. Ziming Liu, Eric J. Michaud, and Max Tegmark. Omnigrok: Grokking beyond algorithmic data. In International Conference on Learning Representations , 2023. arXiv:2210.01117. Kushal Tirumala, Aram H. Markosyan, Luke Zettlemoyer, and Armen Aghajanyan. Memorization without overfitting: Analyzing the training dynamics of large language models. arXiv:2205.10770, 2022. Nicholas Carlini, Florian Tramer, Eric Wallace, Matthew Jagielski, Ariel Herbert-Voss, Katherine Lee, Adam Roberts, Tom Brown, Dawn Song, Ulfar Erlingsson, Alina Oprea, and Colin Raffel. Extracting training data from large language models. In USENIX Security Symposium , 2021. Nicholas Carlini, Daphne Ippolito, Matthew Jagielski, Katherine Lee, Florian Tramer, and Chiyuan Zhang. Quantifying memorization across neural language models. In International Conference on Learning Repre-sentations , 2023. Stella Biderman, USVSN Sai Prashanth, Lintang Sutawika, Hailey Schoelkopf, Quentin Anthony, Shivanshu Purohit, and Edward Raff. Emergent and predictable memorization in large language models. In Advances in Neural Information Processing Systems , 2023. Niklas Muennighoff, Alexander M. Rush, Boaz Barak, Teven Le Scao, Aleksandra Piktus, Nouamane Tazi, Sampo Pyysalo, Thomas Wolf, and Colin Raffel. Scaling data-constrained language models. arXiv:2305.16264, 2023. Nikhil Kandpal, Haikang Deng, Adam Roberts, Eric Wallace, and Colin Raffel. Large language models struggle to learn long-tail knowledge. In International Conference on Machine Learning , 2023. Zeyuan Allen-Zhu and Yuanzhi Li. Physics of language models: Part 3.1, knowledge storage and extraction. arXiv:2309.14316, 2023. Vitaly Feldman and Chiyuan Zhang. What neural networks memorize and why: Discovering the long tail via influence estimation. In Advances in Neural Information Processing Systems , 2020. I. Goodfellow, M. Mirza, D. Xiao, A. Courville, Y. Bengio. An empirical investigation of catastrophic forgetting in gradient-based neural networks. ICLR , 2014. Zhizhong Li and Derek Hoiem. Learning without forgetting. In European Conference on Computer Vision ,2016. R. M. French. Catastrophic forgetting in connectionist networks. Trends in Cognitive Sciences , 3(4):128–135, 1999. David Lopez-Paz and Marc’Aurelio Ranzato. Gradient episodic memory for continual learning. In Advances in Neural Information Processing Systems , 2017. Arslan Chaudhry, Marc’Aurelio Ranzato, Marcus Rohrbach, and Mohamed Elhoseiny. Efficient lifelong learning with a-gem. In International Conference on Learning Representations , 2019. Sylvestre-Alvise Rebuffi, Alexander Kolesnikov, Georg Sperl, and Christoph H. Lampert. iCaRL: Incremental classifier and representation learning. In Conference on Computer Vision and Pattern Recognition , 2017. Daniel Soudry, Elad Hoffer, Mor Shpigel Nacson, Shai Gunasekar, and Nathan Srebro. The implicit bias of gradient descent on separable data. Journal of Machine Learning Research, 2018. 
+
+13 Tom Henighan, Jared Kaplan, M. Bowman, et al. Scaling laws for autoregressive generative modeling. arXiv:2010.14701, 2020. Elliot Paquette, Courtney Paquette, Lechao Xiao, and Jeffrey Pennington. 4+3 phases of compute-optimal neural scaling laws. arXiv:2405.15074, 2024. Eric J. Michaud, Ziming Liu, Uzay Girit, and Max Tegmark. The quantization model of neural scaling. In 
+
+Advances in Neural Information Processing Systems , 36, 2023. arXiv:2303.13506. Shai Gunasekar, Jason D. Lee, Daniel Soudry, and Nathan Srebro. Implicit bias of gradient descent on linear convolutional networks. In Advances in Neural Information Processing Systems , 2018. David Yunis, Kumar Kshitij Patel, Samuel Wheeler, Pedro Savarese, Gal Vardi, Karen Livescu, Michael Maire, and Matthew R. Walter. Approaching deep learning through the spectral dynamics of weights. arXiv:2408.11804, 2024. https://arxiv.org/abs/2408.11804 .Jiahao Lu. Frequency regularization: Unveiling the spectral inductive bias of deep neural networks. arXiv:2512.22192, 2025. https://arxiv.org/abs/2512.22192 .Krishnakumar Balasubramanian and Shiva Prasad Kasiviswanathan. A quantitative characterization of forgetting in post-training. arXiv:2603.12163, 2026. https://arxiv.org/abs/2603.12163 .
+
+# A Proofs 
+
+Proof of Theorem 1. Taking conditional expectation in Eq. (7) gives 
+
+E[wt+1  
+
+> s
+
+| wts] = (1 − d) wts + ηp (s)( θs − wts) (27) 
+
+= (1 − d)(1 − ηp (s)) wts + (1 − d)ηp (s)θs. (28) Let μt = E[wts]. Then 
+
+μt+1 = asμt + bs, as = (1 − d)(1 − ηp (s)) , bs = (1 − d)ηp (s)θs. (29) Since 0 < a s < 1, the recursion converges to μ∗ = bs/(1 − as), yielding Eq. (8). The threshold follows by comparing (1 − d)ηp (s) with d.
+
+Proof of Theorem 2. Project Eq. (16) onto an eigenvector ui and write wti = ( wt)⊤ui. Since 
+
+Σui = λiui,
+
+wt+1  
+
+> i
+
+= (1 − d) (1 − ηλ i)wti + ηλ iθi
+
+ . (30) This is the same scalar recursion as in Theorem 1 with p(s) replaced by λi. Solving the fixed point yields Eq. (18). 
+
+# B Additional Theoretical Details 
+
+Pattern scope and forgetting operators. The pattern unit s used in Section 3 is operational: its occurrences induce compatible learning signals. Discrete identifiers and scalar features are controllable basis cases; covariance-supported directions provide the corresponding object for the shared-linear analysis. The operator formulation in Eq. (3) accommodates different implementations of persistent forgetting. An independent Bernoulli erasure of stored state with probability d has conditional mean attenuation 1 − d, so multiplicative decay gives a tractable mean-field instance of this broader formulation. Each implementation determines its finite-run variability and its mapping from stored state to behavioral forgetting. 
+
+Exact finite-time solution and retained-count regimes. For zero initialization and θs̸ = 0 , the expected scalar recurrence is 
+
+rt+1 = asrt + βs, as = 1 − d − βs, βs = (1 − d)ηp (s). (31) Summing the geometric series gives Eq. (25). Under the stated assumption 0 < ηp (s) < 1,
+
+0 < a s < 1, so expected normalized strength increases toward r∞ = βs/(d + βs). The finite-horizon support boundary is defined implicitly by rn(pϵ(n)) = ϵ wherever that level is attainable within the available support range. It approaches the steady-state boundary in Eq. (11). 14 In the accumulation-dominated regime, nd ≪ 1 and a small learning step at the boundary give 
+
+rn(p) ≈ 1 − e−n(1 −d)ηp , pϵ(n) ≈ − log(1 − ϵ)
+
+n(1 − d)η . (32) For p(sr ) = Cr −α, the expected-strength cutoff is consequently 
+
+k∗(n) ≈
+
+ CS 
+
+− log(1 − ϵ)
+
+1/α 
+
+, S = n(1 − d)η, (33) while these conditions hold and the cutoff lies within the ranked support. At fixed d > 0, the limiting rank boundary is instead (C/p ∗ 
+
+> ϵ
+
+)1/α , clipped to the available ranks. If even the largest available exposure falls below p∗ 
+
+> ϵ
+
+, no pattern meets the stationary criterion; a pattern exactly at the boundary approaches the criterion asymptotically. This distinction separates finite-time growth from equilibrium selection. The retained exposure mass satisfies 
+
+> k∗
+
+X
+
+> r=1
+
+p(sr ) = 1 − O  (k∗)1−α. (34) For a sufficiently large power-law support, substituting the early-regime cutoff yields 1 −O(S−(α−1) /α ) in that regime. At fixed positive forgetting, the retained mass also approaches a ceiling determined by the stationary retained set. 
+
+Batch-wise attenuation. Experiment 1 applies forgetting every B = 32 independent exposure events. Let mj be expected strength immediately after the jth attenuation. With hs = (1 − ηp (s)) B ,its exact cycle-level recurrence is 
+
+mj+1 = (1 − d)hsmj + (1 − hs)θs
+
+. (35) Hence, for zero initialization, 
+
+mj
+
+θs
+
+= (1 − d)(1 − hs)1 − (1 − d)hs
+
+h
+
+1 −  (1 − d)hs
+
+j i
+
+. (36) For a final partial cycle of ℓ < B updates, apply the unattenuated expected update ℓ times to mj .Matching attenuation alone gives the equivalent per-update rate deff = 1 − (1 − d)1/B ≈ d/B for small d; the full cycle-level dynamics also include the intervening reinforcement through hs. The plotted relative threshold counts realized sample strengths relative to their maximum, while Eqs. (25) and (36) characterize the expected-strength profile. The observed soft transition, sublinear expansion, and saturation provide qualitative support for this reinforcement–forgetting picture. The scatter in the independent-feature simulation also has a reconstruction-based interpretation. Low-support patterns receive few updates, while highly supported patterns approach saturation and have small recovery gaps. Around the observed transition, intermittent exposures combine with appreciable recovery gaps, producing visible variation in learned strength. This explains the intermediate-support scatter in Figure 1 at the level of the simulated mechanism. 
+
+Reinforcement weighted by subsequent dynamics. Let It ∈ { 0, 1} be the exposure indicator for one scalar pattern, with time indexed by t = 0 , . . . , n − 1. Set 
+
+At = (1 − d)(1 − ηI t), ct = (1 − d)ηI tθ. (37) The realized update is wt+1 = Atwt + ct. Repeated substitution gives the exact identity 
+
+wn =
+
+> n−1
+
+Y
+
+> u=0
+
+Au
+
+!
+
+w0 +
+
+> n−1
+
+X
+
+> t=0
+
+ctn−1Y
+
+> u=t+1
+
+Au. (38) Empty products equal one. For 0 < d < 1 and 0 < η ≤ 1, each At ∈ [0 , 1) is a contraction, and the final contribution of an exposure explicitly includes all subsequent contractions. Define 
+
+eρn =
+
+> n−1
+
+X
+
+> t=0
+
+Itn−1Y
+
+> u=t+1
+
+Au. (39) 15 Then the accumulated input contribution is (1 − d)ηθ eρn. If subsequent reinforcement contractions are negligible, the weights reduce approximately to (1 − d)n−1−t. The exact expression also accounts for contraction from later reinforcement. Equal P 
+
+> t
+
+It therefore need not imply equal wn under forgetting. With zero decay and a single compatible scalar target, the complete scalar result depends only on the number of exposures; nonlinear shared optimization can retain order effects even at zero decay, motivating the experimental baseline subtraction. Equation (24) follows by evaluating the two affine operators: reinforcement followed by forgetting has constant term (1 − d)aθ , whereas forgetting followed by reinforcement has constant term aθ .Their difference is −adθ . These are consequences of the analyzed scalar dynamics and connect its stationary boundary to the finite-time timing prediction. 
+
+Shared linear dynamics and local nonlinear interpretation. For a possibly time-dependent affine shared update wt+1 = Atwt + ct, define Φ( n, t + 1) = An−1 · · · At+1 and Φ( n, 0) = An−1 · · · A0.The exact expansion is 
+
+wn = Φ( n, 0) w0 +
+
+> n−1
+
+X
+
+> t=0
+
+Φ( n, t + 1) ct. (40) For the squared-loss shared-linear case, At = (1 − d)( I − ηΣt). A linear pattern readout v⊤ 
+
+> s
+
+wn
+
+assigns update ct the final contribution v⊤ 
+
+> s
+
+Φ( n, t + 1) ct, which depends on alignment as well as subsequent attenuation and shared updates. A local quadratic or Gauss–Newton approximation motivates analogous operators for a nonlinear network, with the reference-point terms included in ct.Estimating those operators is a further identification task. The neural experiments test the observable conditional-selection and timing predictions without assuming a fixed nonlinear covariance spectrum. 
+
+# C Information-Constrained Interpretation 
+
+Expanding Eq. (20) gives 
+
+Wt+1 − Wt = −η∇L t(Wt) − dW t + dη ∇L t(Wt). (41) For small d and η, the last term is higher order. When the stochastic gradient represents the gradient of L, the remaining terms are an Euler step of size η for gradient flow on L(W ) + d 
+
+> 2η
+
+∥W ∥2. Under a fixed Gaussian coding approximation, the quadratic norm term can proxy a cost of storing parameter information. Repeated, loss-reducing updates must offset that cost for a component to persist; unsupported components decay. This is the dynamics-based fitting–storage trade-off behind the MDL-like interpretation, not an exact equivalence to IB or MDL objectives. 
+
+# D Experimental Details 
+
+Procedure for Experiment 1. The independent-feature simulation constructs a normalized Zipf exposure vector over N = 10 ,000 patterns, 
+
+p(sr ) = r−1.2
+
+PNj=1 j−1.2 . (42) All memories start at ws = 0 with targets θs = 1 . At each update, sample s ∼ p and reinforce the sampled coordinate by ws ← ws + η(1 − ws) with η = 0 .2. Every 32 updates, attenuate all memories by w ← (1 − 0.015) w. The retained count uses ws > 0.01 max j wj . The original scaling plot sweeps 30 logarithmically spaced update counts from 10 2 to 10 5. Its horizontal coordinate 
+
+S = nη (1 − d) retains the original batch-level d as a plotting convention; the cycle-level expectation is Eq. (36). At the largest plotted horizon, cumulative forgetting is substantial, so the full curve cannot be treated as a test confined to the accumulation-dominated regime. 
+
+Conditional task and normalized support in Experiment 2. For r ∈ { 1, . . . , 64 } and k ∈{0, . . . , 7}, define s = ( r, k ) and y(s) = k. A single integer identifier encodes s. Its base support is 
+
+p(r, k ) = r−1.15 
+
+8 P64  
+
+> j=1
+
+j−1.15 . (43) 16 The focal ranks are 3, 7, . . . , 63 , giving 128 focal and 384 background patterns. The tail focal set contains 32 patterns at ranks 51 , 55 , 59 , 63 , within the bottom quarter of the rank range. Let F denote the focal set and PF = P 
+
+> s∈F
+
+p(s) = 0 .1886452892 . With focal resampling weight m, the sampling distribution is 
+
+qm(s) = p(s)m1{s∈F} 
+
+1 + ( m − 1) PF
+
+. (44) For focal patterns, the true exposure multipliers for m = 1 , 2, 4, 8 are 1, 1.6826 , 2.5544 , and 3.4475 .Background sampling probability decreases through the same normalization. Because each rank contains every label with equal mass, both p and qm have exactly uniform label marginals. Finite sampled label counts fluctuate around this distribution. The same-rank control changes the input label identity while preserving its sampling support, and queries the original label. 
+
+Network and optimization. The model consists of a 512 × 24 embedding table and a shared linear layer 24 → 48 , GELU activation, and linear layer 48 → 8, with biases. It has 13 ,880 trainable parameters and uses no dropout. All parameters are passed to AdamW with learning rate 0.003 ,default moment coefficients (0 .9, 0.999) and numerical constant 10 −8. Each run minimizes mean minibatch cross-entropy for 600 steps of batch size 256 . The grid is λwd ∈ { 0, 1, 2, 3, 4, 5, 7},
+
+m ∈ { 1, 2, 4, 8}, and seeds 0–4. Seeds match initialization across conditions; sampling generators depend on seed, resampling weight, and decay coefficient, so the phase-grid sample sequences are not matched. Experiment 3 supplies the exactly matched sequence intervention. For AdamW, the parameter update has the form 
+
+Wt+1 = (1 − dstep )Wt − ηg Adam  
+
+> t
+
+, (45) where gAdam  
+
+> t
+
+is the adaptive update direction. This controls parameter attenuation directly. Holding the update direction fixed, post-update attenuation in Eq. (20) would also scale the update by 1−dstep ;the one-step difference is dstep ηg Adam  
+
+> t
+
+. Thus the scalar operator identity is exact in its basis case, while the neural timing experiment tests the corresponding selection effect under AdamW without imposing the scalar coefficients on conditional probabilities. 
+
+Metrics and full phase grid. All probabilities are evaluated with the model in evaluation mode. Primary strength is cs = PW (y(s) | s), and usable retention is 1{cs ≥ 0.5}. Group metrics are unweighted means across identifiers within the focal, tail focal, or background group, followed by means across seeds. Table 1 gives every tail phase cell, with sample standard deviations across the five seeds. The pooled correct-input and control means in Figure 2 are over 128 × 140 = 17 ,920 
+
+focal observations. Table 1: Complete tail focal retention grid, mean ± seed standard deviation. The retention criterion is cs ≥ 0.5; columns are focal resampling weights.                                                                                         
+
+> dstep 1×2×4×8×
+> 0.000 1.000 ±0.000 1.000 ±0.000 1.000 ±0.000 1.000 ±0.000
+> 0.003 1.000 ±0.000 1.000 ±0.000 1.000 ±0.000 1.000 ±0.000
+> 0.006 0.981 ±0.028 1.000 ±0.000 1.000 ±0.000 1.000 ±0.000
+> 0.009 0.550 ±0.084 0.925 ±0.036 0.994 ±0.014 1.000 ±0.000
+> 0.012 0.013 ±0.017 0.175 ±0.052 0.525 ±0.124 0.819 ±0.056
+> 0.015 0.000 ±0.000 0.000 ±0.000 0.000 ±0.000 0.013 ±0.028
+> 0.021 0.000 ±0.000 0.000 ±0.000 0.000 ±0.000 0.000 ±0.000
+
+Table 2: Threshold sensitivity at dstep = 0 .012 . Tail focal retention means across five seeds. The intervention direction persists across all three criteria.                 
+
+> Criterion 1×2×4×8×
+> 0.4 0.200 0.706 0.969 1.000 0.5 0.013 0.175 0.525 0.819 0.6 0.000 0.013 0.069 0.125
+
+Table 2 checks criteria 0.4, 0.5, and 0.6. The continuous m = 8 minus m = 1 focal probability gain provides a threshold-free counterpart: 0.014 at zero attenuation, 0.177 at 0.012 , and 0.041 at 0.021 .17 Empirical boundary and ratio analysis. For each run containing both retained and non-retained focal identifiers, we fit a logistic classifier of retention on log qm(s), with intercept, inverse regular-ization strength 10 4, and maximum 2,000 iterations. Its 0.5 fitted-probability crossing defines p50 . A log–log regression across the 53 eligible runs gives slope 3.047 and R2 = 0 .871 for boundary versus decay coefficient; using dstep changes the intercept but not the slope because learning rate is fixed. Runs with no crossing are not assigned a boundary. This slope describes the empirical transition under nonlinear AdamW training and does not estimate the retained-count exponent 1/α .A post-hoc predictor comparison used leave-one-seed-out evaluation of continuous focal probabilities at the six nonzero-decay levels, holding out all observations of each seed together. All five models use the same observations. Cubic spline features with six knots and a ridge penalty of 10 −3 describe log support, log attenuation, their additive or interaction combinations, or the fixed log-ratio coordinate. The mean held-out RMSEs are 0.2591 for support alone, 0.1072 for decay alone, 0.1767 for the fixed ratio coordinate, 0.0612 for a flexible two-axis additive model, and 0.0405 for a flexible two-axis interaction model. These exploratory fits diagnose limits to quantitative transfer rather than define coupling: statistical interaction depends on the response scale, whereas Experiment 3 intervenes on the timing of matched reinforcement events. 
+
+Matched schedules in Experiment 3. The network, learning rate, batch size, and number of steps match Experiment 2. We use λwd ∈ { 0, 3, 4, 5}, schedules early/uniform/late, and seeds 0–9. For each seed, a base pool is sampled from p and an extra replay pool from p(s | s ∈ F ). For nominal weight m = 4 , mixing fraction 
+
+μ = (m − 1) PF
+
+1 + ( m − 1) PF
+
+= 0 .3614042435 (46) reproduces q4 in expectation. Rounding μ × 153 ,600 gives 55 ,512 additional replay samples and 
+
+98 ,088 base samples. The base pool itself includes focal patterns. We place the replay pool first, approximately evenly interleaved, or last, while preserving the internal order of each pool. Exact per-identifier counts are identical across schedules for every seed, and all decay levels reuse these same sequences. Each run resets the model and optimizer to the same seed-specific initialization and fresh optimizer state. The design was chosen using the completed phase grid; the schedule experiment then used the fixed configuration for all ten seeds. 
+
+Paired inference and selection. For each seed and decay, subtract that seed’s zero-decay late–early gap from its corresponding nonzero-decay gap. Confidence intervals resample the ten paired seed contrasts with replacement 5,000 times and use the 2.5th and 97.5th percentiles of the bootstrap means. The bootstrap generator seed is 20260729 . Seeds, rather than individual identifiers, are the independent resampling unit. Table 3 gives all primary contrasts. Trajectories are recorded at initialization and every 50 optimizer steps. The focal/background tradeoff in Figure 3 uses final group means at dstep = 0 .012 .Table 3: Matched schedule effects on mean focal conditional probability. The contrast subtracts each seed’s zero-attenuation late–early gap. Intervals are paired-seed bootstrap intervals.                   
+
+> dstep Late–early C(dstep )95% interval 0.000 0.0186 0.0000 —0.009 0.2185 0.1999 [0 .1929 ,0.2069]
+> 0.012 0.3081 0.2895 [0 .2814 ,0.2978]
+> 0.015 0.3195 0.3009 [0 .2934 ,0.3081]
+
+Factorized held-out combinations. In a separate synthetic task, each input combines one of 64 
+
+Zipf-ranked entities, one of 8 relations, and one of 4 shared templates. Its target is y = ( r mod 8 + relation) mod 8 , invariant across templates. Each entity–relation association is trained through three templates and evaluated through the fourth: all factors appear in training, but none of the 512 held-out triples does. Separate entity, relation, and template embeddings feed a shared GELU network, with no complete-association embedding. Training and held-out label marginals are uniform. We cross resampling weights m ∈ { 1, 4} with AdamW decay coefficients {0, 3, 4, 5} over ten seeds, giving 80 
+
+runs. 18 Within each seed and resampling condition, the initialization and sampled sequence are matched across decay levels. Table 4 reports paired gains in focal correct-label probability on held-out combinations. The gain peaks near the decay-3 transition at 0.374 ; the corresponding held-out background gain is 0.029 with interval [−0.009 , 0.070] . This extends the conditional selection observation to associations reconstructed from shared factors through unseen entity–relation–template combinations; each template itself appears in training. Table 4: Factorized synthetic task: paired gain in focal correct-label probability on held-out combina-tions for resampling weight m = 4 versus m = 1 (ten seeds; paired 95% bootstrap intervals).               
+
+> AdamW decay coefficient Focal gain 95% interval
+> 00.165 [0 .136 ,0.199] 30.374 [0 .267 ,0.479] 40.158 [0 .094 ,0.222] 50.055 [0 .052 ,0.058]
+
+Compute and reproducibility. The recorded neural runs used a CPU on macOS 14.5 (arm64), Python 3.9.18, PyTorch 2.3.0, NumPy 2.0.2, pandas 2.2.3, scikit-learn 1.6.1, and Matplotlib 3.9.4, with four PyTorch threads. The 140 phase runs and 120 schedule runs comprise 156 ,000 optimizer steps and 39 ,936 ,000 sampled training presentations; the factorized study adds 80 runs of 600 steps each. The phase and timing figures and tables are regenerated from saved run-level and identifier-level outputs, and Table 4 is checked against the saved paired summary. The revision checks matched counts, reported contrasts, threshold summaries, and the exact recursion identities. These checks verify consistency of the saved evidence and analytical expressions; they do not constitute a new execution of the training runs. 19
