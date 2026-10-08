@@ -1,0 +1,217 @@
+{
+  "date": "20261008",
+  "date_label": "",
+  "generated_at": "2026-10-08 19:55:10 UTC",
+  "recommend_exists": true,
+  "run_count": 1,
+  "papers": [
+    {
+      "paper_id": "2610.02002v1",
+      "route": "202610/08/2610.02002v1-mem-non-destructive-memory-for-long-term-organizational-llm-agents",
+      "title": "Mem++: Non-Destructive Memory for Long-Term Organizational LLM Agents",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "面向长期组织型LLM智能体的非破坏性记忆",
+      "first_seen_at": "2026-10-08 19:55:10 UTC",
+      "updated_at": "2026-10-08 19:55:10 UTC"
+    },
+    {
+      "paper_id": "2610.06361v1",
+      "route": "202610/08/2610.06361v1-capability-driven-self-evolution-of-agent-memory",
+      "title": "Capability-Driven Self-Evolution of Agent Memory",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "通过能力驱动搜索实现智能体记忆程序的自演化与管理",
+      "first_seen_at": "2026-10-08 19:55:10 UTC",
+      "updated_at": "2026-10-08 19:55:10 UTC"
+    },
+    {
+      "paper_id": "2610.09008v1",
+      "route": "202610/08/2610.09008v1-whose-memory-is-it-scope-aware-commit-rules-for-long-term-llm-memory",
+      "title": "Whose Memory Is It? Scope-Aware Commit Rules for Long-Term LLM Memory",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "长期LLM记忆的范围感知提交规则",
+      "first_seen_at": "2026-10-08 19:55:10 UTC",
+      "updated_at": "2026-10-08 19:55:10 UTC"
+    },
+    {
+      "paper_id": "2610.10071v1",
+      "route": "202610/08/2610.10071v1-hgpan-on-device-personalized-agent-memory-via-hybrid-graph-storage",
+      "title": "HGP:An on-device personalized agent memory via hybrid graph storage",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "融合情节、语义与程序记忆的混合图式个性化智能体记忆",
+      "first_seen_at": "2026-10-08 19:55:10 UTC",
+      "updated_at": "2026-10-08 19:55:10 UTC"
+    },
+    {
+      "paper_id": "2610.08630v1",
+      "route": "202610/08/2610.08630v1-towards-in-parameter-memory-augmentation-for-large-language-models",
+      "title": "Towards In-Parameter Memory Augmentation for Large Language Models",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "面向LLM智能体的参数内记忆增强",
+      "first_seen_at": "2026-10-08 19:55:10 UTC",
+      "updated_at": "2026-10-08 19:55:10 UTC"
+    },
+    {
+      "paper_id": "2610.09348v1",
+      "route": "202610/08/2610.09348v1-relevance-is-not-sufficiency-what-actually-closes-the-evidence-gap-in-long-term-memory-qa",
+      "title": "Relevance Is Not Sufficiency: What Actually Closes the Evidence Gap in Long-Term Memory QA",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "长期记忆问答中的充分记忆集构建",
+      "first_seen_at": "2026-10-08 19:55:10 UTC",
+      "updated_at": "2026-10-08 19:55:10 UTC"
+    },
+    {
+      "paper_id": "2610.09590v1",
+      "route": "202610/08/2610.09590v1-learning-situation-conditioned-thinking-policies-for-long-term-llm-agents",
+      "title": "Learning Situation-Conditioned Thinking Policies for Long-Term LLM Agents",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "将推理经验转化为思考策略的长期记忆框架",
+      "first_seen_at": "2026-10-08 19:55:10 UTC",
+      "updated_at": "2026-10-08 19:55:10 UTC"
+    },
+    {
+      "paper_id": "2610.09832v1",
+      "route": "202610/08/2610.09832v1-skillforge-co-evolving-skills-and-agents-via-dynamic-skill-lifecycles",
+      "title": "SkillForge: Co-Evolving Skills and Agents via Dynamic Skill Lifecycles",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "技能库生命周期淘汰过时技能，属记忆管理",
+      "first_seen_at": "2026-10-08 19:55:10 UTC",
+      "updated_at": "2026-10-08 19:55:10 UTC"
+    },
+    {
+      "paper_id": "2610.08902v1",
+      "route": "202610/08/2610.08902v1-agent-plasticity-measuring-self-improvement-through-experience",
+      "title": "Agent Plasticity: Measuring Self-Improvement Through Experience",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "衡量智能体将过往经验摊销为可复用产物并被未来实例继承",
+      "first_seen_at": "2026-10-08 19:55:10 UTC",
+      "updated_at": "2026-10-08 19:55:10 UTC"
+    },
+    {
+      "paper_id": "2610.10091v1",
+      "route": "202610/08/2610.10091v1-experienceindex-artifact-grounded-memory",
+      "title": "ExperienceIndex: Artifact-Grounded Memory",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "基于工件锚定的持久记忆跨任务复用经验",
+      "first_seen_at": "2026-10-08 19:55:10 UTC",
+      "updated_at": "2026-10-08 19:55:10 UTC"
+    },
+    {
+      "paper_id": "2610.04961v1",
+      "route": "202610/08/2610.04961v1-building-llm-agent-systems-the-deep-learning-way-from-modular-design-to-architecture-search",
+      "title": "Building LLM Agent Systems the Deep Learning Way: From Modular Design to Architecture Search",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "将记忆视为构件的模块化LLM智能体设计",
+      "first_seen_at": "2026-10-08 19:55:10 UTC",
+      "updated_at": "2026-10-08 19:55:10 UTC"
+    },
+    {
+      "paper_id": "2610.10183v1",
+      "route": "202610/08/2610.10183v1-videoevolve-co-evolving-memory-and-retrieval-for-long-video-understanding",
+      "title": "VideoEvolve: Co-Evolving Memory and Retrieval for Long Video Understanding",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "记忆与检索协同演化框架",
+      "first_seen_at": "2026-10-08 19:55:10 UTC",
+      "updated_at": "2026-10-08 19:55:10 UTC"
+    },
+    {
+      "paper_id": "2610.10379v1",
+      "route": "202610/08/2610.10379v1-continual-learning-without-continual-training",
+      "title": "Continual Learning without Continual Training",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "agent-memory"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "用上下文证据记忆实现无需训练的持续学习",
+      "first_seen_at": "2026-10-08 19:55:10 UTC",
+      "updated_at": "2026-10-08 19:55:10 UTC"
+    }
+  ]
+}

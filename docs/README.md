@@ -48,17 +48,17 @@
 <section class="dpr-home-dashboard-card dpr-home-report-card">
   <div class="dpr-home-dashboard-header">
     <div>
-      <span class="dpr-home-dashboard-kicker">2026-10-07</span>
+      <span class="dpr-home-dashboard-kicker">2026-10-08</span>
       <h3 class="dpr-home-dashboard-title">今日汇总</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">共 17 篇</strong>
+    <strong class="dpr-home-dashboard-count">共 13 篇</strong>
   </div>
   <dl class="dpr-home-dashboard-stats">
     <div class="dpr-home-dashboard-stat"><dt>累计更新</dt><dd>1 次</dd></div>
     <div class="dpr-home-dashboard-stat"><dt>精读</dt><dd>6</dd></div>
-    <div class="dpr-home-dashboard-stat"><dt>速读</dt><dd>11</dd></div>
+    <div class="dpr-home-dashboard-stat"><dt>速读</dt><dd>7</dd></div>
   </dl>
-  <p class="dpr-home-dashboard-body">最近更新：2026-10-07 19:14:29 UTC<br>状态：成功</p>
+  <p class="dpr-home-dashboard-body">最近更新：2026-10-08 19:55:10 UTC<br>状态：成功</p>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-brief-card">
   <div class="dpr-home-dashboard-header">
@@ -69,7 +69,7 @@
     <strong class="dpr-home-dashboard-count">AI</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<p>今日精选17篇AI论文，精读6篇、速读11篇，重点聚焦LLM智能体的记忆机制。最值得看的是MemCo（9.0分）用记忆中心协作让智能体泛化到未见环境，以及DAEDALUS（9.0分）用自生成任务引导智能体记忆自举。普通读者可先从这两篇精读入手，再顺带浏览记忆治理与视频多智能体记忆等速读方向。</p>
+<p>今日精读6篇、速读7篇共13篇，聚焦LLM智能体的长期记忆与自我进化。最值得看的是《Mem++》与《Capability-Driven Self-Evolution of Agent Memory》双双9.0分，指向&quot;记忆不破坏、能力自驱动&quot;两条路线。普通读者可先从速读的《Agent Plasticity》入手，理解智能体如何靠经验自我提升。</p>
   </div>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-deep-card">
@@ -81,7 +81,7 @@
     <strong class="dpr-home-dashboard-count">6 篇</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="MemCo: Memory-Centric Collaboration for Generalizing LLM Agents to Unseen Environments">MemCo: Memory-Centric Collaboration for Generalizing LLM Agents to Unseen Environments</span></li><li><span class="dpr-home-dashboard-paper-title" title="DAEDALUS: Bootstrapping Agent Memory from Self-Generated Tasks">DAEDALUS: Bootstrapping Agent Memory from Self-Generated Tasks</span></li><li><span class="dpr-home-dashboard-paper-title" title="MINDSET: Energy-based Schema Evolution for Long Conversational Agent Memory">MINDSET: Energy-based Schema Evolution for Long Conversational Agent Memory</span></li></ul>
+<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="Mem++: Non-Destructive Memory for Long-Term Organizational LLM Agents">Mem++: Non-Destructive Memory for Long-Term Organizational LLM Agents</span></li><li><span class="dpr-home-dashboard-paper-title" title="Capability-Driven Self-Evolution of Agent Memory">Capability-Driven Self-Evolution of Agent Memory</span></li><li><span class="dpr-home-dashboard-paper-title" title="Whose Memory Is It? Scope-Aware Commit Rules for Long-Term LLM Memory">Whose Memory Is It? Scope-Aware Commit Rules for Long-Term LLM Memory</span></li></ul>
   </div>
   <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">agent-memory <strong>6</strong></span></div>
 </section>
@@ -91,12 +91,12 @@
       <span class="dpr-home-dashboard-kicker">今日累计</span>
       <h3 class="dpr-home-dashboard-title">速读推荐</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">11 篇</strong>
+    <strong class="dpr-home-dashboard-count">7 篇</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="Lineage-Aware Memory Governance: A Derivation-Gated Framework for Privacy-Preserving Column-Level Access Control in Enterprise AI Agents">Lineage-Aware Memory Governance: A Derivation-Gated Framework for Privacy-Preserving Column-Level Access Control in Enterprise AI Agents</span></li><li><span class="dpr-home-dashboard-paper-title" title="Understanding and Mitigating Inference-Time Overreliance Using Agentic Memory">Understanding and Mitigating Inference-Time Overreliance Using Agentic Memory</span></li><li><span class="dpr-home-dashboard-paper-title" title="VideoTapestry: Query-Adaptive Memory Refinement for Multi-Agent Long-Video Understanding">VideoTapestry: Query-Adaptive Memory Refinement for Multi-Agent Long-Video Understanding</span></li></ul>
+<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="Learning Situation-Conditioned Thinking Policies for Long-Term LLM Agents">Learning Situation-Conditioned Thinking Policies for Long-Term LLM Agents</span></li><li><span class="dpr-home-dashboard-paper-title" title="SkillForge: Co-Evolving Skills and Agents via Dynamic Skill Lifecycles">SkillForge: Co-Evolving Skills and Agents via Dynamic Skill Lifecycles</span></li><li><span class="dpr-home-dashboard-paper-title" title="Agent Plasticity: Measuring Self-Improvement Through Experience">Agent Plasticity: Measuring Self-Improvement Through Experience</span></li></ul>
   </div>
-  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">agent-memory <strong>11</strong></span></div>
+  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">agent-memory <strong>7</strong></span></div>
 </section>
 </div>
 
